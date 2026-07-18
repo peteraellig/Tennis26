@@ -69,6 +69,8 @@ Partial Class Tennis24_Settings
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox50 = New System.Windows.Forms.TextBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.TextBox42 = New System.Windows.Forms.TextBox()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
@@ -581,6 +583,8 @@ Partial Class Tennis24_Settings
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Silver
         Me.GroupBox1.Controls.Add(Me.TextBox50)
+        Me.GroupBox1.Controls.Add(Me.CheckBox1)
+        Me.GroupBox1.Controls.Add(Me.TextBox42)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -601,6 +605,27 @@ Partial Class Tennis24_Settings
         Me.TextBox50.Size = New System.Drawing.Size(44, 23)
         Me.TextBox50.TabIndex = 204
         Me.TextBox50.Text = "3"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(15, 85)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(280, 21)
+        Me.CheckBox1.TabIndex = 205
+        Me.CheckBox1.Text = "Match-Tiebreak bei 1:1 (Best of 3) bis:"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'TextBox42
+        '
+        Me.TextBox42.BackColor = System.Drawing.Color.LightYellow
+        Me.TextBox42.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox42.Location = New System.Drawing.Point(355, 83)
+        Me.TextBox42.Name = "TextBox42"
+        Me.TextBox42.Size = New System.Drawing.Size(44, 23)
+        Me.TextBox42.TabIndex = 206
+        Me.TextBox42.Text = "10"
         '
         'RadioButton2
         '
@@ -1121,6 +1146,8 @@ Partial Class Tennis24_Settings
     Friend WithEvents Label41 As Label
     Friend WithEvents Label40 As Label
     Friend WithEvents TextBox50 As TextBox
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents TextBox42 As TextBox
     Friend WithEvents TextBox27 As TextBox
     Friend WithEvents TextBox26 As TextBox
     Friend WithEvents TextBox25 As TextBox

@@ -40,6 +40,8 @@ Public Class TennisMatchEngine
     Public Property CurrentSet As Integer = 1
     Public Property IsMatchFinished As Boolean = False
     Public Property NoTiebreakMode As Boolean = False
+    Public Property MatchTiebreakEnabled As Boolean = False
+    Public Property MatchTiebreakTarget As Integer = 10
     Public Property HomeTotalPoints As Integer = 0
     Public Property AwayTotalPoints As Integer = 0
     Public Property HomeBreaks As Integer = 0
@@ -156,8 +158,20 @@ Public Class TennisMatchEngine
         CurrentGamePoints += 1
     End Sub
 
+    Public Function IsDecidingSet() As Boolean
+        Dim setsToWin As Integer = BestOfSetsToWin()
+        Return HomeSets = setsToWin - 1 AndAlso AwaySets = setsToWin - 1
+    End Function
+
+    ' Match-Tiebreak ersetzt regelkonform nur den letzten Satz bei Best of 3, wenn in den
+    ' Settings aktiviert (checkbox1/textbox42) - bei Best of 5 nicht üblich, daher hier
+    ' bewusst nicht unterstützt.
+    Public Function IsMatchTiebreakSet() As Boolean
+        Return MatchTiebreakEnabled AndAlso IsDecidingSet() AndAlso BestOfSetsToWin() = 2
+    End Function
+
     Public Sub CheckForBreak(winner As String)
-        If Not IsTiebreak Then
+        If Not IsTiebreak AndAlso Not IsMatchTiebreakSet() Then
             If winner = "home" Then
                 If Not IsHomeServing Then
                     ' Home hat Away's Aufschlag gebrochen
@@ -196,8 +210,10 @@ Public Class TennisMatchEngine
     End Sub
 
     Public Function IsGameWon(playerPoints As Integer, opponentPoints As Integer) As Boolean
-        ' Prüft, ob ein Spieler das Game gewonnen hat
-        If IsTiebreak Then
+        ' Prüft, ob ein Spieler das Game (bzw. beim Match-Tiebreak: das ganze restliche Match) gewonnen hat
+        If IsMatchTiebreakSet() Then
+            Return playerPoints >= MatchTiebreakTarget AndAlso playerPoints - opponentPoints >= 2
+        ElseIf IsTiebreak Then
             Return playerPoints >= 7 AndAlso playerPoints - opponentPoints >= 2
         Else
             Return playerPoints >= 4 AndAlso playerPoints - opponentPoints >= 2
@@ -209,13 +225,20 @@ Public Class TennisMatchEngine
     End Function
 
     Public Function IsSetWon(playerGames As Integer, opponentGames As Integer) As Boolean
+        ' Match-Tiebreak entscheidet den ganzen Satz (und damit das Match): sobald das eine
+        ' "Spiel" bis MatchTiebreakTarget Punkte gewonnen ist (IsGameWon hat das mit dem
+        ' richtigen Vorsprung schon geprüft, bevor playerGames/opponentGames hier auf das
+        ' Endergebnis gesetzt werden), ist der Satz vorbei.
+        If IsMatchTiebreakSet() Then
+            Return playerGames >= MatchTiebreakTarget
+        End If
+
         ' "No Tiebreak (Advantage Set)" gilt regelkonform nur im entscheidenden Satz
         ' (Best of 3: 1:1 vor Satz 3, Best of 5: 2:2 vor Satz 5). Alle Sätze davor
         ' haben immer einen regulären Tiebreak bei 6:6, unabhängig vom Checkbox-Status.
-        Dim setsToWin As Integer = BestOfSetsToWin()
-        Dim isDecidingSet As Boolean = HomeSets = setsToWin - 1 AndAlso AwaySets = setsToWin - 1
+        Dim decidingSet As Boolean = IsDecidingSet()
 
-        If NoTiebreakMode AndAlso isDecidingSet Then
+        If NoTiebreakMode AndAlso decidingSet Then
             ' No-Tiebreak-Modus im entscheidenden Satz: Set wird nur mit 2 Games Vorsprung gewonnen, kein Limit
             If playerGames >= 6 AndAlso playerGames - opponentGames >= 2 Then
                 Return True
@@ -255,7 +278,7 @@ Public Class TennisMatchEngine
 
     Public Function ConvertPointsToTennisScore(playerPoints As Integer, opponentPoints As Integer) As String
         ' Konvertiert Punktestand in Tennis-Score (0, 15, 30, 40, A)
-        If IsTiebreak Then
+        If IsTiebreak OrElse IsMatchTiebreakSet() Then
             Return playerPoints.ToString()
         ElseIf playerPoints >= 3 AndAlso opponentPoints >= 3 Then
             If playerPoints = opponentPoints Then

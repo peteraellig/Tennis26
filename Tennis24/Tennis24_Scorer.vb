@@ -126,6 +126,14 @@ Public Class Tennis24_Scorer
         End Set
     End Property
 
+    ' True, wenn gerade der Match-Tiebreak (statt eines regulären 3. Satzes bei Best of 3
+    ' und 1:1 Sätzen) gespielt wird - abgeleitet aus den Settings + aktuellem Satzstand.
+    Private ReadOnly Property isMatchTiebreakSet As Boolean
+        Get
+            Return match.IsMatchTiebreakSet()
+        End Get
+    End Property
+
     ' Statistik-Variablen
     Private Property homeTotalPoints As Integer
         Get
@@ -513,7 +521,7 @@ Public Class Tennis24_Scorer
             DataGridView1.Rows(8).Cells(1).Value = serving
             DataGridView1.Rows(8).Cells(2).Value = ""
 
-            Dim tiebreakStatus = If(isTiebreak, "ACTIVE", "No")
+            Dim tiebreakStatus = If(isMatchTiebreakSet, "MATCH-TB", If(isTiebreak, "ACTIVE", "No"))
             DataGridView1.Rows(9).Cells(1).Value = tiebreakStatus
             DataGridView1.Rows(9).Cells(2).Value = ""
 
@@ -719,21 +727,28 @@ Public Class Tennis24_Scorer
         lbl_awaypoint.Text = ConvertPointsToTennisScore(awayPoints, homePoints)
 
         If IsGameWon(homePoints, awayPoints) Then
-            homeGames += 1
+            If isMatchTiebreakSet Then
+                ' Match-Tiebreak entscheidet den ganzen Satz; die Satzanzeige zeigt das
+                ' tatsächliche Tiebreak-Ergebnis (z.B. 10:7), analog zum regulären 7:6-Tiebreak-Satz.
+                homeGames = homePoints
+                awayGames = awayPoints
+            Else
+                homeGames += 1
+            End If
             CheckForBreak("home")
             TrackLongestGame()
 
             ' KORRIGIERT: Tiebreak-Server-Logik VOR ResetPoints()
             Dim shouldSwitchServer As Boolean = False
-            If Not isTiebreak Then
-                shouldSwitchServer = True
-            Else
-                ' Im Tiebreak: Server wechselt alle 2 Punkte
+            If isTiebreak OrElse isMatchTiebreakSet Then
+                ' Im (Match-)Tiebreak: Server wechselt alle 2 Punkte
                 ' Aktuelle Gesamtpunkte BEVOR Reset
                 Dim totalTiebreakPoints = homeTotalPoints + awayTotalPoints
                 If totalTiebreakPoints Mod 2 = 1 Then
                     shouldSwitchServer = True
                 End If
+            Else
+                shouldSwitchServer = True
             End If
 
             ResetPoints()
@@ -745,21 +760,26 @@ Public Class Tennis24_Scorer
             End If
 
         ElseIf IsGameWon(awayPoints, homePoints) Then
-            awayGames += 1
+            If isMatchTiebreakSet Then
+                homeGames = homePoints
+                awayGames = awayPoints
+            Else
+                awayGames += 1
+            End If
             CheckForBreak("away")
             TrackLongestGame()
 
             ' KORRIGIERT: Tiebreak-Server-Logik VOR ResetPoints()
             Dim shouldSwitchServer As Boolean = False
-            If Not isTiebreak Then
-                shouldSwitchServer = True
-            Else
-                ' Im Tiebreak: Server wechselt alle 2 Punkte
+            If isTiebreak OrElse isMatchTiebreakSet Then
+                ' Im (Match-)Tiebreak: Server wechselt alle 2 Punkte
                 ' Aktuelle Gesamtpunkte BEVOR Reset
                 Dim totalTiebreakPoints = homeTotalPoints + awayTotalPoints
                 If totalTiebreakPoints Mod 2 = 1 Then
                     shouldSwitchServer = True
                 End If
+            Else
+                shouldSwitchServer = True
             End If
 
             ResetPoints()
@@ -800,6 +820,15 @@ Public Class Tennis24_Scorer
 
     Private Sub ResetMatch()
         match.ResetMatch()
+
+        ' Match-Tiebreak-Einstellungen aus den Settings übernehmen
+        match.MatchTiebreakEnabled = Tennis24_Settings.CheckBoxValues(1)
+        Dim matchTiebreakTarget As Integer
+        If Integer.TryParse(Tennis24_Settings.TextBoxValues(42), matchTiebreakTarget) AndAlso matchTiebreakTarget > 0 Then
+            match.MatchTiebreakTarget = matchTiebreakTarget
+        Else
+            match.MatchTiebreakTarget = 10
+        End If
 
         ' UI Updates...
         lbl_homepoint.Text = "0"

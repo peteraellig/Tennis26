@@ -43,20 +43,19 @@ Public Class Tennis24_Settings
 
 
 
-    'textbox40 = vMix IP    
+    'textbox40 = vMix IP
     'textbox41 = vMix Port
+    'textbox42 = Match-Tiebreak: Punkte bis zum Sieg (Standard 10)
     'textbox47 = Standard Overlay
     'textbox48 = ScoreBug Overlay
-    'textbox49 = Werbe Overlay   
-    'textbox50 = Anzahl Sätze (3, 5, 6)
-    'TEXTBOX 4-39 FREI  
+    'textbox49 = Werbe Overlay
+    'textbox50 = Anzahl Sätze (3, 5)
 
     'RadioButtonValues(1) = Best of x
 
-    'checkbox1 = Match Tiebreak bei 1:1 Sätzen  
-    'radiobutton1 = Best of 3   
-    'radiobutton2 = Best of 5   
-    'radiobutton3 = Best of 6
+    'checkbox1 = Match-Tiebreak bei 1:1 Sätzen ersetzt den 3. Satz (nur Best of 3)
+    'radiobutton1 = Best of 3
+    'radiobutton2 = Best of 5
 
     'combobox1 = Overlay 1 (Standard)   
     'combobox2 = Overlay 2 (ScoreBug)   
@@ -190,6 +189,8 @@ Public Class Tennis24_Settings
         For i As Integer = 30 To 39
             TextBoxValues(i) = "Dummy Value " + Str(i)
         Next
+
+        TextBoxValues(42) = "10"                ' Match-Tiebreak bis X Punkte
 
         TextBoxValues(45) = "localhost"         ' vMix IP
         TextBoxValues(46) = "8088"              ' vMix Port
