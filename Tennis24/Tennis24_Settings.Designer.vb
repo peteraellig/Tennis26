@@ -69,7 +69,6 @@ Partial Class Tennis24_Settings
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TextBox50 = New System.Windows.Forms.TextBox()
-        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
@@ -582,7 +581,6 @@ Partial Class Tennis24_Settings
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Silver
         Me.GroupBox1.Controls.Add(Me.TextBox50)
-        Me.GroupBox1.Controls.Add(Me.RadioButton3)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -603,19 +601,6 @@ Partial Class Tennis24_Settings
         Me.TextBox50.Size = New System.Drawing.Size(44, 23)
         Me.TextBox50.TabIndex = 204
         Me.TextBox50.Text = "3"
-        '
-        'RadioButton3
-        '
-        Me.RadioButton3.AutoSize = True
-        Me.RadioButton3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadioButton3.Location = New System.Drawing.Point(15, 89)
-        Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(94, 25)
-        Me.RadioButton3.TabIndex = 20
-        Me.RadioButton3.TabStop = True
-        Me.RadioButton3.Text = "DavisCup"
-        Me.RadioButton3.UseVisualStyleBackColor = True
-        Me.RadioButton3.Visible = False
         '
         'RadioButton2
         '
@@ -1129,7 +1114,6 @@ Partial Class Tennis24_Settings
     Friend WithEvents ComboBox2 As ComboBox
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents RadioButton3 As RadioButton
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents TextBox46 As TextBox

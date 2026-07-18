@@ -787,9 +787,14 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Function IsSetWon(playerGames As Integer, opponentGames As Integer) As Boolean
-        ' Check if no-tiebreak mode is active
-        If noTiebreakMode Then
-            ' No-Tiebreak-Modus: Set wird nur mit 2 Games Vorsprung gewonnen, kein Limit
+        ' "No Tiebreak (Advantage Set)" gilt regelkonform nur im entscheidenden Satz
+        ' (Best of 3: 1:1 vor Satz 3, Best of 5: 2:2 vor Satz 5). Alle Sätze davor
+        ' haben immer einen regulären Tiebreak bei 6:6, unabhängig vom Checkbox-Status.
+        Dim setsToWin As Integer = Math.Ceiling(Tennis24_Settings.TextBoxValues(50) / 2.0)
+        Dim isDecidingSet As Boolean = homeSets = setsToWin - 1 AndAlso awaySets = setsToWin - 1
+
+        If noTiebreakMode AndAlso isDecidingSet Then
+            ' No-Tiebreak-Modus im entscheidenden Satz: Set wird nur mit 2 Games Vorsprung gewonnen, kein Limit
             If playerGames >= 6 AndAlso playerGames - opponentGames >= 2 Then
                 Return True
             End If

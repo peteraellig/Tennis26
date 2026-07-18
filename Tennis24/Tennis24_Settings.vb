@@ -86,7 +86,6 @@ Public Class Tennis24_Settings
         If RadioButton1 IsNot Nothing Then
             If TextBoxValues(50) = "3" Then RadioButton1.Checked = True
             If TextBoxValues(50) = "5" Then RadioButton2.Checked = True
-            If TextBoxValues(50) = "6" Then RadioButton3.Checked = True
         End If
 
         ' ComboBox1 (Standard Overlay) - ComboBoxValues(1)
@@ -473,7 +472,7 @@ Public Class Tennis24_Settings
         End If
     End Sub
 
-    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged, RadioButton3.CheckedChanged
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged, RadioButton2.CheckedChanged
 
         ' Nur ausführen wenn ein RadioButton aktiviert (nicht deaktiviert) wird
         Dim radioButton As RadioButton = DirectCast(sender, RadioButton)
@@ -486,9 +485,6 @@ Public Class Tennis24_Settings
             Case "RadioButton2"
                 TextBox50.Text = "5"
                 TextBoxValues(50) = "5"
-            Case "RadioButton3"
-                TextBox50.Text = "6"
-                TextBoxValues(50) = "6"
         End Select
     End Sub
 
