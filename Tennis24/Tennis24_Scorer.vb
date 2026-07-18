@@ -28,73 +28,226 @@ Public Class Tennis24_Scorer
     Private overlayToggles As List(Of OverlayToggle)
 
 
-    ' Bestehende Variablen...
-    Private isTiebreak As Boolean = False
-    Private homePoints As Integer = 0
-    Private awayPoints As Integer = 0
-    Private homeGames As Integer = 0
-    Private awayGames As Integer = 0
-    Private homeSets As Integer = 0
-    Private awaySets As Integer = 0
+    ' Reine Zähllogik (Punkte/Spiele/Sätze/Tiebreak/Statistik/Undo-Stack) lebt in einer
+    ' eigenen, UI-freien Klasse (TennisMatchEngine.vb). Die folgenden Properties spiegeln
+    ' die frühere Feld-Namen 1:1 auf diese Engine, damit der restliche Code in dieser
+    ' Datei (UpdateScore, CheckForMatchEnd, UpdateDataGridView, ...) unverändert bleiben kann.
+    Private ReadOnly match As New TennisMatchEngine()
 
-    Private stack As New Stack(Of MatchState)
-    Private currentSet As Integer = 1
+    Private Property isTiebreak As Boolean
+        Get
+            Return match.IsTiebreak
+        End Get
+        Set(value As Boolean)
+            match.IsTiebreak = value
+        End Set
+    End Property
+
+    Private Property homePoints As Integer
+        Get
+            Return match.HomePoints
+        End Get
+        Set(value As Integer)
+            match.HomePoints = value
+        End Set
+    End Property
+
+    Private Property awayPoints As Integer
+        Get
+            Return match.AwayPoints
+        End Get
+        Set(value As Integer)
+            match.AwayPoints = value
+        End Set
+    End Property
+
+    Private Property homeGames As Integer
+        Get
+            Return match.HomeGames
+        End Get
+        Set(value As Integer)
+            match.HomeGames = value
+        End Set
+    End Property
+
+    Private Property awayGames As Integer
+        Get
+            Return match.AwayGames
+        End Get
+        Set(value As Integer)
+            match.AwayGames = value
+        End Set
+    End Property
+
+    Private Property homeSets As Integer
+        Get
+            Return match.HomeSets
+        End Get
+        Set(value As Integer)
+            match.HomeSets = value
+        End Set
+    End Property
+
+    Private Property awaySets As Integer
+        Get
+            Return match.AwaySets
+        End Get
+        Set(value As Integer)
+            match.AwaySets = value
+        End Set
+    End Property
+
+    Private Property currentSet As Integer
+        Get
+            Return match.CurrentSet
+        End Get
+        Set(value As Integer)
+            match.CurrentSet = value
+        End Set
+    End Property
 
     ' Variable für Match-Ende Status
-    Private isMatchFinished As Boolean = False
+    Private Property isMatchFinished As Boolean
+        Get
+            Return match.IsMatchFinished
+        End Get
+        Set(value As Boolean)
+            match.IsMatchFinished = value
+        End Set
+    End Property
 
     ' Variable für No-Tiebreak-Regel
-    Private noTiebreakMode As Boolean = False
+    Private Property noTiebreakMode As Boolean
+        Get
+            Return match.NoTiebreakMode
+        End Get
+        Set(value As Boolean)
+            match.NoTiebreakMode = value
+        End Set
+    End Property
 
     ' Statistik-Variablen
-    Private homeTotalPoints As Integer = 0
-    Private awayTotalPoints As Integer = 0
-    Private homeBreaks As Integer = 0
-    Private awayBreaks As Integer = 0
-    Private homeServiceGamesWon As Integer = 0
-    Private awayServiceGamesWon As Integer = 0
-    Private isHomeServing As Boolean = True
-    Private homeTiebreaksWon As Integer = 0
-    Private awayTiebreaksWon As Integer = 0
-    Private longestGame As Integer = 0
-    Private currentGamePoints As Integer = 0
+    Private Property homeTotalPoints As Integer
+        Get
+            Return match.HomeTotalPoints
+        End Get
+        Set(value As Integer)
+            match.HomeTotalPoints = value
+        End Set
+    End Property
+
+    Private Property awayTotalPoints As Integer
+        Get
+            Return match.AwayTotalPoints
+        End Get
+        Set(value As Integer)
+            match.AwayTotalPoints = value
+        End Set
+    End Property
+
+    Private Property homeBreaks As Integer
+        Get
+            Return match.HomeBreaks
+        End Get
+        Set(value As Integer)
+            match.HomeBreaks = value
+        End Set
+    End Property
+
+    Private Property awayBreaks As Integer
+        Get
+            Return match.AwayBreaks
+        End Get
+        Set(value As Integer)
+            match.AwayBreaks = value
+        End Set
+    End Property
+
+    Private Property homeServiceGamesWon As Integer
+        Get
+            Return match.HomeServiceGamesWon
+        End Get
+        Set(value As Integer)
+            match.HomeServiceGamesWon = value
+        End Set
+    End Property
+
+    Private Property awayServiceGamesWon As Integer
+        Get
+            Return match.AwayServiceGamesWon
+        End Get
+        Set(value As Integer)
+            match.AwayServiceGamesWon = value
+        End Set
+    End Property
+
+    Private Property isHomeServing As Boolean
+        Get
+            Return match.IsHomeServing
+        End Get
+        Set(value As Boolean)
+            match.IsHomeServing = value
+        End Set
+    End Property
+
+    Private Property homeTiebreaksWon As Integer
+        Get
+            Return match.HomeTiebreaksWon
+        End Get
+        Set(value As Integer)
+            match.HomeTiebreaksWon = value
+        End Set
+    End Property
+
+    Private Property awayTiebreaksWon As Integer
+        Get
+            Return match.AwayTiebreaksWon
+        End Get
+        Set(value As Integer)
+            match.AwayTiebreaksWon = value
+        End Set
+    End Property
+
+    Private Property longestGame As Integer
+        Get
+            Return match.LongestGame
+        End Get
+        Set(value As Integer)
+            match.LongestGame = value
+        End Set
+    End Property
+
+    Private Property currentGamePoints As Integer
+        Get
+            Return match.CurrentGamePoints
+        End Get
+        Set(value As Integer)
+            match.CurrentGamePoints = value
+        End Set
+    End Property
 
     ' Variable für ersten Punkt Check
-    Private firstPointPlayed As Boolean = False
-
-    Private autoSwitchServerBetweenSets As Boolean = True
+    Private Property firstPointPlayed As Boolean
+        Get
+            Return match.FirstPointPlayed
+        End Get
+        Set(value As Boolean)
+            match.FirstPointPlayed = value
+        End Set
+    End Property
 
     ' Server-Tracking zwischen Sets
-    Private firstServerOfCurrentSet As Boolean = True  ' True = Home begann Set, False = Away begann Set
+    Private Property firstServerOfCurrentSet As Boolean
+        Get
+            Return match.FirstServerOfCurrentSet
+        End Get
+        Set(value As Boolean)
+            match.FirstServerOfCurrentSet = value
+        End Set
+    End Property
 
     'keypress handling
     Private Declare Function GetAsyncKeyState Lib "User32" (ByVal vkey As Integer) As Integer
-
-    Private Class MatchState
-        Public Property HomePoints As Integer
-        Public Property AwayPoints As Integer
-        Public Property HomeGames As Integer
-        Public Property AwayGames As Integer
-        Public Property HomeSets As Integer
-        Public Property AwaySets As Integer
-        Public Property CurrentSet As Integer
-        Public Property IsTiebreak As Boolean
-        Public Property HomeTotalPoints As Integer
-        Public Property AwayTotalPoints As Integer
-        Public Property HomeBreaks As Integer
-        Public Property AwayBreaks As Integer
-        Public Property HomeServiceGamesWon As Integer
-        Public Property AwayServiceGamesWon As Integer
-        Public Property IsHomeServing As Boolean
-        Public Property FirstServerOfCurrentSet As Boolean
-        Public Property HomeTiebreaksWon As Integer
-        Public Property AwayTiebreaksWon As Integer
-        Public Property LongestGame As Integer
-        Public Property CurrentGamePoints As Integer
-        Public Property FirstPointPlayed As Boolean
-        Public Property IsMatchFinished As Boolean
-        Public Property NoTiebreakMode As Boolean
-    End Class
 
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -555,42 +708,9 @@ Public Class Tennis24_Scorer
             BtnChooseService.Text = "Server festgelegt"
         End If
 
-        ' Zustand speichern
-        stack.Push(New MatchState With {
-            .HomePoints = homePoints,
-            .AwayPoints = awayPoints,
-            .HomeGames = homeGames,
-            .AwayGames = awayGames,
-            .HomeSets = homeSets,
-            .AwaySets = awaySets,
-            .CurrentSet = currentSet,
-            .IsTiebreak = isTiebreak,
-            .HomeTotalPoints = homeTotalPoints,
-            .AwayTotalPoints = awayTotalPoints,
-            .HomeBreaks = homeBreaks,
-            .AwayBreaks = awayBreaks,
-            .HomeServiceGamesWon = homeServiceGamesWon,
-            .AwayServiceGamesWon = awayServiceGamesWon,
-            .IsHomeServing = isHomeServing,
-            .FirstServerOfCurrentSet = firstServerOfCurrentSet,
-            .HomeTiebreaksWon = homeTiebreaksWon,
-            .AwayTiebreaksWon = awayTiebreaksWon,
-            .LongestGame = longestGame,
-            .CurrentGamePoints = currentGamePoints,
-            .FirstPointPlayed = firstPointPlayed,
-            .IsMatchFinished = isMatchFinished,
-            .NoTiebreakMode = noTiebreakMode
-        })
-
-        If player = "home" Then
-            homePoints += 1
-            homeTotalPoints += 1
-        Else
-            awayPoints += 1
-            awayTotalPoints += 1
-        End If
-
-        currentGamePoints += 1
+        ' Zustand speichern (für Undo) und Punkt verbuchen
+        match.PushState()
+        match.RegisterPoint(player)
         UpdateScore()
     End Sub
 
@@ -675,51 +795,11 @@ Public Class Tennis24_Scorer
 
 
     Private Sub CheckForBreak(winner As String)
-        If Not isTiebreak Then
-            If winner = "home" Then
-                If Not isHomeServing Then
-                    ' Home hat Away's Aufschlag gebrochen
-                    homeBreaks += 1
-                Else
-                    ' Home hat eigenen Aufschlag gehalten
-                    homeServiceGamesWon += 1
-                End If
-            Else ' winner = "away"
-                If isHomeServing Then
-                    ' Away hat Home's Aufschlag gebrochen
-                    awayBreaks += 1
-                Else
-                    ' Away hat eigenen Aufschlag gehalten
-                    awayServiceGamesWon += 1
-                End If
-            End If
-        End If
+        match.CheckForBreak(winner)
     End Sub
 
     Private Sub ResetMatch()
-        homePoints = 0
-        awayPoints = 0
-        homeGames = 0
-        awayGames = 0
-        homeSets = 0
-        awaySets = 0
-        currentSet = 1
-        isTiebreak = False
-        firstPointPlayed = False
-        isMatchFinished = False  ' Match-Status zurücksetzen
-
-        homeTotalPoints = 0
-        awayTotalPoints = 0
-        homeBreaks = 0
-        awayBreaks = 0
-        homeServiceGamesWon = 0
-        awayServiceGamesWon = 0
-        isHomeServing = True
-        firstServerOfCurrentSet = True
-        homeTiebreaksWon = 0
-        awayTiebreaksWon = 0
-        longestGame = 0
-        currentGamePoints = 0
+        match.ResetMatch()
 
         ' UI Updates...
         lbl_homepoint.Text = "0"
@@ -741,39 +821,14 @@ Public Class Tennis24_Scorer
         BtnChooseService.Enabled = True
         BtnChooseService.Text = "Wähle Server"
 
-        stack.Clear()
         UpdateServerDisplay()
         UpdateDataGridView()
         Showpoints()
     End Sub
 
     Private Sub Btn_undo_Click(sender As Object, e As EventArgs) Handles btn_undo.Click
-        If stack.Count > 0 Then
-            Dim lastState = stack.Pop()
-            homePoints = lastState.HomePoints
-            awayPoints = lastState.AwayPoints
-            homeGames = lastState.HomeGames
-            awayGames = lastState.AwayGames
-            homeSets = lastState.HomeSets
-            awaySets = lastState.AwaySets
-            currentSet = lastState.CurrentSet
-            isTiebreak = lastState.IsTiebreak
-
-            homeTotalPoints = lastState.HomeTotalPoints
-            awayTotalPoints = lastState.AwayTotalPoints
-            homeBreaks = lastState.HomeBreaks
-            awayBreaks = lastState.AwayBreaks
-            homeServiceGamesWon = lastState.HomeServiceGamesWon
-            awayServiceGamesWon = lastState.AwayServiceGamesWon
-            isHomeServing = lastState.IsHomeServing
-            firstServerOfCurrentSet = lastState.FirstServerOfCurrentSet
-            homeTiebreaksWon = lastState.HomeTiebreaksWon
-            awayTiebreaksWon = lastState.AwayTiebreaksWon
-            longestGame = lastState.LongestGame
-            currentGamePoints = lastState.CurrentGamePoints
-            firstPointPlayed = lastState.FirstPointPlayed
-            isMatchFinished = lastState.IsMatchFinished
-            noTiebreakMode = lastState.NoTiebreakMode
+        Dim lastState = match.PopState()
+        If lastState IsNot Nothing Then
             CheckBox_noTiebreak.Checked = noTiebreakMode
 
             If homeTotalPoints = 0 AndAlso awayTotalPoints = 0 Then
@@ -810,10 +865,7 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Sub TrackLongestGame()
-        If currentGamePoints > longestGame Then
-            longestGame = currentGamePoints
-        End If
-        currentGamePoints = 0
+        match.TrackLongestGame()
     End Sub
 
     Private Sub CheckForMatchEnd()
@@ -853,62 +905,21 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Function IsSetWon(playerGames As Integer, opponentGames As Integer) As Boolean
-        ' "No Tiebreak (Advantage Set)" gilt regelkonform nur im entscheidenden Satz
-        ' (Best of 3: 1:1 vor Satz 3, Best of 5: 2:2 vor Satz 5). Alle Sätze davor
-        ' haben immer einen regulären Tiebreak bei 6:6, unabhängig vom Checkbox-Status.
-        Dim setsToWin As Integer = Math.Ceiling(Tennis24_Settings.TextBoxValues(50) / 2.0)
-        Dim isDecidingSet As Boolean = homeSets = setsToWin - 1 AndAlso awaySets = setsToWin - 1
-
-        If noTiebreakMode AndAlso isDecidingSet Then
-            ' No-Tiebreak-Modus im entscheidenden Satz: Set wird nur mit 2 Games Vorsprung gewonnen, kein Limit
-            If playerGames >= 6 AndAlso playerGames - opponentGames >= 2 Then
-                Return True
-            End If
-            Return False
-        Else
-            ' Normaler Modus: OHNE Tiebreak: 6 Games mit 2 Games Vorsprung
-            If Not isTiebreak Then
-                If playerGames >= 6 AndAlso playerGames - opponentGames >= 2 Then
-                    Return True
-                End If
-
-                ' Tiebreak bei 6:6 starten
-                If playerGames = 6 AndAlso opponentGames = 6 Then
-                    isTiebreak = True
-                    Return False
-                End If
-            Else
-                ' IM Tiebreak: Set-Gewinn bei 7+ Punkten mit 2 Punkten Vorsprung
-                ' ACHTUNG: playerGames/opponentGames sind hier die TIEBREAK-PUNKTE!
-                If playerGames >= 7 AndAlso playerGames - opponentGames >= 2 Then
-                    isTiebreak = False
-                    Return True
-                End If
-            End If
-        End If
-
-        Return False
+        Return match.IsSetWon(playerGames, opponentGames)
     End Function
 
     Private Sub ResetPoints()
-        homePoints = 0
-        awayPoints = 0
+        match.ResetPoints()
         lbl_homepoint.Text = "0"
         lbl_awaypoint.Text = "0"
     End Sub
 
     Private Sub ResetGames()
-        homeGames = 0
-        awayGames = 0
+        match.ResetGames()
     End Sub
 
     Private Function IsGameWon(playerPoints As Integer, opponentPoints As Integer) As Boolean
-        ' Prüft, ob ein Spieler das Game gewonnen hat
-        If isTiebreak Then
-            Return playerPoints >= 7 AndAlso playerPoints - opponentPoints >= 2
-        Else
-            Return playerPoints >= 4 AndAlso playerPoints - opponentPoints >= 2
-        End If
+        Return match.IsGameWon(playerPoints, opponentPoints)
     End Function
 
     Private Sub UpdateSetLabel(player As String)
@@ -938,31 +949,7 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Function ConvertPointsToTennisScore(playerPoints As Integer, opponentPoints As Integer) As String
-        ' Konvertiert Punktestand in Tennis-Score (0, 15, 30, 40, A)
-        If isTiebreak Then
-            Return playerPoints.ToString()
-        ElseIf playerPoints >= 3 AndAlso opponentPoints >= 3 Then
-            If playerPoints = opponentPoints Then
-                Return "40"
-            ElseIf playerPoints = opponentPoints + 1 Then
-                Return "A"
-            Else
-                Return "40"
-            End If
-        Else
-            Select Case playerPoints
-                Case 0
-                    Return "0"
-                Case 1
-                    Return "15"
-                Case 2
-                    Return "30"
-                Case 3
-                    Return "40"
-                Case Else
-                    Return "A"
-            End Select
-        End If
+        Return match.ConvertPointsToTennisScore(playerPoints, opponentPoints)
     End Function
 
     Private Sub CheckBox_keypress_Mode_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_keypress_Mode.CheckedChanged
