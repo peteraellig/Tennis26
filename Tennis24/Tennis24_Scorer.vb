@@ -989,25 +989,25 @@ Public Class Tennis24_Scorer
 
             ReDim sendstring(17)
 
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hpoint.Text&Value=" + lbl_homepoint.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hpoint.Text", lbl_homepoint.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=apoint.Text&Value=" + lbl_awaypoint.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "apoint.Text", lbl_awaypoint.Text)
             index += 1
 
             Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
             Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
 
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hname.Text&Value=" + homePlayerName
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=aname.Text&Value=" + awayPlayerName
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName)
             index += 1
 
             Dim homeCountryISO3 As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(3)), "HOM", Tennis24_Main.HomePlayer(3))
             Dim awayCountryISO3 As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(3)), "AWY", Tennis24_Main.AwayPlayer(3))
 
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hcountry.Text&Value=" + homeCountryISO3
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homeCountryISO3)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=acountry.Text&Value=" + awayCountryISO3
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awayCountryISO3)
             index += 1
 
             If Not isMatchFinished Then
@@ -1024,26 +1024,26 @@ Public Class Tennis24_Scorer
                 End If
             End If
 
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h1.Text&Value=" + lbl_home_s1.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h1.Text", lbl_home_s1.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h2.Text&Value=" + lbl_home_s2.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h2.Text", lbl_home_s2.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h3.Text&Value=" + lbl_home_s3.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h3.Text", lbl_home_s3.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h4.Text&Value=" + lbl_home_s4.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h4.Text", lbl_home_s4.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h5.Text&Value=" + lbl_home_s5.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h5.Text", lbl_home_s5.Text)
             index += 1
 
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a1.Text&Value=" + lbl_away_s1.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a1.Text", lbl_away_s1.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a2.Text&Value=" + lbl_away_s2.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a2.Text", lbl_away_s2.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a3.Text&Value=" + lbl_away_s3.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a3.Text", lbl_away_s3.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a4.Text&Value=" + lbl_away_s4.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a4.Text", lbl_away_s4.Text)
             index += 1
-            sendstring(index) = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a5.Text&Value=" + lbl_away_s5.Text
+            sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a5.Text", lbl_away_s5.Text)
 
             SendToGraphicsEngine(sendstring)
         Next
@@ -1057,22 +1057,22 @@ Public Class Tennis24_Scorer
         Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(1) & " " & Tennis24_Main.AwayPlayer(0))
         Dim homecountry As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(3))
         Dim awaycountry As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(3))
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hname.Text&Value=" + homePlayerName : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=aname.Text&Value=" + awayPlayerName : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hcountry.Text&Value=" + homecountry : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=acountry.Text&Value=" + awaycountry : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homecountry) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awaycountry) : SendHTMLtovMix(sendstring)
 
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h1.Text&Value=" + lbl_home_s1.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h2.Text&Value=" + lbl_home_s2.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h3.Text&Value=" + lbl_home_s3.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h4.Text&Value=" + lbl_home_s4.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=h5.Text&Value=" + lbl_home_s5.Text : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h1.Text", lbl_home_s1.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2.Text", lbl_home_s2.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h3.Text", lbl_home_s3.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h4.Text", lbl_home_s4.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h5.Text", lbl_home_s5.Text) : SendHTMLtovMix(sendstring)
 
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a1.Text&Value=" + lbl_away_s1.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a2.Text&Value=" + lbl_away_s2.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a3.Text&Value=" + lbl_away_s3.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a4.Text&Value=" + lbl_away_s4.Text : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=a5.Text&Value=" + lbl_away_s5.Text : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a1.Text", lbl_away_s1.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2.Text", lbl_away_s2.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a3.Text", lbl_away_s3.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a4.Text", lbl_away_s4.Text) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a5.Text", lbl_away_s5.Text) : SendHTMLtovMix(sendstring)
 
         If Not isMatchFinished Then
             If PBHome.Visible = True Then
@@ -1086,16 +1086,16 @@ Public Class Tennis24_Scorer
 
         Dim flagInfo = GetFlagInfo(homecountry)
         If flagInfo.Exists Then
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=hcountry_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
         Else
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=hcountry_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
         End If
 
         flagInfo = GetFlagInfo(awaycountry)
         If flagInfo.Exists Then
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=acountry_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
         Else
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=acountry_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
         End If
 
     End Sub
@@ -1122,6 +1122,13 @@ Public Class Tennis24_Scorer
             End If
         Next
     End Sub
+
+    ' Baut einen "SetText"/"SetImage"-vMix-Befehl und kodiert den Wert dabei konsequent per
+    ' URL-Encoding. Vorher wurden Spielernamen/Freitexte meist unkodiert eingefügt, sodass
+    ' Leerzeichen, "&" oder andere Sonderzeichen die vMix-Request verfälschen konnten.
+    Private Function BuildVmixSetCommand(func As String, input As String, selectedName As String, value As String) As String
+        Return "Function=" + func + "&Input=" + input + "&SelectedName=" + selectedName + "&Value=" + WebUtility.UrlEncode(value)
+    End Function
 
     Public Sub SendHTMLtovMix(ByVal HTML_URL As String)
         'Sendet einen HTML-Befehl an vMix   
@@ -1213,7 +1220,7 @@ Public Class Tennis24_Scorer
         For i = 2 To 5
             nametemplate = "scorebug_" + Trim(Str(i)) + "s.gtzip"
             Dim image = "C:\VMIX\tennis\graphical templates\scorebug_bg_" + Trim(Str(i)) + "_bl.png"
-            sendstring = "Function=SetImage&Input=" & nametemplate & "&SelectedName=bg" + Trim(Str(i)) + ".Source&Value=" & image : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", nametemplate, "bg" + Trim(Str(i)) + ".Source", image) : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOff&Input=" & nametemplate & "&SelectedName=hpoint.Text" : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOff&Input=" & nametemplate & "&SelectedName=apoint.Text" : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetImageVisibleOff&Input=" & nametemplate & "&SelectedName=hserve.Source" : SendHTMLtovMix(sendstring)
@@ -1295,7 +1302,7 @@ Public Class Tennis24_Scorer
         For i = 2 To 5
             nametemplate = "scorebug_" + Trim(Str(i)) + "s.gtzip"
             Dim image = "C:\VMIX\tennis\graphical templates\scorebug_bg_" + Trim(Str(i)) + ".png"
-            sendstring = "Function=SetImage&Input=" & nametemplate & "&SelectedName=bg" + Trim(Str(i)) + ".Source&Value=" & image : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", nametemplate, "bg" + Trim(Str(i)) + ".Source", image) : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOn&Input=" & nametemplate & "&SelectedName=hpoint.Text" : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOn&Input=" & nametemplate & "&SelectedName=apoint.Text" : SendHTMLtovMix(sendstring)
         Next
@@ -1339,19 +1346,19 @@ Public Class Tennis24_Scorer
         Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(7)), " ", Tennis24_Main.HomePlayer(7))
         Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(8)), " ", Tennis24_Main.HomePlayer(8))
 
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=name.Text&Value=" + PlayerName : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=country.Text&Value=" + country : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=age.Text&Value=" + age : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=height.Text&Value=" + height : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info1.Text&Value=" + info1 : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info2.Text&Value=" + info2 : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info3.Text&Value=" + info3 : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "age.Text", age) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "height.Text", height) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info1.Text", info1) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info2.Text", info2) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info3.Text", info3) : SendHTMLtovMix(sendstring)
 
         Dim flagInfo = GetFlagInfo(country)
         If flagInfo.Exists Then
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=country_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
         Else
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=country_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
         End If
     End Sub
 
@@ -1368,19 +1375,19 @@ Public Class Tennis24_Scorer
         Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(7)), " ", Tennis24_Main.AwayPlayer(7))
         Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(8)), " ", Tennis24_Main.AwayPlayer(8))
 
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=name.Text&Value=" + PlayerName : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=country.Text&Value=" + country : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=age.Text&Value=" + age : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=height.Text&Value=" + height : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info1.Text&Value=" + info1 : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info2.Text&Value=" + info2 : SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=info3.Text&Value=" + info3 : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "age.Text", age) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "height.Text", height) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info1.Text", info1) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info2.Text", info2) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info3.Text", info3) : SendHTMLtovMix(sendstring)
 
         Dim flagInfo = GetFlagInfo(country)
         If flagInfo.Exists Then
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=country_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
         Else
-            sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=country_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
         End If
     End Sub
 
@@ -1410,19 +1417,19 @@ Public Class Tennis24_Scorer
             Dim hdata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(7)), "", Tennis24_Main.HomePlayer(7))
             Dim hdata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(8)), "", Tennis24_Main.HomePlayer(8))
 
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hname.Text&Value=" + hPlayerName : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hcountry.Text&Value=" + hcountry : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hage.Text&Value=" + hage : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hheight.Text&Value=" + hheight : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hdata1.Text&Value=" + hdata1 : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hdata2.Text&Value=" + hdata2 : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=hdata3.Text&Value=" + hdata3 : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", hPlayerName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", hcountry) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hage.Text", hage) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hheight.Text", hheight) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hdata1.Text", hdata1) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hdata2.Text", hdata2) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hdata3.Text", hdata3) : SendHTMLtovMix(sendstring)
 
             Dim flagInfo = GetFlagInfo(hcountry)
             If flagInfo.Exists Then
-                sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=hcountry_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
             Else
-                sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=hcountry_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
             End If
 
             ' Away Player Daten
@@ -1435,19 +1442,19 @@ Public Class Tennis24_Scorer
             Dim adata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(7)), "", Tennis24_Main.AwayPlayer(7))
             Dim adata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(8)), "", Tennis24_Main.AwayPlayer(8))
 
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=aname.Text&Value=" + aPlayerName : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=acountry.Text&Value=" + acountry : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=aage.Text&Value=" + aage : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=aheight.Text&Value=" + aheight : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=adata1.Text&Value=" + adata1 : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=adata2.Text&Value=" + adata2 : SendHTMLtovMix(sendstring)
-            sendstring = "Function=SetText&Input=" + scorebugtitle + "&SelectedName=adata3.Text&Value=" + adata3 : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", aPlayerName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", acountry) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aage.Text", aage) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aheight.Text", aheight) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "adata1.Text", adata1) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "adata2.Text", adata2) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "adata3.Text", adata3) : SendHTMLtovMix(sendstring)
 
             flagInfo = GetFlagInfo(acountry)
             If flagInfo.Exists Then
-                sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=acountry_flag.Source&Value=" + flagInfo.Path : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
             Else
-                sendstring = "Function=SetImage&Input=" + scorebugtitle + "&SelectedName=acountry_flag.Source&Value=C:\VMIX\tennis\flags\transparent.png" : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
             End If
         Next
     End Sub
