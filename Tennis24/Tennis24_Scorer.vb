@@ -830,6 +830,9 @@ Public Class Tennis24_Scorer
         Dim lastState = match.PopState()
         If lastState IsNot Nothing Then
             CheckBox_noTiebreak.Checked = noTiebreakMode
+            ' Falls der zurückgenommene Punkt das Match beendet hatte, muss der Gewinner-
+            ' Banner wieder verschwinden - vorher blieb er nach einem Undo sichtbar.
+            Lbl_Winner.Visible = isMatchFinished
 
             If homeTotalPoints = 0 AndAlso awayTotalPoints = 0 Then
                 firstPointPlayed = False
@@ -849,6 +852,9 @@ Public Class Tennis24_Scorer
 
             UpdateServerDisplay()
             UpdateDataGridView()
+            ' Falls Undo über eine Satzgrenze zurückgeht, muss der ggf. aktive Scorebug-Overlay
+            ' auf die Vorlage des (wieder aktuellen) Satzes zurückwechseln.
+            UpdateScoreBug()
         End If
     End Sub
 
