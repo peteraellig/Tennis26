@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tennis24", "Tennis24\Tennis24.vbproj", "{1477FFA6-6D73-4A63-998D-856895E1840B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{84D27F74-D2BA-6C25-2661-968F101900D9}"
+	ProjectSection(SolutionItems) = preProject
+		Tennis24\Tennis24_Scorer.vb = Tennis24\Tennis24_Scorer.vb
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1477FFA6-6D73-4A63-998D-856895E1840B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1477FFA6-6D73-4A63-998D-856895E1840B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1477FFA6-6D73-4A63-998D-856895E1840B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1477FFA6-6D73-4A63-998D-856895E1840B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48744F08-D85D-49A6-BAE0-59BAD34B84FC}
+	EndGlobalSection
+EndGlobal
