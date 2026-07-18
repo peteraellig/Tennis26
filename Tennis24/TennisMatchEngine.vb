@@ -258,7 +258,7 @@ Public Class TennisMatchEngine
                 End If
             Else
                 ' IM Tiebreak: playerGames/opponentGames sind hier die GAMES, nicht die
-                ' Tiebreak-Punkte - der Verlierer bleibt games-mäßig immer bei 6 eingefroren,
+                ' Tiebreak-Punkte - der Verlierer bleibt games-mässig immer bei 6 eingefroren,
                 ' der Gewinner steigt beim Tiebreak-Sieg auf 7 (also IMMER genau 7:6, nie mehr
                 ' Differenz). IsGameWon() hat den Tiebreak selbst schon korrekt anhand der
                 ' echten Punkte mit 2 Punkten Vorsprung entschieden, bevor homeGames/awayGames

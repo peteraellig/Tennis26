@@ -72,6 +72,18 @@ Public Class Tennis24_Settings
         SaveSettingsToXml()
     End Sub
 
+    ' TextBoxValues(42) (Match-Tiebreak: Punkte bis zum Sieg) wird über NumericUpDown1
+    ' bedient statt über eine TextBox{i} - deshalb nicht Teil der generischen TextBox-
+    ' Schleifen unten und separat synchronisiert.
+    Private Sub SyncMatchTiebreakTargetControl()
+        If NumericUpDown1 IsNot Nothing Then
+            Dim matchTiebreakTarget As Integer
+            If Integer.TryParse(TextBoxValues(42), matchTiebreakTarget) Then
+                NumericUpDown1.Value = Math.Max(NumericUpDown1.Minimum, Math.Min(NumericUpDown1.Maximum, matchTiebreakTarget))
+            End If
+        End If
+    End Sub
+
     Public Sub SetLabels()
 
         For i As Integer = 1 To 50
@@ -80,6 +92,7 @@ Public Class Tennis24_Settings
                 DirectCast(textBoxControl, TextBox).Text = TextBoxValues(i)
             End If
         Next
+        SyncMatchTiebreakTargetControl()
 
         ' RadioButtons setzen - nur wenn Controls existieren (Form geladen)
         If RadioButton1 IsNot Nothing Then
@@ -309,6 +322,7 @@ Public Class Tennis24_Settings
                     End If
                 Next
             End If
+            SyncMatchTiebreakTargetControl()
 
             ' CheckBoxes laden
             Dim checkBoxNode As XmlNode = xmlDoc.SelectSingleNode("//CheckBoxSettings")
@@ -372,6 +386,7 @@ Public Class Tennis24_Settings
                 TextBoxValues(i) = ""
             End If
         Next
+        If NumericUpDown1 IsNot Nothing Then TextBoxValues(42) = NumericUpDown1.Value.ToString()
 
         ' CheckBoxes - Werte aus Controls in Arrays übertragen
         For i As Integer = 1 To 20
@@ -418,6 +433,7 @@ Public Class Tennis24_Settings
                 DirectCast(textBoxControl, TextBox).Text = TextBoxValues(i)
             End If
         Next
+        SyncMatchTiebreakTargetControl()
 
         ' CheckBoxes
         For i As Integer = 1 To 20
