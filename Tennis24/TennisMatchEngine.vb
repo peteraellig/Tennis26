@@ -234,9 +234,16 @@ Public Class TennisMatchEngine
                     Return False
                 End If
             Else
-                ' IM Tiebreak: Set-Gewinn bei 7+ Punkten mit 2 Punkten Vorsprung
-                ' ACHTUNG: playerGames/opponentGames sind hier die TIEBREAK-PUNKTE!
-                If playerGames >= 7 AndAlso playerGames - opponentGames >= 2 Then
+                ' IM Tiebreak: playerGames/opponentGames sind hier die GAMES, nicht die
+                ' Tiebreak-Punkte - der Verlierer bleibt games-mäßig immer bei 6 eingefroren,
+                ' der Gewinner steigt beim Tiebreak-Sieg auf 7 (also IMMER genau 7:6, nie mehr
+                ' Differenz). IsGameWon() hat den Tiebreak selbst schon korrekt anhand der
+                ' echten Punkte mit 2 Punkten Vorsprung entschieden, bevor homeGames/awayGames
+                ' hier überhaupt erhöht wurde. Ein zusätzlicher Games-Vorsprung darf deshalb
+                ' NICHT verlangt werden (Bug: vorher "AndAlso playerGames - opponentGames >= 2"
+                ' hier nie erfüllt, wodurch der Satz nach einem Tiebreak nie als beendet erkannt
+                ' und weitere Punkte fälschlich dem alten Satz zugerechnet wurden).
+                If playerGames >= 7 Then
                     IsTiebreak = False
                     Return True
                 End If
