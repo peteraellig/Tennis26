@@ -5,32 +5,27 @@ Public Class Tennis24_Scorer
     'zeigt keine Spielerdetails an wie alter etc.
     Private hidedetails As Boolean = False
 
-    ' Toggle-Status für Scorebug Button
+    ' Toggle-Status für Scorebug- und Sponsor-Buttons (eigene vMix-Layer, daher nicht Teil der
+    ' gemeinsam ausschliessenden Overlay-Registry weiter unten)
     Private scorebugtoggleStatus As Boolean = False
-    Private largeResulttoggleStatus As Boolean = False
-    Private lower1toggleStatus As Boolean = False
-    Private lower2toggleStatus As Boolean = False
-    Private titleToggleStatus As Boolean = False
-    Private matchpairingToggleStatus As Boolean = False
-    Private matchpairing1ToggleStatus As Boolean = False
-    Private matchpairing2ToggleStatus As Boolean = False
-    Private matchpairing3ToggleStatus As Boolean = False
-    Private matchpairing4ToggleStatus As Boolean = False
-    Private info1ToggleStatus As Boolean = False
-    Private info2ToggleStatus As Boolean = False
-    Private info3ToggleStatus As Boolean = False
-    Private info4ToggleStatus As Boolean = False
     Private sponsor1ToggleStatus As Boolean = False
     Private sponsor2ToggleStatus As Boolean = False
-    Private freename1ToggleStatus As Boolean = False
-    Private freename2ToggleStatus As Boolean = False
-    Private freename3ToggleStatus As Boolean = False
-    Private freename4ToggleStatus As Boolean = False
-    Private freename5ToggleStatus As Boolean = False
-    Private ref1ToggleStatus As Boolean = False
-    Private ref2ToggleStatus As Boolean = False
-    Private com1ToggleStatus As Boolean = False
-    Private com2ToggleStatus As Boolean = False
+
+    ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
+    ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
+    ' 22 einzelnen ...ToggleStatus-Variablen plus die von Hand gepflegten Select-Case-Listen
+    ' in ResetOtherOverlayToggles/ResetAllOverlayButtons.
+    Private Class OverlayToggle
+        Public Property Key As String
+        Public Property Button As Button
+        Public Property Template As String
+        Public Property ComboIndex As Integer
+        Public Property Status As Boolean
+        ' Text, der beim (Fremd-)Zurücksetzen auf den Button geschrieben wird; Nothing = Text unangetastet lassen
+        Public Property ResetText As Func(Of String)
+    End Class
+
+    Private overlayToggles As List(Of OverlayToggle)
 
 
     ' Bestehende Variablen...
@@ -103,6 +98,8 @@ Public Class Tennis24_Scorer
 
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        InitOverlayToggles()
+
         Tennis24_Settings.SetVariables()
 
         If Tennis24_Settings.TextBoxValues(50) = 3 Then
@@ -155,6 +152,75 @@ Public Class Tennis24_Scorer
 
         ' Button-Namen initial setzen
         UpdateButtonNames()
+    End Sub
+
+    ' Registriert alle sich gegenseitig ausschliessenden Overlay-Buttons (Layer 1). Muss erst
+    ' nach InitializeComponent laufen, da hier auf die Designer-Button-Controls zugegriffen wird.
+    Private Sub InitOverlayToggles()
+        overlayToggles = New List(Of OverlayToggle) From {
+            New OverlayToggle With {.Key = "home", .Button = Btn_Name_Home, .Template = "lower_name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))},
+            New OverlayToggle With {.Key = "away", .Button = Btn_Name_Away, .Template = "lower_name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))},
+            New OverlayToggle With {.Key = "largeresult", .Button = Btn_LargeResult, .Template = "large_result.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Large Result OFF"},
+            New OverlayToggle With {.Key = "title", .Button = Btn_Title, .Template = "title.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Title"},
+            New OverlayToggle With {.Key = "matchpairing", .Button = Btn_matchpairing, .Template = "match_pairing.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "match pairing"},
+            New OverlayToggle With {.Key = "matchpairing1", .Button = Btn_matchpairing1, .Template = "match_pairing1.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Match Pairing 1"},
+            New OverlayToggle With {.Key = "matchpairing2", .Button = Btn_matchpairing2, .Template = "match_pairing2.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Match Pairing 2"},
+            New OverlayToggle With {.Key = "matchpairing3", .Button = Btn_matchpairing3, .Template = "match_pairing3.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Match Pairing 3"},
+            New OverlayToggle With {.Key = "matchpairing4", .Button = Btn_matchpairing4, .Template = "match_pairing4.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Match Pairing 4"},
+            New OverlayToggle With {.Key = "info1", .Button = Btn_info1, .Template = "info1.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Info1"},
+            New OverlayToggle With {.Key = "info2", .Button = Btn_info2, .Template = "info2.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Info2"},
+            New OverlayToggle With {.Key = "info3", .Button = Btn_info3, .Template = "info3.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Info3"},
+            New OverlayToggle With {.Key = "info4", .Button = Btn_info4, .Template = "info4.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Info4"},
+            New OverlayToggle With {.Key = "freename1", .Button = Btn_freename1, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Free Name 1"},
+            New OverlayToggle With {.Key = "freename2", .Button = Btn_freename2, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Free Name 2"},
+            New OverlayToggle With {.Key = "freename3", .Button = Btn_freename3, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Free Name 3"},
+            New OverlayToggle With {.Key = "freename4", .Button = Btn_freename4, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Free Name 4"},
+            New OverlayToggle With {.Key = "freename5", .Button = Btn_freename5, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Free Name 5"},
+            New OverlayToggle With {.Key = "ref1", .Button = Btn_ref1, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Referee 1"},
+            New OverlayToggle With {.Key = "ref2", .Button = Btn_ref2, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Referee 2"},
+            New OverlayToggle With {.Key = "com1", .Button = Btn_com1, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Commentator 1"},
+            New OverlayToggle With {.Key = "com2", .Button = Btn_com2, .Template = "name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "Commentator 2"}
+        }
+    End Sub
+
+    Private Function GetToggle(key As String) As OverlayToggle
+        Return overlayToggles.First(Function(t) t.Key = key)
+    End Function
+
+    ' Invertiert nur den Status (ohne vMix-Befehl zu senden) und liefert den neuen Wert zurück,
+    ' damit Aufrufer bei Bedarf zwischen Statuswechsel und Versand noch etwas tun können
+    ' (z.B. Lower1()/Lower2() vor dem Einblenden aufrufen).
+    Private Function ToggleStatus(entry As OverlayToggle) As Boolean
+        entry.Status = Not entry.Status
+        Return entry.Status
+    End Function
+
+    Private Sub SendOverlayCommand(entry As OverlayToggle, isOn As Boolean)
+        Dim direction As String = If(isOn, "In", "Out")
+        Dim sendstring As String = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(entry.ComboIndex) + direction + "&Input=" + entry.Template + "&Mix=0"
+        SendHTMLtovMix(sendstring)
     End Sub
 
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, ByVal keyData As Keys) As Boolean
@@ -1112,24 +1178,21 @@ Public Class Tennis24_Scorer
 
     Private Sub Btn_LargeResult_Click(sender As Object, e As EventArgs) Handles Btn_LargeResult.Click
         'blendet grosses resultat ein und aus
-        Dim sendstring As String
+        Dim entry = GetToggle("largeresult")
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("largeresult")
+        ResetOtherOverlayToggles(entry.Key)
 
-        largeResulttoggleStatus = Not largeResulttoggleStatus
+        Dim isOn = ToggleStatus(entry)
+        SendOverlayCommand(entry, isOn)
 
-        If largeResulttoggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=large_result.gtzip&Mix=0"
+        If isOn Then
             Btn_LargeResult.BackColor = Color.Red
             Btn_LargeResult.Text = $"Large Result ON (Set {currentSet})"
         Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=large_result.gtzip&Mix=0"
             Btn_LargeResult.BackColor = SystemColors.ButtonHighlight
             Btn_LargeResult.Text = "Large Result OFF"
         End If
-
-        SendHTMLtovMix(sendstring)
     End Sub
 
     Private Sub UpdateScoreBug()
@@ -1392,354 +1455,113 @@ Public Class Tennis24_Scorer
 
     Private Sub Btn_Name_Home_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home.Click
         'blendet spielername1 ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "lower_name.gtzip"
-
+        Dim entry = GetToggle("home")
         Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
-        'Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
         Dim Playername = "lower" & vbNewLine & homePlayerName
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("home")
-        lower1toggleStatus = Not lower1toggleStatus
+        ResetOtherOverlayToggles(entry.Key)
+        Dim isOn = ToggleStatus(entry)
 
-        If lower1toggleStatus Then
-            Lower1()
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_Name_Home.BackColor = Color.Red
-            Btn_Name_Home.Text = Playername
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_Name_Home.BackColor = SystemColors.ButtonHighlight
-            Btn_Name_Home.Text = Playername
-        End If
+        If isOn Then Lower1()
+        SendOverlayCommand(entry, isOn)
 
-        SendHTMLtovMix(sendstring)
+        Btn_Name_Home.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_Name_Home.Text = Playername
     End Sub
 
     Private Sub Btn_Name_Away_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away.Click
         'blendet spielername2 ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "lower_name.gtzip"
-
+        Dim entry = GetToggle("away")
         Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
         Dim Playername = "lower" & vbNewLine & awayPlayerName
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("away")
+        ResetOtherOverlayToggles(entry.Key)
+        Dim isOn = ToggleStatus(entry)
 
-        lower2toggleStatus = Not lower2toggleStatus
+        If isOn Then Lower2()
+        SendOverlayCommand(entry, isOn)
 
-        If lower2toggleStatus Then
-            Lower2()
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_Name_Away.BackColor = Color.Red
-            Btn_Name_Away.Text = Playername
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_Name_Away.BackColor = SystemColors.ButtonHighlight
-            Btn_Name_Away.Text = Playername
-        End If
-
-        SendHTMLtovMix(sendstring)
+        Btn_Name_Away.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_Name_Away.Text = Playername
     End Sub
 
     Private Sub Btn_Title_Click(sender As Object, e As EventArgs) Handles Btn_Title.Click
         'blendet Titel ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "title.gtzip"
-
-        Dim buttonname = "Title"
+        Dim entry = GetToggle("title")
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("Title")
+        ResetOtherOverlayToggles(entry.Key)
 
-        sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=TextBlock1.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(1))
-        SendHTMLtovMix(sendstring)
-        sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=TextBlock2.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(2))
-        SendHTMLtovMix(sendstring)
+        SendHTMLtovMix("Function=SetText&Input=" + entry.Template + "&SelectedName=TextBlock1.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(1)))
+        SendHTMLtovMix("Function=SetText&Input=" + entry.Template + "&SelectedName=TextBlock2.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(2)))
 
-        titleToggleStatus = Not titleToggleStatus
+        Dim isOn = ToggleStatus(entry)
+        SendOverlayCommand(entry, isOn)
 
-        If titleToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_Title.BackColor = Color.Red
-            Btn_Title.Text = buttonname
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_Title.BackColor = SystemColors.ButtonHighlight
-            Btn_Title.Text = buttonname
-        End If
-
-        SendHTMLtovMix(sendstring)
+        Btn_Title.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_Title.Text = "Title"
     End Sub
 
     Private Sub Btn_matchpairing_Click(sender As Object, e As EventArgs) Handles Btn_matchpairing.Click
         'blendet paarung ein und aus
         Pairing()
 
-        Dim sendstring As String
-        Dim nametemplate As String = "match_pairing.gtzip"
-
-        Dim buttonname = "match pairing"
+        Dim entry = GetToggle("matchpairing")
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("matchpairing")
+        ResetOtherOverlayToggles(entry.Key)
 
-        matchpairingToggleStatus = Not matchpairingToggleStatus
+        Dim isOn = ToggleStatus(entry)
+        SendOverlayCommand(entry, isOn)
 
-        If matchpairingToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_matchpairing.BackColor = Color.Red
-            Btn_matchpairing.Text = buttonname
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_matchpairing.BackColor = SystemColors.ButtonHighlight
-            Btn_matchpairing.Text = buttonname
-        End If
-
-        SendHTMLtovMix(sendstring)
+        Btn_matchpairing.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_matchpairing.Text = "match pairing"
     End Sub
 
 
 
-    ' Method to reset all overlay toggles except the specified one
-    Private Sub ResetOtherOverlayToggles(excludeButton As String)
-        ' Liste aller buttons und deren status und text
-        Dim buttons() = {
-        ("home", lower1toggleStatus, Btn_Name_Home, "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0)), "lower_name.gtzip"),
-        ("away", lower2toggleStatus, Btn_Name_Away, "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0)), "lower_name.gtzip"),
-        ("largeresult", largeResulttoggleStatus, Btn_LargeResult, "Large Result OFF", "large_result.gtzip"),
-        ("title", titleToggleStatus, Btn_Title, "Title", "title.gtzip"),
-        ("matchpairing", matchpairingToggleStatus, Btn_matchpairing, "match pairing", "matchpairing.gtzip"),
-        ("matchpairing1", matchpairing1ToggleStatus, Btn_matchpairing1, "Match Pairing 1", "matchpairing1.gtzip"),
-        ("matchpairing2", matchpairing2ToggleStatus, Btn_matchpairing2, "Match Pairing 2", "matchpairing2.gtzip"),
-        ("matchpairing3", matchpairing3ToggleStatus, Btn_matchpairing3, "Match Pairing 3", "matchpairing3.gtzip"),
-        ("matchpairing4", matchpairing4ToggleStatus, Btn_matchpairing4, "Match Pairing 4", "matchpairing4.gtzip"),
-        ("info1", info1ToggleStatus, Btn_info1, "Info1", "info1.gtzip"),
-        ("info2", info2ToggleStatus, Btn_info2, "Info2", "info2.gtzip"),
-        ("info3", info3ToggleStatus, Btn_info3, "Info3", "info3.gtzip"),
-        ("info4", info4ToggleStatus, Btn_info4, "Info4", "info4.gtzip"),
-        ("sponsor1", sponsor1ToggleStatus, Btn_sponsor1, "Sponsor1", "sponsor1.gtzip"),
-        ("sponsor2", sponsor2ToggleStatus, Btn_sponsor2, "Sponsor2", "sponsor2.gtzip"),
-        ("freename1", freename1ToggleStatus, Btn_freename1, "Free Name 1", "name.gtzip"),
-        ("freename2", freename2ToggleStatus, Btn_freename2, "Free Name 2", "name.gtzip"),
-        ("freename3", freename3ToggleStatus, Btn_freename3, "Free Name 3", "name.gtzip"),
-        ("freename4", freename4ToggleStatus, Btn_freename4, "Free Name 4", "name.gtzip"),
-        ("freename5", freename5ToggleStatus, Btn_freename5, "Free Name 5", "name.gtzip"),
-        ("ref1", ref1ToggleStatus, Btn_ref1, "Referee 1", "name.gtzip"),
-        ("ref2", ref2ToggleStatus, Btn_ref2, "Referee 2", "name.gtzip"),
-        ("com1", com1ToggleStatus, Btn_com1, "Commentator 1", "name.gtzip"),
-        ("com2", com2ToggleStatus, Btn_com2, "Commentator 2", "name.gtzip")
-    }
+    ' Blendet alle anderen aktiven Overlay-Buttons (Layer 1) aus ausser dem angegebenen.
+    ' HINWEIS: "matchpairing"/"matchpairing1-4" haben hier jetzt den korrekten Template-Namen
+    ' ("match_pairing...gtzip" statt "matchpairing...gtzip") - vorher wurde beim Zurücksetzen
+    ' der falsche vMix-Input adressiert, wodurch das Ausblenden dieser Overlays nie ankam.
+    Private Sub ResetOtherOverlayToggles(excludeKey As String)
+        For Each entry In overlayToggles
+            If Not entry.Key.Equals(excludeKey, StringComparison.OrdinalIgnoreCase) AndAlso entry.Status Then
+                entry.Status = False
+                entry.Button.BackColor = SystemColors.ButtonHighlight
+                If entry.ResetText IsNot Nothing Then entry.Button.Text = entry.ResetText.Invoke()
 
-        ' alle anderen ausser dem ausgenommenen zurücksetzen
-        For Each btn In buttons
-            If btn.Item1.ToLower() <> excludeButton.ToLower() AndAlso btn.Item2 Then
-                ' Status zurücksetzen
-                Select Case btn.Item1
-                    Case "home" : lower1toggleStatus = False
-                    Case "away" : lower2toggleStatus = False
-                    Case "largeresult" : largeResulttoggleStatus = False
-                    Case "title" : titleToggleStatus = False
-                    Case "matchpairing" : matchpairingToggleStatus = False
-                    Case "matchpairing1" : matchpairing1ToggleStatus = False
-                    Case "matchpairing2" : matchpairing2ToggleStatus = False
-                    Case "matchpairing3" : matchpairing3ToggleStatus = False
-                    Case "matchpairing4" : matchpairing4ToggleStatus = False
-                    Case "info1" : info1ToggleStatus = False
-                    Case "info2" : info2ToggleStatus = False
-                    Case "info3" : info3ToggleStatus = False
-                    Case "info4" : info4ToggleStatus = False
-                    Case "sponsor1" : sponsor1ToggleStatus = False
-                    Case "sponsor2" : sponsor2ToggleStatus = False
-                    Case "freename1" : freename1ToggleStatus = False
-                    Case "freename2" : freename2ToggleStatus = False
-                    Case "freename3" : freename3ToggleStatus = False
-                    Case "freename4" : freename4ToggleStatus = False
-                    Case "freename5" : freename5ToggleStatus = False
-                    Case "ref1" : ref1ToggleStatus = False
-                    Case "ref2" : ref2ToggleStatus = False
-                    Case "com1" : com1ToggleStatus = False
-                    Case "com2" : com2ToggleStatus = False
-                End Select
-
-                ' Button zurücksetzen
-                btn.Item3.BackColor = SystemColors.ButtonHighlight
-                btn.Item3.Text = btn.Item4
-
-                ' Overlay ausblenden
-                Dim sendstring As String
-                sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=" + btn.Item5 + "&Mix=0"
+                Dim sendstring As String = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(entry.ComboIndex) + "Off&Input=" + entry.Template + "&Mix=0"
                 SendHTMLtovMix(sendstring)
             End If
         Next
     End Sub
 
-    Private Sub Btn_info1_Click(sender As Object, e As EventArgs) Handles Btn_info1.Click
-        'blendet Titel ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "info1.gtzip"
+    Private Sub Btn_info_Click(sender As Object, e As EventArgs) Handles Btn_info1.Click, Btn_info2.Click, Btn_info3.Click, Btn_info4.Click
+        'blendet Info-Overlay ein und aus
+        Dim entry = overlayToggles.First(Function(t) t.Button Is sender)
 
         ' Reset other toggles first
-        ResetOtherOverlayToggles("info1")
+        ResetOtherOverlayToggles(entry.Key)
 
-        info1ToggleStatus = Not info1ToggleStatus
-
-        If info1ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_info1.BackColor = Color.Red
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_info1.BackColor = SystemColors.ButtonHighlight
-        End If
-
-        SendHTMLtovMix(sendstring)
-    End Sub
-
-    Private Sub Btn_info2_Click(sender As Object, e As EventArgs) Handles Btn_info2.Click
-        'blendet Titel ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "info2.gtzip"
-
-        ' Reset other toggles first
-        ResetOtherOverlayToggles("info2")
-
-        info2ToggleStatus = Not info2ToggleStatus
-
-        If info2ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_info2.BackColor = Color.Red
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_info2.BackColor = SystemColors.ButtonHighlight
-        End If
-
-        SendHTMLtovMix(sendstring)
-    End Sub
-
-    Private Sub Btn_info3_Click(sender As Object, e As EventArgs) Handles Btn_info3.Click
-        'blendet Titel ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "info3.gtzip"
-
-        ' Reset other toggles first
-        ResetOtherOverlayToggles("info3")
-
-        info3ToggleStatus = Not info3ToggleStatus
-
-        If info3ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_info3.BackColor = Color.Red
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_info3.BackColor = SystemColors.ButtonHighlight
-        End If
-
-        SendHTMLtovMix(sendstring)
-    End Sub
-
-    Private Sub Btn_info4_Click(sender As Object, e As EventArgs) Handles Btn_info4.Click
-        'blendet Titel ein und aus
-        Dim sendstring As String
-        Dim nametemplate As String = "info4.gtzip"
-
-        ' Reset other toggles first
-        ResetOtherOverlayToggles("info4")
-
-        info4ToggleStatus = Not info4ToggleStatus
-
-        If info4ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-            Btn_info4.BackColor = Color.Red
-        Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-            Btn_info4.BackColor = SystemColors.ButtonHighlight
-        End If
-
-        SendHTMLtovMix(sendstring)
+        Dim isOn = ToggleStatus(entry)
+        SendOverlayCommand(entry, isOn)
+        entry.Button.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
     End Sub
 
     Private Sub Btn_matchpairing1_Click(sender As Object, e As EventArgs) Handles Btn_matchpairing1.Click, Btn_matchpairing2.Click, Btn_matchpairing3.Click, Btn_matchpairing4.Click
         Pairing()
 
-        Dim clickedButton As Button = DirectCast(sender, Button)
-        Dim sendstring As String
-        Dim nametemplate As String
-        Dim excludeButtonName As String
+        Dim entry = overlayToggles.First(Function(t) t.Button Is sender)
 
-        ' Bestimme welcher Button geklickt wurde
-        Select Case clickedButton.Name
-            Case "Btn_matchpairing1"
-                nametemplate = "match_pairing1.gtzip"
-                excludeButtonName = "matchpairing1"
+        ' Reset other toggles first
+        ResetOtherOverlayToggles(entry.Key)
 
-                ' Reset other toggles first
-                ResetOtherOverlayToggles(excludeButtonName)
-                matchpairing1ToggleStatus = Not matchpairing1ToggleStatus
-
-                If matchpairing1ToggleStatus Then
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = Color.Red
-                Else
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = SystemColors.ButtonHighlight
-                End If
-
-            Case "Btn_matchpairing2"
-                nametemplate = "match_pairing2.gtzip"
-                excludeButtonName = "matchpairing2"
-
-                ' Reset other toggles first
-                ResetOtherOverlayToggles(excludeButtonName)
-                matchpairing2ToggleStatus = Not matchpairing2ToggleStatus
-
-                If matchpairing2ToggleStatus Then
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = Color.Red
-                Else
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = SystemColors.ButtonHighlight
-                End If
-
-            Case "Btn_matchpairing3"
-                nametemplate = "match_pairing3.gtzip"
-                excludeButtonName = "matchpairing3"
-
-                ' Reset other toggles first
-                ResetOtherOverlayToggles(excludeButtonName)
-                matchpairing3ToggleStatus = Not matchpairing3ToggleStatus
-
-                If matchpairing3ToggleStatus Then
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = Color.Red
-                Else
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = SystemColors.ButtonHighlight
-                End If
-
-            Case "Btn_matchpairing4"
-                nametemplate = "match_pairing4.gtzip"
-                excludeButtonName = "matchpairing4"
-
-                ' Reset other toggles first
-                ResetOtherOverlayToggles(excludeButtonName)
-                matchpairing4ToggleStatus = Not matchpairing4ToggleStatus
-
-                If matchpairing4ToggleStatus Then
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "In&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = Color.Red
-                Else
-                    sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Out&Input=" + nametemplate + "&Mix=0"
-                    clickedButton.BackColor = SystemColors.ButtonHighlight
-                End If
-
-            Case Else
-                Return ' Fallback, sollte nicht auftreten
-        End Select
-
-        SendHTMLtovMix(sendstring)
+        Dim isOn = ToggleStatus(entry)
+        SendOverlayCommand(entry, isOn)
+        entry.Button.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
     End Sub
 
     Private Sub CheckBox_noTiebreak_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_noTiebreak.CheckedChanged
@@ -1809,54 +1631,25 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Sub ResetAllOverlayButtons()
-        ' Alle Toggle-Status zurücksetzen
+        ' Scorebug (eigener Layer, nicht Teil der Overlay-Registry)
         scorebugtoggleStatus = False
-        lower1toggleStatus = False
-        lower2toggleStatus = False
-        largeResulttoggleStatus = False
-        titleToggleStatus = False
-        matchpairingToggleStatus = False
-        matchpairing1ToggleStatus = False
-        matchpairing2ToggleStatus = False
-        matchpairing3ToggleStatus = False
-        matchpairing4ToggleStatus = False
-        info1ToggleStatus = False
-        info2ToggleStatus = False
-        info3ToggleStatus = False
-        info4ToggleStatus = False
-        sponsor1ToggleStatus = False
-        sponsor2ToggleStatus = False
-
-
-        ' Name-Button Toggle-Status zurücksetzen
-        freename1ToggleStatus = False
-        freename2ToggleStatus = False
-        freename3ToggleStatus = False
-        freename4ToggleStatus = False
-        freename5ToggleStatus = False
-        ref1ToggleStatus = False
-        ref2ToggleStatus = False
-        com1ToggleStatus = False
-        com2ToggleStatus = False
-
-        ' Alle Buttons visuell zurücksetzen
         Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
         Btn_Scorebug.Text = "Scorebug OFF"
-        
-        ' Name-Buttons zurücksetzen
-        Btn_freename1.BackColor = SystemColors.ButtonHighlight
-        Btn_freename2.BackColor = SystemColors.ButtonHighlight
-        Btn_freename3.BackColor = SystemColors.ButtonHighlight
-        Btn_freename4.BackColor = SystemColors.ButtonHighlight
-        Btn_freename5.BackColor = SystemColors.ButtonHighlight
-        Btn_ref1.BackColor = SystemColors.ButtonHighlight
-        Btn_ref2.BackColor = SystemColors.ButtonHighlight
-        Btn_com1.BackColor = SystemColors.ButtonHighlight
-        Btn_com2.BackColor = SystemColors.ButtonHighlight
-        Btn_info1.BackColor = SystemColors.ButtonHighlight
-        Btn_info2.BackColor = SystemColors.ButtonHighlight
-        Btn_info3.BackColor = SystemColors.ButtonHighlight
-        Btn_info4.BackColor = SystemColors.ButtonHighlight
+
+        ' Alle registrierten Overlay-Toggles zurücksetzen (Status + Anzeige). Vorher wurden hier
+        ' nur die Name-/Info-Buttons visuell zurückgesetzt; LargeResult/Title/MatchPairing/Home/Away
+        ' blieben optisch "aktiv", obwohl ihr Overlay unten bereits ausgeblendet wird - das ist jetzt konsistent.
+        For Each entry In overlayToggles
+            entry.Status = False
+            entry.Button.BackColor = SystemColors.ButtonHighlight
+            If entry.ResetText IsNot Nothing Then entry.Button.Text = entry.ResetText.Invoke()
+        Next
+
+        ' Sponsor-Paar (eigener Layer, gegenseitig exklusiv, nicht Teil der Registry)
+        sponsor1ToggleStatus = False
+        sponsor2ToggleStatus = False
+        Btn_sponsor1.BackColor = SystemColors.ButtonHighlight
+        Btn_sponsor2.BackColor = SystemColors.ButtonHighlight
 
         ' Alle Overlays ausblenden
         Dim overlayCommands() As String = {
@@ -1902,47 +1695,36 @@ Public Class Tennis24_Scorer
         Dim button As Button = DirectCast(sender, Button)
         Dim nametemplate As String = "name.gtzip"
         Dim sendstring As String
-        Dim excludeButtonName
-        Dim currentToggleStatus
-        Dim com1Name As String = If(String.IsNullOrEmpty(Tennis24_Settings.TextBox22.Text.Trim()), "Commentator 1", Tennis24_Settings.TextBox22.Text.Trim())
-        Dim com2Name As String = Tennis24_Settings.TextBox23.Text.Trim()
+        Dim entry As OverlayToggle
 
-        ' Initialize TextBox and Toggle Status based on the button clicked
+        ' Zugehörige TextBox anhand des geklickten Buttons bestimmen
         Dim textBox As TextBox
         Select Case button.Name
             Case "Btn_freename1"
                 textBox = Tennis24_Settings.TextBox4
-                excludeButtonName = "freename1"
-                currentToggleStatus = freename1ToggleStatus
+                entry = GetToggle("freename1")
             Case "Btn_freename2"
                 textBox = Tennis24_Settings.TextBox5
-                excludeButtonName = "freename2"
-                currentToggleStatus = freename2ToggleStatus
+                entry = GetToggle("freename2")
             Case "Btn_freename3"
                 textBox = Tennis24_Settings.TextBox6
-                excludeButtonName = "freename3"
-                currentToggleStatus = freename3ToggleStatus
+                entry = GetToggle("freename3")
             Case "Btn_freename4"
                 textBox = Tennis24_Settings.TextBox7
-                excludeButtonName = "freename4"
-                currentToggleStatus = freename4ToggleStatus
+                entry = GetToggle("freename4")
             Case "Btn_freename5"
                 textBox = Tennis24_Settings.TextBox8
-                excludeButtonName = "freename5"
-                currentToggleStatus = freename5ToggleStatus
+                entry = GetToggle("freename5")
             Case "Btn_ref1"
                 textBox = Tennis24_Settings.TextBox20
-                excludeButtonName = "ref1"
-                currentToggleStatus = ref1ToggleStatus
+                entry = GetToggle("ref1")
             Case "Btn_ref2"
                 textBox = Tennis24_Settings.TextBox21
-                excludeButtonName = "ref2"
-                currentToggleStatus = ref2ToggleStatus
+                entry = GetToggle("ref2")
 
             Case "Btn_com1"
                 textBox = Tennis24_Settings.TextBox22
-                excludeButtonName = "com1"
-                currentToggleStatus = com1ToggleStatus
+                entry = GetToggle("com1")
                 ' SPEZIELLE BEHANDLUNG für Btn_com1: Template abhängig von Commentator2 setzen
                 If String.IsNullOrEmpty(Tennis24_Settings.TextBox23.Text.Trim()) Then
                     nametemplate = "name.gtzip"  ' Nur ein Kommentator
@@ -1952,8 +1734,7 @@ Public Class Tennis24_Scorer
 
             Case "Btn_com2"
                 textBox = Tennis24_Settings.TextBox23
-                excludeButtonName = "com2"
-                currentToggleStatus = com2ToggleStatus
+                entry = GetToggle("com2")
 
             Case Else
                 MessageBox.Show("No matching button found", "Error24", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1961,23 +1742,10 @@ Public Class Tennis24_Scorer
         End Select
 
         ' Reset other overlays first
-        ResetOtherOverlayToggles(excludeButtonName)
+        ResetOtherOverlayToggles(entry.Key)
 
         ' Toggle the status
-        currentToggleStatus = Not currentToggleStatus
-
-        ' Update the actual toggle status variable
-        Select Case excludeButtonName
-            Case "freename1" : freename1ToggleStatus = currentToggleStatus
-            Case "freename2" : freename2ToggleStatus = currentToggleStatus
-            Case "freename3" : freename3ToggleStatus = currentToggleStatus
-            Case "freename4" : freename4ToggleStatus = currentToggleStatus
-            Case "freename5" : freename5ToggleStatus = currentToggleStatus
-            Case "ref1" : ref1ToggleStatus = currentToggleStatus
-            Case "ref2" : ref2ToggleStatus = currentToggleStatus
-            Case "com1" : com1ToggleStatus = currentToggleStatus
-            Case "com2" : com2ToggleStatus = currentToggleStatus
-        End Select
+        Dim currentToggleStatus = ToggleStatus(entry)
 
         If currentToggleStatus Then
             ' SPEZIELLE BEHANDLUNG für Btn_com1 mit zwei Kommentatoren
