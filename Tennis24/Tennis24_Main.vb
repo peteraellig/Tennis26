@@ -364,55 +364,7 @@
                 System.IO.Directory.CreateDirectory(xmlDirectory)
             End If
 
-            Dim xmlDoc As New System.Xml.XmlDocument()
-
-            ' Create XML declaration
-            Dim xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
-            xmlDoc.AppendChild(xmlDeclaration)
-
-            ' Create root element
-            Dim rootElement = xmlDoc.CreateElement("TennisData")
-            xmlDoc.AppendChild(rootElement)
-
-            ' Create Players section
-            Dim playersElement = xmlDoc.CreateElement("Players")
-            rootElement.AppendChild(playersElement)
-
-            ' Add all players from DataGridView
-            For Each row As DataGridViewRow In DataGridView_Players.Rows
-                If Not row.IsNewRow Then
-                    Dim playerElement = xmlDoc.CreateElement("Player")
-                    playersElement.AppendChild(playerElement)
-
-                    AddXmlElement(xmlDoc, playerElement, "Name", row.Cells("Name").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "FirstName", row.Cells("FirstName").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Country", row.Cells("Country").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "CountryISO3", row.Cells("CountryISO3").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Age", row.Cells("Age").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Height", row.Cells("Height").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data1", row.Cells("Data1").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data2", row.Cells("Data2").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data3", row.Cells("Data3").Value?.ToString())
-                End If
-            Next
-
-            ' Create SelectedPlayers section
-            Dim selectedPlayersElement = xmlDoc.CreateElement("SelectedPlayers")
-            rootElement.AppendChild(selectedPlayersElement)
-
-            ' Add Home Player
-            Dim homePlayerElement = xmlDoc.CreateElement("HomePlayer")
-            selectedPlayersElement.AppendChild(homePlayerElement)
-            For i = 0 To 8
-                AddXmlElement(xmlDoc, homePlayerElement, FIELD_NAMES(i), HomePlayer(i))
-            Next
-
-            ' Add Away Player
-            Dim awayPlayerElement = xmlDoc.CreateElement("AwayPlayer")
-            selectedPlayersElement.AppendChild(awayPlayerElement)
-            For i = 0 To 8
-                AddXmlElement(xmlDoc, awayPlayerElement, FIELD_NAMES(i), AwayPlayer(i))
-            Next
+            Dim xmlDoc = BuildPlayerDatabaseXml(includeMetadata:=False)
 
             ' Save the XML file with indentation for readability
             Using writer As New System.Xml.XmlTextWriter(XML_FILE_PATH, System.Text.Encoding.UTF8)
@@ -424,6 +376,66 @@
             MessageBox.Show("Error saving data to XML: " & ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    ' Baut das gemeinsame XML-Dokument (Spielerliste + ausgewählte Paarung) für SaveDataToXML
+    ' und SaveDataToCustomXML. includeMetadata fügt einen zusätzlichen Metadata-Block hinzu
+    ' (bisher nur bei "Speichern unter" verwendet).
+    Private Function BuildPlayerDatabaseXml(includeMetadata As Boolean) As System.Xml.XmlDocument
+        Dim xmlDoc As New System.Xml.XmlDocument()
+
+        Dim xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+        xmlDoc.AppendChild(xmlDeclaration)
+
+        Dim rootElement = xmlDoc.CreateElement("TennisData")
+        xmlDoc.AppendChild(rootElement)
+
+        If includeMetadata Then
+            Dim metaElement = xmlDoc.CreateElement("Metadata")
+            rootElement.AppendChild(metaElement)
+            AddXmlElement(xmlDoc, metaElement, "CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+            AddXmlElement(xmlDoc, metaElement, "CreatedBy", "Tennis24 Application")
+            AddXmlElement(xmlDoc, metaElement, "Version", My.Application.Info.Version.ToString())
+        End If
+
+        ' Players-Sektion
+        Dim playersElement = xmlDoc.CreateElement("Players")
+        rootElement.AppendChild(playersElement)
+
+        For Each row As DataGridViewRow In DataGridView_Players.Rows
+            If Not row.IsNewRow Then
+                Dim playerElement = xmlDoc.CreateElement("Player")
+                playersElement.AppendChild(playerElement)
+
+                AddXmlElement(xmlDoc, playerElement, "Name", row.Cells("Name").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "FirstName", row.Cells("FirstName").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Country", row.Cells("Country").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "CountryISO3", row.Cells("CountryISO3").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Age", row.Cells("Age").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Height", row.Cells("Height").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Data1", row.Cells("Data1").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Data2", row.Cells("Data2").Value?.ToString())
+                AddXmlElement(xmlDoc, playerElement, "Data3", row.Cells("Data3").Value?.ToString())
+            End If
+        Next
+
+        ' SelectedPlayers-Sektion
+        Dim selectedPlayersElement = xmlDoc.CreateElement("SelectedPlayers")
+        rootElement.AppendChild(selectedPlayersElement)
+
+        Dim homePlayerElement = xmlDoc.CreateElement("HomePlayer")
+        selectedPlayersElement.AppendChild(homePlayerElement)
+        For i = 0 To 8
+            AddXmlElement(xmlDoc, homePlayerElement, FIELD_NAMES(i), HomePlayer(i))
+        Next
+
+        Dim awayPlayerElement = xmlDoc.CreateElement("AwayPlayer")
+        selectedPlayersElement.AppendChild(awayPlayerElement)
+        For i = 0 To 8
+            AddXmlElement(xmlDoc, awayPlayerElement, FIELD_NAMES(i), AwayPlayer(i))
+        Next
+
+        Return xmlDoc
+    End Function
 
     Private Sub AddXmlElement(xmlDoc As System.Xml.XmlDocument, parentElement As System.Xml.XmlElement, elementName As String, elementValue As String)
         Dim element = xmlDoc.CreateElement(elementName)
@@ -949,62 +961,7 @@
                 System.IO.Directory.CreateDirectory(xmlDirectory)
             End If
 
-            Dim xmlDoc As New System.Xml.XmlDocument()
-
-            ' XML-Deklaration erstellen
-            Dim xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
-            xmlDoc.AppendChild(xmlDeclaration)
-
-            ' Root-Element erstellen
-            Dim rootElement = xmlDoc.CreateElement("TennisData")
-            xmlDoc.AppendChild(rootElement)
-
-            ' Metadaten hinzufügen
-            Dim metaElement = xmlDoc.CreateElement("Metadata")
-            rootElement.AppendChild(metaElement)
-            AddXmlElement(xmlDoc, metaElement, "CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-            AddXmlElement(xmlDoc, metaElement, "CreatedBy", "Tennis24 Application")
-            AddXmlElement(xmlDoc, metaElement, "Version", My.Application.Info.Version.ToString())
-
-            ' Players-Sektion erstellen
-            Dim playersElement = xmlDoc.CreateElement("Players")
-            rootElement.AppendChild(playersElement)
-
-            ' Alle Spieler aus DataGridView hinzufügen
-            For Each row As DataGridViewRow In DataGridView_Players.Rows
-                If Not row.IsNewRow Then
-                    Dim playerElement = xmlDoc.CreateElement("Player")
-                    playersElement.AppendChild(playerElement)
-
-                    AddXmlElement(xmlDoc, playerElement, "Name", row.Cells("Name").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "FirstName", row.Cells("FirstName").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Country", row.Cells("Country").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "CountryISO3", row.Cells("CountryISO3").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Age", row.Cells("Age").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Height", row.Cells("Height").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data1", row.Cells("Data1").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data2", row.Cells("Data2").Value?.ToString())
-                    AddXmlElement(xmlDoc, playerElement, "Data3", row.Cells("Data3").Value?.ToString())
-                End If
-            Next
-
-            ' SelectedPlayers-Sektion erstellen
-            Dim selectedPlayersElement = xmlDoc.CreateElement("SelectedPlayers")
-            rootElement.AppendChild(selectedPlayersElement)
-
-            ' Home Player hinzufügen
-            Dim homePlayerElement = xmlDoc.CreateElement("HomePlayer")
-            selectedPlayersElement.AppendChild(homePlayerElement)
-            For i = 0 To 8
-                AddXmlElement(xmlDoc, homePlayerElement, FIELD_NAMES(i), HomePlayer(i))
-            Next
-
-            ' Away Player hinzufügen
-            Dim awayPlayerElement = xmlDoc.CreateElement("AwayPlayer")
-            selectedPlayersElement.AppendChild(awayPlayerElement)
-            For i = 0 To 8
-                AddXmlElement(xmlDoc, awayPlayerElement, FIELD_NAMES(i), AwayPlayer(i))
-            Next
+            Dim xmlDoc = BuildPlayerDatabaseXml(includeMetadata:=True)
 
             ' XML-Datei mit Formatierung speichern
             Using writer As New System.Xml.XmlTextWriter(filePath, System.Text.Encoding.UTF8)
