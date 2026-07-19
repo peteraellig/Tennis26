@@ -35,6 +35,7 @@ Public Class TennisMatchEngine
         Public Property FirstPointPlayed As Boolean
         Public Property IsMatchFinished As Boolean
         Public Property NoTiebreakMode As Boolean
+        Public Property CompletedGamesInMatch As Integer
     End Class
 
     Public Property IsTiebreak As Boolean = False
@@ -81,6 +82,10 @@ Public Class TennisMatchEngine
     Public Property FirstPointPlayed As Boolean = False
     Public Property FirstServerOfCurrentSet As Boolean = True
 
+    ' Anzahl abgeschlossener Spiele im GESAMTEN Match (ein kompletter Tiebreak zählt dabei
+    ' als 1 Spiel) - läuft bewusst durchgehend über Satzgrenzen hinweg, siehe AreSidesSwapped.
+    Public Property CompletedGamesInMatch As Integer = 0
+
     Public ReadOnly Property Stack As New Stack(Of MatchState)
 
     Public Sub PushState()
@@ -101,6 +106,7 @@ Public Class TennisMatchEngine
             .HomeBreakPointsTotal = HomeBreakPointsTotal,
             .AwayBreakPointsConverted = AwayBreakPointsConverted,
             .AwayBreakPointsTotal = AwayBreakPointsTotal,
+            .CompletedGamesInMatch = CompletedGamesInMatch,
             .HomeMiniBreaks = HomeMiniBreaks,
             .AwayMiniBreaks = AwayMiniBreaks,
             .TiebreakStartServerIsHome = TiebreakStartServerIsHome,
@@ -154,6 +160,7 @@ Public Class TennisMatchEngine
         FirstPointPlayed = lastState.FirstPointPlayed
         IsMatchFinished = lastState.IsMatchFinished
         NoTiebreakMode = lastState.NoTiebreakMode
+        CompletedGamesInMatch = lastState.CompletedGamesInMatch
         Return lastState
     End Function
 
@@ -188,9 +195,35 @@ Public Class TennisMatchEngine
         AwayTiebreaksWon = 0
         LongestGame = 0
         CurrentGamePoints = 0
+        CompletedGamesInMatch = 0
 
         Stack.Clear()
     End Sub
+
+    ' Wechseln die Spielerseiten gerade gegenüber dem Match-Beginn? Regel: nach dem 1., 3.
+    ' und jedem weiteren ungeraden Spiel wird die Seite gewechselt, satzübergreifend
+    ' durchgezählt (ein kompletter Tiebreak zählt dabei als 1 Spiel). Weil hier durchgehend
+    ' übers ganze Match gezählt wird statt pro Satz neu, ergibt sich die offizielle
+    ' "Verzögerungsregel" (bei geradzahligem Satz-Spielstand wird der fällige Wechsel auf das
+    ' Ende des 1. Spiels im nächsten Satz verschoben) automatisch mit, ohne Sonderfall-Code.
+    Public Function AreSidesSwapped() As Boolean
+        Return CompletedGamesInMatch Mod 2 = 1
+    End Function
+
+    ' Zusätzliche Regel INNERHALB eines laufenden (Match-)Tiebreaks: alle 6 Punkte wird
+    ' ausserdem gewechselt - unabhängig von der spieleweisen Zählung oben, die erst wieder
+    ' greift, sobald der Tiebreak beendet ist (dann zählt er als 1 abgeschlossenes Spiel).
+    Public Function AreSidesSwappedInTiebreak() As Boolean
+        If Not IsInAnyTiebreak() Then Return False
+        Dim totalTiebreakPoints As Integer = HomePoints + AwayPoints
+        Return (totalTiebreakPoints \ 6) Mod 2 = 1
+    End Function
+
+    ' Effektiver aktueller Seitenstand für die Anzeige: Grundstand (satzübergreifend gezählt)
+    ' kombiniert mit dem zusätzlichen Tiebreak-6-Punkte-Wechsel, falls gerade ein Tiebreak läuft.
+    Public Function AreSidesCurrentlySwapped() As Boolean
+        Return AreSidesSwapped() Xor AreSidesSwappedInTiebreak()
+    End Function
 
     ' Liefert "home"/"away", wenn der Returner im AKTUELLEN Punkt einen oder mehrere
     ' Breakbälle hat, sonst "". Im Tiebreak gibt es per Konvention keine Breakbälle.
@@ -313,11 +346,15 @@ Public Class TennisMatchEngine
         End If
     End Sub
 
+    ' Wird vom Formular in UpdateScore genau einmal pro abgeschlossenem Spiel aufgerufen
+    ' (regulär, Tiebreak oder Match-Tiebreak) - deshalb der passende Ort, um nebenbei auch
+    ' den satzübergreifenden Spiele-Zähler für die Seitenwechsel-Regel zu erhöhen.
     Public Sub TrackLongestGame()
         If CurrentGamePoints > LongestGame Then
             LongestGame = CurrentGamePoints
         End If
         CurrentGamePoints = 0
+        CompletedGamesInMatch += 1
     End Sub
 
     Public Sub ResetPoints()
