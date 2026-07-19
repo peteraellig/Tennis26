@@ -111,7 +111,10 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.Rows(6).Cells(1).Value = matchEngine.CurrentSet.ToString()
         DataGridView_Stats.Rows(6).Cells(2).Value = ""
 
-        Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = 3, "Best of 3", "Best of 5")
+        ' String-Vergleich statt Vergleich mit der Zahl 3: TextBoxValues(50) ist ein String,
+        ' und mit Option Strict Off würde ein leerer oder nicht numerischer Wert entweder
+        ' eine Ausnahme auslösen oder stillschweigend "Best of 5" anzeigen.
+        Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
         DataGridView_Stats.Rows(7).Cells(1).Value = matchType
         DataGridView_Stats.Rows(7).Cells(2).Value = ""
 

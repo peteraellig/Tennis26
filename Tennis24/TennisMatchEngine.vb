@@ -234,9 +234,14 @@ Public Class TennisMatchEngine
 
     Public Sub RegisterPoint(player As String)
         ' Beim ersten Punkt eines (Match-)Tiebreaks festhalten, wer ihn eröffnet - daraus
-        ' leitet sich die gesamte Aufschlag-Rotation im Tiebreak ab.
+        ' leitet sich die gesamte Aufschlag-Rotation im Tiebreak ab. Gleichzeitig die
+        ' Mini-Break-Zähler zurücksetzen: Sie beziehen sich bewusst auf den LAUFENDEN
+        ' Tiebreak (Live-Info "wer liegt vorne"), nicht auf das ganze Match - sonst wäre
+        ' die Hervorhebung in einem zweiten Tiebreak durch die Werte des ersten verfälscht.
         If IsInAnyTiebreak() AndAlso HomePoints + AwayPoints = 0 Then
             TiebreakStartServerIsHome = IsHomeServing
+            HomeMiniBreaks = 0
+            AwayMiniBreaks = 0
         End If
 
         ' Mini-Break: im Tiebreak einen Punkt gegen den Aufschlag des Gegners gewinnen.
