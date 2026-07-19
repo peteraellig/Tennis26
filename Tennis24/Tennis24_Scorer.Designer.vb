@@ -587,8 +587,7 @@ Partial Class Tennis24_Scorer
         Me.CheckBox_noTiebreak.Size = New System.Drawing.Size(125, 27)
         Me.CheckBox_noTiebreak.TabIndex = 52
         Me.CheckBox_noTiebreak.Text = "no Tiebreak"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_noTiebreak, "There are various tournaments where there are no tiebreaks." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "this mode can be act" &
-        "ivated od deactivated at any time during the game.")
+        Me.ToolTip1.SetToolTip(Me.CheckBox_noTiebreak, "There are various tournaments where there are no tiebreaks. this mode can be activated od deactivated at any time during the game.")
         Me.CheckBox_noTiebreak.UseVisualStyleBackColor = True
         '
         'Btn_sponsor1
@@ -621,8 +620,7 @@ Partial Class Tennis24_Scorer
         Me.CheckBox_hidedetails.Size = New System.Drawing.Size(274, 27)
         Me.CheckBox_hidedetails.TabIndex = 58
         Me.CheckBox_hidedetails.Text = "hide Player Details (age/hight..)"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "this mode can be act" &
-        "ivated od deactivated at any time during the game.")
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks.this mode can be activated od deactivated at any time during the game.")
         Me.CheckBox_hidedetails.UseVisualStyleBackColor = True
         '
         'Btn_ref1

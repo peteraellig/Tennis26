@@ -17,6 +17,10 @@ Public Class TennisMatchEngine
         Public Property AwayTotalPoints As Integer
         Public Property HomeBreaks As Integer
         Public Property AwayBreaks As Integer
+        Public Property HomeBreakPointsConverted As Integer
+        Public Property HomeBreakPointsTotal As Integer
+        Public Property AwayBreakPointsConverted As Integer
+        Public Property AwayBreakPointsTotal As Integer
         Public Property HomeServiceGamesWon As Integer
         Public Property AwayServiceGamesWon As Integer
         Public Property IsHomeServing As Boolean
@@ -44,8 +48,18 @@ Public Class TennisMatchEngine
     Public Property MatchTiebreakTarget As Integer = 10
     Public Property HomeTotalPoints As Integer = 0
     Public Property AwayTotalPoints As Integer = 0
+    ' Breaks = tatsächlich gewonnene fremde Aufschlagspiele
     Public Property HomeBreaks As Integer = 0
     Public Property AwayBreaks As Integer = 0
+
+    ' Breakpunkte = einzelne Punkte, die als Returner zum Break geführt hätten.
+    ' "Total" zählt jede gespielte Breakball-Situation (TV-Konvention: bei 0:40 und
+    ' anschliessendem Ausgleich auf 40:40 sind das 3 Breakbälle, 0 verwertet),
+    ' "Converted" davon die tatsächlich verwerteten.
+    Public Property HomeBreakPointsConverted As Integer = 0
+    Public Property HomeBreakPointsTotal As Integer = 0
+    Public Property AwayBreakPointsConverted As Integer = 0
+    Public Property AwayBreakPointsTotal As Integer = 0
     Public Property HomeServiceGamesWon As Integer = 0
     Public Property AwayServiceGamesWon As Integer = 0
     Public Property IsHomeServing As Boolean = True
@@ -72,6 +86,10 @@ Public Class TennisMatchEngine
             .AwayTotalPoints = AwayTotalPoints,
             .HomeBreaks = HomeBreaks,
             .AwayBreaks = AwayBreaks,
+            .HomeBreakPointsConverted = HomeBreakPointsConverted,
+            .HomeBreakPointsTotal = HomeBreakPointsTotal,
+            .AwayBreakPointsConverted = AwayBreakPointsConverted,
+            .AwayBreakPointsTotal = AwayBreakPointsTotal,
             .HomeServiceGamesWon = HomeServiceGamesWon,
             .AwayServiceGamesWon = AwayServiceGamesWon,
             .IsHomeServing = IsHomeServing,
@@ -104,6 +122,10 @@ Public Class TennisMatchEngine
         AwayTotalPoints = lastState.AwayTotalPoints
         HomeBreaks = lastState.HomeBreaks
         AwayBreaks = lastState.AwayBreaks
+        HomeBreakPointsConverted = lastState.HomeBreakPointsConverted
+        HomeBreakPointsTotal = lastState.HomeBreakPointsTotal
+        AwayBreakPointsConverted = lastState.AwayBreakPointsConverted
+        AwayBreakPointsTotal = lastState.AwayBreakPointsTotal
         HomeServiceGamesWon = lastState.HomeServiceGamesWon
         AwayServiceGamesWon = lastState.AwayServiceGamesWon
         IsHomeServing = lastState.IsHomeServing
@@ -134,6 +156,10 @@ Public Class TennisMatchEngine
         AwayTotalPoints = 0
         HomeBreaks = 0
         AwayBreaks = 0
+        HomeBreakPointsConverted = 0
+        HomeBreakPointsTotal = 0
+        AwayBreakPointsConverted = 0
+        AwayBreakPointsTotal = 0
         HomeServiceGamesWon = 0
         AwayServiceGamesWon = 0
         IsHomeServing = True
@@ -146,7 +172,47 @@ Public Class TennisMatchEngine
         Stack.Clear()
     End Sub
 
+    ' Liefert "home"/"away", wenn der Returner im AKTUELLEN Punkt einen oder mehrere
+    ' Breakbälle hat, sonst "". Im Tiebreak gibt es per Konvention keine Breakbälle.
+    Public Function BreakPointHolder() As String
+        If IsTiebreak OrElse IsMatchTiebreakSet() OrElse IsMatchFinished Then Return ""
+
+        Dim returnerPoints As Integer = If(IsHomeServing, AwayPoints, HomePoints)
+        Dim serverPoints As Integer = If(IsHomeServing, HomePoints, AwayPoints)
+
+        ' Breakball: der Returner ist genau einen Punkt vom Spielgewinn entfernt,
+        ' d.h. er hat mindestens 3 Punkte (40) und liegt vorne.
+        If returnerPoints >= 3 AndAlso returnerPoints > serverPoints Then
+            Return If(IsHomeServing, "away", "home")
+        End If
+
+        Return ""
+    End Function
+
+    ' Anzahl Breakbälle im aktuellen Punkt: 0:40 = 3, 15:40 = 2, 30:40 = 1, Vorteil = 1.
+    Public Function CurrentBreakPointCount() As Integer
+        If BreakPointHolder() = "" Then Return 0
+
+        Dim returnerPoints As Integer = If(IsHomeServing, AwayPoints, HomePoints)
+        Dim serverPoints As Integer = If(IsHomeServing, HomePoints, AwayPoints)
+        Return returnerPoints - serverPoints
+    End Function
+
     Public Sub RegisterPoint(player As String)
+        ' Breakball-Statistik VOR der Punktänderung auswerten: Wird der laufende Punkt bei
+        ' Breakball gespielt, zählt er als Breakball-Chance für den Returner - unabhängig
+        ' davon, ob er ihn verwertet. (TV-Konvention: 0:40 bis 40:40 = 3 Chancen, 0 genutzt.)
+        Dim breakPointHolderBefore As String = BreakPointHolder()
+        If breakPointHolderBefore <> "" Then
+            If breakPointHolderBefore = "home" Then
+                HomeBreakPointsTotal += 1
+                If player = "home" Then HomeBreakPointsConverted += 1
+            Else
+                AwayBreakPointsTotal += 1
+                If player = "away" Then AwayBreakPointsConverted += 1
+            End If
+        End If
+
         If player = "home" Then
             HomePoints += 1
             HomeTotalPoints += 1

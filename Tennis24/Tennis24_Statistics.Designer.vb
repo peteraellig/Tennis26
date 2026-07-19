@@ -32,14 +32,14 @@ Partial Class Tennis24_Statistics
         Me.DataGridView_Stats.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView_Stats.Name = "DataGridView_Stats"
         Me.DataGridView_Stats.RowHeadersWidth = 62
-        Me.DataGridView_Stats.Size = New System.Drawing.Size(384, 561)
+        Me.DataGridView_Stats.Size = New System.Drawing.Size(384, 720)
         Me.DataGridView_Stats.TabIndex = 0
         '
         'Tennis24_Statistics
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(384, 561)
+        Me.ClientSize = New System.Drawing.Size(384, 720)
         Me.Controls.Add(Me.DataGridView_Stats)
         Me.Name = "Tennis24_Statistics"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

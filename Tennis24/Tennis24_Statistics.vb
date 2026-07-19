@@ -25,7 +25,9 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.ReadOnly = True
         DataGridView_Stats.RowHeadersVisible = False
         DataGridView_Stats.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView_Stats.ScrollBars = ScrollBars.None
+        ' Vertikale Scrollleiste zulassen - die Liste ist mit den Breakball-Zeilen länger
+        ' geworden und soll auch bei kleinerem Fenster vollständig erreichbar bleiben.
+        DataGridView_Stats.ScrollBars = ScrollBars.Vertical
         DataGridView_Stats.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
         DataGridView_Stats.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
         DataGridView_Stats.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue
@@ -60,10 +62,17 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.Rows.Add("Service Games", "", "")
         DataGridView_Stats.Rows.Add("Service Games Won", "", "")
         DataGridView_Stats.Rows.Add("Service Win %", "", "")
-        DataGridView_Stats.Rows.Add("Break Points", "", "")
+        DataGridView_Stats.Rows.Add("Breaks", "", "")
         DataGridView_Stats.Rows.Add("Tiebreaks Won", "", "")
         DataGridView_Stats.Rows.Add("Longest Game", "", "")
         DataGridView_Stats.Rows.Add("Points Win %", "", "")
+        DataGridView_Stats.Rows.Add("", "", "") ' Leerzeile
+
+        DataGridView_Stats.Rows.Add("═══ BREAK POINTS ═══", "", "")
+        DataGridView_Stats.Rows.Add("Break Pts won/total", "", "")
+        DataGridView_Stats.Rows.Add("BP Conversion %", "", "")
+        DataGridView_Stats.Rows.Add("BP saved", "", "")
+        DataGridView_Stats.Rows.Add("BREAK POINT now", "", "")
 
         ' Header-Zeilen formatieren
         For i As Integer = 0 To DataGridView_Stats.Rows.Count - 1
@@ -81,11 +90,12 @@ Public Class Tennis24_Statistics
         ' Leerzeilen formatieren
         DataGridView_Stats.Rows(4).DefaultCellStyle.BackColor = Color.WhiteSmoke
         DataGridView_Stats.Rows(10).DefaultCellStyle.BackColor = Color.WhiteSmoke
+        DataGridView_Stats.Rows(20).DefaultCellStyle.BackColor = Color.WhiteSmoke
     End Sub
 
     ' Vom Scorer nach jeder Zustandsänderung aufgerufen (und beim Öffnen der Form).
     Public Sub RefreshStatistics()
-        If matchEngine Is Nothing OrElse DataGridView_Stats.Rows.Count < 20 Then Return
+        If matchEngine Is Nothing OrElse DataGridView_Stats.Rows.Count < 26 Then Return
 
         UpdatePlayerNameHeaders()
 
@@ -149,7 +159,44 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.Rows(19).Cells(1).Value = $"{homePointsWinPct}%"
         DataGridView_Stats.Rows(19).Cells(2).Value = $"{awayPointsWinPct}%"
 
+        UpdateBreakPointRows()
         HighlightStatistics()
+    End Sub
+
+    Private Sub UpdateBreakPointRows()
+        ' Verwertete / gehabte Breakbälle (Chancen als Returner)
+        DataGridView_Stats.Rows(22).Cells(1).Value = $"{matchEngine.HomeBreakPointsConverted}/{matchEngine.HomeBreakPointsTotal}"
+        DataGridView_Stats.Rows(22).Cells(2).Value = $"{matchEngine.AwayBreakPointsConverted}/{matchEngine.AwayBreakPointsTotal}"
+
+        Dim homeConversion = If(matchEngine.HomeBreakPointsTotal > 0, Math.Round((matchEngine.HomeBreakPointsConverted / matchEngine.HomeBreakPointsTotal) * 100, 1), 0)
+        Dim awayConversion = If(matchEngine.AwayBreakPointsTotal > 0, Math.Round((matchEngine.AwayBreakPointsConverted / matchEngine.AwayBreakPointsTotal) * 100, 1), 0)
+        DataGridView_Stats.Rows(23).Cells(1).Value = $"{homeConversion}%"
+        DataGridView_Stats.Rows(23).Cells(2).Value = $"{awayConversion}%"
+
+        ' Abgewehrte Breakbälle am eigenen Aufschlag = Chancen des Gegners, die er nicht nutzte
+        Dim homeSaved = matchEngine.AwayBreakPointsTotal - matchEngine.AwayBreakPointsConverted
+        Dim awaySaved = matchEngine.HomeBreakPointsTotal - matchEngine.HomeBreakPointsConverted
+        DataGridView_Stats.Rows(24).Cells(1).Value = $"{homeSaved}/{matchEngine.AwayBreakPointsTotal}"
+        DataGridView_Stats.Rows(24).Cells(2).Value = $"{awaySaved}/{matchEngine.HomeBreakPointsTotal}"
+
+        ' Live-Anzeige für den aktuellen Punkt
+        Dim breakPointHolder As String = matchEngine.BreakPointHolder()
+        Dim breakPointCount As Integer = matchEngine.CurrentBreakPointCount()
+        Dim breakPointText As String = If(breakPointCount > 1, $"{breakPointCount} BREAK POINTS", "BREAK POINT")
+
+        DataGridView_Stats.Rows(25).Cells(1).Value = If(breakPointHolder = "home", breakPointText, "")
+        DataGridView_Stats.Rows(25).Cells(2).Value = If(breakPointHolder = "away", breakPointText, "")
+
+        ' Breakball-Zeile auffällig einfärben, solange die Situation läuft
+        If breakPointHolder = "" Then
+            DataGridView_Stats.Rows(25).DefaultCellStyle.BackColor = Color.White
+            DataGridView_Stats.Rows(25).DefaultCellStyle.ForeColor = Color.Black
+            DataGridView_Stats.Rows(25).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+        Else
+            DataGridView_Stats.Rows(25).DefaultCellStyle.BackColor = Color.Red
+            DataGridView_Stats.Rows(25).DefaultCellStyle.ForeColor = Color.White
+            DataGridView_Stats.Rows(25).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        End If
     End Sub
 
     Private Sub UpdatePlayerNameHeaders()
