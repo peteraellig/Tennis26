@@ -782,7 +782,7 @@ Partial Class Tennis24_Scorer
         Me.Btn_clearLayers.Name = "Btn_clearLayers"
         Me.Btn_clearLayers.Size = New System.Drawing.Size(150, 70)
         Me.Btn_clearLayers.TabIndex = 55
-        Me.Btn_clearLayers.Text = "clear all " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "CG layers"
+        Me.Btn_clearLayers.Text = "clear all CG layers"
         Me.Btn_clearLayers.UseVisualStyleBackColor = True
         '
         'PictureBox8
