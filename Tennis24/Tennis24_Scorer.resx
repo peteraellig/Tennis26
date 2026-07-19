@@ -125,14 +125,6 @@
 In normal mode, the left key is always the home player and the right key is always the away player.
 In server mode, the left key is always the server and the right key is always the returner.</value>
   </data>
-  <data name="TextBox1.Text" xml:space="preserve">
-    <value>Was bedeuten die Statistiken:
--Service Games:             Anzahl der eigenen Aufschlagspiele
--Service Games Won:    Anzahl der gewonnenen eigenen Aufschlagspiele
--Service Win %:              Prozentsatz der gehaltenen Aufschlagspiele
--Break Points:                 Anzahl der gebrochenen gegnerischen Aufschlagspiele
-</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Btn_matchpairing1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

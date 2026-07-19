@@ -285,10 +285,10 @@ Public Class Tennis24_Scorer
 
         freezeSetAdvanceTimer.Interval = 1000
 
-        ' Zeigt die Spielzeit laufend auf Label9 an (Timer1, sekündlich) - anders als die
+        ' Zeigt die Spielzeit laufend auf Label9 an (Timer1, jede Minute) - anders als die
         ' Live-JSON-Datei, die nur bei jedem Punkt neu geschrieben wird, tickt diese Anzeige
-        ' unabhängig davon jede Sekunde mit (siehe Timer1_Tick).
-        Timer1.Interval = 1000
+        ' unabhängig davon mit (siehe Timer1_Tick).
+        Timer1.Interval = 60000
         Timer1.Start()
 
         Tennis24_Settings.SetVariables()
@@ -501,13 +501,14 @@ Public Class Tennis24_Scorer
         Return result
     End Function
 
-    ' "H:MM:SS", ohne Stunden-Deckelung bei 24h (anders als TimeSpan.ToString("hh\:mm\:ss")) -
-    ' für ein episch langes Match theoretisch relevant, kostet hier nichts.
+    ' "HH:MM", ohne Stunden-Deckelung bei 24h (anders als TimeSpan.ToString("hh\:mm")) - für
+    ' ein episch langes Match theoretisch relevant, kostet hier nichts. Sekunden bewusst
+    ' weggelassen (Wunsch: Anzeige/Timer nur minutengenau).
     Private Function FormatMatchDuration(elapsed As TimeSpan) As String
-        Return $"{Math.Floor(elapsed.TotalHours):0}:{elapsed.Minutes:00}:{elapsed.Seconds:00}"
+        Return $"{Math.Floor(elapsed.TotalHours):00}:{elapsed.Minutes:00}"
     End Function
 
-    ' Zeigt die Spielzeit sekündlich auf Label9 an - unabhängig vom Punktgeschehen, im
+    ' Zeigt die Spielzeit minutengenau auf Label9 an - unabhängig vom Punktgeschehen, im
     ' Gegensatz zur Live-JSON-Datei (die nur bei jedem Punkt neu geschrieben wird). Stoppt
     ' bei Matchende, damit die Anzeige auf der finalen Spielzeit stehen bleibt statt nach
     ' Spielende weiterzulaufen; ResetMatch startet ihn wieder.
@@ -911,7 +912,7 @@ Public Class Tennis24_Scorer
         match.ResetMatch()
 
         ' Timer1 stoppt bei Matchende (siehe Timer1_Tick) - bei neuem Match wieder starten
-        ' und die Anzeige sofort auf 0:00:00 zurücksetzen.
+        ' und die Anzeige sofort auf 00:00 zurücksetzen.
         Timer1.Start()
         Label9.Text = FormatMatchDuration(match.MatchElapsed)
 

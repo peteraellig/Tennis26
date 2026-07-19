@@ -48,7 +48,6 @@ Partial Class Tennis24_Scorer
         Me.PBHome = New System.Windows.Forms.PictureBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Btn_Scorebug = New System.Windows.Forms.Button()
@@ -99,6 +98,8 @@ Partial Class Tennis24_Scorer
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
+        Me.Label10 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,6 +112,7 @@ Partial Class Tennis24_Scorer
         CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btn_homepoint
@@ -309,9 +311,9 @@ Partial Class Tennis24_Scorer
         'Btn_statistics
         '
         Me.Btn_statistics.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_statistics.Location = New System.Drawing.Point(1206, 4)
+        Me.Btn_statistics.Location = New System.Drawing.Point(1219, 412)
         Me.Btn_statistics.Name = "Btn_statistics"
-        Me.Btn_statistics.Size = New System.Drawing.Size(317, 50)
+        Me.Btn_statistics.Size = New System.Drawing.Size(148, 50)
         Me.Btn_statistics.TabIndex = 20
         Me.Btn_statistics.Text = "Statistik anzeigen"
         Me.Btn_statistics.UseVisualStyleBackColor = True
@@ -362,16 +364,6 @@ Partial Class Tennis24_Scorer
         Me.Label1.Size = New System.Drawing.Size(40, 13)
         Me.Label1.TabIndex = 25
         Me.Label1.Text = "Label1"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Font = New System.Drawing.Font("Segoe UI", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(703, 481)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(353, 122)
-        Me.TextBox1.TabIndex = 26
-        Me.TextBox1.Text = resources.GetString("TextBox1.Text")
         '
         'Label12
         '
@@ -879,20 +871,42 @@ Partial Class Tennis24_Scorer
         Me.Label8.TabIndex = 78
         Me.Label8.Text = "Label8"
         '
+        'Timer1
+        '
+        '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(1263, 122)
+        Me.Label9.Location = New System.Drawing.Point(1247, 36)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(40, 13)
+        Me.Label9.Size = New System.Drawing.Size(85, 13)
         Me.Label9.TabIndex = 79
-        Me.Label9.Text = "Label9"
+        Me.Label9.Text = "Game Duration"
+        '
+        'PictureBox7
+        '
+        Me.PictureBox7.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox7.Location = New System.Drawing.Point(1206, 23)
+        Me.PictureBox7.Name = "PictureBox7"
+        Me.PictureBox7.Size = New System.Drawing.Size(189, 96)
+        Me.PictureBox7.TabIndex = 80
+        Me.PictureBox7.TabStop = False
+        '
+        'Label10
+        '
+        Me.Label10.Location = New System.Drawing.Point(1247, 74)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(110, 25)
+        Me.Label10.TabIndex = 81
+        Me.Label10.Text = "Game Duration"
         '
         'Tennis24_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1535, 606)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Lbl_Winner)
@@ -933,7 +947,6 @@ Partial Class Tennis24_Scorer
         Me.Controls.Add(Me.Btn_Scorebug)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.PBHome)
         Me.Controls.Add(Me.PBAway)
@@ -966,6 +979,7 @@ Partial Class Tennis24_Scorer
         Me.Controls.Add(Me.PictureBox8)
         Me.Controls.Add(Me.PictureBox10)
         Me.Controls.Add(Me.PictureBox11)
+        Me.Controls.Add(Me.PictureBox7)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Tennis24_Scorer"
@@ -983,6 +997,7 @@ Partial Class Tennis24_Scorer
         CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1012,7 +1027,6 @@ Partial Class Tennis24_Scorer
     Friend WithEvents PBHome As PictureBox
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label12 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Btn_Scorebug As Button
@@ -1063,4 +1077,6 @@ Partial Class Tennis24_Scorer
     Friend WithEvents Label8 As Label
     Friend WithEvents Timer1 As Timer
     Friend WithEvents Label9 As Label
+    Friend WithEvents PictureBox7 As PictureBox
+    Friend WithEvents Label10 As Label
 End Class
