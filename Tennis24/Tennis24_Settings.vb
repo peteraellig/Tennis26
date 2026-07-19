@@ -574,4 +574,6 @@ Public Class Tennis24_Settings
         Me.Hide()
         Tennis24_Main.Show()
     End Sub
+
+
 End Class

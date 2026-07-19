@@ -117,4 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TextBox1.Text" xml:space="preserve">
+    <value>Was bedeuten die Statistiken:
+-Service Games:             Anzahl der eigenen Aufschlagspiele
+-Service Games Won:    Anzahl der gewonnenen eigenen Aufschlagspiele
+-Service Win %:              Prozentsatz der gehaltenen Aufschlagspiele
+-Break Points:                 Anzahl der gebrochenen gegnerischen Aufschlagspiele
+</value>
+  </data>
 </root>
