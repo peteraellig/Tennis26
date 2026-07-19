@@ -25,6 +25,11 @@ Public Class Tennis24_Scorer
     ' Separate Statistik-Form; Nothing/IsDisposed solange sie nicht geöffnet ist.
     Private statisticsForm As Tennis24_Statistics
 
+    ' Live-JSON-Datenquelle (Settings-Checkbox3): stellt den aktuellen Spielstand
+    ' geräteunabhängig per HTTP bereit, unabhängig von vMix. Läuft nur, wenn aktiviert.
+    Private ReadOnly jsonServer As New TennisJsonServer()
+    Private jsonServerRunningPort As Integer = 0
+
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
     ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
     ' 22 einzelnen ...ToggleStatus-Variablen plus die von Hand gepflegten Select-Case-Listen
@@ -271,6 +276,12 @@ Public Class Tennis24_Scorer
     'keypress handling
     Private Declare Function GetAsyncKeyState Lib "User32" (ByVal vkey As Integer) As Integer
 
+    Private Sub Tennis24_Scorer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Port sauber freigeben, damit ein erneuter Start (oder ein anderes Programm) ihn
+        ' sofort wieder verwenden kann.
+        jsonServer.Stop()
+    End Sub
+
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitOverlayToggles()
@@ -457,8 +468,105 @@ Public Class Tennis24_Scorer
         ' Grafik-Engine aktualisieren - unabhängig davon, ob die Statistik geöffnet ist
         SendDataToGraphicsEngine()
 
+        ' Live-JSON-Datenquelle aktualisieren - unabhängig davon, ob sie gerade läuft
+        ' (UpdateState puffert nur; ein evtl. nicht laufender Server liest sie nie)
+        jsonServer.UpdateState(BuildLiveStateJson())
+
         If isMatchFinished Then Hidepoints()
     End Sub
+
+    ' Startet/stoppt die Live-JSON-Datenquelle passend zu den aktuellen Settings
+    ' (Checkbox3 = an/aus, NumericUpDown2 -> TextBoxValues(44) = Port).
+    Private Sub SyncJsonServerFromSettings()
+        Dim shouldRun As Boolean = Tennis24_Settings.CheckBoxValues(3)
+        Dim port As Integer = 41200
+        Integer.TryParse(Tennis24_Settings.TextBoxValues(44), port)
+
+        If shouldRun Then
+            If Not jsonServer.IsRunning OrElse jsonServerRunningPort <> port Then
+                jsonServer.Stop()
+                If jsonServer.Start(port) Then
+                    jsonServerRunningPort = port
+                Else
+                    jsonServerRunningPort = 0
+                    ' Häufigste Ursache: fehlende Berechtigung für "http://+:PORT/" ohne
+                    ' vorherige "netsh http add urlacl" (siehe TennisJsonServer.vb) oder der
+                    ' Port ist bereits belegt.
+                    MessageBox.Show(
+                        $"Live-JSON-Datenquelle konnte auf Port {port} nicht gestartet werden:" & vbNewLine & vbNewLine &
+                        jsonServer.LastError & vbNewLine & vbNewLine &
+                        "Häufigste Ursache: Windows erlaubt einem Nicht-Administrator-Programm standardmässig nicht, netzwerkweit auf einem Port zu lauschen." & vbNewLine &
+                        "Einmalig als Administrator ausführen:" & vbNewLine &
+                        $"netsh http add urlacl url=http://+:{port}/ user=Everyone",
+                        "Live-JSON-Datenquelle", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End If
+        Else
+            jsonServer.Stop()
+            jsonServerRunningPort = 0
+        End If
+    End Sub
+
+    Private Function ParseLabelInt(text As String) As Integer
+        Dim result As Integer
+        Integer.TryParse(text, result)
+        Return result
+    End Function
+
+    ' Baut den kompletten aktuellen Spielstand als JSON - unabhängig von vMix, für beliebige
+    ' Grafik-Software geeignet, die die Live-JSON-Datenquelle abfragt.
+    Private Function BuildLiveStateJson() As String
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homeCountry As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(3)), "", Tennis24_Main.HomePlayer(3))
+        Dim awayCountry As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(3)), "", Tennis24_Main.AwayPlayer(3))
+
+        Dim homeSetScores As Integer() = {ParseLabelInt(lbl_home_s1.Text), ParseLabelInt(lbl_home_s2.Text), ParseLabelInt(lbl_home_s3.Text), ParseLabelInt(lbl_home_s4.Text), ParseLabelInt(lbl_home_s5.Text)}
+        Dim awaySetScores As Integer() = {ParseLabelInt(lbl_away_s1.Text), ParseLabelInt(lbl_away_s2.Text), ParseLabelInt(lbl_away_s3.Text), ParseLabelInt(lbl_away_s4.Text), ParseLabelInt(lbl_away_s5.Text)}
+
+        Dim homeObj As New JsonObjectBuilder()
+        homeObj.AddString("name", homePlayerName) _
+               .AddString("country", homeCountry) _
+               .AddString("points", ConvertPointsToTennisScore(homePoints, awayPoints)) _
+               .AddInt("games", homeGames) _
+               .AddInt("sets", homeSets) _
+               .AddBool("serving", isHomeServing) _
+               .AddIntArray("setScores", homeSetScores) _
+               .AddInt("breaks", homeBreaks) _
+               .AddInt("breakPointsWon", match.HomeBreakPointsConverted) _
+               .AddInt("breakPointsTotal", match.HomeBreakPointsTotal) _
+               .AddInt("miniBreaks", match.HomeMiniBreaks)
+
+        Dim awayObj As New JsonObjectBuilder()
+        awayObj.AddString("name", awayPlayerName) _
+               .AddString("country", awayCountry) _
+               .AddString("points", ConvertPointsToTennisScore(awayPoints, homePoints)) _
+               .AddInt("games", awayGames) _
+               .AddInt("sets", awaySets) _
+               .AddBool("serving", Not isHomeServing) _
+               .AddIntArray("setScores", awaySetScores) _
+               .AddInt("breaks", awayBreaks) _
+               .AddInt("breakPointsWon", match.AwayBreakPointsConverted) _
+               .AddInt("breakPointsTotal", match.AwayBreakPointsTotal) _
+               .AddInt("miniBreaks", match.AwayMiniBreaks)
+
+        Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
+
+        Dim root As New JsonObjectBuilder()
+        root.AddRaw("home", homeObj.ToString()) _
+            .AddRaw("away", awayObj.ToString()) _
+            .AddInt("currentSet", currentSet) _
+            .AddString("matchType", matchType) _
+            .AddBool("isTiebreak", isTiebreak) _
+            .AddBool("isMatchTiebreak", isMatchTiebreakSet) _
+            .AddBool("isMatchFinished", isMatchFinished) _
+            .AddString("breakPointHolder", match.BreakPointHolder()) _
+            .AddInt("breakPointCount", match.CurrentBreakPointCount()) _
+            .AddBool("sidesSwapped", match.AreSidesCurrentlySwapped()) _
+            .AddString("updatedAt", DateTime.UtcNow.ToString("o"))
+
+        Return root.ToString()
+    End Function
 
     ' Die Statistik-Anzeige liegt in einer eigenen Form (Tennis24_Statistics) und wird nur
     ' aktualisiert, wenn sie gerade geöffnet ist.
@@ -751,6 +859,8 @@ Public Class Tennis24_Scorer
                 SetSetNumberColour("away", setNumber, NORMAL_SET_COLOUR)
             Next
         End If
+
+        SyncJsonServerFromSettings()
 
         ' UI Updates...
         lbl_homepoint.Text = "0"
