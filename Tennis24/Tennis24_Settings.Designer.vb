@@ -109,6 +109,8 @@ Partial Class Tennis24_Settings
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Btn_gamewon_colour = New System.Windows.Forms.Button()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -630,6 +632,8 @@ Partial Class Tennis24_Settings
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Silver
         Me.GroupBox1.Controls.Add(Me.Label26)
+        Me.GroupBox1.Controls.Add(Me.Label27)
+        Me.GroupBox1.Controls.Add(Me.Btn_gamewon_colour)
         Me.GroupBox1.Controls.Add(Me.CheckBox2)
         Me.GroupBox1.Controls.Add(Me.TextBox50)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
@@ -637,11 +641,11 @@ Partial Class Tennis24_Settings
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(18, 362)
+        Me.GroupBox1.Location = New System.Drawing.Point(18, 297)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.GroupBox1.Size = New System.Drawing.Size(616, 213)
+        Me.GroupBox1.Size = New System.Drawing.Size(616, 278)
         Me.GroupBox1.TabIndex = 199
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "type of play"
@@ -1110,6 +1114,27 @@ Partial Class Tennis24_Settings
         Me.CheckBox2.Text = "Freeze Set (Scorebug bei Satzende einfrieren)"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label27.Location = New System.Drawing.Point(40, 228)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(150, 21)
+        Me.Label27.TabIndex = 209
+        Me.Label27.Text = "game won colour:"
+        '
+        'Btn_gamewon_colour
+        '
+        Me.Btn_gamewon_colour.BackColor = System.Drawing.Color.Yellow
+        Me.Btn_gamewon_colour.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Btn_gamewon_colour.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_gamewon_colour.Location = New System.Drawing.Point(380, 224)
+        Me.Btn_gamewon_colour.Name = "Btn_gamewon_colour"
+        Me.Btn_gamewon_colour.Size = New System.Drawing.Size(66, 31)
+        Me.Btn_gamewon_colour.TabIndex = 210
+        Me.Btn_gamewon_colour.UseVisualStyleBackColor = False
+        '
         'Tennis24_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -1295,4 +1320,6 @@ Partial Class Tennis24_Settings
     Friend WithEvents PictureBox5 As PictureBox
     Friend WithEvents Label26 As Label
     Friend WithEvents CheckBox2 As CheckBox
+    Friend WithEvents Label27 As Label
+    Friend WithEvents Btn_gamewon_colour As Button
 End Class

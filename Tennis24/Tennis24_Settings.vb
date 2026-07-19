@@ -46,6 +46,7 @@ Public Class Tennis24_Settings
     'textbox40 = vMix IP
     'textbox41 = vMix Port
     'textbox42 = Match-Tiebreak: Punkte bis zum Sieg (Standard 10)
+    'textbox43 = Farbe für gewonnenen Satz im Scorebug, Format #RRGGBB (Standard #FFFF00 = gelb)
     'textbox47 = Standard Overlay
     'textbox48 = ScoreBug Overlay
     'textbox49 = Werbe Overlay
@@ -74,7 +75,11 @@ Public Class Tennis24_Settings
         SaveSettingsToXml()
     End Sub
 
-    ' TextBoxValues(42) (Match-Tiebreak: Punkte bis zum Sieg) wird über NumericUpDown1
+    ' Standardfarbe für den gewonnenen Satz, falls nichts gespeichert ist
+    Public Const DEFAULT_GAMEWON_COLOUR As String = "#FFFF00"
+
+    ' TextBoxValues(42) (Match-Tiebreak: Punkte bis zum Sieg) und TextBoxValues(43)
+    ' (Farbe für gewonnenen Satz) werden über NumericUpDown1 bzw. Btn_gamewon_colour
     ' bedient statt über eine TextBox{i} - deshalb nicht Teil der generischen TextBox-
     ' Schleifen unten und separat synchronisiert.
     Private Sub SyncMatchTiebreakTargetControl()
@@ -86,6 +91,39 @@ Public Class Tennis24_Settings
         End If
     End Sub
 
+    ' Wandelt "#RRGGBB" in eine Color um; bei ungültigem/leerem Wert die Standardfarbe.
+    Public Shared Function ParseGamewonColour(hexValue As String) As Color
+        Try
+            If Not String.IsNullOrWhiteSpace(hexValue) Then
+                Return ColorTranslator.FromHtml(hexValue.Trim())
+            End If
+        Catch ex As Exception
+            ' ungültiger Wert -> Standardfarbe unten
+        End Try
+        Return ColorTranslator.FromHtml(DEFAULT_GAMEWON_COLOUR)
+    End Function
+
+    Private Sub SyncGamewonColourControl()
+        If Btn_gamewon_colour IsNot Nothing Then
+            Btn_gamewon_colour.BackColor = ParseGamewonColour(TextBoxValues(43))
+        End If
+    End Sub
+
+    Private Sub Btn_gamewon_colour_Click(sender As Object, e As EventArgs) Handles Btn_gamewon_colour.Click
+        Using colourDialog As New ColorDialog()
+            colourDialog.Color = Btn_gamewon_colour.BackColor
+            colourDialog.FullOpen = True
+
+            If colourDialog.ShowDialog() = DialogResult.OK Then
+                Btn_gamewon_colour.BackColor = colourDialog.Color
+                ' vMix erwartet das Format #RRGGBB
+                TextBoxValues(43) = "#" & colourDialog.Color.R.ToString("X2") &
+                                          colourDialog.Color.G.ToString("X2") &
+                                          colourDialog.Color.B.ToString("X2")
+            End If
+        End Using
+    End Sub
+
     Public Sub SetLabels()
 
         For i As Integer = 1 To 50
@@ -95,6 +133,7 @@ Public Class Tennis24_Settings
             End If
         Next
         SyncMatchTiebreakTargetControl()
+        SyncGamewonColourControl()
 
         ' RadioButtons setzen - nur wenn Controls existieren (Form geladen)
         If RadioButton1 IsNot Nothing Then
@@ -205,7 +244,8 @@ Public Class Tennis24_Settings
             TextBoxValues(i) = "Dummy Value " + Str(i)
         Next
 
-        TextBoxValues(42) = "10"                ' Match-Tiebreak bis X Punkte
+        TextBoxValues(42) = "10"                    ' Match-Tiebreak bis X Punkte
+        TextBoxValues(43) = DEFAULT_GAMEWON_COLOUR  ' Farbe für gewonnenen Satz im Scorebug
 
         TextBoxValues(45) = "localhost"         ' vMix IP
         TextBoxValues(46) = "8088"              ' vMix Port
@@ -325,6 +365,7 @@ Public Class Tennis24_Settings
                 Next
             End If
             SyncMatchTiebreakTargetControl()
+            SyncGamewonColourControl()
 
             ' CheckBoxes laden
             Dim checkBoxNode As XmlNode = xmlDoc.SelectSingleNode("//CheckBoxSettings")
@@ -389,6 +430,10 @@ Public Class Tennis24_Settings
             End If
         Next
         If NumericUpDown1 IsNot Nothing Then TextBoxValues(42) = NumericUpDown1.Value.ToString()
+        If Btn_gamewon_colour IsNot Nothing Then
+            Dim colour As Color = Btn_gamewon_colour.BackColor
+            TextBoxValues(43) = "#" & colour.R.ToString("X2") & colour.G.ToString("X2") & colour.B.ToString("X2")
+        End If
 
         ' CheckBoxes - Werte aus Controls in Arrays übertragen
         For i As Integer = 1 To 20
@@ -436,6 +481,7 @@ Public Class Tennis24_Settings
             End If
         Next
         SyncMatchTiebreakTargetControl()
+        SyncGamewonColourControl()
 
         ' CheckBoxes
         For i As Integer = 1 To 20

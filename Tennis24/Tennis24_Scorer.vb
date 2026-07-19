@@ -1292,8 +1292,15 @@ Public Class Tennis24_Scorer
         End If
     End Sub
 
-    ' Farbe für die hervorgehobene Spielzahl des gewonnenen Satzes (vMix-Format #RRGGBB).
-    Private Const WON_SET_COLOUR As String = "#FFFF00"      ' gelb
+    ' Farbe der hervorgehobenen Spielzahl des gewonnenen Satzes - in den Settings wählbar
+    ' (Btn_gamewon_colour, gespeichert als "#RRGGBB" in TextBoxValues(43)).
+    Private ReadOnly Property WonSetColour As String
+        Get
+            Dim colour As String = Tennis24_Settings.TextBoxValues(43)
+            Return If(String.IsNullOrWhiteSpace(colour), Tennis24_Settings.DEFAULT_GAMEWON_COLOUR, colour.Trim())
+        End Get
+    End Property
+
     Private Const NORMAL_SET_COLOUR As String = "#FFFFFF"   ' weiss (Standard-Textfarbe)
 
     ' Färbt die Spielzahl des soeben gewonnenen Satzes in allen Scorebug-Vorlagen gelb ein
@@ -1314,7 +1321,7 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Sub HighlightWonSet(winner As String)
-        SetSetNumberColour(winner, currentSet, WON_SET_COLOUR)
+        SetSetNumberColour(winner, currentSet, WonSetColour)
     End Sub
 
     Private Sub UpdateScoreBug()
