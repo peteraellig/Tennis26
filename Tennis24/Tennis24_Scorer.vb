@@ -509,7 +509,23 @@ Public Class Tennis24_Scorer
         DataGridView1.Rows(10).DefaultCellStyle.BackColor = Color.WhiteSmoke
     End Sub
 
+    ' Wird nach jeder Zustandsänderung aufgerufen: aktualisiert die Statistik-Anzeige UND
+    ' schickt den aktuellen Stand an vMix.
+    '
+    ' WICHTIG: Der vMix-Versand steht bewusst ausserhalb der Grid-Aktualisierung. Früher lag
+    ' er am Ende von UpdateDataGridView() innerhalb von "If DataGridView1.Rows.Count >= 19",
+    ' war also daran gekoppelt, dass das Grid existiert und befüllt ist - eine Falle, sobald
+    ' die Statistik in eine eigene Form wandert, die evtl. gar nicht geöffnet ist.
     Private Sub UpdateDataGridView()
+        UpdateStatisticsDisplay()
+
+        ' Grafik-Engine aktualisieren - unabhängig davon, ob die Statistik sichtbar ist
+        SendDataToGraphicsEngine()
+
+        If isMatchFinished Then Hidepoints()
+    End Sub
+
+    Private Sub UpdateStatisticsDisplay()
         If DataGridView1.Rows.Count >= 19 Then
             ' DEBUG: Zeige die tatsächlichen Werte
             Label1.Text = $"H-Won:{homeServiceGamesWon} A-Won:{awayServiceGamesWon} Breaks: H:{homeBreaks} A:{awayBreaks}"
@@ -577,13 +593,6 @@ Public Class Tennis24_Scorer
 
             ' Hervorhebungen
             HighlightStatistics()
-
-            ' AM ENDE: Grafik-Engine aktualisieren
-            SendDataToGraphicsEngine()
-
-            If isMatchFinished Then Hidepoints()
-
-
         End If
     End Sub
 
