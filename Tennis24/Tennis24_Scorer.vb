@@ -22,6 +22,9 @@ Public Class Tennis24_Scorer
     Private displayedScorebugSet As Integer = 1
     Private WithEvents freezeSetAdvanceTimer As New Timer()
 
+    ' Separate Statistik-Form; Nothing/IsDisposed solange sie nicht geöffnet ist.
+    Private statisticsForm As Tennis24_Statistics
+
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
     ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
     ' 22 einzelnen ...ToggleStatus-Variablen plus die von Hand gepflegten Select-Case-Listen
@@ -299,7 +302,6 @@ Public Class Tennis24_Scorer
         Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
         Btn_Scorebug.Text = "Scorebug OFF"
 
-        SetupDataGridView()
         ResetMatch()
         'needed for keypress handling 
         Me.KeyPreview = True
@@ -442,183 +444,30 @@ Public Class Tennis24_Scorer
         Return True
     End Function
 
-    Private Sub SetupDataGridView()
-        ' DataGridView konfigurieren
-        DataGridView1.AllowUserToAddRows = False
-        DataGridView1.AllowUserToDeleteRows = False
-        DataGridView1.AllowUserToResizeColumns = False
-        DataGridView1.AllowUserToResizeRows = False
-        DataGridView1.ReadOnly = True
-        DataGridView1.RowHeadersVisible = False
-        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.ScrollBars = ScrollBars.None
-        DataGridView1.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
-        DataGridView1.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        DataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue
-
-        ' Spalten definieren
-        DataGridView1.Columns.Clear()
-        DataGridView1.Columns.Add("Property", "Statistic")
-        DataGridView1.Columns.Add("Home", "Home")
-        DataGridView1.Columns.Add("Away", "Away")
-
-        ' Spaltenbreiten setzen
-        DataGridView1.Columns(0).Width = 140
-        DataGridView1.Columns(1).Width = 70
-        DataGridView1.Columns(2).Width = 70
-
-        ' Zeilen hinzufügen
-        DataGridView1.Rows.Add("═══ CURRENT GAME ═══", "", "")
-        DataGridView1.Rows.Add("Points", "", "")
-        DataGridView1.Rows.Add("Games", "", "")
-        DataGridView1.Rows.Add("Sets", "", "")
-        DataGridView1.Rows.Add("", "", "") ' Leerzeile
-
-        DataGridView1.Rows.Add("═══ MATCH INFO ═══", "", "")
-        DataGridView1.Rows.Add("Current Set", "", "")
-        DataGridView1.Rows.Add("Match Type", "", "")
-        DataGridView1.Rows.Add("Serving", "", "")
-        DataGridView1.Rows.Add("Tiebreak", "", "")
-        DataGridView1.Rows.Add("", "", "") ' Leerzeile
-
-        DataGridView1.Rows.Add("═══ STATISTICS ═══", "", "")
-        DataGridView1.Rows.Add("Total Points", "", "")
-        DataGridView1.Rows.Add("Service Games", "", "")
-        DataGridView1.Rows.Add("Service Games Won", "", "")
-        DataGridView1.Rows.Add("Service Win %", "", "")
-        DataGridView1.Rows.Add("Break Points", "", "")
-        DataGridView1.Rows.Add("Tiebreaks Won", "", "")
-        DataGridView1.Rows.Add("Longest Game", "", "")
-        DataGridView1.Rows.Add("Points Win %", "", "")
-
-        ' Header-Zeilen formatieren
-        For i As Integer = 0 To DataGridView1.Rows.Count - 1
-            DataGridView1.Rows(i).Cells(0).Style.BackColor = Color.LightGray
-            DataGridView1.Rows(i).Cells(0).Style.Font = New Font("Segoe UI", 8, FontStyle.Bold)
-
-            ' Header-Zeilen hervorheben
-            If DataGridView1.Rows(i).Cells(0).Value.ToString().Contains("═══") Then
-                DataGridView1.Rows(i).DefaultCellStyle.BackColor = Color.Navy
-                DataGridView1.Rows(i).DefaultCellStyle.ForeColor = Color.White
-                DataGridView1.Rows(i).DefaultCellStyle.Font = New Font("Segoe UI", 8, FontStyle.Bold)
-            End If
-        Next
-
-        ' Leerzeilen formatieren
-        DataGridView1.Rows(4).DefaultCellStyle.BackColor = Color.WhiteSmoke
-        DataGridView1.Rows(10).DefaultCellStyle.BackColor = Color.WhiteSmoke
-    End Sub
-
-    ' Wird nach jeder Zustandsänderung aufgerufen: aktualisiert die Statistik-Anzeige UND
-    ' schickt den aktuellen Stand an vMix.
+    ' Wird nach jeder Zustandsänderung aufgerufen: aktualisiert die (optionale) Statistik-
+    ' Anzeige UND schickt den aktuellen Stand an vMix.
     '
-    ' WICHTIG: Der vMix-Versand steht bewusst ausserhalb der Grid-Aktualisierung. Früher lag
-    ' er am Ende von UpdateDataGridView() innerhalb von "If DataGridView1.Rows.Count >= 19",
-    ' war also daran gekoppelt, dass das Grid existiert und befüllt ist - eine Falle, sobald
-    ' die Statistik in eine eigene Form wandert, die evtl. gar nicht geöffnet ist.
-    Private Sub UpdateDataGridView()
+    ' WICHTIG: Der vMix-Versand ist bewusst NICHT an die Statistik gekoppelt. Früher stand er
+    ' am Ende von UpdateScoreDisplays() innerhalb von "If DataGridView1.Rows.Count >= 19" -
+    ' seit die Statistik in einer eigenen, evtl. geschlossenen Form liegt, wäre der Scorebug-
+    ' Update in vMix dadurch stillschweigend ausgefallen.
+    Private Sub UpdateScoreDisplays()
         UpdateStatisticsDisplay()
 
-        ' Grafik-Engine aktualisieren - unabhängig davon, ob die Statistik sichtbar ist
+        ' Grafik-Engine aktualisieren - unabhängig davon, ob die Statistik geöffnet ist
         SendDataToGraphicsEngine()
 
         If isMatchFinished Then Hidepoints()
     End Sub
 
+    ' Die Statistik-Anzeige liegt in einer eigenen Form (Tennis24_Statistics) und wird nur
+    ' aktualisiert, wenn sie gerade geöffnet ist.
     Private Sub UpdateStatisticsDisplay()
-        If DataGridView1.Rows.Count >= 19 Then
-            ' DEBUG: Zeige die tatsächlichen Werte
-            Label1.Text = $"H-Won:{homeServiceGamesWon} A-Won:{awayServiceGamesWon} Breaks: H:{homeBreaks} A:{awayBreaks}"
+        ' DEBUG: Zeige die tatsächlichen Werte
+        Label1.Text = $"H-Won:{homeServiceGamesWon} A-Won:{awayServiceGamesWon} Breaks: H:{homeBreaks} A:{awayBreaks}"
 
-            ' Current Game
-            DataGridView1.Rows(1).Cells(1).Value = ConvertPointsToTennisScore(homePoints, awayPoints)
-            DataGridView1.Rows(1).Cells(2).Value = ConvertPointsToTennisScore(awayPoints, homePoints)
-            DataGridView1.Rows(2).Cells(1).Value = homeGames.ToString()
-            DataGridView1.Rows(2).Cells(2).Value = awayGames.ToString()
-            DataGridView1.Rows(3).Cells(1).Value = homeSets.ToString()
-            DataGridView1.Rows(3).Cells(2).Value = awaySets.ToString()
-
-            ' Match Info
-            DataGridView1.Rows(6).Cells(1).Value = currentSet.ToString()
-            DataGridView1.Rows(6).Cells(2).Value = ""
-
-            Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = 3, "Best of 3", "Best of 5")
-            DataGridView1.Rows(7).Cells(1).Value = matchType
-            DataGridView1.Rows(7).Cells(2).Value = ""
-
-            Dim serving = If(isHomeServing, "Home", "Away")
-            DataGridView1.Rows(8).Cells(1).Value = serving
-            DataGridView1.Rows(8).Cells(2).Value = ""
-
-            Dim tiebreakStatus = If(isMatchTiebreakSet, "MATCH-TB", If(isTiebreak, "ACTIVE", "No"))
-            DataGridView1.Rows(9).Cells(1).Value = tiebreakStatus
-            DataGridView1.Rows(9).Cells(2).Value = ""
-
-            ' Statistics
-            DataGridView1.Rows(12).Cells(1).Value = homeTotalPoints.ToString()
-            DataGridView1.Rows(12).Cells(2).Value = awayTotalPoints.ToString()
-
-            ' KORRIGIERTE Service Games Berechnung:
-            ' Service Games = Service Games Won + Break Points (gegen mich)
-            Dim homeServiceGamesTotal = homeServiceGamesWon + awayBreaks
-            Dim awayServiceGamesTotal = awayServiceGamesWon + homeBreaks
-
-            DataGridView1.Rows(13).Cells(1).Value = homeServiceGamesTotal.ToString()
-            DataGridView1.Rows(13).Cells(2).Value = awayServiceGamesTotal.ToString()
-
-            DataGridView1.Rows(14).Cells(1).Value = homeServiceGamesWon.ToString()
-            DataGridView1.Rows(14).Cells(2).Value = awayServiceGamesWon.ToString()
-
-            ' Service Win Percentage
-            Dim homeServiceWinPct = If(homeServiceGamesTotal > 0, Math.Round((homeServiceGamesWon / homeServiceGamesTotal) * 100, 1), 0)
-            Dim awayServiceWinPct = If(awayServiceGamesTotal > 0, Math.Round((awayServiceGamesWon / awayServiceGamesTotal) * 100, 1), 0)
-            DataGridView1.Rows(15).Cells(1).Value = $"{homeServiceWinPct}%"
-            DataGridView1.Rows(15).Cells(2).Value = $"{awayServiceWinPct}%"
-
-            DataGridView1.Rows(16).Cells(1).Value = homeBreaks.ToString()
-            DataGridView1.Rows(16).Cells(2).Value = awayBreaks.ToString()
-
-            DataGridView1.Rows(17).Cells(1).Value = homeTiebreaksWon.ToString()
-            DataGridView1.Rows(17).Cells(2).Value = awayTiebreaksWon.ToString()
-
-            DataGridView1.Rows(18).Cells(1).Value = $"{longestGame} pts"
-            DataGridView1.Rows(18).Cells(2).Value = ""
-
-            ' Total Points Win Percentage
-            Dim totalPointsPlayed = homeTotalPoints + awayTotalPoints
-            Dim homePointsWinPct = If(totalPointsPlayed > 0, Math.Round((homeTotalPoints / totalPointsPlayed) * 100, 1), 0)
-            Dim awayPointsWinPct = If(totalPointsPlayed > 0, Math.Round((awayTotalPoints / totalPointsPlayed) * 100, 1), 0)
-            DataGridView1.Rows(19).Cells(1).Value = $"{homePointsWinPct}%"
-            DataGridView1.Rows(19).Cells(2).Value = $"{awayPointsWinPct}%"
-
-            ' Hervorhebungen
-            HighlightStatistics()
-        End If
-    End Sub
-
-    Private Sub HighlightStatistics()
-        ' Serving Player hervorheben
-        If isHomeServing Then
-            DataGridView1.Rows(8).Cells(1).Style.BackColor = Color.LightGreen
-            DataGridView1.Rows(8).Cells(2).Style.BackColor = Color.White
-        Else
-            DataGridView1.Rows(8).Cells(1).Style.BackColor = Color.White
-            DataGridView1.Rows(8).Cells(2).Style.BackColor = Color.LightGreen
-        End If
-
-        ' Tiebreak hervorheben
-        If isTiebreak Then
-            DataGridView1.Rows(9).DefaultCellStyle.BackColor = Color.Yellow
-            DataGridView1.Rows(9).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        Else
-            DataGridView1.Rows(9).DefaultCellStyle.BackColor = Color.White
-        End If
-
-        ' Breaks hervorheben
-        If homeBreaks > awayBreaks Then
-            DataGridView1.Rows(16).Cells(1).Style.BackColor = Color.LightGreen
-        ElseIf awayBreaks > homeBreaks Then
-            DataGridView1.Rows(16).Cells(2).Style.BackColor = Color.LightGreen
+        If statisticsForm IsNot Nothing AndAlso Not statisticsForm.IsDisposed Then
+            statisticsForm.RefreshStatistics()
         End If
     End Sub
 
@@ -650,7 +499,7 @@ Public Class Tennis24_Scorer
 
             ' Visuelle Updates
             UpdateServerDisplay()
-            UpdateDataGridView()
+            UpdateScoreDisplays()
 
             ' Button-Text aktualisieren
             BtnChooseService.Text = If(isHomeServing, "Home schlägt auf", "Away schlägt auf")
@@ -695,11 +544,8 @@ Public Class Tennis24_Scorer
         Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
         Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
 
-        ' DataGridView Spaltenüberschriften mit Spielernamen aktualisieren
-        If DataGridView1.Columns.Count >= 3 Then
-            DataGridView1.Columns(1).HeaderText = homePlayerName
-            DataGridView1.Columns(2).HeaderText = awayPlayerName
-        End If
+        ' Die Spaltenüberschriften der Statistik setzt Tennis24_Statistics selbst
+        ' (UpdatePlayerNameHeaders bei jedem RefreshStatistics).
 
         If CheckBox_keypress_Mode.Checked Then
             ' Server/Returner Modus
@@ -853,7 +699,7 @@ Public Class Tennis24_Scorer
             CheckForMatchEnd()
         End If
 
-        UpdateDataGridView()
+        UpdateScoreDisplays()
         LargeResult()
     End Sub
 
@@ -908,7 +754,7 @@ Public Class Tennis24_Scorer
         BtnChooseService.Text = "Wähle Server"
 
         UpdateServerDisplay()
-        UpdateDataGridView()
+        UpdateScoreDisplays()
         Showpoints()
     End Sub
 
@@ -937,7 +783,7 @@ Public Class Tennis24_Scorer
             lbl_current_set.Text = $"Set {currentSet}"
 
             UpdateServerDisplay()
-            UpdateDataGridView()
+            UpdateScoreDisplays()
             ' Falls Undo über eine Satzgrenze zurückgeht, muss der ggf. aktive Scorebug-Overlay
             ' auf die Vorlage des (wieder aktuellen) Satzes zurückwechseln.
             UpdateScoreBug()
@@ -991,7 +837,7 @@ Public Class Tennis24_Scorer
 
             ResetGames()
             UpdateServerDisplay()
-            UpdateDataGridView()
+            UpdateScoreDisplays()
             UpdateScoreBug()
         End If
     End Sub
@@ -1246,9 +1092,25 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click
-        'beendet das programm und öffnet das hauptfenster   
+        'beendet das programm und öffnet das hauptfenster
         Me.Close()
         Tennis24_Main.Show()
+    End Sub
+
+    Private Sub Btn_statistics_Click(sender As Object, e As EventArgs) Handles Btn_statistics.Click
+        ' Statistik-Fenster öffnen bzw. nach vorne holen (nicht-modal, damit weitergezählt
+        ' werden kann, während die Statistik offen ist)
+        If statisticsForm Is Nothing OrElse statisticsForm.IsDisposed Then
+            statisticsForm = New Tennis24_Statistics()
+            statisticsForm.AttachMatch(match)
+            statisticsForm.Show(Me)
+        Else
+            statisticsForm.AttachMatch(match)
+            statisticsForm.BringToFront()
+        End If
+
+        statisticsForm.RefreshStatistics()
+        PictureBox1.Focus() 'Fokus zurück, damit die Pfeiltasten weiter funktionieren
     End Sub
 
     Private Sub Btn_Scorebug_Click(sender As Object, e As EventArgs) Handles Btn_Scorebug.Click
@@ -1720,7 +1582,7 @@ Public Class Tennis24_Scorer
         End If
 
         ' DataGridView aktualisieren
-        UpdateDataGridView()
+        UpdateScoreDisplays()
     End Sub
 
     Private Sub Btn_sponsor1_Click(sender As Object, e As EventArgs) Handles Btn_sponsor1.Click

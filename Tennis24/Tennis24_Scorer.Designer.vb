@@ -42,7 +42,7 @@ Partial Class Tennis24_Scorer
         Me.btn_reset_match = New System.Windows.Forms.Button()
         Me.CheckBox_keypress_Mode = New System.Windows.Forms.CheckBox()
         Me.lbl_current_set = New System.Windows.Forms.Label()
-        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.Btn_statistics = New System.Windows.Forms.Button()
         Me.BtnChooseService = New System.Windows.Forms.Button()
         Me.PBAway = New System.Windows.Forms.PictureBox()
         Me.PBHome = New System.Windows.Forms.PictureBox()
@@ -97,7 +97,6 @@ Partial Class Tennis24_Scorer
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Lbl_Winner = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -305,16 +304,15 @@ Partial Class Tennis24_Scorer
         Me.lbl_current_set.TabIndex = 19
         Me.lbl_current_set.Text = "lbl_current_set"
         '
-        'DataGridView1
+        'Btn_statistics
         '
-        Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
-        Me.DataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(1206, 4)
-        Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.RowHeadersWidth = 62
-        Me.DataGridView1.Size = New System.Drawing.Size(317, 452)
-        Me.DataGridView1.TabIndex = 20
+        Me.Btn_statistics.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_statistics.Location = New System.Drawing.Point(1206, 4)
+        Me.Btn_statistics.Name = "Btn_statistics"
+        Me.Btn_statistics.Size = New System.Drawing.Size(317, 50)
+        Me.Btn_statistics.TabIndex = 20
+        Me.Btn_statistics.Text = "Statistik anzeigen"
+        Me.Btn_statistics.UseVisualStyleBackColor = True
         '
         'BtnChooseService
         '
@@ -928,7 +926,7 @@ Partial Class Tennis24_Scorer
         Me.Controls.Add(Me.PBHome)
         Me.Controls.Add(Me.PBAway)
         Me.Controls.Add(Me.BtnChooseService)
-        Me.Controls.Add(Me.DataGridView1)
+        Me.Controls.Add(Me.Btn_statistics)
         Me.Controls.Add(Me.lbl_current_set)
         Me.Controls.Add(Me.CheckBox_keypress_Mode)
         Me.Controls.Add(Me.btn_reset_match)
@@ -961,7 +959,6 @@ Partial Class Tennis24_Scorer
         Me.Name = "Tennis24_Scorer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tennis24_Scorer"
-        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -997,7 +994,7 @@ Partial Class Tennis24_Scorer
     Friend WithEvents btn_reset_match As Button
     Friend WithEvents CheckBox_keypress_Mode As CheckBox
     Friend WithEvents lbl_current_set As Label
-    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents Btn_statistics As Button
     Friend WithEvents BtnChooseService As Button
     Friend WithEvents PBAway As PictureBox
     Friend WithEvents PBHome As PictureBox
