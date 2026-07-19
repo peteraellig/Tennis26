@@ -73,6 +73,7 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.Rows.Add("BP Conversion %", "", "")
         DataGridView_Stats.Rows.Add("BP saved", "", "")
         DataGridView_Stats.Rows.Add("BREAK POINT now", "", "")
+        DataGridView_Stats.Rows.Add("Mini-Breaks (TB)", "", "")
 
         ' Header-Zeilen formatieren
         For i As Integer = 0 To DataGridView_Stats.Rows.Count - 1
@@ -95,7 +96,7 @@ Public Class Tennis24_Statistics
 
     ' Vom Scorer nach jeder Zustandsänderung aufgerufen (und beim Öffnen der Form).
     Public Sub RefreshStatistics()
-        If matchEngine Is Nothing OrElse DataGridView_Stats.Rows.Count < 26 Then Return
+        If matchEngine Is Nothing OrElse DataGridView_Stats.Rows.Count < 27 Then Return
 
         UpdatePlayerNameHeaders()
 
@@ -196,6 +197,21 @@ Public Class Tennis24_Statistics
             DataGridView_Stats.Rows(25).DefaultCellStyle.BackColor = Color.Red
             DataGridView_Stats.Rows(25).DefaultCellStyle.ForeColor = Color.White
             DataGridView_Stats.Rows(25).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        End If
+
+        ' Mini-Breaks: nur im (Match-)Tiebreak aussagekräftig
+        DataGridView_Stats.Rows(26).Cells(1).Value = matchEngine.HomeMiniBreaks.ToString()
+        DataGridView_Stats.Rows(26).Cells(2).Value = matchEngine.AwayMiniBreaks.ToString()
+
+        If matchEngine.IsInAnyTiebreak() Then
+            ' Wer im laufenden Tiebreak mehr Mini-Breaks hat, liegt effektiv vorne
+            DataGridView_Stats.Rows(26).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+            DataGridView_Stats.Rows(26).Cells(1).Style.BackColor = If(matchEngine.HomeMiniBreaks > matchEngine.AwayMiniBreaks, Color.LightGreen, Color.White)
+            DataGridView_Stats.Rows(26).Cells(2).Style.BackColor = If(matchEngine.AwayMiniBreaks > matchEngine.HomeMiniBreaks, Color.LightGreen, Color.White)
+        Else
+            DataGridView_Stats.Rows(26).DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+            DataGridView_Stats.Rows(26).Cells(1).Style.BackColor = Color.White
+            DataGridView_Stats.Rows(26).Cells(2).Style.BackColor = Color.White
         End If
     End Sub
 

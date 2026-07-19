@@ -21,6 +21,9 @@ Public Class TennisMatchEngine
         Public Property HomeBreakPointsTotal As Integer
         Public Property AwayBreakPointsConverted As Integer
         Public Property AwayBreakPointsTotal As Integer
+        Public Property HomeMiniBreaks As Integer
+        Public Property AwayMiniBreaks As Integer
+        Public Property TiebreakStartServerIsHome As Boolean
         Public Property HomeServiceGamesWon As Integer
         Public Property AwayServiceGamesWon As Integer
         Public Property IsHomeServing As Boolean
@@ -60,6 +63,14 @@ Public Class TennisMatchEngine
     Public Property HomeBreakPointsTotal As Integer = 0
     Public Property AwayBreakPointsConverted As Integer = 0
     Public Property AwayBreakPointsTotal As Integer = 0
+
+    ' Mini-Breaks = im (Match-)Tiebreak gewonnene Punkte gegen den Aufschlag des Gegners.
+    Public Property HomeMiniBreaks As Integer = 0
+    Public Property AwayMiniBreaks As Integer = 0
+
+    ' Wer den laufenden Tiebreak eröffnet hat - Basis für die Aufschlag-Rotation
+    ' (1 Punkt, danach je 2 Punkte im Wechsel).
+    Public Property TiebreakStartServerIsHome As Boolean = True
     Public Property HomeServiceGamesWon As Integer = 0
     Public Property AwayServiceGamesWon As Integer = 0
     Public Property IsHomeServing As Boolean = True
@@ -90,6 +101,9 @@ Public Class TennisMatchEngine
             .HomeBreakPointsTotal = HomeBreakPointsTotal,
             .AwayBreakPointsConverted = AwayBreakPointsConverted,
             .AwayBreakPointsTotal = AwayBreakPointsTotal,
+            .HomeMiniBreaks = HomeMiniBreaks,
+            .AwayMiniBreaks = AwayMiniBreaks,
+            .TiebreakStartServerIsHome = TiebreakStartServerIsHome,
             .HomeServiceGamesWon = HomeServiceGamesWon,
             .AwayServiceGamesWon = AwayServiceGamesWon,
             .IsHomeServing = IsHomeServing,
@@ -126,6 +140,9 @@ Public Class TennisMatchEngine
         HomeBreakPointsTotal = lastState.HomeBreakPointsTotal
         AwayBreakPointsConverted = lastState.AwayBreakPointsConverted
         AwayBreakPointsTotal = lastState.AwayBreakPointsTotal
+        HomeMiniBreaks = lastState.HomeMiniBreaks
+        AwayMiniBreaks = lastState.AwayMiniBreaks
+        TiebreakStartServerIsHome = lastState.TiebreakStartServerIsHome
         HomeServiceGamesWon = lastState.HomeServiceGamesWon
         AwayServiceGamesWon = lastState.AwayServiceGamesWon
         IsHomeServing = lastState.IsHomeServing
@@ -160,6 +177,9 @@ Public Class TennisMatchEngine
         HomeBreakPointsTotal = 0
         AwayBreakPointsConverted = 0
         AwayBreakPointsTotal = 0
+        HomeMiniBreaks = 0
+        AwayMiniBreaks = 0
+        TiebreakStartServerIsHome = True
         HomeServiceGamesWon = 0
         AwayServiceGamesWon = 0
         IsHomeServing = True
@@ -198,7 +218,37 @@ Public Class TennisMatchEngine
         Return returnerPoints - serverPoints
     End Function
 
+    Public Function IsInAnyTiebreak() As Boolean
+        Return IsTiebreak OrElse IsMatchTiebreakSet()
+    End Function
+
+    ' Aufschläger für den GERADE ANSTEHENDEN Punkt im (Match-)Tiebreak. Regel: der Eröffner
+    ' schlägt 1 Punkt auf, danach wechseln sich beide je 2 Punkte ab.
+    ' Punkt-Index 0 -> Eröffner, 1+2 -> Gegner, 3+4 -> Eröffner, 5+6 -> Gegner, ...
+    Public Function TiebreakServerIsHome() As Boolean
+        Dim pointIndex As Integer = HomePoints + AwayPoints
+        Dim block As Integer = (pointIndex + 1) \ 2
+        Dim starterServes As Boolean = (block Mod 2 = 0)
+        Return If(starterServes, TiebreakStartServerIsHome, Not TiebreakStartServerIsHome)
+    End Function
+
     Public Sub RegisterPoint(player As String)
+        ' Beim ersten Punkt eines (Match-)Tiebreaks festhalten, wer ihn eröffnet - daraus
+        ' leitet sich die gesamte Aufschlag-Rotation im Tiebreak ab.
+        If IsInAnyTiebreak() AndAlso HomePoints + AwayPoints = 0 Then
+            TiebreakStartServerIsHome = IsHomeServing
+        End If
+
+        ' Mini-Break: im Tiebreak einen Punkt gegen den Aufschlag des Gegners gewinnen.
+        If IsInAnyTiebreak() Then
+            Dim serverIsHome As Boolean = TiebreakServerIsHome()
+            If player = "home" AndAlso Not serverIsHome Then
+                HomeMiniBreaks += 1
+            ElseIf player = "away" AndAlso serverIsHome Then
+                AwayMiniBreaks += 1
+            End If
+        End If
+
         ' Breakball-Statistik VOR der Punktänderung auswerten: Wird der laufende Punkt bei
         ' Breakball gespielt, zählt er als Breakball-Chance für den Returner - unabhängig
         ' davon, ob er ihn verwertet. (TV-Konvention: 0:40 bis 40:40 = 3 Chancen, 0 genutzt.)
