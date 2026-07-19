@@ -732,7 +732,27 @@ Public Class Tennis24_Scorer
         ' Zustand speichern (für Undo) und Punkt verbuchen
         match.PushState()
         match.RegisterPoint(player)
+
+        ' Operator-Absicherung für Freeze Set: Wurde der Scorebug nach dem Satzgewinn nicht
+        ' ausgeblendet, hängt die Anzeige noch auf dem alten Satz. Sobald der erste Punkt des
+        ' neuen Satzes fällt, muss sie zwangsweise auf den neuen Satz umschalten.
+        AdvanceFrozenScorebugIfStale()
+
         UpdateScore()
+    End Sub
+
+    Private Sub AdvanceFrozenScorebugIfStale()
+        If freezeSetEnabled AndAlso displayedScorebugSet <> currentSet Then
+            freezeSetAdvanceTimer.Stop()
+            displayedScorebugSet = currentSet
+
+            ' Nur wenn der Scorebug gerade eingeblendet ist, muss vMix aktiv umgeschaltet
+            ' werden; sonst genügt es, den Zielsatz zu setzen (nächstes Einschalten zeigt ihn).
+            If scorebugtoggleStatus Then
+                SendHTMLtovMix("Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0")
+                Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
+            End If
+        End If
     End Sub
 
     Private Sub UpdateScore()
