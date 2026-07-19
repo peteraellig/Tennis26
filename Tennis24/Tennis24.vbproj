@@ -149,7 +149,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TennisMatchEngine.vb" />
-    <Compile Include="TennisJsonServer.vb" />
+    <Compile Include="TennisJsonExporter.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

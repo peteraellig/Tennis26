@@ -25,10 +25,12 @@ Public Class Tennis24_Scorer
     ' Separate Statistik-Form; Nothing/IsDisposed solange sie nicht geöffnet ist.
     Private statisticsForm As Tennis24_Statistics
 
-    ' Live-JSON-Datenquelle (Settings-Checkbox3): stellt den aktuellen Spielstand
-    ' geräteunabhängig per HTTP bereit, unabhängig von vMix. Läuft nur, wenn aktiviert.
-    Private ReadOnly jsonServer As New TennisJsonServer()
-    Private jsonServerRunningPort As Integer = 0
+    ' Live-JSON-Datei (Settings-Checkbox3): schreibt den aktuellen Spielstand
+    ' geräteunabhängig als Datei, unabhängig von vMix - kann von beliebiger externer
+    ' Software (z.B. einem selbst gebauten Python-Server) im Netzwerk verteilt werden,
+    ' ohne dass Tennis24 selbst netzwerkweit lauschen muss (siehe TennisJsonExporter.vb).
+    Private ReadOnly jsonExporter As New TennisJsonExporter()
+    Private Const LIVE_JSON_FILE_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\tennis24_live.json"
 
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
     ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
@@ -276,11 +278,6 @@ Public Class Tennis24_Scorer
     'keypress handling
     Private Declare Function GetAsyncKeyState Lib "User32" (ByVal vkey As Integer) As Integer
 
-    Private Sub Tennis24_Scorer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Port sauber freigeben, damit ein erneuter Start (oder ein anderes Programm) ihn
-        ' sofort wieder verwenden kann.
-        jsonServer.Stop()
-    End Sub
 
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -468,42 +465,27 @@ Public Class Tennis24_Scorer
         ' Grafik-Engine aktualisieren - unabhängig davon, ob die Statistik geöffnet ist
         SendDataToGraphicsEngine()
 
-        ' Live-JSON-Datenquelle aktualisieren - unabhängig davon, ob sie gerade läuft
-        ' (UpdateState puffert nur; ein evtl. nicht laufender Server liest sie nie)
-        jsonServer.UpdateState(BuildLiveStateJson())
+        ' Live-JSON-Datei aktualisieren - unabhängig davon, ob die Statistik-Form gerade
+        ' offen ist. Ein Schreibfehler wird hier bewusst nicht gemeldet (das liefe sonst bei
+        ' jedem einzelnen Punkt auf denselben Popup hinaus) - ein evtl. dauerhaftes Problem
+        ' (z.B. Ordner nicht beschreibbar) zeigt sich bereits beim Matchstart, siehe ResetMatch.
+        If Tennis24_Settings.CheckBoxValues(3) Then jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson())
 
         If isMatchFinished Then Hidepoints()
     End Sub
 
-    ' Startet/stoppt die Live-JSON-Datenquelle passend zu den aktuellen Settings
-    ' (Checkbox3 = an/aus, NumericUpDown2 -> TextBoxValues(44) = Port).
-    Private Sub SyncJsonServerFromSettings()
-        Dim shouldRun As Boolean = Tennis24_Settings.CheckBoxValues(3)
-        Dim port As Integer = 41200
-        Integer.TryParse(Tennis24_Settings.TextBoxValues(44), port)
+    ' Schreibt die Live-JSON-Datei einmal beim Matchstart (Settings-Checkbox3), damit z.B.
+    ' Spielernamen schon vor dem ersten Punkt auf einer externen Anzeige verfügbar sind.
+    ' Anders als die Datei-Updates pro Punkt wird ein Fehler hier direkt gemeldet, weil er
+    ' nur einmal pro Matchstart auftritt statt bei jedem Punkt erneut.
+    Private Sub WriteLiveJsonFileOnMatchStart()
+        If Not Tennis24_Settings.CheckBoxValues(3) Then Return
 
-        If shouldRun Then
-            If Not jsonServer.IsRunning OrElse jsonServerRunningPort <> port Then
-                jsonServer.Stop()
-                If jsonServer.Start(port) Then
-                    jsonServerRunningPort = port
-                Else
-                    jsonServerRunningPort = 0
-                    ' Häufigste Ursache: fehlende Berechtigung für "http://+:PORT/" ohne
-                    ' vorherige "netsh http add urlacl" (siehe TennisJsonServer.vb) oder der
-                    ' Port ist bereits belegt.
-                    MessageBox.Show(
-                        $"Live-JSON-Datenquelle konnte auf Port {port} nicht gestartet werden:" & vbNewLine & vbNewLine &
-                        jsonServer.LastError & vbNewLine & vbNewLine &
-                        "Häufigste Ursache: Windows erlaubt einem Nicht-Administrator-Programm standardmässig nicht, netzwerkweit auf einem Port zu lauschen." & vbNewLine &
-                        "Einmalig als Administrator ausführen:" & vbNewLine &
-                        $"netsh http add urlacl url=http://+:{port}/ sddl=""D:(A;;GX;;;S-1-1-0)""",
-                        "Live-JSON-Datenquelle", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
-            End If
-        Else
-            jsonServer.Stop()
-            jsonServerRunningPort = 0
+        If Not jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson()) Then
+            MessageBox.Show(
+                $"Live-JSON-Datei konnte nicht geschrieben werden ({LIVE_JSON_FILE_PATH}):" & vbNewLine & vbNewLine &
+                jsonExporter.LastError,
+                "Live-JSON-Datei", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
     End Sub
 
@@ -514,19 +496,63 @@ Public Class Tennis24_Scorer
     End Function
 
     ' Baut den kompletten aktuellen Spielstand als JSON - unabhängig von vMix, für beliebige
-    ' Grafik-Software geeignet, die die Live-JSON-Datenquelle abfragt.
+    ' externe Software geeignet, die die Live-JSON-Datei ausliest (siehe TennisJsonExporter.vb).
+    ' Enthält bewusst auch die vollständigen Spielerdaten (Tennis24_Main) und dieselben
+    ' Statistik-Werte wie das Statistik-Fenster (Tennis24_Statistics), damit eine externe
+    ' Anzeige keine zweite Datenquelle braucht.
     Private Function BuildLiveStateJson() As String
         Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
         Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
-        Dim homeCountry As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(3)), "", Tennis24_Main.HomePlayer(3))
-        Dim awayCountry As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(3)), "", Tennis24_Main.AwayPlayer(3))
 
         Dim homeSetScores As Integer() = {ParseLabelInt(lbl_home_s1.Text), ParseLabelInt(lbl_home_s2.Text), ParseLabelInt(lbl_home_s3.Text), ParseLabelInt(lbl_home_s4.Text), ParseLabelInt(lbl_home_s5.Text)}
         Dim awaySetScores As Integer() = {ParseLabelInt(lbl_away_s1.Text), ParseLabelInt(lbl_away_s2.Text), ParseLabelInt(lbl_away_s3.Text), ParseLabelInt(lbl_away_s4.Text), ParseLabelInt(lbl_away_s5.Text)}
 
+        ' Service-Games/Punkte-Prozentsätze exakt wie im Statistik-Fenster berechnet
+        ' (siehe Tennis24_Statistics.RefreshStatistics/UpdateBreakPointRows) - hier dupliziert,
+        ' da die Statistik-Form nur die Anzeige kennt, nicht die JSON-Ausgabe.
+        Dim homeServiceGamesTotal = homeServiceGamesWon + match.AwayBreaks
+        Dim awayServiceGamesTotal = awayServiceGamesWon + match.HomeBreaks
+        Dim homeServiceWinPct = If(homeServiceGamesTotal > 0, Math.Round((homeServiceGamesWon / homeServiceGamesTotal) * 100, 1), 0)
+        Dim awayServiceWinPct = If(awayServiceGamesTotal > 0, Math.Round((awayServiceGamesWon / awayServiceGamesTotal) * 100, 1), 0)
+
+        Dim totalPointsPlayed = homeTotalPoints + awayTotalPoints
+        Dim homePointsWinPct = If(totalPointsPlayed > 0, Math.Round((homeTotalPoints / totalPointsPlayed) * 100, 1), 0)
+        Dim awayPointsWinPct = If(totalPointsPlayed > 0, Math.Round((awayTotalPoints / totalPointsPlayed) * 100, 1), 0)
+
+        ' Abgewehrte Breakbälle = Chancen des Gegners, die er nicht nutzte
+        Dim homeBreakPointsSaved = match.AwayBreakPointsTotal - match.AwayBreakPointsConverted
+        Dim awayBreakPointsSaved = match.HomeBreakPointsTotal - match.HomeBreakPointsConverted
+
+        ' Kultur-invariant formatieren: Math.Round liefert ein Double, und unter deutscher
+        ' Kultur würde ToString() ein Komma statt Punkt als Dezimaltrennzeichen liefern -
+        ' das würde die JSON-Datei kaputt machen (nur bei den Ganzzahl-Feldern unkritisch).
+        Dim inv = Globalization.CultureInfo.InvariantCulture
+
+        Dim homePlayerObj As New JsonObjectBuilder()
+        homePlayerObj.AddString("name", Tennis24_Main.HomePlayer(0)) _
+                      .AddString("firstName", Tennis24_Main.HomePlayer(1)) _
+                      .AddString("country", Tennis24_Main.HomePlayer(2)) _
+                      .AddString("countryISO3", Tennis24_Main.HomePlayer(3)) _
+                      .AddString("age", Tennis24_Main.HomePlayer(4)) _
+                      .AddString("height", Tennis24_Main.HomePlayer(5)) _
+                      .AddString("data1", Tennis24_Main.HomePlayer(6)) _
+                      .AddString("data2", Tennis24_Main.HomePlayer(7)) _
+                      .AddString("data3", Tennis24_Main.HomePlayer(8))
+
+        Dim awayPlayerObj As New JsonObjectBuilder()
+        awayPlayerObj.AddString("name", Tennis24_Main.AwayPlayer(0)) _
+                      .AddString("firstName", Tennis24_Main.AwayPlayer(1)) _
+                      .AddString("country", Tennis24_Main.AwayPlayer(2)) _
+                      .AddString("countryISO3", Tennis24_Main.AwayPlayer(3)) _
+                      .AddString("age", Tennis24_Main.AwayPlayer(4)) _
+                      .AddString("height", Tennis24_Main.AwayPlayer(5)) _
+                      .AddString("data1", Tennis24_Main.AwayPlayer(6)) _
+                      .AddString("data2", Tennis24_Main.AwayPlayer(7)) _
+                      .AddString("data3", Tennis24_Main.AwayPlayer(8))
+
         Dim homeObj As New JsonObjectBuilder()
         homeObj.AddString("name", homePlayerName) _
-               .AddString("country", homeCountry) _
+               .AddRaw("player", homePlayerObj.ToString()) _
                .AddString("points", ConvertPointsToTennisScore(homePoints, awayPoints)) _
                .AddInt("games", homeGames) _
                .AddInt("sets", homeSets) _
@@ -535,11 +561,18 @@ Public Class Tennis24_Scorer
                .AddInt("breaks", homeBreaks) _
                .AddInt("breakPointsWon", match.HomeBreakPointsConverted) _
                .AddInt("breakPointsTotal", match.HomeBreakPointsTotal) _
-               .AddInt("miniBreaks", match.HomeMiniBreaks)
+               .AddInt("breakPointsSaved", homeBreakPointsSaved) _
+               .AddInt("miniBreaks", match.HomeMiniBreaks) _
+               .AddInt("totalPoints", homeTotalPoints) _
+               .AddInt("serviceGamesWon", homeServiceGamesWon) _
+               .AddInt("serviceGamesTotal", homeServiceGamesTotal) _
+               .AddRaw("serviceWinPct", homeServiceWinPct.ToString(inv)) _
+               .AddInt("tiebreaksWon", homeTiebreaksWon) _
+               .AddRaw("pointsWinPct", homePointsWinPct.ToString(inv))
 
         Dim awayObj As New JsonObjectBuilder()
         awayObj.AddString("name", awayPlayerName) _
-               .AddString("country", awayCountry) _
+               .AddRaw("player", awayPlayerObj.ToString()) _
                .AddString("points", ConvertPointsToTennisScore(awayPoints, homePoints)) _
                .AddInt("games", awayGames) _
                .AddInt("sets", awaySets) _
@@ -548,7 +581,14 @@ Public Class Tennis24_Scorer
                .AddInt("breaks", awayBreaks) _
                .AddInt("breakPointsWon", match.AwayBreakPointsConverted) _
                .AddInt("breakPointsTotal", match.AwayBreakPointsTotal) _
-               .AddInt("miniBreaks", match.AwayMiniBreaks)
+               .AddInt("breakPointsSaved", awayBreakPointsSaved) _
+               .AddInt("miniBreaks", match.AwayMiniBreaks) _
+               .AddInt("totalPoints", awayTotalPoints) _
+               .AddInt("serviceGamesWon", awayServiceGamesWon) _
+               .AddInt("serviceGamesTotal", awayServiceGamesTotal) _
+               .AddRaw("serviceWinPct", awayServiceWinPct.ToString(inv)) _
+               .AddInt("tiebreaksWon", awayTiebreaksWon) _
+               .AddRaw("pointsWinPct", awayPointsWinPct.ToString(inv))
 
         Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
 
@@ -563,6 +603,7 @@ Public Class Tennis24_Scorer
             .AddString("breakPointHolder", match.BreakPointHolder()) _
             .AddInt("breakPointCount", match.CurrentBreakPointCount()) _
             .AddBool("sidesSwapped", match.AreSidesCurrentlySwapped()) _
+            .AddInt("longestGame", longestGame) _
             .AddString("updatedAt", DateTime.UtcNow.ToString("o"))
 
         Return root.ToString()
@@ -860,7 +901,7 @@ Public Class Tennis24_Scorer
             Next
         End If
 
-        SyncJsonServerFromSettings()
+        WriteLiveJsonFileOnMatchStart()
 
         ' UI Updates...
         lbl_homepoint.Text = "0"

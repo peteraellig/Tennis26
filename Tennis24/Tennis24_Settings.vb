@@ -4,8 +4,9 @@ Imports System.Xml
 
 Public Class Tennis24_Settings
 
-    ' Konstante für den Datenpfad
-    Private Const SETTINGS_DATA_PATH As String = "C:\VMIX\tennis\data"
+    ' Konstante für den Datenpfad (Public: Tennis24_Scorer baut daraus den Pfad der
+    ' Live-JSON-Datei, siehe TennisJsonExporter.vb)
+    Public Const SETTINGS_DATA_PATH As String = "C:\VMIX\tennis\data"
 
     '  öffentliche Arrays 
     Public Shared TextBoxValues(50) As String
@@ -48,7 +49,6 @@ Public Class Tennis24_Settings
     'textbox41 = vMix Port
     'textbox42 = Match-Tiebreak: Punkte bis zum Sieg (Standard 10)
     'textbox43 = Farbe für gewonnenen Satz im Scorebug, Format #RRGGBB (Standard #FFFF00 = gelb)
-    'textbox44 = Port für die live JSON-Datenquelle (Standard 41200)
     'textbox47 = Standard Overlay
     'textbox48 = ScoreBug Overlay
     'textbox49 = Werbe Overlay
@@ -59,7 +59,8 @@ Public Class Tennis24_Settings
     'checkbox1 = Match-Tiebreak bei 1:1 Sätzen ersetzt den 3. Satz (nur Best of 3)
     'checkbox2 = Freeze Set - Scorebug bleibt bei Satzende auf dem alten Satz stehen,
     '            bis der Scorebug manuell ausgeschaltet wird
-    'checkbox3 = Live JSON-Datenquelle aktivieren (siehe TennisJsonServer.vb)
+    'checkbox3 = Live-JSON-Datei aktivieren (siehe TennisJsonExporter.vb, Pfad fest:
+    '            C:\VMIX\tennis\data\tennis24_live.json)
     'radiobutton1 = Best of 3
     'radiobutton2 = Best of 5
 
@@ -112,104 +113,13 @@ Public Class Tennis24_Settings
         End If
     End Sub
 
-    ' TextBoxValues(44) (Port der Live-JSON-Datenquelle) wird über NumericUpDown2 bedient.
-    ' Label28 zeigt zusätzlich die fertige URL zum Kopieren an - rein informativ, wird
-    ' nirgends aus gelesen.
-    Private Sub SyncJsonServerControls()
-        If NumericUpDown2 IsNot Nothing Then
-            Dim jsonPort As Integer
-            If Integer.TryParse(TextBoxValues(44), jsonPort) Then
-                NumericUpDown2.Value = Math.Max(NumericUpDown2.Minimum, Math.Min(NumericUpDown2.Maximum, jsonPort))
-            End If
-        End If
-
+    ' Kein Port mehr nötig, seit die Live-Daten als Datei statt über einen eingebetteten
+    ' HTTP-Server bereitgestellt werden (siehe TennisJsonExporter.vb) - Label28 zeigt
+    ' stattdessen nur noch den festen Dateipfad an, rein informativ.
+    Private Sub SyncJsonExportLabel()
         If Label28 IsNot Nothing Then
-            Dim port As String = If(NumericUpDown2 IsNot Nothing, NumericUpDown2.Value.ToString("0"), "41200")
-            Label28.Text = $"http://{GetLocalIPAddress()}:{port}/status.json"
+            Label28.Text = $"Datei: {SETTINGS_DATA_PATH}\tennis24_live.json"
         End If
-    End Sub
-
-    ' Erste gefundene IPv4-Adresse dieses Rechners im lokalen Netzwerk - rein informativ für
-    ' Label28, damit man die URL nicht selbst zusammensuchen muss. Fällt auf "localhost"
-    ' zurück, falls sich keine Netzwerkadresse ermitteln lässt.
-    Private Shared Function GetLocalIPAddress() As String
-        Try
-            For Each address In Dns.GetHostEntry(Dns.GetHostName()).AddressList
-                If address.AddressFamily = Sockets.AddressFamily.InterNetwork Then
-                    Return address.ToString()
-                End If
-            Next
-        Catch ex As Exception
-            ' Fällt unten auf localhost zurück
-        End Try
-        Return "localhost"
-    End Function
-
-    ' Richtet einmalig die Windows-Netzwerkfreigabe für die Live-JSON-Datenquelle ein, damit
-    ' auch andere Geräte im Netzwerk zugreifen können (siehe TennisJsonServer.vb). Führt dazu
-    ' "netsh http add urlacl" mit dem runas-Verb aus - Windows fragt dabei SELBST per UAC-
-    ' Dialog nach Bestätigung, das Programm erhält zu keinem Zeitpunkt automatisch erhöhte
-    ' Rechte ohne diese Bestätigung durch den Benutzer.
-    Private Sub Btn_setup_json_urlacl_Click(sender As Object, e As EventArgs) Handles Btn_setup_json_urlacl.Click
-        Dim port As Integer = If(NumericUpDown2 IsNot Nothing, CInt(NumericUpDown2.Value), 41200)
-
-        ' "user=Everyone" scheiterte auf deutschsprachigem Windows (Gruppe heisst dort
-        ' "Jeder"), und "user=S-1-1-0" (die SID direkt) scheiterte ebenfalls: netsh versucht,
-        ' den Wert hinter "user=" per Kontennamen-Auflösung in eine SID umzuwandeln - eine
-        ' bereits fertige SID nimmt dieser Parameter nicht entgegen ("Fehler 1332: falscher
-        ' Parameter"). Der robuste, sprachunabhängige Weg ist stattdessen "sddl=" mit einer
-        ' fertigen Sicherheitsbeschreibung: "GX" (Generic Execute) für die wohlbekannte SID
-        ' S-1-1-0 (Jeder/Everyone) - das umgeht die Namensauflösung komplett.
-        Dim arguments As String = $"http add urlacl url=http://+:{port}/ sddl=""D:(A;;GX;;;S-1-1-0)"""
-
-        Dim confirmResult = MessageBox.Show(
-            "Es wird folgender Windows-Befehl mit Administratorrechten ausgeführt (Windows fragt danach separat per UAC-Dialog um Bestätigung):" & vbNewLine & vbNewLine &
-            $"netsh {arguments}" & vbNewLine & vbNewLine &
-            "Damit erlaubt Windows diesem Programm dauerhaft, auf dem gewählten Port netzwerkweit zu lauschen (nötig für die Live-JSON-Datenquelle). Fortfahren?",
-            "Netzwerkfreigabe einrichten", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-
-        If confirmResult <> DialogResult.Yes Then Return
-
-        ' netsh direkt mit Verb="runas" zu starten lässt sich nicht mit Ausgabe-Umleitung
-        ' kombinieren (UseShellExecute=True ist für die UAC-Erhöhung nötig, schliesst aber
-        ' Redirect von stdout/stderr aus). Deshalb über ein elevated cmd.exe laufen lassen,
-        ' das die netsh-Ausgabe in eine Temp-Datei schreibt - so bleibt die tatsächliche
-        ' Fehlermeldung sichtbar, statt nur den nichtssagenden Exit-Code zu zeigen.
-        Dim outputFile As String = IO.Path.Combine(IO.Path.GetTempPath(), $"tennis24_urlacl_{Guid.NewGuid():N}.txt")
-
-        Try
-            Dim cmdArguments As String = $"/c netsh {arguments} > ""{outputFile}"" 2>&1"
-            Dim startInfo As New ProcessStartInfo("cmd.exe", cmdArguments) With {
-                .Verb = "runas",
-                .UseShellExecute = True,
-                .WindowStyle = ProcessWindowStyle.Hidden
-            }
-
-            Using proc = Process.Start(startInfo)
-                proc.WaitForExit()
-
-                Dim output As String = ""
-                If IO.File.Exists(outputFile) Then
-                    output = IO.File.ReadAllText(outputFile).Trim()
-                    IO.File.Delete(outputFile)
-                End If
-
-                If proc.ExitCode = 0 Then
-                    MessageBox.Show($"Netzwerkfreigabe erfolgreich eingerichtet.{vbNewLine}{vbNewLine}{output}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    MessageBox.Show(
-                        $"netsh meldete einen Fehler (Code {proc.ExitCode}):" & vbNewLine & vbNewLine &
-                        output & vbNewLine & vbNewLine &
-                        "Falls der Port bereits freigegeben ist, kann das ignoriert werden.",
-                        "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
-            End Using
-        Catch ex As ComponentModel.Win32Exception When ex.NativeErrorCode = 1223
-            ' Benutzer hat die UAC-Bestätigung abgebrochen - kein Programmfehler
-            MessageBox.Show("Abgebrochen - die Bestätigung wurde nicht erteilt.", "Abgebrochen", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Catch ex As Exception
-            MessageBox.Show($"Fehler beim Ausführen: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
     End Sub
 
     Private Sub Btn_gamewon_colour_Click(sender As Object, e As EventArgs) Handles Btn_gamewon_colour.Click
@@ -237,7 +147,7 @@ Public Class Tennis24_Settings
         Next
         SyncMatchTiebreakTargetControl()
         SyncGamewonColourControl()
-        SyncJsonServerControls()
+        SyncJsonExportLabel()
 
         ' RadioButtons setzen - nur wenn Controls existieren (Form geladen)
         If RadioButton1 IsNot Nothing Then
@@ -350,7 +260,6 @@ Public Class Tennis24_Settings
 
         TextBoxValues(42) = "10"                    ' Match-Tiebreak bis X Punkte
         TextBoxValues(43) = DEFAULT_GAMEWON_COLOUR  ' Farbe für gewonnenen Satz im Scorebug
-        TextBoxValues(44) = "41200"                 ' Port für die live JSON-Datenquelle
 
         TextBoxValues(45) = "localhost"         ' vMix IP
         TextBoxValues(46) = "8088"              ' vMix Port
@@ -471,7 +380,7 @@ Public Class Tennis24_Settings
             End If
             SyncMatchTiebreakTargetControl()
             SyncGamewonColourControl()
-            SyncJsonServerControls()
+            SyncJsonExportLabel()
 
             ' CheckBoxes laden
             Dim checkBoxNode As XmlNode = xmlDoc.SelectSingleNode("//CheckBoxSettings")
@@ -540,8 +449,6 @@ Public Class Tennis24_Settings
             Dim colour As Color = Btn_gamewon_colour.BackColor
             TextBoxValues(43) = "#" & colour.R.ToString("X2") & colour.G.ToString("X2") & colour.B.ToString("X2")
         End If
-        If NumericUpDown2 IsNot Nothing Then TextBoxValues(44) = NumericUpDown2.Value.ToString()
-
         ' CheckBoxes - Werte aus Controls in Arrays übertragen
         For i As Integer = 1 To 20
             Dim checkBoxControl = Me.Controls.Find($"CheckBox{i}", True).FirstOrDefault()
@@ -589,7 +496,7 @@ Public Class Tennis24_Settings
         Next
         SyncMatchTiebreakTargetControl()
         SyncGamewonColourControl()
-        SyncJsonServerControls()
+        SyncJsonExportLabel()
 
         ' CheckBoxes
         For i As Integer = 1 To 20
