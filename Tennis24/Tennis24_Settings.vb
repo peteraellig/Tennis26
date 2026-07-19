@@ -153,12 +153,14 @@ Public Class Tennis24_Settings
     Private Sub Btn_setup_json_urlacl_Click(sender As Object, e As EventArgs) Handles Btn_setup_json_urlacl.Click
         Dim port As Integer = If(NumericUpDown2 IsNot Nothing, CInt(NumericUpDown2.Value), 41200)
 
-        ' "S-1-1-0" ist die sprachunabhängige, wohlbekannte SID für die Gruppe "Jeder"/
-        ' "Everyone". Der Klartextname "Everyone" wird von netsh auf nicht-englischem
-        ' Windows (z.B. deutschsprachig: "Jeder") nicht immer aufgelöst - das war die
-        ' Ursache für den Fehler "Code 1". Die SID funktioniert unabhängig von der
-        ' Systemsprache.
-        Dim arguments As String = $"http add urlacl url=http://+:{port}/ user=S-1-1-0"
+        ' "user=Everyone" scheiterte auf deutschsprachigem Windows (Gruppe heisst dort
+        ' "Jeder"), und "user=S-1-1-0" (die SID direkt) scheiterte ebenfalls: netsh versucht,
+        ' den Wert hinter "user=" per Kontennamen-Auflösung in eine SID umzuwandeln - eine
+        ' bereits fertige SID nimmt dieser Parameter nicht entgegen ("Fehler 1332: falscher
+        ' Parameter"). Der robuste, sprachunabhängige Weg ist stattdessen "sddl=" mit einer
+        ' fertigen Sicherheitsbeschreibung: "GX" (Generic Execute) für die wohlbekannte SID
+        ' S-1-1-0 (Jeder/Everyone) - das umgeht die Namensauflösung komplett.
+        Dim arguments As String = $"http add urlacl url=http://+:{port}/ sddl=""D:(A;;GX;;;S-1-1-0)"""
 
         Dim confirmResult = MessageBox.Show(
             "Es wird folgender Windows-Befehl mit Administratorrechten ausgeführt (Windows fragt danach separat per UAC-Dialog um Bestätigung):" & vbNewLine & vbNewLine &

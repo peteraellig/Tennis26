@@ -12,12 +12,15 @@ Imports System.Threading
 ' Berechtigung. Dafür gibt es in den Settings den Button "Netzwerkfreigabe einrichten"
 ' (siehe Tennis24_Settings.vb, Btn_setup_json_urlacl_Click). Manuell entspricht das, einmalig
 ' in einer ALS ADMINISTRATOR gestarteten Eingabeaufforderung:
-'   netsh http add urlacl url=http://+:41200/ user=S-1-1-0
-' (Portzahl an die tatsächlich in den Settings gewählte anpassen. "S-1-1-0" ist die
-' sprachunabhängige SID für "Jeder"/"Everyone" - der Klartextname wird von netsh auf
-' nicht-englischem Windows nicht immer aufgelöst.) Ohne diesen Schritt (oder alternativ:
-' das Programm einmalig als Administrator ausführen) schlägt Start() mit "Zugriff verweigert"
-' fehl - der Grund landet dann in LastError.
+'   netsh http add urlacl url=http://+:41200/ sddl="D:(A;;GX;;;S-1-1-0)"
+' (Portzahl an die tatsächlich in den Settings gewählte anpassen.
+' "sddl=D:(A;;GX;;;S-1-1-0)" gewährt "Generic Execute" an die wohlbekannte SID S-1-1-0
+' (Jeder/Everyone) direkt über eine fertige Sicherheitsbeschreibung - sowohl der Klartext-
+' Kontoname "Everyone" (wird auf nicht-englischem Windows, z.B. deutsch "Jeder", von netsh
+' nicht zuverlässig aufgelöst) als auch "user=S-1-1-0" (netsh versucht dort eine Namens-
+' auflösung, keine SID direkt) schlagen fehl. sddl= akzeptiert die SID dagegen unmittelbar.)
+' Ohne diesen Schritt (oder alternativ: das Programm einmalig als Administrator ausführen)
+' schlägt Start() mit "Zugriff verweigert" fehl - der Grund landet dann in LastError.
 Public Class TennisJsonServer
 
     Private listener As HttpListener
