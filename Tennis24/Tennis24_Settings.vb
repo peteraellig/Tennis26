@@ -54,6 +54,8 @@ Public Class Tennis24_Settings
     'RadioButtonValues(1) = Best of x
 
     'checkbox1 = Match-Tiebreak bei 1:1 Sätzen ersetzt den 3. Satz (nur Best of 3)
+    'checkbox2 = Freeze Set - Scorebug bleibt bei Satzende auf dem alten Satz stehen,
+    '            bis der Scorebug manuell ausgeschaltet wird
     'radiobutton1 = Best of 3
     'radiobutton2 = Best of 5
 

@@ -11,6 +11,17 @@ Public Class Tennis24_Scorer
     Private sponsor1ToggleStatus As Boolean = False
     Private sponsor2ToggleStatus As Boolean = False
 
+    ' "Freeze Set" (Settings-Checkbox2): bleibt bei Satzende auf dem Scorebug des gerade
+    ' beendeten Satzes stehen (mit gelb markiertem Endstand), statt sofort auf den neuen Satz
+    ' zu springen. displayedScorebugSet ist der Satz, dessen Vorlage aktuell "aktiv" ist/beim
+    ' nächsten Einschalten gezeigt würde - normalerweise identisch mit currentSet, bleibt bei
+    ' aktivem Freeze Set aber auf dem alten Satz stehen, bis der Bediener den Scorebug manuell
+    ' ausschaltet. freezeSetAdvanceTimer schaltet dann nach der Out-Animation (~1s) auf den
+    ' neuen Satz weiter.
+    Private freezeSetEnabled As Boolean = False
+    Private displayedScorebugSet As Integer = 1
+    Private WithEvents freezeSetAdvanceTimer As New Timer()
+
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
     ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
     ' 22 einzelnen ...ToggleStatus-Variablen plus die von Hand gepflegten Select-Case-Listen
@@ -260,6 +271,8 @@ Public Class Tennis24_Scorer
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitOverlayToggles()
+
+        freezeSetAdvanceTimer.Interval = 1000
 
         Tennis24_Settings.SetVariables()
 
@@ -799,6 +812,7 @@ Public Class Tennis24_Scorer
                 homeTiebreaksWon += 1
             End If
             UpdateSetLabel("home")
+            If freezeSetEnabled Then HighlightWonSet("home")
             CheckForMatchEnd()
         ElseIf IsSetWon(awayGames, homeGames) Then
             awaySets += 1
@@ -806,6 +820,7 @@ Public Class Tennis24_Scorer
                 awayTiebreaksWon += 1
             End If
             UpdateSetLabel("away")
+            If freezeSetEnabled Then HighlightWonSet("away")
             CheckForMatchEnd()
         End If
 
@@ -829,6 +844,11 @@ Public Class Tennis24_Scorer
         Else
             match.MatchTiebreakTarget = 10
         End If
+
+        ' Freeze-Set-Einstellung aus den Settings übernehmen
+        freezeSetEnabled = Tennis24_Settings.CheckBoxValues(2)
+        displayedScorebugSet = 1
+        freezeSetAdvanceTimer.Stop()
 
         ' UI Updates...
         lbl_homepoint.Text = "0"
@@ -1193,16 +1213,28 @@ Public Class Tennis24_Scorer
         scorebugtoggleStatus = Not scorebugtoggleStatus
 
         If scorebugtoggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & currentSet.ToString() & "s.gtzip&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = Color.Red
-            Btn_Scorebug.Text = $"Scorebug ON (Set {currentSet})"
+            Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
         Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "Out&Input=scorebug_" & currentSet.ToString() & "s.gtzip&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "Out&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
             Btn_Scorebug.Text = "Scorebug OFF"
+
+            ' Freeze Set: nach dem Ausblenden ca. 1 Sekunde warten (Out-Animation in vMix),
+            ' dann erst auf den neuen Satz weiterschalten, damit das nächste Einschalten
+            ' den (leeren) neuen Satz statt des eingefrorenen alten Satzes zeigt.
+            If freezeSetEnabled AndAlso displayedScorebugSet <> currentSet Then
+                freezeSetAdvanceTimer.Start()
+            End If
         End If
 
         SendHTMLtovMix(sendstring)
+    End Sub
+
+    Private Sub FreezeSetAdvanceTimer_Tick(sender As Object, e As EventArgs) Handles freezeSetAdvanceTimer.Tick
+        freezeSetAdvanceTimer.Stop()
+        displayedScorebugSet = currentSet
     End Sub
 
     Private Sub Btn_LargeResult_Click(sender As Object, e As EventArgs) Handles Btn_LargeResult.Click
@@ -1224,12 +1256,31 @@ Public Class Tennis24_Scorer
         End If
     End Sub
 
+    ' Färbt die Spielzahl des soeben gewonnenen Satzes in allen Scorebug-Vorlagen gelb ein
+    ' (nur bei aktivem Freeze Set), analog zum Datenmuster in SendDataToGraphicsEngine, das
+    ' h1-h5/a1-a5 ohnehin bereits an alle 5 Vorlagen sendet.
+    Private Sub HighlightWonSet(winner As String)
+        Dim fieldName As String = If(winner = "home", "h", "a") & currentSet.ToString() & ".Text"
+        Dim scorebugtitles() As String = {"scorebug_1s.gtzip", "scorebug_2s.gtzip", "scorebug_3s.gtzip", "scorebug_4s.gtzip", "scorebug_5s.gtzip"}
+
+        For Each scorebugtitle As String In scorebugtitles
+            SendHTMLtovMix("Function=SetColor&Input=" + scorebugtitle + "&SelectedName=" + fieldName + "&Value=FFFF00")
+        Next
+    End Sub
+
     Private Sub UpdateScoreBug()
         'Es gibt verschiedene Scorebug-Templates für verschiedene Sets gibt (scorebug_1s.gtzip, scorebug_2s.gtzip, etc.), lädt automatisch das richtige Template
+        If Not freezeSetEnabled Then
+            ' Ohne Freeze Set: wie bisher sofort auf den aktuellen Satz zeigen
+            displayedScorebugSet = currentSet
+        End If
+        ' Mit Freeze Set bleibt displayedScorebugSet bewusst auf dem alten Satz stehen, bis
+        ' der Bediener den Scorebug manuell ausschaltet (siehe Btn_Scorebug_Click).
+
         If scorebugtoggleStatus Then
             Dim sendstring As String
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & currentSet.ToString() & "s.gtzip&Mix=0"
-            Btn_Scorebug.Text = $"Scorebug ON (Set {currentSet})"
+            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
+            Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
             SendHTMLtovMix(sendstring)
         End If
     End Sub
