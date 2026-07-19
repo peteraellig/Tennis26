@@ -36,6 +36,7 @@ Public Class TennisMatchEngine
         Public Property IsMatchFinished As Boolean
         Public Property NoTiebreakMode As Boolean
         Public Property CompletedGamesInMatch As Integer
+        Public Property MatchStartTime As DateTime?
     End Class
 
     Public Property IsTiebreak As Boolean = False
@@ -86,6 +87,19 @@ Public Class TennisMatchEngine
     ' als 1 Spiel) - läuft bewusst durchgehend über Satzgrenzen hinweg, siehe AreSidesSwapped.
     Public Property CompletedGamesInMatch As Integer = 0
 
+    ' Wird beim allerersten Punkt des Matches gesetzt (siehe RegisterPoint) und bei
+    ' ResetMatch wieder auf Nothing zurückgesetzt - Nothing bedeutet "noch kein Punkt
+    ' gespielt". Die Spielzeit wird bewusst nicht als fortlaufender Zähler geführt,
+    ' sondern bei jedem Abruf aus der Differenz zu "jetzt" berechnet (siehe MatchElapsed) -
+    ' so bleibt sie auch dann korrekt, wenn zwischen zwei Punkten Zeit vergeht.
+    Public Property MatchStartTime As DateTime? = Nothing
+
+    Public ReadOnly Property MatchElapsed As TimeSpan
+        Get
+            Return If(MatchStartTime.HasValue, DateTime.UtcNow - MatchStartTime.Value, TimeSpan.Zero)
+        End Get
+    End Property
+
     Public ReadOnly Property Stack As New Stack(Of MatchState)
 
     Public Sub PushState()
@@ -120,7 +134,8 @@ Public Class TennisMatchEngine
             .CurrentGamePoints = CurrentGamePoints,
             .FirstPointPlayed = FirstPointPlayed,
             .IsMatchFinished = IsMatchFinished,
-            .NoTiebreakMode = NoTiebreakMode
+            .NoTiebreakMode = NoTiebreakMode,
+            .MatchStartTime = MatchStartTime
         })
     End Sub
 
@@ -161,6 +176,7 @@ Public Class TennisMatchEngine
         IsMatchFinished = lastState.IsMatchFinished
         NoTiebreakMode = lastState.NoTiebreakMode
         CompletedGamesInMatch = lastState.CompletedGamesInMatch
+        MatchStartTime = lastState.MatchStartTime
         Return lastState
     End Function
 
@@ -196,6 +212,7 @@ Public Class TennisMatchEngine
         LongestGame = 0
         CurrentGamePoints = 0
         CompletedGamesInMatch = 0
+        MatchStartTime = Nothing
 
         Stack.Clear()
     End Sub
@@ -266,6 +283,9 @@ Public Class TennisMatchEngine
     End Function
 
     Public Sub RegisterPoint(player As String)
+        ' Spielzeit startet mit dem allerersten Punkt des Matches.
+        If Not MatchStartTime.HasValue Then MatchStartTime = DateTime.UtcNow
+
         ' Beim ersten Punkt eines (Match-)Tiebreaks festhalten, wer ihn eröffnet - daraus
         ' leitet sich die gesamte Aufschlag-Rotation im Tiebreak ab. Gleichzeitig die
         ' Mini-Break-Zähler zurücksetzen: Sie beziehen sich bewusst auf den LAUFENDEN

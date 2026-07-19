@@ -592,6 +592,13 @@ Public Class Tennis24_Scorer
 
         Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
 
+        ' Spielzeit: läuft ab dem allerersten Punkt (siehe TennisMatchEngine.RegisterPoint).
+        ' matchStartTime roh mitgeben, damit eine externe Anzeige selbst weiterticken kann,
+        ' matchDuration/-Seconds zusätzlich fertig berechnet für einfache Konsumenten (z.B.
+        ' ein vMix-Textfeld, das nicht selbst rechnen kann).
+        Dim matchElapsed = match.MatchElapsed
+        Dim matchDurationText = $"{Math.Floor(matchElapsed.TotalHours):0}:{matchElapsed.Minutes:00}:{matchElapsed.Seconds:00}"
+
         Dim root As New JsonObjectBuilder()
         root.AddRaw("home", homeObj.ToString()) _
             .AddRaw("away", awayObj.ToString()) _
@@ -604,6 +611,9 @@ Public Class Tennis24_Scorer
             .AddInt("breakPointCount", match.CurrentBreakPointCount()) _
             .AddBool("sidesSwapped", match.AreSidesCurrentlySwapped()) _
             .AddInt("longestGame", longestGame) _
+            .AddString("matchStartTime", If(match.MatchStartTime.HasValue, match.MatchStartTime.Value.ToString("o"), "")) _
+            .AddInt("matchDurationSeconds", CInt(matchElapsed.TotalSeconds)) _
+            .AddString("matchDuration", matchDurationText) _
             .AddString("updatedAt", DateTime.UtcNow.ToString("o"))
 
         Return root.ToString()
