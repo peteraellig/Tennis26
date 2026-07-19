@@ -138,7 +138,7 @@ Partial Class Tennis24_Settings
         Me.TextBox22.Location = New System.Drawing.Point(842, 457)
         Me.TextBox22.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox22.Name = "TextBox22"
-        Me.TextBox22.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox22.Size = New System.Drawing.Size(425, 31)
         Me.TextBox22.TabIndex = 151
         '
         'TextBox8
@@ -148,7 +148,7 @@ Partial Class Tennis24_Settings
         Me.TextBox8.Location = New System.Drawing.Point(844, 313)
         Me.TextBox8.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox8.Size = New System.Drawing.Size(425, 31)
         Me.TextBox8.TabIndex = 171
         '
         'Label8
@@ -171,7 +171,7 @@ Partial Class Tennis24_Settings
         Me.TextBox7.Location = New System.Drawing.Point(844, 273)
         Me.TextBox7.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox7.Size = New System.Drawing.Size(425, 31)
         Me.TextBox7.TabIndex = 169
         '
         'Label7
@@ -194,7 +194,7 @@ Partial Class Tennis24_Settings
         Me.TextBox6.Location = New System.Drawing.Point(844, 233)
         Me.TextBox6.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox6.Size = New System.Drawing.Size(425, 31)
         Me.TextBox6.TabIndex = 167
         '
         'Label6
@@ -217,7 +217,7 @@ Partial Class Tennis24_Settings
         Me.TextBox5.Location = New System.Drawing.Point(844, 193)
         Me.TextBox5.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox5.Size = New System.Drawing.Size(425, 31)
         Me.TextBox5.TabIndex = 165
         '
         'Label5
@@ -240,7 +240,7 @@ Partial Class Tennis24_Settings
         Me.TextBox4.Location = New System.Drawing.Point(844, 153)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox4.Size = New System.Drawing.Size(425, 31)
         Me.TextBox4.TabIndex = 163
         '
         'Label4
@@ -263,7 +263,7 @@ Partial Class Tennis24_Settings
         Me.TextBox3.Location = New System.Drawing.Point(842, 100)
         Me.TextBox3.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox3.Size = New System.Drawing.Size(425, 31)
         Me.TextBox3.TabIndex = 161
         '
         'Label3
@@ -285,7 +285,7 @@ Partial Class Tennis24_Settings
         Me.TextBox23.Location = New System.Drawing.Point(842, 499)
         Me.TextBox23.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox23.Name = "TextBox23"
-        Me.TextBox23.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox23.Size = New System.Drawing.Size(425, 31)
         Me.TextBox23.TabIndex = 153
         '
         'TextBox21
@@ -295,7 +295,7 @@ Partial Class Tennis24_Settings
         Me.TextBox21.Location = New System.Drawing.Point(842, 411)
         Me.TextBox21.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox21.Name = "TextBox21"
-        Me.TextBox21.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox21.Size = New System.Drawing.Size(425, 31)
         Me.TextBox21.TabIndex = 149
         '
         'TextBox20
@@ -305,7 +305,7 @@ Partial Class Tennis24_Settings
         Me.TextBox20.Location = New System.Drawing.Point(842, 369)
         Me.TextBox20.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox20.Name = "TextBox20"
-        Me.TextBox20.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox20.Size = New System.Drawing.Size(425, 31)
         Me.TextBox20.TabIndex = 147
         '
         'TextBox2
@@ -315,7 +315,7 @@ Partial Class Tennis24_Settings
         Me.TextBox2.Location = New System.Drawing.Point(842, 60)
         Me.TextBox2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox2.Size = New System.Drawing.Size(425, 31)
         Me.TextBox2.TabIndex = 156
         '
         'TextBox1
@@ -325,7 +325,7 @@ Partial Class Tennis24_Settings
         Me.TextBox1.Location = New System.Drawing.Point(842, 21)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(425, 23)
+        Me.TextBox1.Size = New System.Drawing.Size(425, 31)
         Me.TextBox1.TabIndex = 155
         '
         'Label2
@@ -413,7 +413,7 @@ Partial Class Tennis24_Settings
         Me.Label51.Location = New System.Drawing.Point(839, 553)
         Me.Label51.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label51.Name = "Label51"
-        Me.Label51.Size = New System.Drawing.Size(364, 13)
+        Me.Label51.Size = New System.Drawing.Size(547, 23)
         Me.Label51.TabIndex = 158
         Me.Label51.Text = "** if you add a , (coma) in the text line, the text after the coma is line 2"
         '
@@ -424,7 +424,7 @@ Partial Class Tennis24_Settings
         Me.TextBox39.Location = New System.Drawing.Point(1507, 592)
         Me.TextBox39.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox39.Name = "TextBox39"
-        Me.TextBox39.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox39.Size = New System.Drawing.Size(376, 29)
         Me.TextBox39.TabIndex = 181
         '
         'TextBox38
@@ -434,7 +434,7 @@ Partial Class Tennis24_Settings
         Me.TextBox38.Location = New System.Drawing.Point(1507, 554)
         Me.TextBox38.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox38.Name = "TextBox38"
-        Me.TextBox38.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox38.Size = New System.Drawing.Size(376, 29)
         Me.TextBox38.TabIndex = 179
         '
         'TextBox37
@@ -444,7 +444,7 @@ Partial Class Tennis24_Settings
         Me.TextBox37.Location = New System.Drawing.Point(1507, 515)
         Me.TextBox37.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox37.Name = "TextBox37"
-        Me.TextBox37.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox37.Size = New System.Drawing.Size(376, 29)
         Me.TextBox37.TabIndex = 177
         '
         'TextBox36
@@ -454,7 +454,7 @@ Partial Class Tennis24_Settings
         Me.TextBox36.Location = New System.Drawing.Point(1507, 477)
         Me.TextBox36.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox36.Name = "TextBox36"
-        Me.TextBox36.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox36.Size = New System.Drawing.Size(376, 29)
         Me.TextBox36.TabIndex = 175
         '
         'Label39
@@ -563,7 +563,7 @@ Partial Class Tennis24_Settings
         Me.ComboBox3.Location = New System.Drawing.Point(99, 195)
         Me.ComboBox3.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.ComboBox3.Name = "ComboBox3"
-        Me.ComboBox3.Size = New System.Drawing.Size(65, 29)
+        Me.ComboBox3.Size = New System.Drawing.Size(65, 40)
         Me.ComboBox3.TabIndex = 198
         '
         'LabelsponsorOVL
@@ -615,7 +615,7 @@ Partial Class Tennis24_Settings
         Me.ComboBox1.Location = New System.Drawing.Point(99, 122)
         Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(67, 29)
+        Me.ComboBox1.Size = New System.Drawing.Size(67, 40)
         Me.ComboBox1.TabIndex = 194
         '
         'ComboBox2
@@ -628,7 +628,7 @@ Partial Class Tennis24_Settings
         Me.ComboBox2.Location = New System.Drawing.Point(99, 159)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(67, 29)
+        Me.ComboBox2.Size = New System.Drawing.Size(67, 40)
         Me.ComboBox2.TabIndex = 193
         '
         'PictureBox2
@@ -671,7 +671,7 @@ Partial Class Tennis24_Settings
         Me.Label34.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label34.Location = New System.Drawing.Point(39, 160)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(296, 15)
+        Me.Label34.Size = New System.Drawing.Size(449, 25)
         Me.Label34.TabIndex = 211
         Me.Label34.Text = "keeps scorebug set-NR freezed until scorebug is offline"
         '
@@ -681,7 +681,7 @@ Partial Class Tennis24_Settings
         Me.Label26.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.Location = New System.Drawing.Point(113, 96)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(155, 21)
+        Me.Label26.Size = New System.Drawing.Size(237, 32)
         Me.Label26.TabIndex = 207
         Me.Label26.Text = "usually set to 7 or 10"
         '
@@ -691,7 +691,7 @@ Partial Class Tennis24_Settings
         Me.Label27.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label27.Location = New System.Drawing.Point(19, 208)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(134, 21)
+        Me.Label27.Size = New System.Drawing.Size(205, 32)
         Me.Label27.TabIndex = 209
         Me.Label27.Text = "game won colour:"
         '
@@ -713,7 +713,7 @@ Partial Class Tennis24_Settings
         Me.CheckBox2.Location = New System.Drawing.Point(21, 139)
         Me.CheckBox2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(104, 25)
+        Me.CheckBox2.Size = New System.Drawing.Size(158, 36)
         Me.CheckBox2.TabIndex = 208
         Me.CheckBox2.Text = "Freeze Set "
         Me.ToolTip1.SetToolTip(Me.CheckBox2, "keeps scorebug set-NR freezed until scorebug is offline")
@@ -727,7 +727,7 @@ Partial Class Tennis24_Settings
         Me.TextBox50.Location = New System.Drawing.Point(213, 33)
         Me.TextBox50.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox50.Name = "TextBox50"
-        Me.TextBox50.Size = New System.Drawing.Size(32, 23)
+        Me.TextBox50.Size = New System.Drawing.Size(32, 31)
         Me.TextBox50.TabIndex = 204
         Me.TextBox50.Text = "3"
         '
@@ -738,7 +738,7 @@ Partial Class Tennis24_Settings
         Me.CheckBox1.Location = New System.Drawing.Point(21, 72)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(291, 25)
+        Me.CheckBox1.Size = New System.Drawing.Size(448, 36)
         Me.CheckBox1.TabIndex = 205
         Me.CheckBox1.Text = "Match-Tiebreak at 1:1 (Best of 3) until:"
         Me.CheckBox1.UseVisualStyleBackColor = True
@@ -751,7 +751,7 @@ Partial Class Tennis24_Settings
         Me.NumericUpDown1.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.NumericUpDown1.Minimum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.NumericUpDown1.Name = "NumericUpDown1"
-        Me.NumericUpDown1.Size = New System.Drawing.Size(66, 23)
+        Me.NumericUpDown1.Size = New System.Drawing.Size(66, 31)
         Me.NumericUpDown1.TabIndex = 206
         Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown1.Value = New Decimal(New Integer() {10, 0, 0, 0})
@@ -763,7 +763,7 @@ Partial Class Tennis24_Settings
         Me.RadioButton2.Location = New System.Drawing.Point(117, 32)
         Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(88, 25)
+        Me.RadioButton2.Size = New System.Drawing.Size(133, 36)
         Me.RadioButton2.TabIndex = 19
         Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "best of 5"
@@ -776,7 +776,7 @@ Partial Class Tennis24_Settings
         Me.RadioButton1.Location = New System.Drawing.Point(21, 32)
         Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(88, 25)
+        Me.RadioButton1.Size = New System.Drawing.Size(133, 36)
         Me.RadioButton1.TabIndex = 18
         Me.RadioButton1.TabStop = True
         Me.RadioButton1.Text = "best of 3"
@@ -789,7 +789,7 @@ Partial Class Tennis24_Settings
         Me.TextBox46.Location = New System.Drawing.Point(101, 83)
         Me.TextBox46.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox46.Name = "TextBox46"
-        Me.TextBox46.Size = New System.Drawing.Size(65, 29)
+        Me.TextBox46.Size = New System.Drawing.Size(65, 39)
         Me.TextBox46.TabIndex = 203
         Me.TextBox46.Text = "8088"
         '
@@ -800,7 +800,7 @@ Partial Class Tennis24_Settings
         Me.TextBox45.Location = New System.Drawing.Point(100, 41)
         Me.TextBox45.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox45.Name = "TextBox45"
-        Me.TextBox45.Size = New System.Drawing.Size(155, 29)
+        Me.TextBox45.Size = New System.Drawing.Size(155, 39)
         Me.TextBox45.TabIndex = 201
         Me.TextBox45.Text = "localhost"
         '
@@ -839,7 +839,7 @@ Partial Class Tennis24_Settings
         Me.TextBox27.Location = New System.Drawing.Point(1507, 131)
         Me.TextBox27.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox27.Name = "TextBox27"
-        Me.TextBox27.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox27.Size = New System.Drawing.Size(376, 29)
         Me.TextBox27.TabIndex = 211
         '
         'TextBox26
@@ -849,7 +849,7 @@ Partial Class Tennis24_Settings
         Me.TextBox26.Location = New System.Drawing.Point(1507, 92)
         Me.TextBox26.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox26.Name = "TextBox26"
-        Me.TextBox26.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox26.Size = New System.Drawing.Size(376, 29)
         Me.TextBox26.TabIndex = 209
         '
         'TextBox25
@@ -859,7 +859,7 @@ Partial Class Tennis24_Settings
         Me.TextBox25.Location = New System.Drawing.Point(1507, 54)
         Me.TextBox25.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox25.Name = "TextBox25"
-        Me.TextBox25.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox25.Size = New System.Drawing.Size(376, 29)
         Me.TextBox25.TabIndex = 207
         '
         'TextBox24
@@ -869,7 +869,7 @@ Partial Class Tennis24_Settings
         Me.TextBox24.Location = New System.Drawing.Point(1507, 15)
         Me.TextBox24.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox24.Name = "TextBox24"
-        Me.TextBox24.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox24.Size = New System.Drawing.Size(376, 29)
         Me.TextBox24.TabIndex = 205
         '
         'Label9
@@ -930,7 +930,7 @@ Partial Class Tennis24_Settings
         Me.TextBox31.Location = New System.Drawing.Point(1507, 285)
         Me.TextBox31.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox31.Name = "TextBox31"
-        Me.TextBox31.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox31.Size = New System.Drawing.Size(376, 29)
         Me.TextBox31.TabIndex = 219
         '
         'TextBox30
@@ -940,7 +940,7 @@ Partial Class Tennis24_Settings
         Me.TextBox30.Location = New System.Drawing.Point(1507, 246)
         Me.TextBox30.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox30.Name = "TextBox30"
-        Me.TextBox30.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox30.Size = New System.Drawing.Size(376, 29)
         Me.TextBox30.TabIndex = 217
         '
         'TextBox29
@@ -950,7 +950,7 @@ Partial Class Tennis24_Settings
         Me.TextBox29.Location = New System.Drawing.Point(1507, 208)
         Me.TextBox29.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox29.Name = "TextBox29"
-        Me.TextBox29.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox29.Size = New System.Drawing.Size(376, 29)
         Me.TextBox29.TabIndex = 215
         '
         'TextBox28
@@ -960,7 +960,7 @@ Partial Class Tennis24_Settings
         Me.TextBox28.Location = New System.Drawing.Point(1507, 169)
         Me.TextBox28.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox28.Name = "TextBox28"
-        Me.TextBox28.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox28.Size = New System.Drawing.Size(376, 29)
         Me.TextBox28.TabIndex = 213
         '
         'Label13
@@ -1021,7 +1021,7 @@ Partial Class Tennis24_Settings
         Me.TextBox35.Location = New System.Drawing.Point(1507, 438)
         Me.TextBox35.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox35.Name = "TextBox35"
-        Me.TextBox35.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox35.Size = New System.Drawing.Size(376, 29)
         Me.TextBox35.TabIndex = 227
         '
         'TextBox34
@@ -1031,7 +1031,7 @@ Partial Class Tennis24_Settings
         Me.TextBox34.Location = New System.Drawing.Point(1507, 400)
         Me.TextBox34.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox34.Name = "TextBox34"
-        Me.TextBox34.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox34.Size = New System.Drawing.Size(376, 29)
         Me.TextBox34.TabIndex = 225
         '
         'TextBox33
@@ -1041,7 +1041,7 @@ Partial Class Tennis24_Settings
         Me.TextBox33.Location = New System.Drawing.Point(1507, 362)
         Me.TextBox33.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox33.Name = "TextBox33"
-        Me.TextBox33.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox33.Size = New System.Drawing.Size(376, 29)
         Me.TextBox33.TabIndex = 223
         '
         'TextBox32
@@ -1051,7 +1051,7 @@ Partial Class Tennis24_Settings
         Me.TextBox32.Location = New System.Drawing.Point(1507, 323)
         Me.TextBox32.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.TextBox32.Name = "TextBox32"
-        Me.TextBox32.Size = New System.Drawing.Size(376, 22)
+        Me.TextBox32.Size = New System.Drawing.Size(376, 29)
         Me.TextBox32.TabIndex = 221
         '
         'Label17
@@ -1114,7 +1114,7 @@ Partial Class Tennis24_Settings
         Me.Label25.Location = New System.Drawing.Point(8, 14)
         Me.Label25.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(101, 21)
+        Me.Label25.Size = New System.Drawing.Size(155, 32)
         Me.Label25.TabIndex = 228
         Me.Label25.Text = "vMix settings"
         '
@@ -1169,7 +1169,7 @@ Partial Class Tennis24_Settings
         Me.PictureBox6.Location = New System.Drawing.Point(2, 295)
         Me.PictureBox6.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.PictureBox6.Name = "PictureBox6"
-        Me.PictureBox6.Size = New System.Drawing.Size(664, 77)
+        Me.PictureBox6.Size = New System.Drawing.Size(664, 235)
         Me.PictureBox6.TabIndex = 233
         Me.PictureBox6.TabStop = False
         '
@@ -1177,9 +1177,9 @@ Partial Class Tennis24_Settings
         '
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox3.Location = New System.Drawing.Point(170, 302)
+        Me.CheckBox3.Location = New System.Drawing.Point(12, 355)
         Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(104, 25)
+        Me.CheckBox3.Size = New System.Drawing.Size(154, 36)
         Me.CheckBox3.TabIndex = 235
         Me.CheckBox3.Text = "JSON Data"
         Me.CheckBox3.UseVisualStyleBackColor = True
@@ -1187,11 +1187,11 @@ Partial Class Tennis24_Settings
         'NumericUpDown2
         '
         Me.NumericUpDown2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumericUpDown2.Location = New System.Drawing.Point(339, 300)
+        Me.NumericUpDown2.Location = New System.Drawing.Point(261, 350)
         Me.NumericUpDown2.Maximum = New Decimal(New Integer() {65535, 0, 0, 0})
         Me.NumericUpDown2.Minimum = New Decimal(New Integer() {1024, 0, 0, 0})
         Me.NumericUpDown2.Name = "NumericUpDown2"
-        Me.NumericUpDown2.Size = New System.Drawing.Size(69, 29)
+        Me.NumericUpDown2.Size = New System.Drawing.Size(129, 39)
         Me.NumericUpDown2.TabIndex = 236
         Me.NumericUpDown2.Value = New Decimal(New Integer() {41200, 0, 0, 0})
         '
@@ -1199,9 +1199,9 @@ Partial Class Tennis24_Settings
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(16, 338)
+        Me.Label28.Location = New System.Drawing.Point(8, 395)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(65, 21)
+        Me.Label28.Size = New System.Drawing.Size(96, 32)
         Me.Label28.TabIndex = 237
         Me.Label28.Text = "Label28"
         '
@@ -1214,7 +1214,7 @@ Partial Class Tennis24_Settings
         Me.Label29.Location = New System.Drawing.Point(8, 303)
         Me.Label29.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(138, 21)
+        Me.Label29.Size = New System.Drawing.Size(209, 32)
         Me.Label29.TabIndex = 238
         Me.Label29.Text = "JSON HTTP Server"
         '
@@ -1231,9 +1231,9 @@ Partial Class Tennis24_Settings
         '
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(295, 303)
+        Me.Label32.Location = New System.Drawing.Point(199, 357)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(38, 21)
+        Me.Label32.Size = New System.Drawing.Size(56, 32)
         Me.Label32.TabIndex = 240
         Me.Label32.Text = "Port"
         '

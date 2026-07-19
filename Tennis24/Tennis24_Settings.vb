@@ -152,7 +152,13 @@ Public Class Tennis24_Settings
     ' Rechte ohne diese Bestätigung durch den Benutzer.
     Private Sub Btn_setup_json_urlacl_Click(sender As Object, e As EventArgs) Handles Btn_setup_json_urlacl.Click
         Dim port As Integer = If(NumericUpDown2 IsNot Nothing, CInt(NumericUpDown2.Value), 41200)
-        Dim arguments As String = $"http add urlacl url=http://+:{port}/ user=Everyone"
+
+        ' "S-1-1-0" ist die sprachunabhängige, wohlbekannte SID für die Gruppe "Jeder"/
+        ' "Everyone". Der Klartextname "Everyone" wird von netsh auf nicht-englischem
+        ' Windows (z.B. deutschsprachig: "Jeder") nicht immer aufgelöst - das war die
+        ' Ursache für den Fehler "Code 1". Die SID funktioniert unabhängig von der
+        ' Systemsprache.
+        Dim arguments As String = $"http add urlacl url=http://+:{port}/ user=S-1-1-0"
 
         Dim confirmResult = MessageBox.Show(
             "Es wird folgender Windows-Befehl mit Administratorrechten ausgeführt (Windows fragt danach separat per UAC-Dialog um Bestätigung):" & vbNewLine & vbNewLine &
@@ -162,8 +168,16 @@ Public Class Tennis24_Settings
 
         If confirmResult <> DialogResult.Yes Then Return
 
+        ' netsh direkt mit Verb="runas" zu starten lässt sich nicht mit Ausgabe-Umleitung
+        ' kombinieren (UseShellExecute=True ist für die UAC-Erhöhung nötig, schliesst aber
+        ' Redirect von stdout/stderr aus). Deshalb über ein elevated cmd.exe laufen lassen,
+        ' das die netsh-Ausgabe in eine Temp-Datei schreibt - so bleibt die tatsächliche
+        ' Fehlermeldung sichtbar, statt nur den nichtssagenden Exit-Code zu zeigen.
+        Dim outputFile As String = IO.Path.Combine(IO.Path.GetTempPath(), $"tennis24_urlacl_{Guid.NewGuid():N}.txt")
+
         Try
-            Dim startInfo As New ProcessStartInfo("netsh.exe", arguments) With {
+            Dim cmdArguments As String = $"/c netsh {arguments} > ""{outputFile}"" 2>&1"
+            Dim startInfo As New ProcessStartInfo("cmd.exe", cmdArguments) With {
                 .Verb = "runas",
                 .UseShellExecute = True,
                 .WindowStyle = ProcessWindowStyle.Hidden
@@ -171,11 +185,19 @@ Public Class Tennis24_Settings
 
             Using proc = Process.Start(startInfo)
                 proc.WaitForExit()
+
+                Dim output As String = ""
+                If IO.File.Exists(outputFile) Then
+                    output = IO.File.ReadAllText(outputFile).Trim()
+                    IO.File.Delete(outputFile)
+                End If
+
                 If proc.ExitCode = 0 Then
-                    MessageBox.Show("Netzwerkfreigabe erfolgreich eingerichtet.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show($"Netzwerkfreigabe erfolgreich eingerichtet.{vbNewLine}{vbNewLine}{output}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     MessageBox.Show(
-                        $"netsh meldete einen Fehler (Code {proc.ExitCode})." & vbNewLine &
+                        $"netsh meldete einen Fehler (Code {proc.ExitCode}):" & vbNewLine & vbNewLine &
+                        output & vbNewLine & vbNewLine &
                         "Falls der Port bereits freigegeben ist, kann das ignoriert werden.",
                         "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If

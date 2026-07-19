@@ -497,7 +497,7 @@ Public Class Tennis24_Scorer
                         jsonServer.LastError & vbNewLine & vbNewLine &
                         "Häufigste Ursache: Windows erlaubt einem Nicht-Administrator-Programm standardmässig nicht, netzwerkweit auf einem Port zu lauschen." & vbNewLine &
                         "Einmalig als Administrator ausführen:" & vbNewLine &
-                        $"netsh http add urlacl url=http://+:{port}/ user=Everyone",
+                        $"netsh http add urlacl url=http://+:{port}/ user=S-1-1-0",
                         "Live-JSON-Datenquelle", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If

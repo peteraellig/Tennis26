@@ -9,11 +9,15 @@ Imports System.Threading
 ' WICHTIG zum Netzwerkzugriff: Damit der Server auch von ANDEREN Geräten im Netzwerk (nicht
 ' nur von diesem PC) erreichbar ist, muss ein Nicht-Admin-Prozess auf einem Wildcard-Prefix
 ' ("http://+:PORT/") lauschen dürfen - das erlaubt Windows nur nach einer einmaligen
-' Berechtigung. Einmalig in einer ALS ADMINISTRATOR gestarteten Eingabeaufforderung:
-'   netsh http add urlacl url=http://+:41200/ user=Everyone
-' (Portzahl an die tatsächlich in den Settings gewählte anpassen.) Ohne diesen Schritt (oder
-' alternativ: das Programm einmalig als Administrator ausführen) schlägt Start() mit
-' "Zugriff verweigert" fehl - der Grund landet dann in LastError.
+' Berechtigung. Dafür gibt es in den Settings den Button "Netzwerkfreigabe einrichten"
+' (siehe Tennis24_Settings.vb, Btn_setup_json_urlacl_Click). Manuell entspricht das, einmalig
+' in einer ALS ADMINISTRATOR gestarteten Eingabeaufforderung:
+'   netsh http add urlacl url=http://+:41200/ user=S-1-1-0
+' (Portzahl an die tatsächlich in den Settings gewählte anpassen. "S-1-1-0" ist die
+' sprachunabhängige SID für "Jeder"/"Everyone" - der Klartextname wird von netsh auf
+' nicht-englischem Windows nicht immer aufgelöst.) Ohne diesen Schritt (oder alternativ:
+' das Programm einmalig als Administrator ausführen) schlägt Start() mit "Zugriff verweigert"
+' fehl - der Grund landet dann in LastError.
 Public Class TennisJsonServer
 
     Private listener As HttpListener
