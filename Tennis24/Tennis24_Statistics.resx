@@ -119,10 +119,35 @@
   </resheader>
   <data name="TextBox1.Text" xml:space="preserve">
     <value>Was bedeuten die Statistiken:
--Service Games:             Anzahl der eigenen Aufschlagspiele
--Service Games Won:    Anzahl der gewonnenen eigenen Aufschlagspiele
--Service Win %:              Prozentsatz der gehaltenen Aufschlagspiele
--Break Points:                 Anzahl der gebrochenen gegnerischen Aufschlagspiele
+
+=== CURRENT GAME ===
+- Points:                        Punktestand im aktuellen Spiel (0/15/30/40/Ad)
+- Games:                         Gewonnene Spiele im aktuellen Satz
+- Sets:                          Gewonnene Sätze im Match
+- Tiebreak:                      Läuft gerade ein (Match-)Tiebreak? (ACTIVE / MATCH-TB / No)
+
+=== MATCH INFO ===
+- Current Set:                   Nummer des aktuell gespielten Satzes
+- Match Type:                    Best of 3 oder Best of 5
+- Serving:                       Wer gerade aufschlägt
+- Ends Changed:                  Sind die Seiten gerade getauscht?
+
+=== STATISTICS ===
+- Total Points:                  Alle bisher im Match gewonnenen Punkte
+- Service Games:                 Anzahl der eigenen Aufschlagspiele
+- Service Games Won:             Anzahl der gehaltenen eigenen Aufschlagspiele (nicht gebrochen)
+- Service Win %:                 Prozentsatz der gehaltenen Aufschlagspiele
+- Breaks:                        Anzahl der gebrochenen gegnerischen Aufschlagspiele
+- Tiebreaks Won:                 Anzahl gewonnener Tiebreaks
+- Longest Game:                  Meiste Punkte in einem einzelnen Spiel (zähestes Spiel des Matches)
+- Points Win %:                  Prozentsatz aller gespielten Punkte, die gewonnen wurden
+
+=== BREAK POINTS ===
+- Break Pts won/total:           Verwertete Breakbälle / Anzahl Breakball-Chancen (als Rückschläger)
+- BP Conversion %:                Prozentsatz der verwerteten Breakball-Chancen
+- BP saved:                      Abgewehrte Breakbälle am eigenen Aufschlag / gegnerische Breakball-Chancen
+- BREAK POINT now:               Live-Anzeige: gerade wird ein Breakball gespielt
+- Mini-Breaks (TB):              Im Tiebreak gewonnene Punkte gegen den gegnerischen Aufschlag
 </value>
   </data>
 </root>
