@@ -25,9 +25,8 @@ Public Class Tennis24_Statistics
         DataGridView_Stats.ReadOnly = True
         DataGridView_Stats.RowHeadersVisible = False
         DataGridView_Stats.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        ' Vertikale Scrollleiste zulassen - die Liste ist mit den Breakball-Zeilen länger
-        ' geworden und soll auch bei kleinerem Fenster vollständig erreichbar bleiben.
-        DataGridView_Stats.ScrollBars = ScrollBars.Vertical
+        ' ScrollBars sowie Grösse/Position des Grids kommen bewusst aus dem Designer und
+        ' werden hier NICHT überschrieben.
         DataGridView_Stats.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
         DataGridView_Stats.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
         DataGridView_Stats.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue
