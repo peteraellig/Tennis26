@@ -53,7 +53,7 @@ Partial Class Tennis24_Statistics
         Me.Btn_Close.BackColor = System.Drawing.Color.IndianRed
         Me.Btn_Close.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Close.ForeColor = System.Drawing.Color.White
-        Me.Btn_Close.Location = New System.Drawing.Point(657, 643)
+        Me.Btn_Close.Location = New System.Drawing.Point(1154, 643)
         Me.Btn_Close.Name = "Btn_Close"
         Me.Btn_Close.Size = New System.Drawing.Size(125, 106)
         Me.Btn_Close.TabIndex = 28
@@ -63,7 +63,7 @@ Partial Class Tennis24_Statistics
         'Tennis24_Statistics
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(794, 761)
+        Me.ClientSize = New System.Drawing.Size(1306, 761)
         Me.Controls.Add(Me.Btn_Close)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.DataGridView_Stats)
