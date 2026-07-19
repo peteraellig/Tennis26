@@ -97,6 +97,8 @@ Partial Class Tennis24_Scorer
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Lbl_Winner = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Label9 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -289,7 +291,7 @@ Partial Class Tennis24_Scorer
         Me.CheckBox_keypress_Mode.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox_keypress_Mode.Location = New System.Drawing.Point(33, 135)
         Me.CheckBox_keypress_Mode.Name = "CheckBox_keypress_Mode"
-        Me.CheckBox_keypress_Mode.Size = New System.Drawing.Size(133, 32)
+        Me.CheckBox_keypress_Mode.Size = New System.Drawing.Size(89, 21)
         Me.CheckBox_keypress_Mode.TabIndex = 18
         Me.CheckBox_keypress_Mode.Text = "CheckBox1"
         Me.ToolTip1.SetToolTip(Me.CheckBox_keypress_Mode, resources.GetString("CheckBox_keypress_Mode.ToolTip"))
@@ -300,7 +302,7 @@ Partial Class Tennis24_Scorer
         Me.lbl_current_set.AutoSize = True
         Me.lbl_current_set.Location = New System.Drawing.Point(12, 4)
         Me.lbl_current_set.Name = "lbl_current_set"
-        Me.lbl_current_set.Size = New System.Drawing.Size(119, 23)
+        Me.lbl_current_set.Size = New System.Drawing.Size(82, 13)
         Me.lbl_current_set.TabIndex = 19
         Me.lbl_current_set.Text = "lbl_current_set"
         '
@@ -357,7 +359,7 @@ Partial Class Tennis24_Scorer
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(451, 3)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(59, 23)
+        Me.Label1.Size = New System.Drawing.Size(40, 13)
         Me.Label1.TabIndex = 25
         Me.Label1.Text = "Label1"
         '
@@ -367,7 +369,7 @@ Partial Class Tennis24_Scorer
         Me.TextBox1.Location = New System.Drawing.Point(703, 481)
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(600, 122)
+        Me.TextBox1.Size = New System.Drawing.Size(353, 122)
         Me.TextBox1.TabIndex = 26
         Me.TextBox1.Text = resources.GetString("TextBox1.Text")
         '
@@ -376,7 +378,7 @@ Partial Class Tennis24_Scorer
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(12, 473)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(68, 23)
+        Me.Label12.Size = New System.Drawing.Size(46, 13)
         Me.Label12.TabIndex = 27
         Me.Label12.Text = "Label12"
         '
@@ -385,7 +387,7 @@ Partial Class Tennis24_Scorer
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(12, 494)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(59, 23)
+        Me.Label7.Size = New System.Drawing.Size(40, 13)
         Me.Label7.TabIndex = 28
         Me.Label7.Text = "Label7"
         '
@@ -584,10 +586,11 @@ Partial Class Tennis24_Scorer
         Me.CheckBox_noTiebreak.AutoSize = True
         Me.CheckBox_noTiebreak.Location = New System.Drawing.Point(602, 135)
         Me.CheckBox_noTiebreak.Name = "CheckBox_noTiebreak"
-        Me.CheckBox_noTiebreak.Size = New System.Drawing.Size(125, 27)
+        Me.CheckBox_noTiebreak.Size = New System.Drawing.Size(86, 17)
         Me.CheckBox_noTiebreak.TabIndex = 52
         Me.CheckBox_noTiebreak.Text = "no Tiebreak"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_noTiebreak, "There are various tournaments where there are no tiebreaks. this mode can be activated od deactivated at any time during the game.")
+        Me.ToolTip1.SetToolTip(Me.CheckBox_noTiebreak, "There are various tournaments where there are no tiebreaks. this mode can be acti" &
+        "vated od deactivated at any time during the game.")
         Me.CheckBox_noTiebreak.UseVisualStyleBackColor = True
         '
         'Btn_sponsor1
@@ -617,10 +620,11 @@ Partial Class Tennis24_Scorer
         Me.CheckBox_hidedetails.AutoSize = True
         Me.CheckBox_hidedetails.Location = New System.Drawing.Point(512, 448)
         Me.CheckBox_hidedetails.Name = "CheckBox_hidedetails"
-        Me.CheckBox_hidedetails.Size = New System.Drawing.Size(274, 27)
+        Me.CheckBox_hidedetails.Size = New System.Drawing.Size(186, 17)
         Me.CheckBox_hidedetails.TabIndex = 58
         Me.CheckBox_hidedetails.Text = "hide Player Details (age/hight..)"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks.this mode can be activated od deactivated at any time during the game.")
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
         Me.CheckBox_hidedetails.UseVisualStyleBackColor = True
         '
         'Btn_ref1
@@ -761,7 +765,7 @@ Partial Class Tennis24_Scorer
         Me.Label2.BackColor = System.Drawing.Color.Red
         Me.Label2.Location = New System.Drawing.Point(775, 104)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(22, 23)
+        Me.Label2.Size = New System.Drawing.Size(15, 13)
         Me.Label2.TabIndex = 50
         Me.Label2.Text = "H"
         '
@@ -771,7 +775,7 @@ Partial Class Tennis24_Scorer
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label3.Location = New System.Drawing.Point(776, 170)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(21, 23)
+        Me.Label3.Size = New System.Drawing.Size(14, 13)
         Me.Label3.TabIndex = 51
         Me.Label3.Text = "A"
         '
@@ -810,7 +814,7 @@ Partial Class Tennis24_Scorer
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(1017, 27)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(74, 23)
+        Me.Label4.Size = New System.Drawing.Size(51, 13)
         Me.Label4.TabIndex = 69
         Me.Label4.Text = "Referees"
         '
@@ -829,7 +833,7 @@ Partial Class Tennis24_Scorer
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(1017, 139)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(124, 23)
+        Me.Label5.Size = New System.Drawing.Size(82, 13)
         Me.Label5.TabIndex = 71
         Me.Label5.Text = "Commentators"
         '
@@ -848,7 +852,7 @@ Partial Class Tennis24_Scorer
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(1017, 255)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(94, 23)
+        Me.Label6.Size = New System.Drawing.Size(63, 13)
         Me.Label6.TabIndex = 73
         Me.Label6.Text = "free names"
         '
@@ -871,15 +875,25 @@ Partial Class Tennis24_Scorer
         Me.Label8.Font = New System.Drawing.Font("Segoe UI", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.Location = New System.Drawing.Point(1025, 195)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(49, 19)
+        Me.Label8.Size = New System.Drawing.Size(31, 12)
         Me.Label8.TabIndex = 78
         Me.Label8.Text = "Label8"
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(1263, 122)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(40, 13)
+        Me.Label9.TabIndex = 79
+        Me.Label9.Text = "Label9"
+        '
         'Tennis24_Scorer
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 23.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1535, 606)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Lbl_Winner)
         Me.Controls.Add(Me.Btn_info4)
@@ -1047,4 +1061,6 @@ Partial Class Tennis24_Scorer
     Friend WithEvents Btn_info4 As Button
     Friend WithEvents Lbl_Winner As Label
     Friend WithEvents Label8 As Label
+    Friend WithEvents Timer1 As Timer
+    Friend WithEvents Label9 As Label
 End Class

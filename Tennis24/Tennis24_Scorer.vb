@@ -285,6 +285,12 @@ Public Class Tennis24_Scorer
 
         freezeSetAdvanceTimer.Interval = 1000
 
+        ' Zeigt die Spielzeit laufend auf Label9 an (Timer1, sekündlich) - anders als die
+        ' Live-JSON-Datei, die nur bei jedem Punkt neu geschrieben wird, tickt diese Anzeige
+        ' unabhängig davon jede Sekunde mit (siehe Timer1_Tick).
+        Timer1.Interval = 1000
+        Timer1.Start()
+
         Tennis24_Settings.SetVariables()
 
         If Tennis24_Settings.TextBoxValues(50) = 3 Then
@@ -495,6 +501,21 @@ Public Class Tennis24_Scorer
         Return result
     End Function
 
+    ' "H:MM:SS", ohne Stunden-Deckelung bei 24h (anders als TimeSpan.ToString("hh\:mm\:ss")) -
+    ' für ein episch langes Match theoretisch relevant, kostet hier nichts.
+    Private Function FormatMatchDuration(elapsed As TimeSpan) As String
+        Return $"{Math.Floor(elapsed.TotalHours):0}:{elapsed.Minutes:00}:{elapsed.Seconds:00}"
+    End Function
+
+    ' Zeigt die Spielzeit sekündlich auf Label9 an - unabhängig vom Punktgeschehen, im
+    ' Gegensatz zur Live-JSON-Datei (die nur bei jedem Punkt neu geschrieben wird). Stoppt
+    ' bei Matchende, damit die Anzeige auf der finalen Spielzeit stehen bleibt statt nach
+    ' Spielende weiterzulaufen; ResetMatch startet ihn wieder.
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Label9.Text = FormatMatchDuration(match.MatchElapsed)
+        If isMatchFinished Then Timer1.Stop()
+    End Sub
+
     ' Baut den kompletten aktuellen Spielstand als JSON - unabhängig von vMix, für beliebige
     ' externe Software geeignet, die die Live-JSON-Datei ausliest (siehe TennisJsonExporter.vb).
     ' Enthält bewusst auch die vollständigen Spielerdaten (Tennis24_Main) und dieselben
@@ -597,7 +618,7 @@ Public Class Tennis24_Scorer
         ' matchDuration/-Seconds zusätzlich fertig berechnet für einfache Konsumenten (z.B.
         ' ein vMix-Textfeld, das nicht selbst rechnen kann).
         Dim matchElapsed = match.MatchElapsed
-        Dim matchDurationText = $"{Math.Floor(matchElapsed.TotalHours):0}:{matchElapsed.Minutes:00}:{matchElapsed.Seconds:00}"
+        Dim matchDurationText = FormatMatchDuration(matchElapsed)
 
         Dim root As New JsonObjectBuilder()
         root.AddRaw("home", homeObj.ToString()) _
@@ -888,6 +909,11 @@ Public Class Tennis24_Scorer
 
     Private Sub ResetMatch()
         match.ResetMatch()
+
+        ' Timer1 stoppt bei Matchende (siehe Timer1_Tick) - bei neuem Match wieder starten
+        ' und die Anzeige sofort auf 0:00:00 zurücksetzen.
+        Timer1.Start()
+        Label9.Text = FormatMatchDuration(match.MatchElapsed)
 
         ' Match-Tiebreak-Einstellungen aus den Settings übernehmen
         match.MatchTiebreakEnabled = Tennis24_Settings.CheckBoxValues(1)
