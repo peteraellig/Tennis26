@@ -145,6 +145,49 @@ Public Class Tennis24_Settings
         Return "localhost"
     End Function
 
+    ' Richtet einmalig die Windows-Netzwerkfreigabe für die Live-JSON-Datenquelle ein, damit
+    ' auch andere Geräte im Netzwerk zugreifen können (siehe TennisJsonServer.vb). Führt dazu
+    ' "netsh http add urlacl" mit dem runas-Verb aus - Windows fragt dabei SELBST per UAC-
+    ' Dialog nach Bestätigung, das Programm erhält zu keinem Zeitpunkt automatisch erhöhte
+    ' Rechte ohne diese Bestätigung durch den Benutzer.
+    Private Sub Btn_setup_json_urlacl_Click(sender As Object, e As EventArgs) Handles Btn_setup_json_urlacl.Click
+        Dim port As Integer = If(NumericUpDown2 IsNot Nothing, CInt(NumericUpDown2.Value), 41200)
+        Dim arguments As String = $"http add urlacl url=http://+:{port}/ user=Everyone"
+
+        Dim confirmResult = MessageBox.Show(
+            "Es wird folgender Windows-Befehl mit Administratorrechten ausgeführt (Windows fragt danach separat per UAC-Dialog um Bestätigung):" & vbNewLine & vbNewLine &
+            $"netsh {arguments}" & vbNewLine & vbNewLine &
+            "Damit erlaubt Windows diesem Programm dauerhaft, auf dem gewählten Port netzwerkweit zu lauschen (nötig für die Live-JSON-Datenquelle). Fortfahren?",
+            "Netzwerkfreigabe einrichten", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If confirmResult <> DialogResult.Yes Then Return
+
+        Try
+            Dim startInfo As New ProcessStartInfo("netsh.exe", arguments) With {
+                .Verb = "runas",
+                .UseShellExecute = True,
+                .WindowStyle = ProcessWindowStyle.Hidden
+            }
+
+            Using proc = Process.Start(startInfo)
+                proc.WaitForExit()
+                If proc.ExitCode = 0 Then
+                    MessageBox.Show("Netzwerkfreigabe erfolgreich eingerichtet.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show(
+                        $"netsh meldete einen Fehler (Code {proc.ExitCode})." & vbNewLine &
+                        "Falls der Port bereits freigegeben ist, kann das ignoriert werden.",
+                        "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End Using
+        Catch ex As ComponentModel.Win32Exception When ex.NativeErrorCode = 1223
+            ' Benutzer hat die UAC-Bestätigung abgebrochen - kein Programmfehler
+            MessageBox.Show("Abgebrochen - die Bestätigung wurde nicht erteilt.", "Abgebrochen", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show($"Fehler beim Ausführen: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub Btn_gamewon_colour_Click(sender As Object, e As EventArgs) Handles Btn_gamewon_colour.Click
         Using colourDialog As New ColorDialog()
             colourDialog.Color = Btn_gamewon_colour.BackColor
@@ -600,5 +643,4 @@ Public Class Tennis24_Settings
         Me.Hide()
         Tennis24_Main.Show()
     End Sub
-
 End Class

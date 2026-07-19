@@ -68,6 +68,7 @@ Partial Class Tennis24_Settings
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label34 = New System.Windows.Forms.Label()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Btn_gamewon_colour = New System.Windows.Forms.Button()
@@ -118,7 +119,7 @@ Partial Class Tennis24_Settings
         Me.Label29 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.Label32 = New System.Windows.Forms.Label()
-        Me.Label34 = New System.Windows.Forms.Label()
+        Me.Btn_setup_json_urlacl = New System.Windows.Forms.Button()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -664,6 +665,16 @@ Partial Class Tennis24_Settings
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "type of play"
         '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(39, 160)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(296, 15)
+        Me.Label34.TabIndex = 211
+        Me.Label34.Text = "keeps scorebug set-NR freezed until scorebug is offline"
+        '
         'Label26
         '
         Me.Label26.AutoSize = True
@@ -1158,7 +1169,7 @@ Partial Class Tennis24_Settings
         Me.PictureBox6.Location = New System.Drawing.Point(2, 295)
         Me.PictureBox6.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.PictureBox6.Name = "PictureBox6"
-        Me.PictureBox6.Size = New System.Drawing.Size(664, 50)
+        Me.PictureBox6.Size = New System.Drawing.Size(664, 77)
         Me.PictureBox6.TabIndex = 233
         Me.PictureBox6.TabStop = False
         '
@@ -1188,7 +1199,7 @@ Partial Class Tennis24_Settings
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(463, 303)
+        Me.Label28.Location = New System.Drawing.Point(16, 338)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(65, 21)
         Me.Label28.TabIndex = 237
@@ -1226,21 +1237,21 @@ Partial Class Tennis24_Settings
         Me.Label32.TabIndex = 240
         Me.Label32.Text = "Port"
         '
-        'Label34
+        'Btn_setup_json_urlacl
         '
-        Me.Label34.AutoSize = True
-        Me.Label34.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label34.Location = New System.Drawing.Point(39, 160)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(296, 15)
-        Me.Label34.TabIndex = 211
-        Me.Label34.Text = "keeps scorebug set-NR freezed until scorebug is offline"
+        Me.Btn_setup_json_urlacl.Location = New System.Drawing.Point(450, 306)
+        Me.Btn_setup_json_urlacl.Name = "Btn_setup_json_urlacl"
+        Me.Btn_setup_json_urlacl.Size = New System.Drawing.Size(199, 53)
+        Me.Btn_setup_json_urlacl.TabIndex = 241
+        Me.Btn_setup_json_urlacl.Text = "allow network access for this function"
+        Me.Btn_setup_json_urlacl.UseVisualStyleBackColor = True
         '
         'Tennis24_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1904, 648)
+        Me.Controls.Add(Me.Btn_setup_json_urlacl)
         Me.Controls.Add(Me.Label32)
         Me.Controls.Add(Me.Label30)
         Me.Controls.Add(Me.Label29)
@@ -1440,4 +1451,5 @@ Partial Class Tennis24_Settings
     Friend WithEvents Label30 As Label
     Friend WithEvents Label32 As Label
     Friend WithEvents Label34 As Label
+    Friend WithEvents Btn_setup_json_urlacl As Button
 End Class
