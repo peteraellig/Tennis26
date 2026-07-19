@@ -311,9 +311,9 @@ Partial Class Tennis24_Scorer
         'Btn_statistics
         '
         Me.Btn_statistics.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_statistics.Location = New System.Drawing.Point(1219, 412)
+        Me.Btn_statistics.Location = New System.Drawing.Point(1206, 412)
         Me.Btn_statistics.Name = "Btn_statistics"
-        Me.Btn_statistics.Size = New System.Drawing.Size(148, 50)
+        Me.Btn_statistics.Size = New System.Drawing.Size(181, 50)
         Me.Btn_statistics.TabIndex = 20
         Me.Btn_statistics.Text = "Statistik anzeigen"
         Me.Btn_statistics.UseVisualStyleBackColor = True
@@ -876,12 +876,14 @@ Partial Class Tennis24_Scorer
         '
         'Label9
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(1247, 36)
+        Me.Label9.BackColor = System.Drawing.Color.OldLace
+        Me.Label9.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(1211, 54)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(85, 13)
+        Me.Label9.Size = New System.Drawing.Size(176, 45)
         Me.Label9.TabIndex = 79
-        Me.Label9.Text = "Game Duration"
+        Me.Label9.Text = "00:00"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PictureBox7
         '
@@ -895,11 +897,13 @@ Partial Class Tennis24_Scorer
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(1247, 74)
+        Me.Label10.BackColor = System.Drawing.Color.OldLace
+        Me.Label10.Location = New System.Drawing.Point(1241, 29)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(110, 25)
         Me.Label10.TabIndex = 81
         Me.Label10.Text = "Game Duration"
+        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Tennis24_Scorer
         '
