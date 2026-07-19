@@ -1,4 +1,4 @@
-' UI-freie Zähllogik für ein Tennis-Match (Punkte/Spiele/Sätze, Tiebreak-Regeln,
+﻿' UI-freie Zähllogik für ein Tennis-Match (Punkte/Spiele/Sätze, Tiebreak-Regeln,
 ' Aufschlag-Statistik, Undo-Stack). Tennis24_Scorer.vb hält eine Instanz dieser Klasse
 ' und delegiert Zustand + reine Berechnungen hierhin; alle UI- und vMix-Aufrufe
 ' bleiben im Formular.

@@ -1,4 +1,4 @@
-' Separate Statistik-Anzeige, aus dem Scorer heraus aufrufbar. Liest ihre Werte direkt aus
+﻿' Separate Statistik-Anzeige, aus dem Scorer heraus aufrufbar. Liest ihre Werte direkt aus
 ' der TennisMatchEngine-Instanz des Scorers - die Form hält keinen eigenen Spielzustand und
 ' beeinflusst die Zähllogik oder den vMix-Versand in keiner Weise.
 Public Class Tennis24_Statistics
