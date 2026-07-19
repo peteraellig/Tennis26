@@ -679,6 +679,20 @@ Public Class Tennis24_Scorer
             End If
         End If
 
+        ' Aufschlag-Rotation INNERHALB eines laufenden (Match-)Tiebreaks: Der Eröffner
+        ' schlägt 1 Punkt auf, danach wechseln sich beide je 2 Punkte ab. Der Block oben
+        ' greift nur, wenn der Tiebreak zu Ende ist (IsGameWon) - ohne diese Zeilen blieb
+        ' der Aufschlag-Ball während des gesamten Tiebreaks beim selben Spieler stehen.
+        ' Die Punktebedingung stellt sicher, dass hier nur mitten im Tiebreak synchronisiert
+        ' wird (nach dem Tiebreak-Gewinn sind die Punkte bereits zurückgesetzt).
+        If Not isMatchFinished AndAlso match.IsInAnyTiebreak() AndAlso homePoints + awayPoints > 0 Then
+            Dim tiebreakServerIsHome As Boolean = match.TiebreakServerIsHome()
+            If isHomeServing <> tiebreakServerIsHome Then
+                isHomeServing = tiebreakServerIsHome
+                UpdateServerDisplay()
+            End If
+        End If
+
         UpdateGameLabels()
 
         If IsSetWon(homeGames, awayGames) Then
