@@ -850,6 +850,14 @@ Public Class Tennis24_Scorer
         displayedScorebugSet = 1
         freezeSetAdvanceTimer.Stop()
 
+        ' Gelb-Markierungen gewonnener Sätze aus einem vorherigen Match zurücksetzen
+        If freezeSetEnabled Then
+            For setNumber As Integer = 1 To 5
+                SetSetNumberColour("home", setNumber, NORMAL_SET_COLOUR)
+                SetSetNumberColour("away", setNumber, NORMAL_SET_COLOUR)
+            Next
+        End If
+
         ' UI Updates...
         lbl_homepoint.Text = "0"
         lbl_awaypoint.Text = "0"
@@ -1165,11 +1173,19 @@ Public Class Tennis24_Scorer
         Next
     End Sub
 
-    ' Baut einen "SetText"/"SetImage"-vMix-Befehl und kodiert den Wert dabei konsequent per
-    ' URL-Encoding. Vorher wurden Spielernamen/Freitexte meist unkodiert eingefügt, sodass
-    ' Leerzeichen, "&" oder andere Sonderzeichen die vMix-Request verfälschen konnten.
+    ' Baut einen "SetText"/"SetImage"/"SetTextColour"-vMix-Befehl und kodiert den Wert dabei
+    ' konsequent URL-sicher. Vorher wurden Spielernamen/Freitexte meist unkodiert eingefügt,
+    ' sodass "&" oder "#" die vMix-Request verfälschen bzw. abschneiden konnten.
+    '
+    ' WICHTIG: Uri.EscapeDataString statt WebUtility.UrlEncode - letzteres kodiert
+    ' Leerzeichen als "+" (alte Formular-Kodierung), was in einer vMix-URL als literales
+    ' Plus-Zeichen ankommt ("Roger+Federer"). Uri.EscapeDataString erzeugt "%20".
+    Private Function EncodeVmixValue(value As String) As String
+        Return Uri.EscapeDataString(If(value, ""))
+    End Function
+
     Private Function BuildVmixSetCommand(func As String, input As String, selectedName As String, value As String) As String
-        Return "Function=" + func + "&Input=" + input + "&SelectedName=" + selectedName + "&Value=" + WebUtility.UrlEncode(value)
+        Return "Function=" + func + "&Input=" + input + "&SelectedName=" + selectedName + "&Value=" + EncodeVmixValue(value)
     End Function
 
     Public Sub SendHTMLtovMix(ByVal HTML_URL As String)
@@ -1256,16 +1272,29 @@ Public Class Tennis24_Scorer
         End If
     End Sub
 
+    ' Farbe für die hervorgehobene Spielzahl des gewonnenen Satzes (vMix-Format #RRGGBB).
+    Private Const WON_SET_COLOUR As String = "#FFFF00"      ' gelb
+    Private Const NORMAL_SET_COLOUR As String = "#FFFFFF"   ' weiss (Standard-Textfarbe)
+
     ' Färbt die Spielzahl des soeben gewonnenen Satzes in allen Scorebug-Vorlagen gelb ein
     ' (nur bei aktivem Freeze Set), analog zum Datenmuster in SendDataToGraphicsEngine, das
     ' h1-h5/a1-a5 ohnehin bereits an alle 5 Vorlagen sendet.
-    Private Sub HighlightWonSet(winner As String)
-        Dim fieldName As String = If(winner = "home", "h", "a") & currentSet.ToString() & ".Text"
+    '
+    ' WICHTIG: Der Farbwert MUSS URL-kodiert werden. vMix erwartet ihn mit führendem "#"
+    ' (z.B. #FFFF00), und ein rohes "#" in einer URL leitet den Fragment-Teil ein - alles
+    ' danach (inkl. &SelectedName=...) wird gar nicht erst an vMix gesendet. BuildVmixSetCommand
+    ' kodiert das "#" zu "%23", damit der komplette Befehl ankommt.
+    Private Sub SetSetNumberColour(player As String, setNumber As Integer, colour As String)
+        Dim fieldName As String = If(player = "home", "h", "a") & setNumber.ToString() & ".Text"
         Dim scorebugtitles() As String = {"scorebug_1s.gtzip", "scorebug_2s.gtzip", "scorebug_3s.gtzip", "scorebug_4s.gtzip", "scorebug_5s.gtzip"}
 
         For Each scorebugtitle As String In scorebugtitles
-            SendHTMLtovMix("Function=SetColor&Input=" + scorebugtitle + "&SelectedName=" + fieldName + "&Value=FFFF00")
+            SendHTMLtovMix(BuildVmixSetCommand("SetTextColour", scorebugtitle, fieldName, colour))
         Next
+    End Sub
+
+    Private Sub HighlightWonSet(winner As String)
+        SetSetNumberColour(winner, currentSet, WON_SET_COLOUR)
     End Sub
 
     Private Sub UpdateScoreBug()
@@ -1574,8 +1603,8 @@ Public Class Tennis24_Scorer
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
 
-        SendHTMLtovMix("Function=SetText&Input=" + entry.Template + "&SelectedName=TextBlock1.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(1)))
-        SendHTMLtovMix("Function=SetText&Input=" + entry.Template + "&SelectedName=TextBlock2.Text&Value=" + WebUtility.UrlEncode(Tennis24_Settings.TextBoxValues(2)))
+        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock1.Text", Tennis24_Settings.TextBoxValues(1)))
+        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock2.Text", Tennis24_Settings.TextBoxValues(2)))
 
         Dim isOn = ToggleStatus(entry)
         SendOverlayCommand(entry, isOn)
@@ -1864,19 +1893,19 @@ Public Class Tennis24_Scorer
 
                 ' KORREKTE ZUORDNUNG für name2.gtzip:
                 ' name1 = Commentator1 (vor dem Komma von TextBox22)
-                sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name1.Text&Value=" + WebUtility.UrlEncode(com1Line1)
+                sendstring = BuildVmixSetCommand("SetText", nametemplate, "name1.Text", com1Line1)
                 SendHTMLtovMix(sendstring)
 
                 ' name2 = Text nach dem Komma von TextBox22
-                sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name2.Text&Value=" + WebUtility.UrlEncode(com1Line2)
+                sendstring = BuildVmixSetCommand("SetText", nametemplate, "name2.Text", com1Line2)
                 SendHTMLtovMix(sendstring)
 
                 ' name3 = Commentator2 (vor dem Komma von TextBox23)
-                sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name3.Text&Value=" + WebUtility.UrlEncode(com2Line1)
+                sendstring = BuildVmixSetCommand("SetText", nametemplate, "name3.Text", com2Line1)
                 SendHTMLtovMix(sendstring)
 
                 ' name4 = Text nach dem Komma von TextBox23
-                sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name4.Text&Value=" + WebUtility.UrlEncode(com2Line2)
+                sendstring = BuildVmixSetCommand("SetText", nametemplate, "name4.Text", com2Line2)
                 SendHTMLtovMix(sendstring)
 
             Else
@@ -1898,11 +1927,11 @@ Public Class Tennis24_Scorer
                 End If
 
                 ' Set the text in the template
-                sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name1.Text&Value=" + WebUtility.UrlEncode(line1)
+                sendstring = BuildVmixSetCommand("SetText", nametemplate, "name1.Text", line1)
                 SendHTMLtovMix(sendstring)
 
                 If line2 <> String.Empty Then
-                    sendstring = "Function=SetText&Input=" + nametemplate + "&SelectedName=name2.Text&Value=" + WebUtility.UrlEncode(line2)
+                    sendstring = BuildVmixSetCommand("SetText", nametemplate, "name2.Text", line2)
                     SendHTMLtovMix(sendstring)
                 End If
             End If
