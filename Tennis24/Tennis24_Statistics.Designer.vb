@@ -29,22 +29,14 @@ Partial Class Tennis24_Statistics
         Me.DataGridView_Stats.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView_Stats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView_Stats.Location = New System.Drawing.Point(12, 3)
-        Me.DataGridView_Stats.MinimumSize = New System.Drawing.Size(732, 833)
         Me.DataGridView_Stats.Name = "DataGridView_Stats"
         Me.DataGridView_Stats.RowHeadersWidth = 62
         Me.DataGridView_Stats.ScrollBars = System.Windows.Forms.ScrollBars.None
-        Me.DataGridView_Stats.Size = New System.Drawing.Size(732, 833)
+        Me.DataGridView_Stats.Size = New System.Drawing.Size(439, 774)
         Me.DataGridView_Stats.TabIndex = 0
         '
         'Tennis24_Statistics
         '
-        ' AutoScaleMode BEWUSST auf None: Mit AutoScaleMode.Font rechnet WinForms beim Start
-        ' einen Skalierungsfaktor aus AutoScaleDimensions geteilt durch die tatsächliche
-        ' Schriftmetrik der Form. Da diese Form keine eigene Schrift setzt (Standardschrift
-        ' ~6x13), führte der hier eingetragene Wert 9x20 zu Faktor ~0.65 - die Form wurde
-        ' also bei jedem Start auf zwei Drittel zusammengeschrumpft, unabhängig davon, was
-        ' im Designer eingestellt war. Mit None gilt die eingestellte Grösse exakt.
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(784, 833)
         Me.Controls.Add(Me.DataGridView_Stats)

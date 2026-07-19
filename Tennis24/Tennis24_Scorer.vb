@@ -695,22 +695,27 @@ Public Class Tennis24_Scorer
 
         UpdateGameLabels()
 
+        ' MUSS vor IsSetWon ausgewertet werden: IsSetWon setzt IsTiebreak intern auf False,
+        ' bevor es True zurückgibt. Die frühere Prüfung "If isTiebreak" NACH dem Aufruf war
+        ' deshalb immer False - "Tiebreaks Won" blieb dauerhaft auf 0.
+        Dim wasTiebreak As Boolean = isTiebreak OrElse isMatchTiebreakSet
+
         If IsSetWon(homeGames, awayGames) Then
             homeSets += 1
-            If isTiebreak Then
+            If wasTiebreak Then
                 homeTiebreaksWon += 1
             End If
             UpdateSetLabel("home")
             If freezeSetEnabled Then HighlightWonSet("home")
-            CheckForMatchEnd()
+            CheckForMatchEnd(wasTiebreak)
         ElseIf IsSetWon(awayGames, homeGames) Then
             awaySets += 1
-            If isTiebreak Then
+            If wasTiebreak Then
                 awayTiebreaksWon += 1
             End If
             UpdateSetLabel("away")
             If freezeSetEnabled Then HighlightWonSet("away")
-            CheckForMatchEnd()
+            CheckForMatchEnd(wasTiebreak)
         End If
 
         UpdateScoreDisplays()
@@ -820,7 +825,7 @@ Public Class Tennis24_Scorer
         match.TrackLongestGame()
     End Sub
 
-    Private Sub CheckForMatchEnd()
+    Private Sub CheckForMatchEnd(setEndedInTiebreak As Boolean)
         Dim setsToWin As Integer = Math.Ceiling(Tennis24_Settings.TextBoxValues(50) / 2.0)
 
         If homeSets = setsToWin OrElse awaySets = setsToWin Then
@@ -845,8 +850,22 @@ Public Class Tennis24_Scorer
             currentSet += 1
             lbl_current_set.Text = $"Set {currentSet}"
 
-            ' Tennis-Regel für Server zwischen Sets
-            isHomeServing = Not firstServerOfCurrentSet
+            ' Tennis-Regel für den Aufschlag zwischen den Sätzen: Der Aufschlag wechselt
+            ' einfach spielweise weiter - wer das letzte Spiel des Satzes aufschlug, schlägt
+            ' das erste Spiel des neuen Satzes NICHT auf.
+            '
+            ' Der Wechsel nach dem letzten Spiel ist oben im IsGameWon-Block bereits passiert,
+            ' isHomeServing stimmt hier also schon. Die frühere Zeile
+            '   isHomeServing = Not firstServerOfCurrentSet
+            ' hat stattdessen bei JEDEM Satz den Satz-Eröffner alternieren lassen. Das ist nur
+            ' bei ungerader Spielanzahl korrekt: Nach einem 6:4 (10 Spiele) muss derselbe
+            ' Spieler wieder eröffnen, die alte Logik gab den Aufschlag aber dem Gegner.
+            '
+            ' Ausnahme Tiebreak: Dort greift die spielweise Rotation nicht. Regel ist, dass der
+            ' Eröffner des Tiebreaks den neuen Satz als Rückschläger beginnt.
+            If setEndedInTiebreak Then
+                isHomeServing = Not match.TiebreakStartServerIsHome
+            End If
             firstServerOfCurrentSet = isHomeServing
 
             ResetGames()
