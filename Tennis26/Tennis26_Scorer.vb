@@ -30,6 +30,14 @@ Public Class Tennis26_Scorer
     ' Software (z.B. einem selbst gebauten Python-Server) im Netzwerk verteilt werden,
     ' ohne dass Tennis26 selbst netzwerkweit lauschen muss (siehe TennisJsonExporter.vb).
     Private ReadOnly jsonExporter As New TennisJsonExporter()
+
+    ' Zeitpunkt des letzten Live-JSON-Schreibvorgangs (Event- oder Heartbeat-Schreiben) -
+    ' siehe WriteLiveJsonFile/Timer1_Tick. Ermöglicht einen periodischen "Herzschlag" auch
+    ' ohne Punkteänderung (z.B. medizinisches Timeout), damit ein externer JSON-Konsument
+    ' anhand von "updatedAt" erkennen kann, ob Tennis26 noch aktiv ist oder eingefroren/
+    ' abgestürzt ist, statt eine veraltete Datei für einen laufenden Spielstand zu halten.
+    Private lastLiveJsonWriteAt As DateTime = DateTime.MinValue
+    Private Const LIVE_JSON_HEARTBEAT_SECONDS As Integer = 5
     Private Const LIVE_JSON_FILE_PATH As String = Tennis26_Settings.SETTINGS_DATA_PATH & "\tennis24_live.json"
 
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
@@ -479,7 +487,7 @@ Public Class Tennis26_Scorer
         ' offen ist. Ein Schreibfehler wird hier bewusst nicht gemeldet (das liefe sonst bei
         ' jedem einzelnen Punkt auf denselben Popup hinaus) - ein evtl. dauerhaftes Problem
         ' (z.B. Ordner nicht beschreibbar) zeigt sich bereits beim Matchstart, siehe ResetMatch.
-        If Tennis26_Settings.CheckBoxValues(3) Then jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson())
+        WriteLiveJsonFile()
 
         ' Automatische Absturz-/Stromausfall-Sicherung (Btn_recover) - läuft immer, ohne
         ' Einstellungsschalter und unabhängig von Save/Load, weil genau das der Zweck ist:
@@ -636,9 +644,23 @@ Public Class Tennis26_Scorer
     ' Anders als die Datei-Updates pro Punkt wird ein Fehler hier direkt gemeldet, weil er
     ' nur einmal pro Matchstart auftritt statt bei jedem Punkt erneut.
     Private Sub WriteLiveJsonFileOnMatchStart()
+        WriteLiveJsonFile(showErrorOnFailure:=True)
+    End Sub
+
+    ' Zentraler Schreibpunkt für die Live-JSON-Datei - von drei Stellen aufgerufen:
+    ' 1) WriteLiveJsonFileOnMatchStart (einmal beim Matchstart)
+    ' 2) UpdateScoreDisplays (bei jeder Zustandsänderung, z.B. jeder Punkt)
+    ' 3) Timer1_Tick (Heartbeat alle LIVE_JSON_HEARTBEAT_SECONDS Sekunden, siehe dort) -
+    '    stellt sicher, dass "updatedAt" auch bei einer langen Spielunterbrechung ohne
+    '    Punkteänderung (z.B. medizinisches Timeout) regelmässig weiterläuft, damit ein
+    '    externer JSON-Konsument eine eingefrorene/abgestürzte Anwendung von einer echten
+    '    Spielpause unterscheiden kann.
+    Private Sub WriteLiveJsonFile(Optional showErrorOnFailure As Boolean = False)
         If Not Tennis26_Settings.CheckBoxValues(3) Then Return
 
-        If Not jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson()) Then
+        If jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson()) Then
+            lastLiveJsonWriteAt = DateTime.UtcNow
+        ElseIf showErrorOnFailure Then
             MessageBox.Show(
                 $"Live-JSON-Datei konnte nicht geschrieben werden ({LIVE_JSON_FILE_PATH}):" & vbNewLine & vbNewLine &
                 jsonExporter.LastError,
@@ -664,6 +686,14 @@ Public Class Tennis26_Scorer
     ' Spielende weiterzulaufen; ResetMatch startet ihn wieder.
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label9.Text = FormatMatchDuration(match.MatchElapsed)
+
+        ' Heartbeat: hält "updatedAt" in der Live-JSON-Datei auch ohne Punkteänderung aktuell
+        ' (siehe WriteLiveJsonFile). Stoppt automatisch mit Timer1 bei Matchende - die letzte,
+        ' vom eigentlichen Matchende-Ereignis geschriebene JSON bleibt dann unverändert stehen.
+        If DateTime.UtcNow.Subtract(lastLiveJsonWriteAt).TotalSeconds >= LIVE_JSON_HEARTBEAT_SECONDS Then
+            WriteLiveJsonFile()
+        End If
+
         If isMatchFinished Then Timer1.Stop()
     End Sub
 
@@ -815,7 +845,8 @@ Public Class Tennis26_Scorer
             .AddString("matchStartTime", If(match.MatchStartTime.HasValue, match.MatchStartTime.Value.ToString("o"), "")) _
             .AddInt("matchDurationSeconds", CInt(matchElapsed.TotalSeconds)) _
             .AddString("matchDuration", matchDurationText) _
-            .AddString("updatedAt", DateTime.UtcNow.ToString("o"))
+            .AddString("updatedAt", DateTime.UtcNow.ToString("o")) _
+            .AddInt("heartbeatIntervalSeconds", LIVE_JSON_HEARTBEAT_SECONDS)
 
         ' vMix erwartet bei einer JSON Data Source zwingend ein Array von Objekten (auch bei
         ' nur einer "Zeile") - ein einzelnes JSON-Objekt ohne umschliessende [] erkennt vMix
