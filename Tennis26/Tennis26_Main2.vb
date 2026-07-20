@@ -5,15 +5,17 @@
 ' Tennis26_Main ersetzt oder ergänzt.
 '
 ' Links: derselbe Spieler-Datenbestand wie in Main (dieselbe XML-Datei), als Drag-Quelle.
-' Rechts: 3 Paarungs-Slots, jeweils mit Home/Away (+ bei Doppel Home2/Away2), einem eigenen
-' Einzel/Doppel-Schalter pro Paarung, einem "X"-Button zum Leeren und einem Button, der die
-' Paarung als aktuelles Match übernimmt (schreibt in dieselben HomePlayer/AwayPlayer/
-' HomePlayer2/AwayPlayer2-Arrays und dieselbe CheckBox1, die auch Tennis26_Main nutzt).
+' Rechts: 4 Paarungs-Slots, jeweils mit Home/Away (+ bei Doppel Home2/Away2, nur sichtbar
+' wenn das jeweilige Doubles-Häkchen gesetzt ist), einem eigenen Einzel/Doppel-Schalter pro
+' Paarung, einem "X"-Button zum Leeren (mit Rückfrage) und einem Button, der die Paarung als
+' aktuelles Match übernimmt (schreibt in dieselben HomePlayer/AwayPlayer/HomePlayer2/
+' AwayPlayer2-Arrays und dieselbe CheckBox1, die auch Tennis26_Main nutzt).
 Public Class Tennis26_Main2
 
     Private Const XML_FILE_PATH As String = "c:\vmix\tennis\data\tennisdata.xml"
     Private Const PAIRINGS_FILE_PATH As String = "c:\vmix\tennis\data\pairings.xml"
     Private Shared ReadOnly FIELD_NAMES As String() = {"Name", "FirstName", "Country", "CountryISO3", "Age", "Height", "Data1", "Data2", "Data3"}
+    Private Const PAIRING_COUNT As Integer = 4
 
     Private _dragStartPoint As Point
     Private _dragRowIndex As Integer = -1
@@ -27,22 +29,60 @@ Public Class Tennis26_Main2
         Public Property Doubles As Boolean = False
     End Class
 
-    Private ReadOnly pairings As PairingSlot() = {New PairingSlot(), New PairingSlot(), New PairingSlot()}
+    Private ReadOnly pairings As PairingSlot() = {New PairingSlot(), New PairingSlot(), New PairingSlot(), New PairingSlot()}
 
-    ' Index (0-2) der aktuell "aktiven" Paarung (die zuletzt per "Use this pairing" ins
+    ' Index (0-3) der aktuell "aktiven" Paarung (die zuletzt per "Use this pairing" ins
     ' laufende Match übernommen wurde) - -1 heisst keine. Steuert die LightBlue-Markierung/
     ' "... ACTIVE"-Beschriftung der jeweiligen GroupBox.
     Private activeIndex As Integer = -1
 
+    ' Array-Zugriff statt einem wachsenden Select Case pro Methode - skaliert ohne
+    ' Codeverdopplung auf beliebig viele Paarungen (aktuell 4).
     Private ReadOnly Property PairingGroupBoxes As GroupBox()
         Get
-            Return {GroupBox_Pairing1, GroupBox_Pairing2, GroupBox_Pairing3}
+            Return {GroupBox_Pairing1, GroupBox_Pairing2, GroupBox_Pairing3, GroupBox_Pairing4}
         End Get
     End Property
 
     Private ReadOnly Property PairingDoublesCheckBoxes As CheckBox()
         Get
-            Return {CheckBox_Pairing1Doubles, CheckBox_Pairing2Doubles, CheckBox_Pairing3Doubles}
+            Return {CheckBox_Pairing1Doubles, CheckBox_Pairing2Doubles, CheckBox_Pairing3Doubles, CheckBox_Pairing4Doubles}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingHomeTextBoxes As TextBox()
+        Get
+            Return {TextBox_Pairing1Home, TextBox_Pairing2Home, TextBox_Pairing3Home, TextBox_Pairing4Home}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingAwayTextBoxes As TextBox()
+        Get
+            Return {TextBox_Pairing1Away, TextBox_Pairing2Away, TextBox_Pairing3Away, TextBox_Pairing4Away}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingHome2TextBoxes As TextBox()
+        Get
+            Return {TextBox_Pairing1Home2, TextBox_Pairing2Home2, TextBox_Pairing3Home2, TextBox_Pairing4Home2}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingAway2TextBoxes As TextBox()
+        Get
+            Return {TextBox_Pairing1Away2, TextBox_Pairing2Away2, TextBox_Pairing3Away2, TextBox_Pairing4Away2}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingHome2Labels As Label()
+        Get
+            Return {Label_Pairing1Home2, Label_Pairing2Home2, Label_Pairing3Home2, Label_Pairing4Home2}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingAway2Labels As Label()
+        Get
+            Return {Label_Pairing1Away2, Label_Pairing2Away2, Label_Pairing3Away2, Label_Pairing4Away2}
         End Get
     End Property
 
@@ -51,6 +91,9 @@ Public Class Tennis26_Main2
         LoadPlayersFromXml()
         LoadPairingsFromXml()
         RefreshAllPairingDisplays()
+        For i = 0 To PAIRING_COUNT - 1
+            UpdateDoublesFieldsVisibility(i)
+        Next
     End Sub
 
     Private Sub InitializeDataGrid()
@@ -126,9 +169,9 @@ Public Class Tennis26_Main2
         End If
     End Sub
 
-    ' Gemeinsamer Drop-Handler für alle 12 Zielfelder (3 Paarungen x Home/Away/Home2/Away2) -
+    ' Gemeinsamer Drop-Handler für alle Zielfelder (4 Paarungen x Home/Away/Home2/Away2) -
     ' welches Feld welcher Paarungs-Slot ist, steckt im Tag der jeweiligen TextBox
-    ' (siehe SetupDropTarget), damit nicht 12 fast identische Handler nötig sind.
+    ' (siehe SetupDropTarget), damit nicht 16 fast identische Handler nötig sind.
     Private Sub DropTarget_DragEnter(sender As Object, e As DragEventArgs)
         If e.Data.GetDataPresent(DataFormats.Text) Then
             e.Effect = DragDropEffects.Copy
@@ -174,54 +217,52 @@ Public Class Tennis26_Main2
         AddHandler textBox.DragDrop, AddressOf DropTarget_DragDrop
     End Sub
 
-    Private Function PlayerDisplayText(fields As String(), placeholder As String) As String
-        If String.IsNullOrEmpty(fields(0)) AndAlso String.IsNullOrEmpty(fields(1)) Then Return placeholder
+    ' Leer, wenn kein Spieler zugewiesen ist - die feste Instruktion ("Drag HOME player
+    ' here") steht als eigenes Label über dem Feld (siehe Designer), damit ein leeres Feld
+    ' auch wirklich leer aussieht statt mit Platzhaltertext gefüllt zu wirken.
+    Private Function PlayerDisplayText(fields As String()) As String
+        If String.IsNullOrEmpty(fields(0)) AndAlso String.IsNullOrEmpty(fields(1)) Then Return ""
         Return $"{fields(1)} {fields(0)} ({fields(3)})"
     End Function
 
     Private Sub RefreshPairingDisplay(pairingIndex As Integer)
         Dim slot = pairings(pairingIndex)
-        Select Case pairingIndex
-            Case 0
-                TextBox_Pairing1Home.Text = PlayerDisplayText(slot.Home, "Drag HOME player here")
-                TextBox_Pairing1Away.Text = PlayerDisplayText(slot.Away, "Drag AWAY player here")
-                TextBox_Pairing1Home2.Text = PlayerDisplayText(slot.Home2, "Drag HOME partner here (Doubles)")
-                TextBox_Pairing1Away2.Text = PlayerDisplayText(slot.Away2, "Drag AWAY partner here (Doubles)")
-            Case 1
-                TextBox_Pairing2Home.Text = PlayerDisplayText(slot.Home, "Drag HOME player here")
-                TextBox_Pairing2Away.Text = PlayerDisplayText(slot.Away, "Drag AWAY player here")
-                TextBox_Pairing2Home2.Text = PlayerDisplayText(slot.Home2, "Drag HOME partner here (Doubles)")
-                TextBox_Pairing2Away2.Text = PlayerDisplayText(slot.Away2, "Drag AWAY partner here (Doubles)")
-            Case 2
-                TextBox_Pairing3Home.Text = PlayerDisplayText(slot.Home, "Drag HOME player here")
-                TextBox_Pairing3Away.Text = PlayerDisplayText(slot.Away, "Drag AWAY player here")
-                TextBox_Pairing3Home2.Text = PlayerDisplayText(slot.Home2, "Drag HOME partner here (Doubles)")
-                TextBox_Pairing3Away2.Text = PlayerDisplayText(slot.Away2, "Drag AWAY partner here (Doubles)")
-        End Select
+        PairingHomeTextBoxes(pairingIndex).Text = PlayerDisplayText(slot.Home)
+        PairingAwayTextBoxes(pairingIndex).Text = PlayerDisplayText(slot.Away)
+        PairingHome2TextBoxes(pairingIndex).Text = PlayerDisplayText(slot.Home2)
+        PairingAway2TextBoxes(pairingIndex).Text = PlayerDisplayText(slot.Away2)
+    End Sub
+
+    ' Home2/Away2 (samt ihrer Labels) nur sichtbar, wenn für DIESE Paarung Doubles gesetzt
+    ' ist - unabhängig von den anderen Paarungen.
+    Private Sub UpdateDoublesFieldsVisibility(pairingIndex As Integer)
+        Dim isDoubles = PairingDoublesCheckBoxes(pairingIndex).Checked
+        PairingHome2Labels(pairingIndex).Visible = isDoubles
+        PairingAway2Labels(pairingIndex).Visible = isDoubles
+        PairingHome2TextBoxes(pairingIndex).Visible = isDoubles
+        PairingAway2TextBoxes(pairingIndex).Visible = isDoubles
     End Sub
 
     Private Sub RefreshAllPairingDisplays()
-        SetupDropTarget(TextBox_Pairing1Home, 0, "Home")
-        SetupDropTarget(TextBox_Pairing1Away, 0, "Away")
-        SetupDropTarget(TextBox_Pairing1Home2, 0, "Home2")
-        SetupDropTarget(TextBox_Pairing1Away2, 0, "Away2")
-        SetupDropTarget(TextBox_Pairing2Home, 1, "Home")
-        SetupDropTarget(TextBox_Pairing2Away, 1, "Away")
-        SetupDropTarget(TextBox_Pairing2Home2, 1, "Home2")
-        SetupDropTarget(TextBox_Pairing2Away2, 1, "Away2")
-        SetupDropTarget(TextBox_Pairing3Home, 2, "Home")
-        SetupDropTarget(TextBox_Pairing3Away, 2, "Away")
-        SetupDropTarget(TextBox_Pairing3Home2, 2, "Home2")
-        SetupDropTarget(TextBox_Pairing3Away2, 2, "Away2")
-
-        For i = 0 To 2
+        For i = 0 To PAIRING_COUNT - 1
+            SetupDropTarget(PairingHomeTextBoxes(i), i, "Home")
+            SetupDropTarget(PairingAwayTextBoxes(i), i, "Away")
+            SetupDropTarget(PairingHome2TextBoxes(i), i, "Home2")
+            SetupDropTarget(PairingAway2TextBoxes(i), i, "Away2")
             RefreshPairingDisplay(i)
         Next
     End Sub
 
     Private Sub ClearPairing(pairingIndex As Integer)
+        Dim confirmResult = MessageBox.Show(
+            $"Clear Pairing {pairingIndex + 1}? This cannot be undone.",
+            "Clear Pairing", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+        If confirmResult <> DialogResult.Yes Then Return
+
         pairings(pairingIndex) = New PairingSlot()
+        PairingDoublesCheckBoxes(pairingIndex).Checked = False
         RefreshPairingDisplay(pairingIndex)
+        UpdateDoublesFieldsVisibility(pairingIndex)
     End Sub
 
     Private Sub Btn_Pairing1Clear_Click(sender As Object, e As EventArgs) Handles Btn_Pairing1Clear.Click
@@ -236,13 +277,33 @@ Public Class Tennis26_Main2
         ClearPairing(2)
     End Sub
 
+    Private Sub Btn_Pairing4Clear_Click(sender As Object, e As EventArgs) Handles Btn_Pairing4Clear.Click
+        ClearPairing(3)
+    End Sub
+
+    Private Sub CheckBox_Pairing1Doubles_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Pairing1Doubles.CheckedChanged
+        UpdateDoublesFieldsVisibility(0)
+    End Sub
+
+    Private Sub CheckBox_Pairing2Doubles_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Pairing2Doubles.CheckedChanged
+        UpdateDoublesFieldsVisibility(1)
+    End Sub
+
+    Private Sub CheckBox_Pairing3Doubles_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Pairing3Doubles.CheckedChanged
+        UpdateDoublesFieldsVisibility(2)
+    End Sub
+
+    Private Sub CheckBox_Pairing4Doubles_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Pairing4Doubles.CheckedChanged
+        UpdateDoublesFieldsVisibility(3)
+    End Sub
+
     ' Markiert eine Paarung als "aktiv" (LightBlue + "Pairing X ACTIVE") und setzt die
-    ' anderen beiden auf ihr normales Aussehen zurück - immer nur eine Paarung kann aktiv
-    ' sein, analog zu "das ist gerade das laufende Match".
+    ' anderen auf ihr normales Aussehen zurück - immer nur eine Paarung kann aktiv sein,
+    ' analog zu "das ist gerade das laufende Match".
     Private Sub SetActivePairing(pairingIndex As Integer)
         activeIndex = pairingIndex
         Dim groupBoxes = PairingGroupBoxes
-        For i = 0 To 2
+        For i = 0 To PAIRING_COUNT - 1
             If i = pairingIndex Then
                 groupBoxes(i).BackColor = Color.LightBlue
                 groupBoxes(i).Text = $"Pairing {i + 1} ACTIVE"
@@ -291,7 +352,11 @@ Public Class Tennis26_Main2
         ActivatePairing(2, CheckBox_Pairing3Doubles.Checked)
     End Sub
 
-    ' Speichert alle 3 vorbereiteten Paarungen (inkl. Doubles-Häkchen und welche gerade aktiv
+    Private Sub Btn_Pairing4Activate_Click(sender As Object, e As EventArgs) Handles Btn_Pairing4Activate.Click
+        ActivatePairing(3, CheckBox_Pairing4Doubles.Checked)
+    End Sub
+
+    ' Speichert alle vorbereiteten Paarungen (inkl. Doubles-Häkchen und welche gerade aktiv
     ' ist) in eine eigene XML-Datei - unabhängig von tennisdata.xml, damit die Vorbereitung
     ' auch über einen Neustart von Tennis26_Main2 hinweg erhalten bleibt.
     Private Sub Btn_save_Click(sender As Object, e As EventArgs) Handles Btn_save.Click
@@ -322,13 +387,13 @@ Public Class Tennis26_Main2
         activeIndexElement.InnerText = activeIndex.ToString()
         root.AppendChild(activeIndexElement)
 
-        For i = 0 To 2
+        For i = 0 To PAIRING_COUNT - 1
             Dim pairingElement = xmlDoc.CreateElement("Pairing")
             pairingElement.SetAttribute("index", i.ToString())
             root.AppendChild(pairingElement)
 
             Dim doublesElement = xmlDoc.CreateElement("Doubles")
-            doublesElement.InnerText = pairings(i).Doubles.ToString()
+            doublesElement.InnerText = PairingDoublesCheckBoxes(i).Checked.ToString()
             pairingElement.AppendChild(doublesElement)
 
             AppendPlayerElement(xmlDoc, pairingElement, "Home", pairings(i).Home)
@@ -368,7 +433,7 @@ Public Class Tennis26_Main2
                 Dim indexAttr = pairingNode.Attributes("index")
                 If indexAttr Is Nothing Then Continue For
                 Dim pairingIndex As Integer
-                If Not Integer.TryParse(indexAttr.Value, pairingIndex) OrElse pairingIndex < 0 OrElse pairingIndex > 2 Then Continue For
+                If Not Integer.TryParse(indexAttr.Value, pairingIndex) OrElse pairingIndex < 0 OrElse pairingIndex >= PAIRING_COUNT Then Continue For
 
                 Dim doublesNode = pairingNode.SelectSingleNode("Doubles")
                 Dim isDoubles As Boolean = False
@@ -382,7 +447,7 @@ Public Class Tennis26_Main2
                 ReadPlayerElement(pairingNode, "Away2", pairings(pairingIndex).Away2)
             Next
 
-            If loadedActiveIndex >= 0 AndAlso loadedActiveIndex <= 2 Then
+            If loadedActiveIndex >= 0 AndAlso loadedActiveIndex < PAIRING_COUNT Then
                 SetActivePairing(loadedActiveIndex)
             End If
         Catch ex As Exception
