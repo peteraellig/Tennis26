@@ -69,11 +69,11 @@ Partial Class Tennis26_Main
         '
         Me.btn_live.BackColor = System.Drawing.Color.OldLace
         Me.btn_live.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_live.Location = New System.Drawing.Point(1033, 276)
+        Me.btn_live.Location = New System.Drawing.Point(1034, 250)
         Me.btn_live.Name = "btn_live"
-        Me.btn_live.Size = New System.Drawing.Size(153, 59)
+        Me.btn_live.Size = New System.Drawing.Size(153, 110)
         Me.btn_live.TabIndex = 1
-        Me.btn_live.Text = "live"
+        Me.btn_live.Text = "SCORER LIVE"
         Me.btn_live.UseVisualStyleBackColor = False
         '
         'DataGridView_Players
@@ -194,7 +194,7 @@ Partial Class Tennis26_Main
         '
         Me.Btn_loadSettings.BackColor = System.Drawing.Color.PaleGreen
         Me.Btn_loadSettings.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_loadSettings.Location = New System.Drawing.Point(1034, 12)
+        Me.Btn_loadSettings.Location = New System.Drawing.Point(1035, 481)
         Me.Btn_loadSettings.Name = "Btn_loadSettings"
         Me.Btn_loadSettings.Size = New System.Drawing.Size(153, 59)
         Me.Btn_loadSettings.TabIndex = 32
@@ -305,11 +305,12 @@ Partial Class Tennis26_Main
         '
         'Btn_open_pairings
         '
-        Me.Btn_open_pairings.Location = New System.Drawing.Point(1035, 481)
+        Me.Btn_open_pairings.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_open_pairings.Location = New System.Drawing.Point(1035, 419)
         Me.Btn_open_pairings.Name = "Btn_open_pairings"
-        Me.Btn_open_pairings.Size = New System.Drawing.Size(152, 74)
+        Me.Btn_open_pairings.Size = New System.Drawing.Size(152, 56)
         Me.Btn_open_pairings.TabIndex = 40
-        Me.Btn_open_pairings.Text = "Main2"
+        Me.Btn_open_pairings.Text = "Set Pairings"
         Me.Btn_open_pairings.UseVisualStyleBackColor = True
         '
         'Tennis26_Main

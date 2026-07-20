@@ -390,7 +390,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label51.AutoSize = True
         Me.Label51.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label51.Location = New System.Drawing.Point(466, 356)
+        Me.Label51.Location = New System.Drawing.Point(533, 359)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(364, 13)
         Me.Label51.TabIndex = 158
@@ -605,14 +605,14 @@ Partial Class Tennis26_Settings
         'GroupBox1
         '
         Me.GroupBox1.BackColor = System.Drawing.Color.Silver
+        Me.GroupBox1.Controls.Add(Me.Label34)
+        Me.GroupBox1.Controls.Add(Me.NumericUpDown1)
         Me.GroupBox1.Controls.Add(Me.CheckBox1)
         Me.GroupBox1.Controls.Add(Me.CheckBox2)
-        Me.GroupBox1.Controls.Add(Me.Label34)
         Me.GroupBox1.Controls.Add(Me.Label26)
         Me.GroupBox1.Controls.Add(Me.Label27)
         Me.GroupBox1.Controls.Add(Me.Btn_gamewon_colour)
         Me.GroupBox1.Controls.Add(Me.TextBox50)
-        Me.GroupBox1.Controls.Add(Me.NumericUpDown1)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
         Me.GroupBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -627,7 +627,7 @@ Partial Class Tennis26_Settings
         '
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(14, 82)
+        Me.CheckBox1.Location = New System.Drawing.Point(14, 61)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(227, 19)
         Me.CheckBox1.TabIndex = 205
@@ -638,7 +638,7 @@ Partial Class Tennis26_Settings
         '
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox2.Location = New System.Drawing.Point(14, 123)
+        Me.CheckBox2.Location = New System.Drawing.Point(14, 121)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(81, 19)
         Me.CheckBox2.TabIndex = 208
@@ -660,7 +660,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(75, 102)
+        Me.Label26.Location = New System.Drawing.Point(73, 84)
         Me.Label26.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(114, 15)
@@ -671,7 +671,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(11, 184)
+        Me.Label27.Location = New System.Drawing.Point(11, 192)
         Me.Label27.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(103, 15)
@@ -683,7 +683,7 @@ Partial Class Tennis26_Settings
         Me.Btn_gamewon_colour.BackColor = System.Drawing.Color.Yellow
         Me.Btn_gamewon_colour.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn_gamewon_colour.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_gamewon_colour.Location = New System.Drawing.Point(118, 186)
+        Me.Btn_gamewon_colour.Location = New System.Drawing.Point(118, 190)
         Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_gamewon_colour.Name = "Btn_gamewon_colour"
         Me.Btn_gamewon_colour.Size = New System.Drawing.Size(44, 20)
@@ -704,7 +704,7 @@ Partial Class Tennis26_Settings
         'NumericUpDown1
         '
         Me.NumericUpDown1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumericUpDown1.Location = New System.Drawing.Point(24, 101)
+        Me.NumericUpDown1.Location = New System.Drawing.Point(24, 79)
         Me.NumericUpDown1.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.NumericUpDown1.Minimum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.NumericUpDown1.Name = "NumericUpDown1"
@@ -1200,22 +1200,22 @@ Partial Class Tennis26_Settings
         'RadioButton4
         '
         Me.RadioButton4.AutoSize = True
+        Me.RadioButton4.Checked = True
         Me.RadioButton4.Location = New System.Drawing.Point(108, 17)
         Me.RadioButton4.Name = "RadioButton4"
         Me.RadioButton4.Size = New System.Drawing.Size(46, 17)
         Me.RadioButton4.TabIndex = 1
+        Me.RadioButton4.TabStop = True
         Me.RadioButton4.Text = "TCP"
         Me.RadioButton4.UseVisualStyleBackColor = True
         '
         'RadioButton3
         '
         Me.RadioButton3.AutoSize = True
-        Me.RadioButton3.Checked = True
         Me.RadioButton3.Location = New System.Drawing.Point(15, 17)
         Me.RadioButton3.Name = "RadioButton3"
         Me.RadioButton3.Size = New System.Drawing.Size(54, 17)
         Me.RadioButton3.TabIndex = 0
-        Me.RadioButton3.TabStop = True
         Me.RadioButton3.Text = "HTTP"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
