@@ -779,6 +779,7 @@ Public Class Tennis24_Scorer
             .AddBool("isTiebreak", isTiebreak) _
             .AddBool("isMatchTiebreak", isMatchTiebreakSet) _
             .AddBool("isMatchFinished", isMatchFinished) _
+            .AddBool("isMidMatchEntry", match.IsMidMatchEntry) _
             .AddString("breakPointHolder", match.BreakPointHolder()) _
             .AddInt("breakPointCount", match.CurrentBreakPointCount()) _
             .AddBool("sidesSwapped", match.AreSidesCurrentlySwapped()) _
