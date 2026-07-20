@@ -34,12 +34,14 @@ Partial Class Tennis26_Main
         Me.txt_away_player = New System.Windows.Forms.TextBox()
         Me.lbl_home_player = New System.Windows.Forms.Label()
         Me.lbl_away_player = New System.Windows.Forms.Label()
-        Me.btn_clear_players = New System.Windows.Forms.Button()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Btn_loadSettings = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Btn_SelectPairing1 = New System.Windows.Forms.Button()
+        Me.Btn_SelectPairing2 = New System.Windows.Forms.Button()
+        Me.Btn_SelectPairing3 = New System.Windows.Forms.Button()
+        Me.Btn_SelectPairing4 = New System.Windows.Forms.Button()
         Me.Btn_Load_File = New System.Windows.Forms.Button()
         Me.Btn_SaveAs = New System.Windows.Forms.Button()
         Me.txt_away_player2 = New System.Windows.Forms.TextBox()
@@ -82,7 +84,7 @@ Partial Class Tennis26_Main
         Me.DataGridView_Players.Location = New System.Drawing.Point(12, 12)
         Me.DataGridView_Players.Name = "DataGridView_Players"
         Me.DataGridView_Players.RowHeadersWidth = 51
-        Me.DataGridView_Players.Size = New System.Drawing.Size(850, 323)
+        Me.DataGridView_Players.Size = New System.Drawing.Size(1010, 323)
         Me.DataGridView_Players.TabIndex = 2
         '
         'btn_save
@@ -141,7 +143,7 @@ Partial Class Tennis26_Main
         'txt_away_player
         '
         Me.txt_away_player.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_away_player.Location = New System.Drawing.Point(540, 490)
+        Me.txt_away_player.Location = New System.Drawing.Point(686, 490)
         Me.txt_away_player.Multiline = True
         Me.txt_away_player.Name = "txt_away_player"
         Me.txt_away_player.ReadOnly = True
@@ -163,28 +165,18 @@ Partial Class Tennis26_Main
         '
         Me.lbl_away_player.AutoSize = True
         Me.lbl_away_player.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_away_player.Location = New System.Drawing.Point(540, 471)
+        Me.lbl_away_player.Location = New System.Drawing.Point(686, 471)
         Me.lbl_away_player.Name = "lbl_away_player"
         Me.lbl_away_player.Size = New System.Drawing.Size(86, 17)
         Me.lbl_away_player.TabIndex = 10
         Me.lbl_away_player.Text = "AWAY PLAYER"
-        '
-        'btn_clear_players
-        '
-        Me.btn_clear_players.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_clear_players.Location = New System.Drawing.Point(740, 430)
-        Me.btn_clear_players.Name = "btn_clear_players"
-        Me.btn_clear_players.Size = New System.Drawing.Size(100, 46)
-        Me.btn_clear_players.TabIndex = 11
-        Me.btn_clear_players.Text = "Delete current match pairing"
-        Me.btn_clear_players.UseVisualStyleBackColor = True
         '
         'PictureBox1
         '
         Me.PictureBox1.BackColor = System.Drawing.Color.Silver
         Me.PictureBox1.Location = New System.Drawing.Point(12, 420)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(850, 219)
+        Me.PictureBox1.Size = New System.Drawing.Size(1010, 219)
         Me.PictureBox1.TabIndex = 12
         Me.PictureBox1.TabStop = False
         '
@@ -219,15 +211,45 @@ Partial Class Tennis26_Main
         Me.Label2.TabIndex = 33
         Me.Label2.Text = "best of"
         '
-        'Label3
+        'Btn_SelectPairing1
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(204, 400)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(504, 17)
-        Me.Label3.TabIndex = 34
-        Me.Label3.Text = "Select a Name from the player table and drag it into HOME PLAYER or AWAY PLAYER."
+        Me.Btn_SelectPairing1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_SelectPairing1.Location = New System.Drawing.Point(12, 396)
+        Me.Btn_SelectPairing1.Name = "Btn_SelectPairing1"
+        Me.Btn_SelectPairing1.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing1.TabIndex = 34
+        Me.Btn_SelectPairing1.Text = "Pairing 1 (empty)"
+        Me.Btn_SelectPairing1.UseVisualStyleBackColor = True
+        '
+        'Btn_SelectPairing2
+        '
+        Me.Btn_SelectPairing2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_SelectPairing2.Location = New System.Drawing.Point(267, 396)
+        Me.Btn_SelectPairing2.Name = "Btn_SelectPairing2"
+        Me.Btn_SelectPairing2.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing2.TabIndex = 35
+        Me.Btn_SelectPairing2.Text = "Pairing 2 (empty)"
+        Me.Btn_SelectPairing2.UseVisualStyleBackColor = True
+        '
+        'Btn_SelectPairing3
+        '
+        Me.Btn_SelectPairing3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_SelectPairing3.Location = New System.Drawing.Point(522, 396)
+        Me.Btn_SelectPairing3.Name = "Btn_SelectPairing3"
+        Me.Btn_SelectPairing3.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing3.TabIndex = 36
+        Me.Btn_SelectPairing3.Text = "Pairing 3 (empty)"
+        Me.Btn_SelectPairing3.UseVisualStyleBackColor = True
+        '
+        'Btn_SelectPairing4
+        '
+        Me.Btn_SelectPairing4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_SelectPairing4.Location = New System.Drawing.Point(777, 396)
+        Me.Btn_SelectPairing4.Name = "Btn_SelectPairing4"
+        Me.Btn_SelectPairing4.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing4.TabIndex = 37
+        Me.Btn_SelectPairing4.Text = "Pairing 4 (empty)"
+        Me.Btn_SelectPairing4.UseVisualStyleBackColor = True
         '
         'Btn_Load_File
         '
@@ -252,7 +274,7 @@ Partial Class Tennis26_Main
         'txt_away_player2
         '
         Me.txt_away_player2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_away_player2.Location = New System.Drawing.Point(540, 585)
+        Me.txt_away_player2.Location = New System.Drawing.Point(686, 585)
         Me.txt_away_player2.Multiline = True
         Me.txt_away_player2.Name = "txt_away_player2"
         Me.txt_away_player2.ReadOnly = True
@@ -301,11 +323,13 @@ Partial Class Tennis26_Main
         Me.Controls.Add(Me.txt_home_player2)
         Me.Controls.Add(Me.Btn_SaveAs)
         Me.Controls.Add(Me.Btn_Load_File)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Btn_SelectPairing1)
+        Me.Controls.Add(Me.Btn_SelectPairing2)
+        Me.Controls.Add(Me.Btn_SelectPairing3)
+        Me.Controls.Add(Me.Btn_SelectPairing4)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Btn_loadSettings)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.btn_clear_players)
         Me.Controls.Add(Me.lbl_away_player)
         Me.Controls.Add(Me.lbl_home_player)
         Me.Controls.Add(Me.txt_away_player)
@@ -339,12 +363,14 @@ Partial Class Tennis26_Main
     Friend WithEvents txt_away_player As TextBox
     Friend WithEvents lbl_home_player As Label
     Friend WithEvents lbl_away_player As Label
-    Friend WithEvents btn_clear_players As Button
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Btn_loadSettings As Button
     Friend WithEvents Label2 As Label
-    Friend WithEvents Label3 As Label
+    Friend WithEvents Btn_SelectPairing1 As Button
+    Friend WithEvents Btn_SelectPairing2 As Button
+    Friend WithEvents Btn_SelectPairing3 As Button
+    Friend WithEvents Btn_SelectPairing4 As Button
     Friend WithEvents Btn_Load_File As Button
     Friend WithEvents Btn_SaveAs As Button
     Friend WithEvents txt_away_player2 As TextBox

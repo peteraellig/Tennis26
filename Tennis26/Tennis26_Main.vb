@@ -13,6 +13,10 @@
     ' XML file path
     Private Const XML_FILE_PATH As String = "c:\vmix\tennis\data\tennisdata.xml"
 
+    ' Von Tennis26_Main2 ("Save pairings") geschriebene Datei mit den 4 vorbereiteten
+    ' Paarungen - hier nur lesend verwendet, für die 4 "Select Pairing"-Schnellwahl-Buttons.
+    Private Const PAIRINGS_FILE_PATH As String = "c:\vmix\tennis\data\pairings.xml"
+
     ' Feldnamen als konstante Array
     Private Shared ReadOnly FIELD_NAMES As String() = {"Name", "FirstName", "Country", "CountryISO3", "Age", "Height", "Data1", "Data2", "Data3"}
 
@@ -34,6 +38,7 @@
 
             ' Sichere Anzeige mit Fallback
             UpdateBestOfLabel()
+            LoadPairingButtonCaptions()
 
             Me.Text = My.Application.Info.AssemblyName + " " + My.Application.Info.Version.ToString() + " | " + My.Application.Info.Copyright.ToString()
         Catch ex As Exception
@@ -257,6 +262,13 @@
         txt_away_player.ReadOnly = True
         txt_home_player2.ReadOnly = True
         txt_away_player2.ReadOnly = True
+
+        ' CheckBox1 (Doubles) wird nur noch programmatisch gesetzt (aus Main2 oder den
+        ' "Select Pairing"-Buttons) - der Operator muss sie hier nicht mehr sehen oder
+        ' anklicken können. Bleibt als Control bestehen (Scorer.IsDoublesMatch() liest sie
+        ' weiterhin), nur nicht mehr sichtbar/bedienbar.
+        CheckBox1.Visible = False
+        CheckBox1.Enabled = False
     End Sub
 
     Private Sub LoadSampleData()
@@ -381,54 +393,60 @@
         SaveDataToXML()
     End Sub
 
+    ' Reine Anzeige der aktuell aktiven Paarung - kein Platzhaltertext mehr (die Auswahl
+    ' läuft nur noch über Tennis26_Main2/die 4 "Select Pairing"-Buttons, nicht mehr per
+    ' Drag&Drop hier), ein leeres Feld bleibt also einfach leer statt einen Hinweistext zu
+    ' zeigen, der ohnehin nicht mehr zutrifft. Home2/Away2 sind komplett unsichtbar, solange
+    ' CheckBox1 (Doubles, hier nicht mehr sichtbar) nicht gesetzt ist.
     Private Sub UpdatePlayerDisplay()
-        ' Update Home Player display
         If Not String.IsNullOrEmpty(HomePlayer(0)) AndAlso Not String.IsNullOrEmpty(HomePlayer(1)) Then
             txt_home_player.Text = $"{HomePlayer(1)} {HomePlayer(0)} ({HomePlayer(3)})"
             txt_home_player.BackColor = Color.LightGreen
         Else
-            txt_home_player.Text = "Drag player here for HOME"
+            txt_home_player.Text = ""
             txt_home_player.BackColor = SystemColors.Window
         End If
 
-        ' Update Away Player display
         If Not String.IsNullOrEmpty(AwayPlayer(0)) AndAlso Not String.IsNullOrEmpty(AwayPlayer(1)) Then
             txt_away_player.Text = $"{AwayPlayer(1)} {AwayPlayer(0)} ({AwayPlayer(3)})"
             txt_away_player.BackColor = Color.LightBlue
         Else
-            txt_away_player.Text = "Drag player here for AWAY"
+            txt_away_player.Text = ""
             txt_away_player.BackColor = SystemColors.Window
         End If
 
-        ' Update Home Player 2 (Doppel-Partner) display
         If Not String.IsNullOrEmpty(HomePlayer2(0)) AndAlso Not String.IsNullOrEmpty(HomePlayer2(1)) Then
             txt_home_player2.Text = $"{HomePlayer2(1)} {HomePlayer2(0)} ({HomePlayer2(3)})"
             txt_home_player2.BackColor = Color.LightGreen
         Else
-            txt_home_player2.Text = "Drag partner here for HOME (Doubles)"
+            txt_home_player2.Text = ""
             txt_home_player2.BackColor = SystemColors.Window
         End If
 
-        ' Update Away Player 2 (Doppel-Partner) display
         If Not String.IsNullOrEmpty(AwayPlayer2(0)) AndAlso Not String.IsNullOrEmpty(AwayPlayer2(1)) Then
             txt_away_player2.Text = $"{AwayPlayer2(1)} {AwayPlayer2(0)} ({AwayPlayer2(3)})"
             txt_away_player2.BackColor = Color.LightBlue
         Else
-            txt_away_player2.Text = "Drag partner here for AWAY (Doubles)"
+            txt_away_player2.Text = ""
             txt_away_player2.BackColor = SystemColors.Window
         End If
+
+        txt_home_player2.Visible = CheckBox1.Checked
+        txt_away_player2.Visible = CheckBox1.Checked
     End Sub
 
     Private Sub SetDefaultPlayerDisplay()
         ' Set default text when no XML file exists
-        txt_home_player.Text = "Drag player here for HOME"
-        txt_away_player.Text = "Drag player here for AWAY"
+        txt_home_player.Text = ""
+        txt_away_player.Text = ""
         txt_home_player.BackColor = SystemColors.Window
         txt_away_player.BackColor = SystemColors.Window
-        txt_home_player2.Text = "Drag partner here for HOME (Doubles)"
-        txt_away_player2.Text = "Drag partner here for AWAY (Doubles)"
+        txt_home_player2.Text = ""
+        txt_away_player2.Text = ""
         txt_home_player2.BackColor = SystemColors.Window
         txt_away_player2.BackColor = SystemColors.Window
+        txt_home_player2.Visible = False
+        txt_away_player2.Visible = False
     End Sub
 
     Private Function GetXmlNodeValue(parentNode As System.Xml.XmlNode, nodeName As String) As String
@@ -547,7 +565,7 @@
     End Sub
 
     Private Sub Btn_save_Click(sender As Object, e As EventArgs) Handles btn_save.Click
-        btn_clear_players.PerformClick()
+        ClearCurrentPairingSelection()
 
         Try
             ' Validate current row data
@@ -571,7 +589,7 @@
     End Sub
 
     Private Sub Btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
-        btn_clear_players.PerformClick()
+        ClearCurrentPairingSelection()
 
         Try
             If DataGridView_Players.CurrentRow IsNot Nothing Then
@@ -647,20 +665,132 @@
         End If
     End Sub
 
-    Private Sub Btn_clear_players_Click(sender As Object, e As EventArgs) Handles btn_clear_players.Click
-        ' Clear player selections
+    ' Ersetzt das frühere btn_clear_players.PerformClick() (Button existiert nicht mehr,
+    ' siehe Btn_save_Click/Btn_update_Click) - wird dort ausgelöst, weil eine Änderung an der
+    ' Spielerdatenbank die aktuell aktive Paarung ungültig machen könnte (z.B. wenn genau der
+    ' ausgewählte Spieler bearbeitet wird). Ohne Rückfrage, da nur ein Nebeneffekt von
+    ' Save/Update - keine bewusste "Paarung löschen"-Aktion des Operators.
+    Private Sub ClearCurrentPairingSelection()
         Array.Clear(HomePlayer, 0, HomePlayer.Length)
         Array.Clear(AwayPlayer, 0, AwayPlayer.Length)
         Array.Clear(HomePlayer2, 0, HomePlayer2.Length)
         Array.Clear(AwayPlayer2, 0, AwayPlayer2.Length)
         CheckBox1.Checked = False
-
-        ' Update display
         UpdatePlayerDisplay()
-
-        ' Save cleared selections to XML
         SaveDataToXML()
-        MessageBox.Show("Player selections cleared and XML updated!", "Cleared", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    ' Liest pairings.xml (siehe Tennis26_Main2, "Save pairings") und beschriftet die 4
+    ' "Select Pairing"-Buttons mit "Nachname vs Nachname" - oder "Pairing N (empty)", falls
+    ' die Datei fehlt oder der jeweilige Slot leer ist.
+    Private Sub LoadPairingButtonCaptions()
+        Dim captions As String() = {"Pairing 1 (empty)", "Pairing 2 (empty)", "Pairing 3 (empty)", "Pairing 4 (empty)"}
+        Try
+            If IO.File.Exists(PAIRINGS_FILE_PATH) Then
+                Dim xmlDoc As New Xml.XmlDocument()
+                xmlDoc.Load(PAIRINGS_FILE_PATH)
+                For Each pairingNode As Xml.XmlNode In xmlDoc.SelectNodes("//TennisPairings/Pairing")
+                    Dim indexAttr = pairingNode.Attributes("index")
+                    If indexAttr Is Nothing Then Continue For
+                    Dim pairingIndex As Integer
+                    If Not Integer.TryParse(indexAttr.Value, pairingIndex) OrElse pairingIndex < 0 OrElse pairingIndex > 3 Then Continue For
+
+                    Dim homeNameNode = pairingNode.SelectSingleNode("Home/Name")
+                    Dim awayNameNode = pairingNode.SelectSingleNode("Away/Name")
+                    Dim homeName = If(homeNameNode IsNot Nothing, homeNameNode.InnerText, "")
+                    Dim awayName = If(awayNameNode IsNot Nothing, awayNameNode.InnerText, "")
+
+                    If Not String.IsNullOrEmpty(homeName) OrElse Not String.IsNullOrEmpty(awayName) Then
+                        captions(pairingIndex) = $"{If(String.IsNullOrEmpty(homeName), "?", homeName)} vs {If(String.IsNullOrEmpty(awayName), "?", awayName)}"
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            ' Fehler beim Lesen sind hier nicht kritisch - Buttons zeigen dann "(empty)"
+        End Try
+
+        Btn_SelectPairing1.Text = captions(0)
+        Btn_SelectPairing2.Text = captions(1)
+        Btn_SelectPairing3.Text = captions(2)
+        Btn_SelectPairing4.Text = captions(3)
+    End Sub
+
+    ' Übernimmt eine in Tennis26_Main2 vorbereitete und gespeicherte Paarung direkt aus
+    ' pairings.xml - unabhängig davon, ob Main2 gerade geöffnet ist. Schreibt in dieselben
+    ' HomePlayer/AwayPlayer/HomePlayer2/AwayPlayer2-Arrays wie Main2 selbst.
+    Private Sub ApplyPairingFromFile(pairingIndex As Integer)
+        Try
+            If Not IO.File.Exists(PAIRINGS_FILE_PATH) Then
+                MessageBox.Show("No saved pairings found. Prepare pairings in ""Main2"" first.", "Select Pairing", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return
+            End If
+
+            Dim xmlDoc As New Xml.XmlDocument()
+            xmlDoc.Load(PAIRINGS_FILE_PATH)
+            Dim pairingNode = xmlDoc.SelectSingleNode($"//TennisPairings/Pairing[@index='{pairingIndex}']")
+            If pairingNode Is Nothing Then
+                MessageBox.Show($"Pairing {pairingIndex + 1} is empty.", "Select Pairing", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return
+            End If
+
+            Dim doublesNode = pairingNode.SelectSingleNode("Doubles")
+            Dim isDoubles As Boolean = False
+            If doublesNode IsNot Nothing Then Boolean.TryParse(doublesNode.InnerText, isDoubles)
+
+            Dim newHome(8) As String
+            Dim newAway(8) As String
+            Dim newHome2(8) As String
+            Dim newAway2(8) As String
+            ReadPairingPlayer(pairingNode, "Home", newHome)
+            ReadPairingPlayer(pairingNode, "Away", newAway)
+
+            If String.IsNullOrEmpty(newHome(0)) OrElse String.IsNullOrEmpty(newAway(0)) Then
+                MessageBox.Show($"Pairing {pairingIndex + 1} needs at least a Home and an Away player.", "Select Pairing", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
+            If isDoubles Then
+                ReadPairingPlayer(pairingNode, "Home2", newHome2)
+                ReadPairingPlayer(pairingNode, "Away2", newAway2)
+            End If
+
+            For i = 0 To 8
+                HomePlayer(i) = newHome(i)
+                AwayPlayer(i) = newAway(i)
+                HomePlayer2(i) = newHome2(i)
+                AwayPlayer2(i) = newAway2(i)
+            Next
+            CheckBox1.Checked = isDoubles
+
+            RefreshAndSavePlayerSelection()
+        Catch ex As Exception
+            MessageBox.Show($"Error applying pairing: {ex.Message}", "Select Pairing", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub ReadPairingPlayer(pairingNode As Xml.XmlNode, elementName As String, target As String())
+        Dim playerNode = pairingNode.SelectSingleNode(elementName)
+        If playerNode Is Nothing Then Return
+        For i = 0 To 8
+            Dim fieldNode = playerNode.SelectSingleNode(FIELD_NAMES(i))
+            target(i) = If(fieldNode IsNot Nothing, fieldNode.InnerText, "")
+        Next
+    End Sub
+
+    Private Sub Btn_SelectPairing1_Click(sender As Object, e As EventArgs) Handles Btn_SelectPairing1.Click
+        ApplyPairingFromFile(0)
+    End Sub
+
+    Private Sub Btn_SelectPairing2_Click(sender As Object, e As EventArgs) Handles Btn_SelectPairing2.Click
+        ApplyPairingFromFile(1)
+    End Sub
+
+    Private Sub Btn_SelectPairing3_Click(sender As Object, e As EventArgs) Handles Btn_SelectPairing3.Click
+        ApplyPairingFromFile(2)
+    End Sub
+
+    Private Sub Btn_SelectPairing4_Click(sender As Object, e As EventArgs) Handles Btn_SelectPairing4.Click
+        ApplyPairingFromFile(3)
     End Sub
 
     ' Speichert sofort, wenn zwischen Einzel/Doppel umgeschaltet wird - sonst würde die
@@ -722,6 +852,9 @@
 
     Private Sub Tennis26_Main_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         UpdateBestOfLabel()
+        ' Deckt z.B. den Fall ab, dass der Operator in Main2 gerade neue Paarungen
+        ' gespeichert hat und dann zu Main zurückwechselt.
+        LoadPairingButtonCaptions()
     End Sub
 
     Private Sub Btn_Load_File_Click(sender As Object, e As EventArgs) Handles Btn_Load_File.Click
