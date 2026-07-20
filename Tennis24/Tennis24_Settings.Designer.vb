@@ -111,19 +111,19 @@ Partial Class Tennis24_Settings
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.PictureBox4 = New System.Windows.Forms.PictureBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label35 = New System.Windows.Forms.Label()
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label32 = New System.Windows.Forms.Label()
         Me.ComboBox4 = New System.Windows.Forms.ComboBox()
         Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.Label35 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -684,7 +684,7 @@ Partial Class Tennis24_Settings
         Me.Btn_gamewon_colour.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn_gamewon_colour.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_gamewon_colour.Location = New System.Drawing.Point(118, 153)
-        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_gamewon_colour.Name = "Btn_gamewon_colour"
         Me.Btn_gamewon_colour.Size = New System.Drawing.Size(44, 20)
         Me.Btn_gamewon_colour.TabIndex = 210
@@ -1074,6 +1074,31 @@ Partial Class Tennis24_Settings
         Me.PictureBox4.TabIndex = 231
         Me.PictureBox4.TabStop = False
         '
+        'Label32
+        '
+        Me.Label32.BackColor = System.Drawing.Color.LightYellow
+        Me.Label32.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label32.Location = New System.Drawing.Point(10, 209)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(114, 20)
+        Me.Label32.TabIndex = 241
+        Me.Label32.Text = "scorebug 2 Overlay"
+        Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolTip1.SetToolTip(Me.Label32, "only scorebug overlay")
+        '
+        'Label35
+        '
+        Me.Label35.BackColor = System.Drawing.Color.LightYellow
+        Me.Label35.Enabled = False
+        Me.Label35.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label35.Location = New System.Drawing.Point(8, 85)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(62, 20)
+        Me.Label35.TabIndex = 243
+        Me.Label35.Text = "TCP Port"
+        Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.ToolTip1.SetToolTip(Me.Label35, "never change, unless you know what you are doing")
+        '
         'PictureBox5
         '
         Me.PictureBox5.BackColor = System.Drawing.Color.Silver
@@ -1099,7 +1124,7 @@ Partial Class Tennis24_Settings
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox3.Location = New System.Drawing.Point(105, 288)
-        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(81, 19)
         Me.CheckBox3.TabIndex = 235
@@ -1132,24 +1157,12 @@ Partial Class Tennis24_Settings
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(229, 291)
+        Me.Label28.Location = New System.Drawing.Point(190, 290)
         Me.Label28.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(210, 15)
         Me.Label28.TabIndex = 212
         Me.Label28.Text = "C:\vmix\tennis\data\tennis24_live.json"
-        '
-        'Label32
-        '
-        Me.Label32.BackColor = System.Drawing.Color.LightYellow
-        Me.Label32.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(10, 209)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(114, 20)
-        Me.Label32.TabIndex = 241
-        Me.Label32.Text = "scorebug 2 Overlay"
-        Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ToolTip1.SetToolTip(Me.Label32, "only scorebug overlay")
         '
         'ComboBox4
         '
@@ -1173,19 +1186,6 @@ Partial Class Tennis24_Settings
         Me.TextBox9.TabIndex = 244
         Me.TextBox9.Text = "8099"
         '
-        'Label35
-        '
-        Me.Label35.BackColor = System.Drawing.Color.LightYellow
-        Me.Label35.Enabled = False
-        Me.Label35.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label35.Location = New System.Drawing.Point(8, 85)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(62, 20)
-        Me.Label35.TabIndex = 243
-        Me.Label35.Text = "TCP Port"
-        Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.ToolTip1.SetToolTip(Me.Label35, "never change, unless you know what you are doing")
-        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.RadioButton4)
@@ -1196,6 +1196,16 @@ Partial Class Tennis24_Settings
         Me.GroupBox2.TabIndex = 245
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Communication Protocol"
+        '
+        'RadioButton4
+        '
+        Me.RadioButton4.AutoSize = True
+        Me.RadioButton4.Location = New System.Drawing.Point(108, 17)
+        Me.RadioButton4.Name = "RadioButton4"
+        Me.RadioButton4.Size = New System.Drawing.Size(46, 17)
+        Me.RadioButton4.TabIndex = 1
+        Me.RadioButton4.Text = "TCP"
+        Me.RadioButton4.UseVisualStyleBackColor = True
         '
         'RadioButton3
         '
@@ -1208,16 +1218,6 @@ Partial Class Tennis24_Settings
         Me.RadioButton3.TabStop = True
         Me.RadioButton3.Text = "HTTP"
         Me.RadioButton3.UseVisualStyleBackColor = True
-        '
-        'RadioButton4
-        '
-        Me.RadioButton4.AutoSize = True
-        Me.RadioButton4.Location = New System.Drawing.Point(108, 17)
-        Me.RadioButton4.Name = "RadioButton4"
-        Me.RadioButton4.Size = New System.Drawing.Size(46, 17)
-        Me.RadioButton4.TabIndex = 1
-        Me.RadioButton4.Text = "TCP"
-        Me.RadioButton4.UseVisualStyleBackColor = True
         '
         'Tennis24_Settings
         '

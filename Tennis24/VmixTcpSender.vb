@@ -7,10 +7,7 @@ Imports System.Text
 ' Protokoll unterscheidet sich nur im Rahmen: eine Zeile "FUNCTION X Param=Y&...\r\n" statt
 ' eines GET-Requests. Port kommt aus Settings-TextBox9 (Standard 8099, siehe
 ' Tennis24_Settings.vb) statt aus dem HTTP-Port (TextBoxValues(46)).
-'
-' WICHTIG: die genaue vMix-TCP-Syntax (insbesondere Antwortformat) sollte vor dem
-' produktiven Einsatz gegen die tatsächlich verwendete vMix-Version verifiziert werden -
-' unverifiziert aus der offiziellen vMix-TCP-API-Doku übernommen.
+
 Public Class VmixTcpSender
     Implements IVmixSender, IDisposable
 
