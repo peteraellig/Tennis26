@@ -19,8 +19,11 @@ Public Class Tennis24_Settings
 
 
 
-    'textbox1 = Turniername 
-    'textbox2 = Veranstalter    
+    ' Vollständige Liste aller aktuell im Designer vorhandenen Controls und ihrer Bedeutung -
+    ' analog zur Kommentierung von HomePlayer/AwayPlayer in Tennis24_Main.vb. Indizes ohne
+    ' Eintrag hier haben (noch) kein zugehöriges Control und werden von keinem Code gelesen.
+    'textbox1 = Turniername
+    'textbox2 = Veranstalter
     'textbox3 = Runde
     '
     'textbox4 = Freitext 1
@@ -28,6 +31,7 @@ Public Class Tennis24_Settings
     'textbox6 = Freitext 3
     'textbox7 = Freitext 4
     'textbox8 = Freitext 5
+    'textbox9 = TCP-Port (nur relevant, wenn radiobutton4 = TCP; noch nicht implementiert)
 
     'textbox20 = Schiedsrichter 1
     'textbox21 = Schiedsrichter 2
@@ -41,21 +45,14 @@ Public Class Tennis24_Settings
     'textbox28= Button Info3
     'textbox29= Button Info4
 
+    'textbox30-39 = reserviert/unbenutzt (nur mit Platzhaltertext "Dummy Value N" vorbelegt,
+    '               siehe LoadDefaultSettings - kein Code liest diese Werte aktuell)
 
-
-
-
-    'textbox40 = vMix IP
-    'textbox41 = vMix Port
     'textbox42 = Match-Tiebreak: Punkte bis zum Sieg (Standard 10)
     'textbox43 = Farbe für gewonnenen Satz im Scorebug, Format #RRGGBB (Standard #FFFF00 = gelb)
-    'textbox9  = TCP-Port (nur relevant, wenn radiobutton4 = TCP; noch nicht implementiert)
-    'textbox47 = Standard Overlay
-    'textbox48 = ScoreBug Overlay
-    'textbox49 = Werbe Overlay
+    'textbox45 = vMix IP (Standard localhost)
+    'textbox46 = vMix HTTP-Port (Standard 8088)
     'textbox50 = Anzahl Sätze (3, 5)
-
-    'RadioButtonValues(1) = Best of x
 
     'checkbox1 = Match-Tiebreak bei 1:1 Sätzen ersetzt den 3. Satz (nur Best of 3)
     'checkbox2 = Freeze Set - Scorebug bleibt bei Satzende auf dem alten Satz stehen,
