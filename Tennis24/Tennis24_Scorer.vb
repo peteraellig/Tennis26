@@ -481,7 +481,27 @@ Public Class Tennis24_Scorer
         ' (z.B. Ordner nicht beschreibbar) zeigt sich bereits beim Matchstart, siehe ResetMatch.
         If Tennis24_Settings.CheckBoxValues(3) Then jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson())
 
+        ' Automatische Absturz-/Stromausfall-Sicherung (Btn_recover) - läuft immer, ohne
+        ' Einstellungsschalter und unabhängig von Save/Load, weil genau das der Zweck ist:
+        ' sie muss auch funktionieren, wenn nie manuell gespeichert wurde.
+        SaveAutoRecoveryState()
+
         If isMatchFinished Then Hidepoints()
+    End Sub
+
+    ' Schreibt den kompletten Engine-Zustand in die feste Recovery-Datei (siehe
+    ' TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH). Fehler werden bewusst verschluckt statt
+    ' bei jedem Punkt ein Popup zu zeigen - ein dauerhaftes Problem (z.B. Ordner nicht
+    ' beschreibbar) würde auch bei einem manuellen Save/Recover auffallen.
+    Private Sub SaveAutoRecoveryState()
+        Try
+            Dim homePlayerName = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
+            Dim awayPlayerName = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+            Dim snapshot = TennisMatchStateStore.BuildSnapshot(match, homePlayerName, awayPlayerName)
+            TennisMatchStateStore.SaveToFile(snapshot, TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH)
+        Catch ex As Exception
+            ' Bewusst verschluckt - siehe Aufrufstelle
+        End Try
     End Sub
 
     ' Schreibt die Live-JSON-Datei einmal beim Matchstart (Settings-Checkbox3), damit z.B.

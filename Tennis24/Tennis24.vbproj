@@ -153,6 +153,7 @@
     <Compile Include="IVmixSender.vb" />
     <Compile Include="VmixHttpSender.vb" />
     <Compile Include="VmixTcpSender.vb" />
+    <Compile Include="TennisMatchStateStore.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

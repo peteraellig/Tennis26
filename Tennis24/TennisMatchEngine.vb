@@ -37,6 +37,7 @@ Public Class TennisMatchEngine
         Public Property NoTiebreakMode As Boolean
         Public Property CompletedGamesInMatch As Integer
         Public Property MatchStartTime As DateTime?
+        Public Property IsMidMatchEntry As Boolean
     End Class
 
     Public Property IsTiebreak As Boolean = False
@@ -100,6 +101,13 @@ Public Class TennisMatchEngine
         End Get
     End Property
 
+    ' Gesetzt durch einen Zwischeneinstieg (Btn_betweenentry) - ein manuell eingegebener
+    ' Satz-/Spielstand ohne die dazugehörige Punkt-für-Punkt-Historie. Wer immer diese Flag
+    ' auswertet (Statistik-Anzeige, Live-JSON) weiss dadurch, dass Werte wie Breaks, Mini-
+    ' Breaks oder Longest Game nicht das ganze Match widerspiegeln, sondern erst ab dem
+    ' Einstiegspunkt zählen.
+    Public Property IsMidMatchEntry As Boolean = False
+
     Public ReadOnly Property Stack As New Stack(Of MatchState)
 
     Public Sub PushState()
@@ -135,7 +143,8 @@ Public Class TennisMatchEngine
             .FirstPointPlayed = FirstPointPlayed,
             .IsMatchFinished = IsMatchFinished,
             .NoTiebreakMode = NoTiebreakMode,
-            .MatchStartTime = MatchStartTime
+            .MatchStartTime = MatchStartTime,
+            .IsMidMatchEntry = IsMidMatchEntry
         })
     End Sub
 
@@ -177,6 +186,7 @@ Public Class TennisMatchEngine
         NoTiebreakMode = lastState.NoTiebreakMode
         CompletedGamesInMatch = lastState.CompletedGamesInMatch
         MatchStartTime = lastState.MatchStartTime
+        IsMidMatchEntry = lastState.IsMidMatchEntry
         Return lastState
     End Function
 
@@ -213,6 +223,7 @@ Public Class TennisMatchEngine
         CurrentGamePoints = 0
         CompletedGamesInMatch = 0
         MatchStartTime = Nothing
+        IsMidMatchEntry = False
 
         Stack.Clear()
     End Sub
