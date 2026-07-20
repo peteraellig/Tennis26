@@ -278,6 +278,10 @@ Public Class Tennis24_Scorer
     'keypress handling
     Private Declare Function GetAsyncKeyState Lib "User32" (ByVal vkey As Integer) As Integer
 
+    Private Sub Tennis24_Scorer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' TCP-Verbindung zu vMix sauber trennen, falls die TCP-API gerade aktiv war.
+        tcpVmixSender.Dispose()
+    End Sub
 
     Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -1283,32 +1287,19 @@ Public Class Tennis24_Scorer
         Return "Function=" + func + "&Input=" + input + "&SelectedName=" + selectedName + "&Value=" + EncodeVmixValue(value)
     End Function
 
-    Public Sub SendHTMLtovMix(ByVal HTML_URL As String)
-        'Sendet einen HTML-Befehl an vMix   
-        HTML_URL = "http://" + Tennis24_Settings.TextBoxValues(45) + ":" + Tennis24_Settings.TextBoxValues(46) + "/API/?" + HTML_URL
-        Dim responseData As String
-        Label12.Text = HTML_URL
+    ' Wahl zwischen HTTP- und TCP-API (Settings-RadioButton3/4) wird bei jedem Aufruf frisch
+    ' aus RadioButtonValues(4) gelesen (True = TCP) statt einmalig gecacht - so wirkt eine
+    ' Settings-Änderung sofort, ohne den Scorer neu zu starten. Die eigentliche Übersetzung
+    ' des "Function=X&Param=Y&..."-Strings ins jeweilige Protokoll steckt in
+    ' VmixHttpSender/VmixTcpSender (siehe IVmixSender).
+    Private ReadOnly httpVmixSender As New VmixHttpSender()
+    Private ReadOnly tcpVmixSender As New VmixTcpSender()
 
-        Try
-            Dim cookieJar As New Net.CookieContainer()
-            Dim hwrequest As Net.HttpWebRequest = Net.WebRequest.Create(HTML_URL)
-            hwrequest.CookieContainer = cookieJar
-            hwrequest.Accept = "*/*"
-            hwrequest.AllowAutoRedirect = True
-            hwrequest.UserAgent = "http_requester/0.1"
-            hwrequest.Method = "GET"
-            hwrequest.Timeout = 30
-
-            Dim hwresponse As Net.HttpWebResponse = hwrequest.GetResponse()
-            If hwresponse.StatusCode = Net.HttpStatusCode.OK Then
-                Dim responseStream As New IO.StreamReader(hwresponse.GetResponseStream())
-                responseData = responseStream.ReadToEnd()
-                Label7.Text = responseData
-            End If
-            hwresponse.Close()
-        Catch ex As Exception
-            Label7.Text = ("Exception Error in VTX (vMix running?): " & ex.Message)
-        End Try
+    Public Sub SendHTMLtovMix(ByVal command As String)
+        Dim sender As IVmixSender = If(Tennis24_Settings.RadioButtonValues(4), CType(tcpVmixSender, IVmixSender), httpVmixSender)
+        Dim result As String = sender.Send(command)
+        Label12.Text = sender.LastCommand
+        Label7.Text = result
     End Sub
 
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click

@@ -150,6 +150,9 @@
     </Compile>
     <Compile Include="TennisMatchEngine.vb" />
     <Compile Include="TennisJsonExporter.vb" />
+    <Compile Include="IVmixSender.vb" />
+    <Compile Include="VmixHttpSender.vb" />
+    <Compile Include="VmixTcpSender.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
