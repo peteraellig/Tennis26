@@ -49,6 +49,7 @@ Public Class Tennis24_Settings
     'textbox41 = vMix Port
     'textbox42 = Match-Tiebreak: Punkte bis zum Sieg (Standard 10)
     'textbox43 = Farbe für gewonnenen Satz im Scorebug, Format #RRGGBB (Standard #FFFF00 = gelb)
+    'textbox9  = TCP-Port (nur relevant, wenn radiobutton4 = TCP; noch nicht implementiert)
     'textbox47 = Standard Overlay
     'textbox48 = ScoreBug Overlay
     'textbox49 = Werbe Overlay
@@ -63,10 +64,13 @@ Public Class Tennis24_Settings
     '            C:\VMIX\tennis\data\tennis24_live.json)
     'radiobutton1 = Best of 3
     'radiobutton2 = Best of 5
+    'radiobutton3 = Sende-Protokoll an vMix: HTTP (Standard)
+    'radiobutton4 = Sende-Protokoll an vMix: TCP (noch nicht implementiert)
 
-    'combobox1 = Overlay 1 (Standard)   
-    'combobox2 = Overlay 2 (ScoreBug)   
-    'combobox3 = Overlay 3 (Sponsor)    
+    'combobox1 = Overlay 1 (Standard)
+    'combobox2 = Overlay 2 (ScoreBug)
+    'combobox3 = Overlay 3 (Sponsor)
+    'combobox4 = Overlay 4 (2. ScoreBug)
 
     Private Sub Tennis24_Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSettingsFromXml()
@@ -185,6 +189,16 @@ Public Class Tennis24_Settings
             End If
         End If
 
+        ' ComboBox4 (2. ScoreBug Overlay) - ComboBoxValues(4)
+        If ComboBox4 IsNot Nothing Then
+            Dim scoreBug2Value As String = ComboBoxValues(4)
+            If String.IsNullOrEmpty(scoreBug2Value) OrElse Not IsNumeric(scoreBug2Value) OrElse CInt(scoreBug2Value) < 1 OrElse CInt(scoreBug2Value) > 8 Then
+                ComboBox4.Text = "4"
+            Else
+                ComboBox4.Text = scoreBug2Value
+            End If
+        End If
+
         Tennis24_Scorer.Btn_ref1.Text = TextBoxValues(20).Split(","c)(0).Trim()
         Tennis24_Scorer.Btn_ref2.Text = TextBoxValues(21).Split(","c)(0).Trim()
 
@@ -258,6 +272,7 @@ Public Class Tennis24_Settings
             TextBoxValues(i) = "Dummy Value " + Str(i)
         Next
 
+        TextBoxValues(9) = "8099"                   ' TCP-Port (noch nicht implementiert)
         TextBoxValues(42) = "10"                    ' Match-Tiebreak bis X Punkte
         TextBoxValues(43) = DEFAULT_GAMEWON_COLOUR  ' Farbe für gewonnenen Satz im Scorebug
 
@@ -275,6 +290,7 @@ Public Class Tennis24_Settings
         Next
 
         RadioButtonValues(1) = True  ' Best of 3
+        RadioButtonValues(3) = True  ' Sende-Protokoll: HTTP
 
         For i As Integer = 1 To 20
             ComboBoxValues(i) = ""
@@ -282,6 +298,7 @@ Public Class Tennis24_Settings
         ComboBoxValues(1) = "1"  ' Standard Overlay
         ComboBoxValues(2) = "2"  ' ScoreBug Overlay
         ComboBoxValues(3) = "3"  ' Sponsor Overlay
+        ComboBoxValues(4) = "4"  ' 2. ScoreBug Overlay
 
         ' Controls aktualisieren
         UpdateControlsFromArrays()
