@@ -253,6 +253,20 @@
         End If
     End Sub
 
+    ' Fängt fehlgeschlagene Zellwert-Konvertierungen ab (z.B. Text statt Zahl in Age/Height/
+    ' Data1/Data2, die als Integer typisiert sind). Ohne diesen Handler zeigt die
+    ' DataGridView selbst den kryptischen Standarddialog "kann kein Commit durchführen
+    ' oder die Änderung nicht abbrechen" und die Zelle bleibt in einem inkonsistenten
+    ' Bearbeitungszustand hängen.
+    Private Sub DataGridView_Players_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DataGridView_Players.DataError
+        e.ThrowException = False
+        If e.Context = DataGridViewDataErrorContexts.Commit Then
+            Dim columnName = DataGridView_Players.Columns(e.ColumnIndex).HeaderText
+            MessageBox.Show($"'{columnName}' benötigt eine ganze Zahl.", "Ungültiger Wert", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            DataGridView_Players.CancelEdit()
+        End If
+    End Sub
+
     ' Die Paarungsfelder sind reine Anzeige der aktuell aktiven Paarung - Auswahl per
     ' Drag&Drop läuft nur noch über Tennis26_Main2 (Btn_open_pairings), siehe dort. Deshalb
     ' hier bewusst kein AllowDrop mehr; die zugehörigen Drag&Drop-Handler wurden entfernt.
