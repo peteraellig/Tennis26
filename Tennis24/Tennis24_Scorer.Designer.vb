@@ -101,6 +101,10 @@ Partial Class Tennis24_Scorer
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.Btn_betweenentry = New System.Windows.Forms.Button()
+        Me.Btn_save_match = New System.Windows.Forms.Button()
+        Me.Btn_load_match = New System.Windows.Forms.Button()
+        Me.Btn_recover = New System.Windows.Forms.Button()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -915,11 +919,51 @@ Partial Class Tennis24_Scorer
         Me.Label11.TabIndex = 82
         Me.Label11.Text = "Label11"
         '
+        'Btn_betweenentry
+        '
+        Me.Btn_betweenentry.Location = New System.Drawing.Point(12, 580)
+        Me.Btn_betweenentry.Name = "Btn_betweenentry"
+        Me.Btn_betweenentry.Size = New System.Drawing.Size(169, 23)
+        Me.Btn_betweenentry.TabIndex = 83
+        Me.Btn_betweenentry.Text = "Enter between running game"
+        Me.Btn_betweenentry.UseVisualStyleBackColor = True
+        '
+        'Btn_save_match
+        '
+        Me.Btn_save_match.Location = New System.Drawing.Point(355, 518)
+        Me.Btn_save_match.Name = "Btn_save_match"
+        Me.Btn_save_match.Size = New System.Drawing.Size(169, 23)
+        Me.Btn_save_match.TabIndex = 84
+        Me.Btn_save_match.Text = "SAVE Game"
+        Me.Btn_save_match.UseVisualStyleBackColor = True
+        '
+        'Btn_load_match
+        '
+        Me.Btn_load_match.Location = New System.Drawing.Point(355, 547)
+        Me.Btn_load_match.Name = "Btn_load_match"
+        Me.Btn_load_match.Size = New System.Drawing.Size(169, 23)
+        Me.Btn_load_match.TabIndex = 85
+        Me.Btn_load_match.Text = "Load saved game"
+        Me.Btn_load_match.UseVisualStyleBackColor = True
+        '
+        'Btn_recover
+        '
+        Me.Btn_recover.Location = New System.Drawing.Point(355, 576)
+        Me.Btn_recover.Name = "Btn_recover"
+        Me.Btn_recover.Size = New System.Drawing.Size(169, 23)
+        Me.Btn_recover.TabIndex = 86
+        Me.Btn_recover.Text = "!! RECOVER !!"
+        Me.Btn_recover.UseVisualStyleBackColor = True
+        '
         'Tennis24_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1535, 606)
+        Me.Controls.Add(Me.Btn_recover)
+        Me.Controls.Add(Me.Btn_load_match)
+        Me.Controls.Add(Me.Btn_save_match)
+        Me.Controls.Add(Me.Btn_betweenentry)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label9)
@@ -1095,4 +1139,8 @@ Partial Class Tennis24_Scorer
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
+    Friend WithEvents Btn_betweenentry As Button
+    Friend WithEvents Btn_save_match As Button
+    Friend WithEvents Btn_load_match As Button
+    Friend WithEvents Btn_recover As Button
 End Class
