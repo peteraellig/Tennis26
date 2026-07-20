@@ -695,13 +695,28 @@
                     Dim pairingIndex As Integer
                     If Not Integer.TryParse(indexAttr.Value, pairingIndex) OrElse pairingIndex < 0 OrElse pairingIndex > 3 Then Continue For
 
-                    Dim homeNameNode = pairingNode.SelectSingleNode("Home/Name")
-                    Dim awayNameNode = pairingNode.SelectSingleNode("Away/Name")
-                    Dim homeName = If(homeNameNode IsNot Nothing, homeNameNode.InnerText, "")
-                    Dim awayName = If(awayNameNode IsNot Nothing, awayNameNode.InnerText, "")
+                    Dim homeName = GetXmlNodeValue(pairingNode, "Home/Name")
+                    Dim awayName = GetXmlNodeValue(pairingNode, "Away/Name")
+
+                    Dim doublesNode = pairingNode.SelectSingleNode("Doubles")
+                    Dim isDoubles As Boolean = False
+                    If doublesNode IsNot Nothing Then Boolean.TryParse(doublesNode.InnerText, isDoubles)
 
                     If Not String.IsNullOrEmpty(homeName) OrElse Not String.IsNullOrEmpty(awayName) Then
-                        captions(pairingIndex) = $"{If(String.IsNullOrEmpty(homeName), "?", homeName)} vs {If(String.IsNullOrEmpty(awayName), "?", awayName)}"
+                        Dim homeText = If(String.IsNullOrEmpty(homeName), "?", homeName)
+                        Dim awayText = If(String.IsNullOrEmpty(awayName), "?", awayName)
+
+                        If isDoubles Then
+                            ' Bei Doppel alle 4 Namen zeigen (die Buttons sind extra dafür
+                            ' höher gemacht worden) - Partner mit "/" angehängt, falls vorhanden.
+                            Dim home2Name = GetXmlNodeValue(pairingNode, "Home2/Name")
+                            Dim away2Name = GetXmlNodeValue(pairingNode, "Away2/Name")
+                            If Not String.IsNullOrEmpty(home2Name) Then homeText &= $" / {home2Name}"
+                            If Not String.IsNullOrEmpty(away2Name) Then awayText &= $" / {away2Name}"
+                            captions(pairingIndex) = $"{homeText}{vbCrLf}vs{vbCrLf}{awayText}"
+                        Else
+                            captions(pairingIndex) = $"{homeText} vs {awayText}"
+                        End If
                     End If
                 Next
             End If

@@ -189,6 +189,11 @@ Public Class Tennis26_Main2
             Dim playerFields = playerData.Split("|"c)
             If playerFields.Length < 9 Then Return
 
+            If IsPlayerAlreadyInPairing(pairingIndex, slotName, playerFields) Then
+                MessageBox.Show($"{playerFields(1)} {playerFields(0)} is already assigned elsewhere in this pairing.", "Duplicate Player", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+
             Dim targetArray As String() = Nothing
             Select Case slotName
                 Case "Home" : targetArray = pairings(pairingIndex).Home
@@ -206,6 +211,29 @@ Public Class Tennis26_Main2
             MessageBox.Show($"Error assigning player: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
+    ' Verhindert, denselben Spieler zweimal in dieselbe Paarung zu ziehen (z.B. versehentlich
+    ' als Home UND als Away, oder als Home UND als Home2 im Doppel) - Name+Vorname als
+    ' Identität, reicht hier aus (zwei verschiedene Spieler mit identischem Namen+Vornamen
+    ' gleichzeitig in derselben Paarung wäre ohnehin ein Sonderfall).
+    Private Function IsPlayerAlreadyInPairing(pairingIndex As Integer, targetSlotName As String, playerFields As String()) As Boolean
+        Dim slot = pairings(pairingIndex)
+        Dim otherSlots = New List(Of (Name As String, Fields As String())) From {
+            ("Home", slot.Home),
+            ("Away", slot.Away),
+            ("Home2", slot.Home2),
+            ("Away2", slot.Away2)
+        }
+
+        For Each entry In otherSlots
+            If entry.Name = targetSlotName Then Continue For
+            If String.IsNullOrEmpty(entry.Fields(0)) AndAlso String.IsNullOrEmpty(entry.Fields(1)) Then Continue For
+            If entry.Fields(0) = playerFields(0) AndAlso entry.Fields(1) = playerFields(1) Then
+                Return True
+            End If
+        Next
+        Return False
+    End Function
 
     ' Verknüpft eine TextBox mit ihrem Paarungs-Slot/Feld (via Tag) und meldet sie für den
     ' gemeinsamen Drag&Drop-Handler an - wird einmal pro Zielfeld beim Laden aufgerufen.
