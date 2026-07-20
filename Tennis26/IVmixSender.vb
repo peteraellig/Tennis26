@@ -1,6 +1,6 @@
 ' Gemeinsame Abstraktion für den Versand von vMix-Befehlen - ermöglicht den Wechsel
 ' zwischen HTTP- und TCP-API (Settings: RadioButton3/4), ohne die ~80 Aufrufstellen in
-' Tennis24_Scorer.vb anzufassen. Die bauen weiterhin denselben "Function=X&Param=Y&..."-
+' Tennis26_Scorer.vb anzufassen. Die bauen weiterhin denselben "Function=X&Param=Y&..."-
 ' String wie bisher für die HTTP-API; jede Implementierung übersetzt ihn in ihr eigenes
 ' Protokoll (siehe VmixHttpSender/VmixTcpSender).
 Public Interface IVmixSender

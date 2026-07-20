@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Tennis24_Settings
+Partial Class Tennis26_Settings
     Inherits System.Windows.Forms.Form
 
     'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
@@ -1219,7 +1219,7 @@ Partial Class Tennis24_Settings
         Me.RadioButton3.Text = "HTTP"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
-        'Tennis24_Settings
+        'Tennis26_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1312,7 +1312,7 @@ Partial Class Tennis24_Settings
         Me.Controls.Add(Me.PictureBox3)
         Me.Controls.Add(Me.PictureBox4)
         Me.Controls.Add(Me.PictureBox5)
-        Me.Name = "Tennis24_Settings"
+        Me.Name = "Tennis26_Settings"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tenis24_Settings"
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()

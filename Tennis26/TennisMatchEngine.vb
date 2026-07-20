@@ -1,5 +1,5 @@
 ﻿' UI-freie Zähllogik für ein Tennis-Match (Punkte/Spiele/Sätze, Tiebreak-Regeln,
-' Aufschlag-Statistik, Undo-Stack). Tennis24_Scorer.vb hält eine Instanz dieser Klasse
+' Aufschlag-Statistik, Undo-Stack). Tennis26_Scorer.vb hält eine Instanz dieser Klasse
 ' und delegiert Zustand + reine Berechnungen hierhin; alle UI- und vMix-Aufrufe
 ' bleiben im Formular.
 Public Class TennisMatchEngine
@@ -410,7 +410,7 @@ Public Class TennisMatchEngine
     End Function
 
     Public Function BestOfSetsToWin() As Integer
-        Return Math.Ceiling(Tennis24_Settings.TextBoxValues(50) / 2.0)
+        Return Math.Ceiling(Tennis26_Settings.TextBoxValues(50) / 2.0)
     End Function
 
     Public Function IsSetWon(playerGames As Integer, opponentGames As Integer) As Boolean

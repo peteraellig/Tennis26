@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Tennis24_Statistics
+Partial Class Tennis26_Statistics
     Inherits System.Windows.Forms.Form
 
     'Das Formular überschreibt den Löschvorgang zur Bereinigung der Komponentenliste.
@@ -19,7 +19,7 @@ Partial Class Tennis24_Statistics
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis24_Statistics))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis26_Statistics))
         Me.DataGridView_Stats = New System.Windows.Forms.DataGridView()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Btn_Close = New System.Windows.Forms.Button()
@@ -60,7 +60,7 @@ Partial Class Tennis24_Statistics
         Me.Btn_Close.Text = "close"
         Me.Btn_Close.UseVisualStyleBackColor = False
         '
-        'Tennis24_Statistics
+        'Tennis26_Statistics
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(954, 761)
@@ -68,9 +68,9 @@ Partial Class Tennis24_Statistics
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.DataGridView_Stats)
         Me.MinimumSize = New System.Drawing.Size(800, 800)
-        Me.Name = "Tennis24_Statistics"
+        Me.Name = "Tennis26_Statistics"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Tennis24 - Statistik"
+        Me.Text = "Tennis26 - Statistik"
         CType(Me.DataGridView_Stats, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

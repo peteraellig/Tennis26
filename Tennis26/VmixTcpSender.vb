@@ -6,7 +6,7 @@ Imports System.Text
 ' Aufruf entfällt). Nutzt dieselbe "Function=X&Param=Y&..."-Syntax wie die HTTP-API; das
 ' Protokoll unterscheidet sich nur im Rahmen: eine Zeile "FUNCTION X Param=Y&...\r\n" statt
 ' eines GET-Requests. Port kommt aus Settings-TextBox9 (Standard 8099, siehe
-' Tennis24_Settings.vb) statt aus dem HTTP-Port (TextBoxValues(46)).
+' Tennis26_Settings.vb) statt aus dem HTTP-Port (TextBoxValues(46)).
 
 Public Class VmixTcpSender
     Implements IVmixSender, IDisposable
@@ -29,9 +29,9 @@ Public Class VmixTcpSender
 
         DisconnectInternal()
 
-        Dim ip As String = Tennis24_Settings.TextBoxValues(45)
+        Dim ip As String = Tennis26_Settings.TextBoxValues(45)
         Dim port As Integer = 8099
-        Integer.TryParse(Tennis24_Settings.TextBoxValues(9), port)
+        Integer.TryParse(Tennis26_Settings.TextBoxValues(9), port)
 
         client = New TcpClient()
         client.Connect(ip, port)

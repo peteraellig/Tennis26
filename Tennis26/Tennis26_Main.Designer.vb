@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Tennis24_Main
+Partial Class Tennis26_Main
     Inherits System.Windows.Forms.Form
 
     'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
@@ -22,7 +22,7 @@ Partial Class Tennis24_Main
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis24_Main))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis26_Main))
         Me.btn_exit = New System.Windows.Forms.Button()
         Me.btn_live = New System.Windows.Forms.Button()
         Me.DataGridView_Players = New System.Windows.Forms.DataGridView()
@@ -245,7 +245,7 @@ Partial Class Tennis24_Main
         Me.Btn_SaveAs.Text = "Save as.."
         Me.Btn_SaveAs.UseVisualStyleBackColor = True
         '
-        'Tennis24_Main
+        'Tennis26_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -270,7 +270,7 @@ Partial Class Tennis24_Main
         Me.Controls.Add(Me.btn_exit)
         Me.Controls.Add(Me.PictureBox1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "Tennis24_Main"
+        Me.Name = "Tennis26_Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         CType(Me.DataGridView_Players, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

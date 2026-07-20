@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Werte der Assemblyattribute überprüfen
 
-<Assembly: AssemblyTitle("Tennis24")>
+<Assembly: AssemblyTitle("Tennis26")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("Peter Aellig")>
-<Assembly: AssemblyProduct("Tennis24")>
+<Assembly: AssemblyProduct("Tennis26")>
 <Assembly: AssemblyCopyright("Peter Aellig")>
 <Assembly: AssemblyTrademark("")>
 

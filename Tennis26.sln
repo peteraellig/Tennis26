@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tennis24", "Tennis24\Tennis24.vbproj", "{1477FFA6-6D73-4A63-998D-856895E1840B}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tennis26", "Tennis26\Tennis26.vbproj", "{1477FFA6-6D73-4A63-998D-856895E1840B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{84D27F74-D2BA-6C25-2661-968F101900D9}"
 	ProjectSection(SolutionItems) = preProject
-		Tennis24\Tennis24_Scorer.vb = Tennis24\Tennis24_Scorer.vb
+		Tennis26\Tennis26_Scorer.vb = Tennis26\Tennis26_Scorer.vb
 	EndProjectSection
 EndProject
 Global

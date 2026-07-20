@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1477FFA6-6D73-4A63-998D-856895E1840B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Tennis24.My.MyApplication</StartupObject>
-    <RootNamespace>Tennis24</RootNamespace>
-    <AssemblyName>Tennis24</AssemblyName>
+    <StartupObject>Tennis26.My.MyApplication</StartupObject>
+    <RootNamespace>Tennis26</RootNamespace>
+    <AssemblyName>Tennis26</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -25,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ProductName>Tennis24</ProductName>
+    <ProductName>Tennis26</ProductName>
     <PublisherName>Peter Aellig</PublisherName>
     <ApplicationRevision>12</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
@@ -41,7 +41,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Tennis24.xml</DocumentationFile>
+    <DocumentationFile>Tennis26.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -51,7 +51,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Tennis24.xml</DocumentationFile>
+    <DocumentationFile>Tennis26.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -70,7 +70,7 @@
     <ManifestCertificateThumbprint>DBAB34E738E0D3A4941E4151108C28B360FDA91E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Tennis24_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Tennis26_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -107,17 +107,17 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tennis24_Settings.Designer.vb">
-      <DependentUpon>Tennis24_Settings.vb</DependentUpon>
+    <Compile Include="Tennis26_Settings.Designer.vb">
+      <DependentUpon>Tennis26_Settings.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tennis24_Settings.vb">
+    <Compile Include="Tennis26_Settings.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tennis24_Main.vb">
+    <Compile Include="Tennis26_Main.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tennis24_Main.Designer.vb">
-      <DependentUpon>Tennis24_Main.vb</DependentUpon>
+    <Compile Include="Tennis26_Main.Designer.vb">
+      <DependentUpon>Tennis26_Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -136,16 +136,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tennis24_Scorer.Designer.vb">
-      <DependentUpon>Tennis24_Scorer.vb</DependentUpon>
+    <Compile Include="Tennis26_Scorer.Designer.vb">
+      <DependentUpon>Tennis26_Scorer.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tennis24_Scorer.vb">
+    <Compile Include="Tennis26_Scorer.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tennis24_Statistics.Designer.vb">
-      <DependentUpon>Tennis24_Statistics.vb</DependentUpon>
+    <Compile Include="Tennis26_Statistics.Designer.vb">
+      <DependentUpon>Tennis26_Statistics.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tennis24_Statistics.vb">
+    <Compile Include="Tennis26_Statistics.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TennisMatchEngine.vb" />
@@ -154,10 +154,10 @@
     <Compile Include="VmixHttpSender.vb" />
     <Compile Include="VmixTcpSender.vb" />
     <Compile Include="TennisMatchStateStore.vb" />
-    <Compile Include="Tennis24_MidMatchEntry.Designer.vb">
-      <DependentUpon>Tennis24_MidMatchEntry.vb</DependentUpon>
+    <Compile Include="Tennis26_MidMatchEntry.Designer.vb">
+      <DependentUpon>Tennis26_MidMatchEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tennis24_MidMatchEntry.vb">
+    <Compile Include="Tennis26_MidMatchEntry.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -168,20 +168,20 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tennis24_Settings.resx">
-      <DependentUpon>Tennis24_Settings.vb</DependentUpon>
+    <EmbeddedResource Include="Tennis26_Settings.resx">
+      <DependentUpon>Tennis26_Settings.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tennis24_Main.resx">
-      <DependentUpon>Tennis24_Main.vb</DependentUpon>
+    <EmbeddedResource Include="Tennis26_Main.resx">
+      <DependentUpon>Tennis26_Main.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tennis24_Scorer.resx">
-      <DependentUpon>Tennis24_Scorer.vb</DependentUpon>
+    <EmbeddedResource Include="Tennis26_Scorer.resx">
+      <DependentUpon>Tennis26_Scorer.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tennis24_Statistics.resx">
-      <DependentUpon>Tennis24_Statistics.vb</DependentUpon>
+    <EmbeddedResource Include="Tennis26_Statistics.resx">
+      <DependentUpon>Tennis26_Statistics.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tennis24_MidMatchEntry.resx">
-      <DependentUpon>Tennis24_MidMatchEntry.vb</DependentUpon>
+    <EmbeddedResource Include="Tennis26_MidMatchEntry.resx">
+      <DependentUpon>Tennis26_MidMatchEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +195,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="Tennis24_TemporaryKey.pfx" />
+    <None Include="Tennis26_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

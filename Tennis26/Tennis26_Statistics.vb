@@ -1,7 +1,7 @@
 ﻿' Separate Statistik-Anzeige, aus dem Scorer heraus aufrufbar. Liest ihre Werte direkt aus
 ' der TennisMatchEngine-Instanz des Scorers - die Form hält keinen eigenen Spielzustand und
 ' beeinflusst die Zähllogik oder den vMix-Versand in keiner Weise.
-Public Class Tennis24_Statistics
+Public Class Tennis26_Statistics
 
     Private matchEngine As TennisMatchEngine
 
@@ -10,7 +10,7 @@ Public Class Tennis24_Statistics
     ' genau das ist wiederholt passiert, als Zeilen ergänzt wurden.
     Private ReadOnly rowIndex As New Dictionary(Of String, Integer)()
 
-    Private Sub Tennis24_Statistics_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tennis26_Statistics_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupDataGridView()
         RefreshStatistics()
     End Sub
@@ -135,7 +135,7 @@ Public Class Tennis24_Statistics
         ' String-Vergleich statt Vergleich mit der Zahl 3: TextBoxValues(50) ist ein String,
         ' und mit Option Strict Off würde ein leerer oder nicht numerischer Wert entweder
         ' eine Ausnahme auslösen oder stillschweigend "Best of 5" anzeigen.
-        Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
+        Dim matchType = If(Tennis26_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
         rowOf("MatchType").Cells(1).Value = matchType
         rowOf("MatchType").Cells(2).Value = ""
 
@@ -271,8 +271,8 @@ Public Class Tennis24_Statistics
     End Sub
 
     Private Sub UpdatePlayerNameHeaders()
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
 
         If DataGridView_Stats.Columns.Count >= 3 Then
             DataGridView_Stats.Columns(1).HeaderText = homePlayerName

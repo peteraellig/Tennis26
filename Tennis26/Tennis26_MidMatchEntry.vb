@@ -8,7 +8,7 @@
 ' Baut auf Apply einen MatchStateSnapshot (dieselbe Klasse wie Save/Load/Recover) und lässt
 ' den Scorer diesen über die bereits vorhandene ApplySnapshotAndRefresh() übernehmen - keine
 ' zweite Anwende-Logik nötig.
-Public Class Tennis24_MidMatchEntry
+Public Class Tennis26_MidMatchEntry
 
     Private resultSnapshotValue As MatchStateSnapshot
 
@@ -18,7 +18,7 @@ Public Class Tennis24_MidMatchEntry
         End Get
     End Property
 
-    Private Sub Tennis24_MidMatchEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tennis26_MidMatchEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RadioButton_HomeServing.Checked = True
     End Sub
 
@@ -60,8 +60,8 @@ Public Class Tennis24_MidMatchEntry
         ' einfach sauber weiter (siehe IsMidMatchEntry).
         Dim snapshot As New MatchStateSnapshot With {
             .SavedAt = DateTime.UtcNow,
-            .HomePlayerName = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0)),
-            .AwayPlayerName = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0)),
+            .HomePlayerName = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0)),
+            .AwayPlayerName = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0)),
             .HomeSetScores = homeSetScores,
             .AwaySetScores = awaySetScores,
             .HomeSets = homeSets,

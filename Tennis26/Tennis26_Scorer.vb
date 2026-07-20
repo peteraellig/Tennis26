@@ -1,6 +1,6 @@
 ﻿Imports System.Net
 
-Public Class Tennis24_Scorer
+Public Class Tennis26_Scorer
 
     'zeigt keine Spielerdetails an wie alter etc.
     Private hidedetails As Boolean = False
@@ -23,14 +23,14 @@ Public Class Tennis24_Scorer
     Private WithEvents freezeSetAdvanceTimer As New Timer()
 
     ' Separate Statistik-Form; Nothing/IsDisposed solange sie nicht geöffnet ist.
-    Private statisticsForm As Tennis24_Statistics
+    Private statisticsForm As Tennis26_Statistics
 
     ' Live-JSON-Datei (Settings-Checkbox3): schreibt den aktuellen Spielstand
     ' geräteunabhängig als Datei, unabhängig von vMix - kann von beliebiger externer
     ' Software (z.B. einem selbst gebauten Python-Server) im Netzwerk verteilt werden,
-    ' ohne dass Tennis24 selbst netzwerkweit lauschen muss (siehe TennisJsonExporter.vb).
+    ' ohne dass Tennis26 selbst netzwerkweit lauschen muss (siehe TennisJsonExporter.vb).
     Private ReadOnly jsonExporter As New TennisJsonExporter()
-    Private Const LIVE_JSON_FILE_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\tennis24_live.json"
+    Private Const LIVE_JSON_FILE_PATH As String = Tennis26_Settings.SETTINGS_DATA_PATH & "\tennis24_live.json"
 
     ' Ein Eintrag pro Overlay-Button, der sich gegenseitig mit den anderen ausschliesst
     ' (immer nur einer dieser Layer-1-Overlays gleichzeitig sichtbar). Ersetzt die vorher
@@ -278,12 +278,12 @@ Public Class Tennis24_Scorer
     'keypress handling
     Private Declare Function GetAsyncKeyState Lib "User32" (ByVal vkey As Integer) As Integer
 
-    Private Sub Tennis24_Scorer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub Tennis26_Scorer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         ' TCP-Verbindung zu vMix sauber trennen, falls die TCP-API gerade aktiv war.
         tcpVmixSender.Dispose()
     End Sub
 
-    Private Sub Tennis24_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tennis26_Scorer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         InitOverlayToggles()
 
@@ -295,9 +295,9 @@ Public Class Tennis24_Scorer
         Timer1.Interval = 1000
         Timer1.Start()
 
-        Tennis24_Settings.SetVariables()
+        Tennis26_Settings.SetVariables()
 
-        If Tennis24_Settings.TextBoxValues(50) = 3 Then
+        If Tennis26_Settings.TextBoxValues(50) = 3 Then
             lbl_home_s3.Visible = True
             lbl_away_s3.Visible = True
             lbl_home_s4.Visible = False
@@ -353,9 +353,9 @@ Public Class Tennis24_Scorer
     Private Sub InitOverlayToggles()
         overlayToggles = New List(Of OverlayToggle) From {
             New OverlayToggle With {.Key = "home", .Button = Btn_Name_Home, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))},
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))},
             New OverlayToggle With {.Key = "away", .Button = Btn_Name_Away, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))},
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))},
             New OverlayToggle With {.Key = "largeresult", .Button = Btn_LargeResult, .Template = "large_result.gtzip", .ComboIndex = 1,
                 .ResetText = Function() "Large Result OFF"},
             New OverlayToggle With {.Key = "title", .Button = Btn_Title, .Template = "title.gtzip", .ComboIndex = 1,
@@ -413,7 +413,7 @@ Public Class Tennis24_Scorer
 
     Private Sub SendOverlayCommand(entry As OverlayToggle, isOn As Boolean)
         Dim direction As String = If(isOn, "In", "Out")
-        Dim sendstring As String = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(entry.ComboIndex) + direction + "&Input=" + entry.Template + "&Mix=0"
+        Dim sendstring As String = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(entry.ComboIndex) + direction + "&Input=" + entry.Template + "&Mix=0"
         SendHTMLtovMix(sendstring)
     End Sub
 
@@ -479,7 +479,7 @@ Public Class Tennis24_Scorer
         ' offen ist. Ein Schreibfehler wird hier bewusst nicht gemeldet (das liefe sonst bei
         ' jedem einzelnen Punkt auf denselben Popup hinaus) - ein evtl. dauerhaftes Problem
         ' (z.B. Ordner nicht beschreibbar) zeigt sich bereits beim Matchstart, siehe ResetMatch.
-        If Tennis24_Settings.CheckBoxValues(3) Then jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson())
+        If Tennis26_Settings.CheckBoxValues(3) Then jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson())
 
         ' Automatische Absturz-/Stromausfall-Sicherung (Btn_recover) - läuft immer, ohne
         ' Einstellungsschalter und unabhängig von Save/Load, weil genau das der Zweck ist:
@@ -492,8 +492,8 @@ Public Class Tennis24_Scorer
     ' Baut einen Snapshot des aktuellen Standes - gemeinsam genutzt von der automatischen
     ' Recovery-Sicherung und dem manuellen "Save Game"-Button.
     Private Function BuildCurrentSnapshot() As MatchStateSnapshot
-        Dim homePlayerName = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homePlayerName = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+        Dim awayPlayerName = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
         Dim homeSetScores As Integer() = {ParseLabelInt(lbl_home_s1.Text), ParseLabelInt(lbl_home_s2.Text), ParseLabelInt(lbl_home_s3.Text), ParseLabelInt(lbl_home_s4.Text), ParseLabelInt(lbl_home_s5.Text)}
         Dim awaySetScores As Integer() = {ParseLabelInt(lbl_away_s1.Text), ParseLabelInt(lbl_away_s2.Text), ParseLabelInt(lbl_away_s3.Text), ParseLabelInt(lbl_away_s4.Text), ParseLabelInt(lbl_away_s5.Text)}
         Return TennisMatchStateStore.BuildSnapshot(match, homePlayerName, awayPlayerName, homeSetScores, awaySetScores)
@@ -518,8 +518,8 @@ Public Class Tennis24_Scorer
     Private Sub ApplySnapshotAndRefresh(snapshot As MatchStateSnapshot)
         TennisMatchStateStore.ApplySnapshot(match, snapshot)
 
-        Tennis24_Main.HomePlayer(0) = snapshot.HomePlayerName
-        Tennis24_Main.AwayPlayer(0) = snapshot.AwayPlayerName
+        Tennis26_Main.HomePlayer(0) = snapshot.HomePlayerName
+        Tennis26_Main.AwayPlayer(0) = snapshot.AwayPlayerName
 
         lbl_home_s1.Text = snapshot.HomeSetScores(0).ToString()
         lbl_home_s2.Text = snapshot.HomeSetScores(1).ToString()
@@ -557,9 +557,9 @@ Public Class Tennis24_Scorer
 
         Using dialog As New SaveFileDialog()
             dialog.InitialDirectory = TennisMatchStateStore.SAVES_FOLDER_PATH
-            dialog.Filter = "Tennis24 saved match (*.xml)|*.xml"
+            dialog.Filter = "Tennis26 saved match (*.xml)|*.xml"
             dialog.DefaultExt = "xml"
-            dialog.FileName = $"{Tennis24_Main.HomePlayer(0)} vs {Tennis24_Main.AwayPlayer(0)} {DateTime.Now:yyyy-MM-dd HHmm}.xml"
+            dialog.FileName = $"{Tennis26_Main.HomePlayer(0)} vs {Tennis26_Main.AwayPlayer(0)} {DateTime.Now:yyyy-MM-dd HHmm}.xml"
 
             If dialog.ShowDialog() = DialogResult.OK Then
                 Try
@@ -576,7 +576,7 @@ Public Class Tennis24_Scorer
     Private Sub Btn_load_match_Click(sender As Object, e As EventArgs) Handles Btn_load_match.Click
         Using dialog As New OpenFileDialog()
             dialog.InitialDirectory = TennisMatchStateStore.SAVES_FOLDER_PATH
-            dialog.Filter = "Tennis24 saved match (*.xml)|*.xml"
+            dialog.Filter = "Tennis26 saved match (*.xml)|*.xml"
 
             If dialog.ShowDialog() = DialogResult.OK Then
                 Try
@@ -622,9 +622,9 @@ Public Class Tennis24_Scorer
 
     ' Zwischeneinstieg: öffnet die Eingabe-Form modal, übernimmt das Ergebnis bei "Apply"
     ' über dieselbe ApplySnapshotAndRefresh() wie Save/Load/Recover - keine eigene
-    ' Anwende-Logik nötig (siehe Tennis24_MidMatchEntry.vb).
+    ' Anwende-Logik nötig (siehe Tennis26_MidMatchEntry.vb).
     Private Sub Btn_betweenentry_Click(sender As Object, e As EventArgs) Handles Btn_betweenentry.Click
-        Using entryForm As New Tennis24_MidMatchEntry()
+        Using entryForm As New Tennis26_MidMatchEntry()
             If entryForm.ShowDialog(Me) = DialogResult.OK Then
                 ApplySnapshotAndRefresh(entryForm.ResultSnapshot)
             End If
@@ -636,7 +636,7 @@ Public Class Tennis24_Scorer
     ' Anders als die Datei-Updates pro Punkt wird ein Fehler hier direkt gemeldet, weil er
     ' nur einmal pro Matchstart auftritt statt bei jedem Punkt erneut.
     Private Sub WriteLiveJsonFileOnMatchStart()
-        If Not Tennis24_Settings.CheckBoxValues(3) Then Return
+        If Not Tennis26_Settings.CheckBoxValues(3) Then Return
 
         If Not jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson()) Then
             MessageBox.Show(
@@ -669,18 +669,18 @@ Public Class Tennis24_Scorer
 
     ' Baut den kompletten aktuellen Spielstand als JSON - unabhängig von vMix, für beliebige
     ' externe Software geeignet, die die Live-JSON-Datei ausliest (siehe TennisJsonExporter.vb).
-    ' Enthält bewusst auch die vollständigen Spielerdaten (Tennis24_Main) und dieselben
-    ' Statistik-Werte wie das Statistik-Fenster (Tennis24_Statistics), damit eine externe
+    ' Enthält bewusst auch die vollständigen Spielerdaten (Tennis26_Main) und dieselben
+    ' Statistik-Werte wie das Statistik-Fenster (Tennis26_Statistics), damit eine externe
     ' Anzeige keine zweite Datenquelle braucht.
     Private Function BuildLiveStateJson() As String
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
 
         Dim homeSetScores As Integer() = {ParseLabelInt(lbl_home_s1.Text), ParseLabelInt(lbl_home_s2.Text), ParseLabelInt(lbl_home_s3.Text), ParseLabelInt(lbl_home_s4.Text), ParseLabelInt(lbl_home_s5.Text)}
         Dim awaySetScores As Integer() = {ParseLabelInt(lbl_away_s1.Text), ParseLabelInt(lbl_away_s2.Text), ParseLabelInt(lbl_away_s3.Text), ParseLabelInt(lbl_away_s4.Text), ParseLabelInt(lbl_away_s5.Text)}
 
         ' Service-Games/Punkte-Prozentsätze exakt wie im Statistik-Fenster berechnet
-        ' (siehe Tennis24_Statistics.RefreshStatistics/UpdateBreakPointRows) - hier dupliziert,
+        ' (siehe Tennis26_Statistics.RefreshStatistics/UpdateBreakPointRows) - hier dupliziert,
         ' da die Statistik-Form nur die Anzeige kennt, nicht die JSON-Ausgabe.
         Dim homeServiceGamesTotal = homeServiceGamesWon + match.AwayBreaks
         Dim awayServiceGamesTotal = awayServiceGamesWon + match.HomeBreaks
@@ -701,26 +701,26 @@ Public Class Tennis24_Scorer
         Dim inv = Globalization.CultureInfo.InvariantCulture
 
         Dim homePlayerObj As New JsonObjectBuilder()
-        homePlayerObj.AddString("name", Tennis24_Main.HomePlayer(0)) _
-                      .AddString("firstName", Tennis24_Main.HomePlayer(1)) _
-                      .AddString("country", Tennis24_Main.HomePlayer(2)) _
-                      .AddString("countryISO3", Tennis24_Main.HomePlayer(3)) _
-                      .AddString("age", Tennis24_Main.HomePlayer(4)) _
-                      .AddString("height", Tennis24_Main.HomePlayer(5)) _
-                      .AddString("data1", Tennis24_Main.HomePlayer(6)) _
-                      .AddString("data2", Tennis24_Main.HomePlayer(7)) _
-                      .AddString("data3", Tennis24_Main.HomePlayer(8))
+        homePlayerObj.AddString("name", Tennis26_Main.HomePlayer(0)) _
+                      .AddString("firstName", Tennis26_Main.HomePlayer(1)) _
+                      .AddString("country", Tennis26_Main.HomePlayer(2)) _
+                      .AddString("countryISO3", Tennis26_Main.HomePlayer(3)) _
+                      .AddString("age", Tennis26_Main.HomePlayer(4)) _
+                      .AddString("height", Tennis26_Main.HomePlayer(5)) _
+                      .AddString("data1", Tennis26_Main.HomePlayer(6)) _
+                      .AddString("data2", Tennis26_Main.HomePlayer(7)) _
+                      .AddString("data3", Tennis26_Main.HomePlayer(8))
 
         Dim awayPlayerObj As New JsonObjectBuilder()
-        awayPlayerObj.AddString("name", Tennis24_Main.AwayPlayer(0)) _
-                      .AddString("firstName", Tennis24_Main.AwayPlayer(1)) _
-                      .AddString("country", Tennis24_Main.AwayPlayer(2)) _
-                      .AddString("countryISO3", Tennis24_Main.AwayPlayer(3)) _
-                      .AddString("age", Tennis24_Main.AwayPlayer(4)) _
-                      .AddString("height", Tennis24_Main.AwayPlayer(5)) _
-                      .AddString("data1", Tennis24_Main.AwayPlayer(6)) _
-                      .AddString("data2", Tennis24_Main.AwayPlayer(7)) _
-                      .AddString("data3", Tennis24_Main.AwayPlayer(8))
+        awayPlayerObj.AddString("name", Tennis26_Main.AwayPlayer(0)) _
+                      .AddString("firstName", Tennis26_Main.AwayPlayer(1)) _
+                      .AddString("country", Tennis26_Main.AwayPlayer(2)) _
+                      .AddString("countryISO3", Tennis26_Main.AwayPlayer(3)) _
+                      .AddString("age", Tennis26_Main.AwayPlayer(4)) _
+                      .AddString("height", Tennis26_Main.AwayPlayer(5)) _
+                      .AddString("data1", Tennis26_Main.AwayPlayer(6)) _
+                      .AddString("data2", Tennis26_Main.AwayPlayer(7)) _
+                      .AddString("data3", Tennis26_Main.AwayPlayer(8))
 
         Dim homeObj As New JsonObjectBuilder()
         homeObj.AddString("name", homePlayerName) _
@@ -762,7 +762,7 @@ Public Class Tennis24_Scorer
                .AddInt("tiebreaksWon", awayTiebreaksWon) _
                .AddRaw("pointsWinPct", awayPointsWinPct.ToString(inv))
 
-        Dim matchType = If(Tennis24_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
+        Dim matchType = If(Tennis26_Settings.TextBoxValues(50) = "5", "Best of 5", "Best of 3")
 
         ' Spielzeit: läuft ab dem allerersten Punkt (siehe TennisMatchEngine.RegisterPoint).
         ' matchStartTime roh mitgeben, damit eine externe Anzeige selbst weiterticken kann,
@@ -792,7 +792,7 @@ Public Class Tennis24_Scorer
         Return root.ToString()
     End Function
 
-    ' Die Statistik-Anzeige liegt in einer eigenen Form (Tennis24_Statistics) und wird nur
+    ' Die Statistik-Anzeige liegt in einer eigenen Form (Tennis26_Statistics) und wird nur
     ' aktualisiert, wenn sie gerade geöffnet ist.
     Private Sub UpdateStatisticsDisplay()
         ' DEBUG: Zeige die tatsächlichen Werte
@@ -873,10 +873,10 @@ Public Class Tennis24_Scorer
 
     Private Sub UpdateButtonNames()
         ' Spielernamen abrufen
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
 
-        ' Die Spaltenüberschriften der Statistik setzt Tennis24_Statistics selbst
+        ' Die Spaltenüberschriften der Statistik setzt Tennis26_Statistics selbst
         ' (UpdatePlayerNameHeaders bei jedem RefreshStatistics).
 
         If CheckBox_keypress_Mode.Checked Then
@@ -936,7 +936,7 @@ Public Class Tennis24_Scorer
             ' Nur wenn der Scorebug gerade eingeblendet ist, muss vMix aktiv umgeschaltet
             ' werden; sonst genügt es, den Zielsatz zu setzen (nächstes Einschalten zeigt ihn).
             If scorebugtoggleStatus Then
-                SendHTMLtovMix("Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0")
+                SendHTMLtovMix("Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0")
                 Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
             End If
         End If
@@ -1068,16 +1068,16 @@ Public Class Tennis24_Scorer
         Label9.Text = FormatMatchDuration(match.MatchElapsed)
 
         ' Match-Tiebreak-Einstellungen aus den Settings übernehmen
-        match.MatchTiebreakEnabled = Tennis24_Settings.CheckBoxValues(1)
+        match.MatchTiebreakEnabled = Tennis26_Settings.CheckBoxValues(1)
         Dim matchTiebreakTarget As Integer
-        If Integer.TryParse(Tennis24_Settings.TextBoxValues(42), matchTiebreakTarget) AndAlso matchTiebreakTarget > 0 Then
+        If Integer.TryParse(Tennis26_Settings.TextBoxValues(42), matchTiebreakTarget) AndAlso matchTiebreakTarget > 0 Then
             match.MatchTiebreakTarget = matchTiebreakTarget
         Else
             match.MatchTiebreakTarget = 10
         End If
 
         ' Freeze-Set-Einstellung aus den Settings übernehmen
-        freezeSetEnabled = Tennis24_Settings.CheckBoxValues(2)
+        freezeSetEnabled = Tennis26_Settings.CheckBoxValues(2)
         displayedScorebugSet = 1
         freezeSetAdvanceTimer.Stop()
 
@@ -1151,7 +1151,7 @@ Public Class Tennis24_Scorer
     Private Sub Btn_reset_match_Click(sender As Object, e As EventArgs) Handles btn_reset_match.Click
         ResetMatch()
 
-        Dim sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Mix=0"
+        Dim sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Mix=0"
         Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
         Btn_Scorebug.Text = "Scorebug OFF"
         ' Befehl an vMix senden
@@ -1165,13 +1165,13 @@ Public Class Tennis24_Scorer
     End Sub
 
     Private Sub CheckForMatchEnd(setEndedInTiebreak As Boolean)
-        Dim setsToWin As Integer = Math.Ceiling(Tennis24_Settings.TextBoxValues(50) / 2.0)
+        Dim setsToWin As Integer = Math.Ceiling(Tennis26_Settings.TextBoxValues(50) / 2.0)
 
         If homeSets = setsToWin OrElse awaySets = setsToWin Then
             ' Match ist beendet
             isMatchFinished = True
-            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
 
             ' Match-Gewinner bestimmen
             If homeSets = setsToWin Then
@@ -1291,16 +1291,16 @@ Public Class Tennis24_Scorer
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "apoint.Text", lbl_awaypoint.Text)
             index += 1
 
-            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
 
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName)
             index += 1
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName)
             index += 1
 
-            Dim homeCountryISO3 As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(3)), "HOM", Tennis24_Main.HomePlayer(3))
-            Dim awayCountryISO3 As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(3)), "AWY", Tennis24_Main.AwayPlayer(3))
+            Dim homeCountryISO3 As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(3)), "HOM", Tennis26_Main.HomePlayer(3))
+            Dim awayCountryISO3 As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(3)), "AWY", Tennis26_Main.AwayPlayer(3))
 
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homeCountryISO3)
             index += 1
@@ -1350,10 +1350,10 @@ Public Class Tennis24_Scorer
         ' Grosse Ergebnisanzeige aktualisieren
         Dim scorebugtitle As String = "large_result.gtzip"
         Dim sendstring As String
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(1) & " " & Tennis24_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(1) & " " & Tennis24_Main.AwayPlayer(0))
-        Dim homecountry As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(3))
-        Dim awaycountry As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(3))
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(1) & " " & Tennis26_Main.HomePlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
+        Dim homecountry As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
+        Dim awaycountry As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(3))
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homecountry) : SendHTMLtovMix(sendstring)
@@ -1444,7 +1444,7 @@ Public Class Tennis24_Scorer
     Private ReadOnly tcpVmixSender As New VmixTcpSender()
 
     Public Sub SendHTMLtovMix(ByVal command As String)
-        Dim useTcp As Boolean = Tennis24_Settings.RadioButtonValues(4)
+        Dim useTcp As Boolean = Tennis26_Settings.RadioButtonValues(4)
         Dim sender As IVmixSender = If(useTcp, CType(tcpVmixSender, IVmixSender), httpVmixSender)
 
         ' Laufzeitmessung: vom Absenden bis die (letzte) Antwort da ist - Send() wartet
@@ -1468,14 +1468,14 @@ Public Class Tennis24_Scorer
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click
         'beendet das programm und öffnet das hauptfenster
         Me.Close()
-        Tennis24_Main.Show()
+        Tennis26_Main.Show()
     End Sub
 
     Private Sub Btn_statistics_Click(sender As Object, e As EventArgs) Handles Btn_statistics.Click
         ' Statistik-Fenster öffnen bzw. nach vorne holen (nicht-modal, damit weitergezählt
         ' werden kann, während die Statistik offen ist)
         If statisticsForm Is Nothing OrElse statisticsForm.IsDisposed Then
-            statisticsForm = New Tennis24_Statistics()
+            statisticsForm = New Tennis26_Statistics()
             statisticsForm.AttachMatch(match)
             statisticsForm.Show(Me)
         Else
@@ -1494,11 +1494,11 @@ Public Class Tennis24_Scorer
         scorebugtoggleStatus = Not scorebugtoggleStatus
 
         If scorebugtoggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = Color.Red
             Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
         Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "Out&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "Out&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
             Btn_Scorebug.Text = "Scorebug OFF"
 
@@ -1541,8 +1541,8 @@ Public Class Tennis24_Scorer
     ' (Btn_gamewon_colour, gespeichert als "#RRGGBB" in TextBoxValues(43)).
     Private ReadOnly Property WonSetColour As String
         Get
-            Dim colour As String = Tennis24_Settings.TextBoxValues(43)
-            Return If(String.IsNullOrWhiteSpace(colour), Tennis24_Settings.DEFAULT_GAMEWON_COLOUR, colour.Trim())
+            Dim colour As String = Tennis26_Settings.TextBoxValues(43)
+            Return If(String.IsNullOrWhiteSpace(colour), Tennis26_Settings.DEFAULT_GAMEWON_COLOUR, colour.Trim())
         End Get
     End Property
 
@@ -1580,7 +1580,7 @@ Public Class Tennis24_Scorer
 
         If scorebugtoggleStatus Then
             Dim sendstring As String
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
             SendHTMLtovMix(sendstring)
         End If
@@ -1690,7 +1690,7 @@ Public Class Tennis24_Scorer
         sendstring = "Function=SetImageVisibleOn&Input=" & nametemplate & "&SelectedName=h3_bg.Source" : SendHTMLtovMix(sendstring)
         sendstring = "Function=SetImageVisibleOn&Input=" & nametemplate & "&SelectedName=a3_bg.Source" : SendHTMLtovMix(sendstring)
 
-        If Tennis24_Settings.TextBoxValues(50) = 5 Then
+        If Tennis26_Settings.TextBoxValues(50) = 5 Then
             sendstring = "Function=SetTextVisibleOn&Input=" & nametemplate & "&SelectedName=h4.Text" : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOn&Input=" & nametemplate & "&SelectedName=a4.Text" : SendHTMLtovMix(sendstring)
             sendstring = "Function=SetTextVisibleOn&Input=" & nametemplate & "&SelectedName=h5.Text" : SendHTMLtovMix(sendstring)
@@ -1710,15 +1710,15 @@ Public Class Tennis24_Scorer
     Private Sub Lower1()
         Dim scorebugtitle As String = "lower_name.gtzip"
         Dim sendstring As String
-        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(1) & " " & Tennis24_Main.HomePlayer(0))
-        Dim country As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(3))
+        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(1) & " " & Tennis26_Main.HomePlayer(0))
+        Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
 
         ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(4)), " ", "Age: " & Tennis24_Main.HomePlayer(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(5)), " ", "Height: " & Tennis24_Main.HomePlayer(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(6)), " ", Tennis24_Main.HomePlayer(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(7)), " ", Tennis24_Main.HomePlayer(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(8)), " ", Tennis24_Main.HomePlayer(8))
+        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), " ", "Age: " & Tennis26_Main.HomePlayer(4))
+        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), " ", "Height: " & Tennis26_Main.HomePlayer(5))
+        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), " ", Tennis26_Main.HomePlayer(6))
+        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(7)), " ", Tennis26_Main.HomePlayer(7))
+        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(8)), " ", Tennis26_Main.HomePlayer(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -1739,15 +1739,15 @@ Public Class Tennis24_Scorer
     Private Sub Lower2()
         Dim scorebugtitle As String = "lower_name.gtzip"
         Dim sendstring As String
-        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(1) & " " & Tennis24_Main.AwayPlayer(0))
-        Dim country As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(3))
+        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
+        Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(3))
 
         ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(4)), " ", "Age: " & Tennis24_Main.AwayPlayer(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(5)), " ", "Height: " & Tennis24_Main.AwayPlayer(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(6)), " ", Tennis24_Main.AwayPlayer(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(7)), " ", Tennis24_Main.AwayPlayer(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(8)), " ", Tennis24_Main.AwayPlayer(8))
+        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), " ", "Age: " & Tennis26_Main.AwayPlayer(4))
+        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), " ", "Height: " & Tennis26_Main.AwayPlayer(5))
+        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), " ", Tennis26_Main.AwayPlayer(6))
+        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(7)), " ", Tennis26_Main.AwayPlayer(7))
+        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(8)), " ", Tennis26_Main.AwayPlayer(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -1781,15 +1781,15 @@ Public Class Tennis24_Scorer
             Dim sendstring As String
 
             ' Home Player Daten
-            Dim hPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(1) & " " & Tennis24_Main.HomePlayer(0))
-            Dim hcountry As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(3))
+            Dim hPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(1) & " " & Tennis26_Main.HomePlayer(0))
+            Dim hcountry As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
 
             ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-            Dim hage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(4)), "", "Age: " & Tennis24_Main.HomePlayer(4))
-            Dim hheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(5)), "", "Height: " & Tennis24_Main.HomePlayer(5))
-            Dim hdata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(6)), "", Tennis24_Main.HomePlayer(6))
-            Dim hdata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(7)), "", Tennis24_Main.HomePlayer(7))
-            Dim hdata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.HomePlayer(8)), "", Tennis24_Main.HomePlayer(8))
+            Dim hage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), "", "Age: " & Tennis26_Main.HomePlayer(4))
+            Dim hheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), "", "Height: " & Tennis26_Main.HomePlayer(5))
+            Dim hdata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), "", Tennis26_Main.HomePlayer(6))
+            Dim hdata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(7)), "", Tennis26_Main.HomePlayer(7))
+            Dim hdata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(8)), "", Tennis26_Main.HomePlayer(8))
 
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", hPlayerName) : SendHTMLtovMix(sendstring)
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", hcountry) : SendHTMLtovMix(sendstring)
@@ -1807,14 +1807,14 @@ Public Class Tennis24_Scorer
             End If
 
             ' Away Player Daten
-            Dim aPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "Away", Tennis24_Main.AwayPlayer(1) & " " & Tennis24_Main.AwayPlayer(0))
-            Dim acountry As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "Away", Tennis24_Main.AwayPlayer(3))
+            Dim aPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "Away", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
+            Dim acountry As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "Away", Tennis26_Main.AwayPlayer(3))
 
-            Dim aage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(4)), "", "Age: " & Tennis24_Main.AwayPlayer(4))
-            Dim aheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(5)), "", "Height: " & Tennis24_Main.AwayPlayer(5))
-            Dim adata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(6)), "", Tennis24_Main.AwayPlayer(6))
-            Dim adata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(7)), "", Tennis24_Main.AwayPlayer(7))
-            Dim adata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(8)), "", Tennis24_Main.AwayPlayer(8))
+            Dim aage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), "", "Age: " & Tennis26_Main.AwayPlayer(4))
+            Dim aheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), "", "Height: " & Tennis26_Main.AwayPlayer(5))
+            Dim adata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), "", Tennis26_Main.AwayPlayer(6))
+            Dim adata2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(7)), "", Tennis26_Main.AwayPlayer(7))
+            Dim adata3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(8)), "", Tennis26_Main.AwayPlayer(8))
 
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", aPlayerName) : SendHTMLtovMix(sendstring)
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", acountry) : SendHTMLtovMix(sendstring)
@@ -1837,7 +1837,7 @@ Public Class Tennis24_Scorer
     Private Sub Btn_Name_Home_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home.Click
         'blendet spielername1 ein und aus
         Dim entry = GetToggle("home")
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
+        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
         Dim Playername = "lower" & vbNewLine & homePlayerName
 
         ' Reset other toggles first
@@ -1854,7 +1854,7 @@ Public Class Tennis24_Scorer
     Private Sub Btn_Name_Away_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away.Click
         'blendet spielername2 ein und aus
         Dim entry = GetToggle("away")
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
         Dim Playername = "lower" & vbNewLine & awayPlayerName
 
         ' Reset other toggles first
@@ -1875,8 +1875,8 @@ Public Class Tennis24_Scorer
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
 
-        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock1.Text", Tennis24_Settings.TextBoxValues(1)))
-        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock2.Text", Tennis24_Settings.TextBoxValues(2)))
+        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock1.Text", Tennis26_Settings.TextBoxValues(1)))
+        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock2.Text", Tennis26_Settings.TextBoxValues(2)))
 
         Dim isOn = ToggleStatus(entry)
         SendOverlayCommand(entry, isOn)
@@ -1914,7 +1914,7 @@ Public Class Tennis24_Scorer
                 entry.Button.BackColor = SystemColors.ButtonHighlight
                 If entry.ResetText IsNot Nothing Then entry.Button.Text = entry.ResetText.Invoke()
 
-                Dim sendstring As String = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(entry.ComboIndex) + "Off&Input=" + entry.Template + "&Mix=0"
+                Dim sendstring As String = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(entry.ComboIndex) + "Off&Input=" + entry.Template + "&Mix=0"
                 SendHTMLtovMix(sendstring)
             End If
         Next
@@ -1970,13 +1970,13 @@ Public Class Tennis24_Scorer
         sponsor1ToggleStatus = Not sponsor1ToggleStatus
 
         If sponsor1ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "In&Input=" + nametemplate + "&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "In&Input=" + nametemplate + "&Mix=0"
             Btn_sponsor1.BackColor = Color.Red
             Btn_sponsor2.BackColor = SystemColors.ButtonHighlight
             sponsor1ToggleStatus = True
             sponsor2ToggleStatus = False
         Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "Out&Input=" + nametemplate + "&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Out&Input=" + nametemplate + "&Mix=0"
             Btn_sponsor1.BackColor = SystemColors.ButtonHighlight
             sponsor1ToggleStatus = False
             sponsor2ToggleStatus = False
@@ -1996,13 +1996,13 @@ Public Class Tennis24_Scorer
         sponsor2ToggleStatus = Not sponsor2ToggleStatus
 
         If sponsor2ToggleStatus Then
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "In&Input=" + nametemplate + "&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "In&Input=" + nametemplate + "&Mix=0"
             Btn_sponsor2.BackColor = Color.Red
             Btn_sponsor1.BackColor = SystemColors.ButtonHighlight
             sponsor1ToggleStatus = False
             sponsor2ToggleStatus = True
         Else
-            sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "Out&Input=" + nametemplate + "&Mix=0"
+            sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Out&Input=" + nametemplate + "&Mix=0"
             Btn_sponsor2.BackColor = SystemColors.ButtonHighlight
             sponsor1ToggleStatus = False
             sponsor2ToggleStatus = False
@@ -2034,18 +2034,18 @@ Public Class Tennis24_Scorer
 
         ' Alle Overlays ausblenden
         Dim overlayCommands() As String = {
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=lower_name.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=large_result.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=title.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=match_pairing.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=match_pairing1.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=match_pairing2.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=match_pairing3.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=match_pairing4.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=info1.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off&Input=info2.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "Off&Input=sponsor1.gtzip&Mix=0",
-        "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "Off&Input=sponsor2.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=lower_name.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=large_result.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=title.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing1.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing2.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing3.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing4.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info1.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info2.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Off&Input=sponsor1.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Off&Input=sponsor2.gtzip&Mix=0",
         "Function=OverlayInput1Out"  ' Für Name-Overlays
     }
 
@@ -2059,9 +2059,9 @@ Public Class Tennis24_Scorer
         ' Alle Overlays zurücksetzen
         ResetAllOverlayButtons()
         Dim sendstring As String
-        sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(1) + "Off" : SendHTMLtovMix(sendstring)
-        sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(2) + "Off" : SendHTMLtovMix(sendstring)
-        sendstring = "Function=OverlayInput" + Tennis24_Settings.ComboBoxValues(3) + "Off" : SendHTMLtovMix(sendstring)
+        sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off" : SendHTMLtovMix(sendstring)
+        sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "Off" : SendHTMLtovMix(sendstring)
+        sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Off" : SendHTMLtovMix(sendstring)
 
     End Sub
 
@@ -2082,39 +2082,39 @@ Public Class Tennis24_Scorer
         Dim textBox As TextBox
         Select Case button.Name
             Case "Btn_freename1"
-                textBox = Tennis24_Settings.TextBox4
+                textBox = Tennis26_Settings.TextBox4
                 entry = GetToggle("freename1")
             Case "Btn_freename2"
-                textBox = Tennis24_Settings.TextBox5
+                textBox = Tennis26_Settings.TextBox5
                 entry = GetToggle("freename2")
             Case "Btn_freename3"
-                textBox = Tennis24_Settings.TextBox6
+                textBox = Tennis26_Settings.TextBox6
                 entry = GetToggle("freename3")
             Case "Btn_freename4"
-                textBox = Tennis24_Settings.TextBox7
+                textBox = Tennis26_Settings.TextBox7
                 entry = GetToggle("freename4")
             Case "Btn_freename5"
-                textBox = Tennis24_Settings.TextBox8
+                textBox = Tennis26_Settings.TextBox8
                 entry = GetToggle("freename5")
             Case "Btn_ref1"
-                textBox = Tennis24_Settings.TextBox20
+                textBox = Tennis26_Settings.TextBox20
                 entry = GetToggle("ref1")
             Case "Btn_ref2"
-                textBox = Tennis24_Settings.TextBox21
+                textBox = Tennis26_Settings.TextBox21
                 entry = GetToggle("ref2")
 
             Case "Btn_com1"
-                textBox = Tennis24_Settings.TextBox22
+                textBox = Tennis26_Settings.TextBox22
                 entry = GetToggle("com1")
                 ' SPEZIELLE BEHANDLUNG für Btn_com1: Template abhängig von Commentator2 setzen
-                If String.IsNullOrEmpty(Tennis24_Settings.TextBox23.Text.Trim()) Then
+                If String.IsNullOrEmpty(Tennis26_Settings.TextBox23.Text.Trim()) Then
                     nametemplate = "name.gtzip"  ' Nur ein Kommentator
                 Else
                     nametemplate = "name2.gtzip" ' Beide Kommentatoren
                 End If
 
             Case "Btn_com2"
-                textBox = Tennis24_Settings.TextBox23
+                textBox = Tennis26_Settings.TextBox23
                 entry = GetToggle("com2")
 
             Case Else
@@ -2134,7 +2134,7 @@ Public Class Tennis24_Scorer
                 ' Beide Kommentatoren anzeigen - KORREKTE ZUORDNUNG
 
                 ' Commentator1 (TextBox22) aufteilen
-                Dim commentator1Text As String = Tennis24_Settings.TextBox22.Text.Trim()
+                Dim commentator1Text As String = Tennis26_Settings.TextBox22.Text.Trim()
                 Dim com1Parts() As String
                 Dim com1Line1 As String
                 Dim com1Line2 As String
@@ -2149,7 +2149,7 @@ Public Class Tennis24_Scorer
                 End If
 
                 ' Commentator2 (TextBox23) aufteilen
-                Dim commentator2Text As String = Tennis24_Settings.TextBox23.Text.Trim()
+                Dim commentator2Text As String = Tennis26_Settings.TextBox23.Text.Trim()
                 Dim com2Parts() As String
                 Dim com2Line1 As String
                 Dim com2Line2 As String

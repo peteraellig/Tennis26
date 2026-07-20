@@ -1,4 +1,4 @@
-﻿Public Class Tennis24_Main
+﻿Public Class Tennis26_Main
     ' Array to store selected players for the match
     Public Shared HomePlayer As String() = New String(8) {} ' Name, FirstName, Country, ISO3, Age, Height, Data1, Data2, Data3
     Public Shared AwayPlayer As String() = New String(8) {} ' Name, FirstName, Country, ISO3, Age, Height, Data1, Data2, Data3
@@ -12,7 +12,7 @@
     Private _dragStartPoint As Point
     Private _dragRowIndex As Integer = -1
 
-    Private Sub Tennis24_Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tennis26_Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             ' macht kopie der spielerdaten
             CreateAutoBackup()
@@ -22,8 +22,8 @@
 
             LoadDataFromXML() 'reads player data and selected players from XML for main form
 
-            Tennis24_Settings.LoadSettingsFromXml() 'reads settings from XLM
-            Tennis24_Settings.SetLabels() ' sets labels in settings form
+            Tennis26_Settings.LoadSettingsFromXml() 'reads settings from XLM
+            Tennis26_Settings.SetLabels() ' sets labels in settings form
 
             ' Sichere Anzeige mit Fallback
             UpdateBestOfLabel()
@@ -35,7 +35,7 @@
     End Sub
 
     Private Sub UpdateBestOfLabel()
-        Dim bestOfValue = If(String.IsNullOrEmpty(Tennis24_Settings.TextBoxValues(50)), "3", Tennis24_Settings.TextBoxValues(50))
+        Dim bestOfValue = If(String.IsNullOrEmpty(Tennis26_Settings.TextBoxValues(50)), "3", Tennis26_Settings.TextBoxValues(50))
         Label2.Text = "best of: " + bestOfValue
     End Sub
 
@@ -47,14 +47,14 @@
                 Return ' Beende die Funktion hier wenn Prüfung fehlschlägt
             End If
 
-            Tennis24_Settings.SetVariables()
-            Tennis24_Scorer.Show()
+            Tennis26_Settings.SetVariables()
+            Tennis26_Scorer.Show()
 
             ' Sichere String-Konkatenation mit Fallbacks
-            Dim bestOf = If(String.IsNullOrEmpty(Tennis24_Settings.TextBoxValues(50)), "3", Tennis24_Settings.TextBoxValues(50))
-            Dim vmixIP = If(String.IsNullOrEmpty(Tennis24_Settings.TextBoxValues(45)), "localhost", Tennis24_Settings.TextBoxValues(45))
+            Dim bestOf = If(String.IsNullOrEmpty(Tennis26_Settings.TextBoxValues(50)), "3", Tennis26_Settings.TextBoxValues(50))
+            Dim vmixIP = If(String.IsNullOrEmpty(Tennis26_Settings.TextBoxValues(45)), "localhost", Tennis26_Settings.TextBoxValues(45))
 
-            Tennis24_Scorer.Text = $"LIVE | Best of {bestOf} | IP: {vmixIP}"
+            Tennis26_Scorer.Text = $"LIVE | Best of {bestOf} | IP: {vmixIP}"
             Me.Hide()
         Catch ex As Exception
             MessageBox.Show($"Fehler beim Starten des Live-Modus: {ex.Message}", "Live-Modus Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -207,7 +207,7 @@
             Dim col As String = DataGridView_Players.CurrentCell.OwningColumn.HeaderText
 
             ' Optional: Label oder Statusleiste aktualisieren
-            ' Me.Text = $"Tennis24 - Aktuelle Zelle: {col} (Zeile {row})"
+            ' Me.Text = $"Tennis26 - Aktuelle Zelle: {col} (Zeile {row})"
 
             ' Alternative: ToolTip anzeigen
             Dim tooltip As New ToolTip()
@@ -393,7 +393,7 @@
             Dim metaElement = xmlDoc.CreateElement("Metadata")
             rootElement.AppendChild(metaElement)
             AddXmlElement(xmlDoc, metaElement, "CreatedDate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-            AddXmlElement(xmlDoc, metaElement, "CreatedBy", "Tennis24 Application")
+            AddXmlElement(xmlDoc, metaElement, "CreatedBy", "Tennis26 Application")
             AddXmlElement(xmlDoc, metaElement, "Version", My.Application.Info.Version.ToString())
         End If
 
@@ -674,7 +674,7 @@
 
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles btn_exit.Click
         Try
-            If MessageBox.Show("Do you really want to end the program?", "Tennis24", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            If MessageBox.Show("Do you really want to end the program?", "Tennis26", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 Application.Exit()
             End If
         Catch ex As Exception
@@ -683,12 +683,12 @@
     End Sub
 
     Private Sub Btn_loadSettings_Click(sender As Object, e As EventArgs) Handles Btn_loadSettings.Click
-        Tennis24_Settings.Show()
+        Tennis26_Settings.Show()
         Me.Hide()
         UpdateBestOfLabel()
     End Sub
 
-    Private Sub Tennis24_Main_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+    Private Sub Tennis26_Main_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         UpdateBestOfLabel()
     End Sub
 

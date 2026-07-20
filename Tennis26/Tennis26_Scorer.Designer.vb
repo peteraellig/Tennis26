@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Tennis24_Scorer
+Partial Class Tennis26_Scorer
     Inherits System.Windows.Forms.Form
 
     'Das Formular überschreibt den Löschvorgang, um die Komponentenliste zu bereinigen.
@@ -23,7 +23,7 @@ Partial Class Tennis24_Scorer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis24_Scorer))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Tennis26_Scorer))
         Me.btn_homepoint = New System.Windows.Forms.Button()
         Me.btn_awaypoint = New System.Windows.Forms.Button()
         Me.lbl_home_s1 = New System.Windows.Forms.Label()
@@ -335,7 +335,7 @@ Partial Class Tennis24_Scorer
         '
         'PBAway
         '
-        Me.PBAway.Image = Global.Tennis24.My.Resources.Resources.tennisball_klein
+        Me.PBAway.Image = Global.Tennis26.My.Resources.Resources.tennisball_klein
         Me.PBAway.Location = New System.Drawing.Point(214, 188)
         Me.PBAway.Name = "PBAway"
         Me.PBAway.Size = New System.Drawing.Size(50, 50)
@@ -345,7 +345,7 @@ Partial Class Tennis24_Scorer
         '
         'PBHome
         '
-        Me.PBHome.Image = Global.Tennis24.My.Resources.Resources.tennisball_klein
+        Me.PBHome.Image = Global.Tennis26.My.Resources.Resources.tennisball_klein
         Me.PBHome.Location = New System.Drawing.Point(213, 49)
         Me.PBHome.Name = "PBHome"
         Me.PBHome.Size = New System.Drawing.Size(50, 50)
@@ -955,7 +955,7 @@ Partial Class Tennis24_Scorer
         Me.Btn_recover.Text = "!! RECOVER !!"
         Me.Btn_recover.UseVisualStyleBackColor = True
         '
-        'Tennis24_Scorer
+        'Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1041,9 +1041,9 @@ Partial Class Tennis24_Scorer
         Me.Controls.Add(Me.PictureBox7)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "Tennis24_Scorer"
+        Me.Name = "Tennis26_Scorer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Tennis24_Scorer"
+        Me.Text = "Tennis26_Scorer"
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

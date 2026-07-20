@@ -61,8 +61,8 @@ End Class
 '    Programmabsturz, funktioniert auch dann, wenn nie manuell gespeichert wurde.
 Public Class TennisMatchStateStore
 
-    Public Const AUTO_RECOVERY_FILE_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\autosave.xml"
-    Public Const SAVES_FOLDER_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\saves"
+    Public Const AUTO_RECOVERY_FILE_PATH As String = Tennis26_Settings.SETTINGS_DATA_PATH & "\autosave.xml"
+    Public Const SAVES_FOLDER_PATH As String = Tennis26_Settings.SETTINGS_DATA_PATH & "\saves"
 
     Public Shared Function BuildSnapshot(match As TennisMatchEngine, homePlayerName As String, awayPlayerName As String, homeSetScores As Integer(), awaySetScores As Integer()) As MatchStateSnapshot
         Return New MatchStateSnapshot With {
@@ -155,7 +155,7 @@ Public Class TennisMatchStateStore
         If Not Directory.Exists(directoryPath) Then Directory.CreateDirectory(directoryPath)
 
         Dim xmlDoc As New XmlDocument()
-        Dim root As XmlNode = xmlDoc.CreateElement("Tennis24_MatchState")
+        Dim root As XmlNode = xmlDoc.CreateElement("Tennis26_MatchState")
         xmlDoc.AppendChild(root)
 
         AddElement(xmlDoc, root, "SavedAt", snapshot.SavedAt.ToString("o"))

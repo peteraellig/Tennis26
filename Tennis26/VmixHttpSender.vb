@@ -1,5 +1,5 @@
 ' Versendet vMix-Befehle wie bisher per HTTP-GET an die vMix-Web-API
-' (http://IP:Port/API/?Function=...) - inhaltlich unverändert aus Tennis24_Scorer.SendHTMLtovMix
+' (http://IP:Port/API/?Function=...) - inhaltlich unverändert aus Tennis26_Scorer.SendHTMLtovMix
 ' herausgelöst, damit dieselbe Logik hinter IVmixSender auswählbar wird.
 Public Class VmixHttpSender
     Implements IVmixSender
@@ -13,7 +13,7 @@ Public Class VmixHttpSender
     End Property
 
     Public Function Send(command As String) As String Implements IVmixSender.Send
-        Dim url As String = "http://" + Tennis24_Settings.TextBoxValues(45) + ":" + Tennis24_Settings.TextBoxValues(46) + "/API/?" + command
+        Dim url As String = "http://" + Tennis26_Settings.TextBoxValues(45) + ":" + Tennis26_Settings.TextBoxValues(46) + "/API/?" + command
         lastCommandValue = url
 
         Try

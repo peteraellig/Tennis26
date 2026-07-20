@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Tennis24_MidMatchEntry
+Partial Class Tennis26_MidMatchEntry
     Inherits System.Windows.Forms.Form
 
     <System.Diagnostics.DebuggerNonUserCode()> _
@@ -350,7 +350,7 @@ Partial Class Tennis24_MidMatchEntry
         Me.Btn_Cancel.Text = "Cancel"
         Me.Btn_Cancel.UseVisualStyleBackColor = True
         '
-        'Tennis24_MidMatchEntry
+        'Tennis26_MidMatchEntry
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(400, 460)
@@ -390,7 +390,7 @@ Partial Class Tennis24_MidMatchEntry
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Tennis24_MidMatchEntry"
+        Me.Name = "Tennis26_MidMatchEntry"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Enter Between Running Game"
         CType(Me.NumericUpDown_CurrentSet, System.ComponentModel.ISupportInitialize).EndInit()

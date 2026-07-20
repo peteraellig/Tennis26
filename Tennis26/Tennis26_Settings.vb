@@ -2,9 +2,9 @@
 Imports System.Net
 Imports System.Xml
 
-Public Class Tennis24_Settings
+Public Class Tennis26_Settings
 
-    ' Konstante für den Datenpfad (Public: Tennis24_Scorer baut daraus den Pfad der
+    ' Konstante für den Datenpfad (Public: Tennis26_Scorer baut daraus den Pfad der
     ' Live-JSON-Datei, siehe TennisJsonExporter.vb)
     Public Const SETTINGS_DATA_PATH As String = "C:\VMIX\tennis\data"
 
@@ -20,7 +20,7 @@ Public Class Tennis24_Settings
 
 
     ' Vollständige Liste aller aktuell im Designer vorhandenen Controls und ihrer Bedeutung -
-    ' analog zur Kommentierung von HomePlayer/AwayPlayer in Tennis24_Main.vb. Indizes ohne
+    ' analog zur Kommentierung von HomePlayer/AwayPlayer in Tennis26_Main.vb. Indizes ohne
     ' Eintrag hier haben (noch) kein zugehöriges Control und werden von keinem Code gelesen.
     'textbox1 = Turniername
     'textbox2 = Veranstalter
@@ -69,7 +69,7 @@ Public Class Tennis24_Settings
     'combobox3 = Overlay 3 (Sponsor)
     'combobox4 = Overlay 4 (2. ScoreBug)
 
-    Private Sub Tennis24_Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Tennis26_Settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSettingsFromXml()
         SetLabels()
     End Sub
@@ -196,36 +196,36 @@ Public Class Tennis24_Settings
             End If
         End If
 
-        Tennis24_Scorer.Btn_ref1.Text = TextBoxValues(20).Split(","c)(0).Trim()
-        Tennis24_Scorer.Btn_ref2.Text = TextBoxValues(21).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_ref1.Text = TextBoxValues(20).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_ref2.Text = TextBoxValues(21).Split(","c)(0).Trim()
 
         Dim com1Name As String = If(String.IsNullOrEmpty(TextBox22.Text.Trim()), "Commentator 1", TextBox22.Text.Trim())
         Dim com2Name As String = TextBox23.Text.Trim()
 
         If String.IsNullOrEmpty(TextBox23.Text.Trim()) Then
             ' Nur ein Kommentator
-            Tennis24_Scorer.Label8.Text = com1Name
+            Tennis26_Scorer.Label8.Text = com1Name
         Else
             ' Beide Kommentatoren
-            Tennis24_Scorer.Label8.Text = com1Name & vbNewLine & com2Name
+            Tennis26_Scorer.Label8.Text = com1Name & vbNewLine & com2Name
         End If
 
-        'Tennis24_Scorer.Btn_com1.Text = TextBoxValues(22).Split(","c)(0).Trim()
-        'Tennis24_Scorer.Btn_com2.Text = TextBoxValues(23).Split(","c)(0).Trim()
+        'Tennis26_Scorer.Btn_com1.Text = TextBoxValues(22).Split(","c)(0).Trim()
+        'Tennis26_Scorer.Btn_com2.Text = TextBoxValues(23).Split(","c)(0).Trim()
 
-        Tennis24_Scorer.Btn_freename1.Text = TextBoxValues(4).Split(","c)(0).Trim()
-        Tennis24_Scorer.Btn_freename2.Text = TextBoxValues(5).Split(","c)(0).Trim()
-        Tennis24_Scorer.Btn_freename3.Text = TextBoxValues(6).Split(","c)(0).Trim()
-        Tennis24_Scorer.Btn_freename4.Text = TextBoxValues(7).Split(","c)(0).Trim()
-        Tennis24_Scorer.Btn_freename5.Text = TextBoxValues(8).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_freename1.Text = TextBoxValues(4).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_freename2.Text = TextBoxValues(5).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_freename3.Text = TextBoxValues(6).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_freename4.Text = TextBoxValues(7).Split(","c)(0).Trim()
+        Tennis26_Scorer.Btn_freename5.Text = TextBoxValues(8).Split(","c)(0).Trim()
 
-        Tennis24_Scorer.Btn_sponsor1.Text = TextBoxValues(24)
-        Tennis24_Scorer.Btn_sponsor2.Text = TextBoxValues(25)
+        Tennis26_Scorer.Btn_sponsor1.Text = TextBoxValues(24)
+        Tennis26_Scorer.Btn_sponsor2.Text = TextBoxValues(25)
 
-        Tennis24_Scorer.Btn_info1.Text = TextBoxValues(26)
-        Tennis24_Scorer.Btn_info2.Text = TextBoxValues(27)
-        Tennis24_Scorer.Btn_info3.Text = TextBoxValues(28)
-        Tennis24_Scorer.Btn_info4.Text = TextBoxValues(29)
+        Tennis26_Scorer.Btn_info1.Text = TextBoxValues(26)
+        Tennis26_Scorer.Btn_info2.Text = TextBoxValues(27)
+        Tennis26_Scorer.Btn_info3.Text = TextBoxValues(28)
+        Tennis26_Scorer.Btn_info4.Text = TextBoxValues(29)
 
 
 
@@ -309,7 +309,7 @@ Public Class Tennis24_Settings
 
             ' XML erstellen
             Dim xmlDoc As New XmlDocument()
-            Dim root As XmlNode = xmlDoc.CreateElement("Tennis24_Settings")
+            Dim root As XmlNode = xmlDoc.CreateElement("Tennis26_Settings")
             xmlDoc.AppendChild(root)
 
             ' TextBoxes speichern
@@ -354,7 +354,7 @@ Public Class Tennis24_Settings
                 Directory.CreateDirectory(dataPath)
             End If
 
-            Dim xmlFilePath As String = Path.Combine(dataPath, "Tennis24_Settings.xml")
+            Dim xmlFilePath As String = Path.Combine(dataPath, "Tennis26_Settings.xml")
             xmlDoc.Save(xmlFilePath)
 
             'MessageBox.Show($"Einstellungen erfolgreich gespeichert unter: {xmlFilePath}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -367,7 +367,7 @@ Public Class Tennis24_Settings
     Public Sub LoadSettingsFromXml()
         Try
             Dim dataPath As String = SETTINGS_DATA_PATH
-            Dim xmlFilePath As String = Path.Combine(dataPath, "Tennis24_Settings.xml")
+            Dim xmlFilePath As String = Path.Combine(dataPath, "Tennis26_Settings.xml")
 
             If Not File.Exists(xmlFilePath) Then
                 MessageBox.Show("Keine Einstellungsdatei gefunden. Standardwerte werden verwendet.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -586,7 +586,7 @@ Public Class Tennis24_Settings
         UpdateArraysFromControls()
         SetVariables()
         Me.Hide()
-        Tennis24_Main.Show()
+        Tennis26_Main.Show()
     End Sub
 
 
