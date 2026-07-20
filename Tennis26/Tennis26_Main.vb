@@ -102,14 +102,12 @@
         ' Spaltentypen setzen (für numerische Sortierung wichtig)
         DataGridView_Players.Columns("Age").ValueType = GetType(Integer)
         DataGridView_Players.Columns("Height").ValueType = GetType(Integer)
-        DataGridView_Players.Columns("Data1").ValueType = GetType(Integer) ' Ranking
-        DataGridView_Players.Columns("Data2").ValueType = GetType(Integer) ' Points
+        ' Data1 (Ranking) / Data2 (Points) bewusst nicht als Integer typisiert - erlaubt
+        ' Freitext wie "ATP Points: 22" oder eine Ranking-Bezeichnung statt reiner Zahl.
 
         ' Optionale Ausrichtung für Zahlen
         DataGridView_Players.Columns("Age").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DataGridView_Players.Columns("Height").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        DataGridView_Players.Columns("Data1").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        DataGridView_Players.Columns("Data2").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 
         ' Set grid properties
         DataGridView_Players.AllowUserToAddRows = False
@@ -141,11 +139,11 @@
         DataGridView_Players.ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 8, FontStyle.Bold)
     End Sub
 
-    ' Sorgt für korrekte Sortierung (numerisch für Age/Height/Ranking/Points, sonst case-insensitive Text)
+    ' Sorgt für korrekte Sortierung (numerisch für Age/Height, sonst case-insensitive Text)
     ' Data3 mit Sekundärfeld Name immer aufsteigend, sonst case-insensitive Text)
     Private Sub DataGridView_Players_SortCompare(sender As Object, e As DataGridViewSortCompareEventArgs) Handles DataGridView_Players.SortCompare
         Select Case e.Column.Name
-            Case "Age", "Height", "Data1", "Data2"
+            Case "Age", "Height"
                 Dim v1 As Integer, v2 As Integer
                 If Not Integer.TryParse(Convert.ToString(e.CellValue1), v1) Then v1 = Integer.MinValue
                 If Not Integer.TryParse(Convert.ToString(e.CellValue2), v2) Then v2 = Integer.MinValue
@@ -253,8 +251,8 @@
         End If
     End Sub
 
-    ' Fängt fehlgeschlagene Zellwert-Konvertierungen ab (z.B. Text statt Zahl in Age/Height/
-    ' Data1/Data2, die als Integer typisiert sind). Ohne diesen Handler zeigt die
+    ' Fängt fehlgeschlagene Zellwert-Konvertierungen ab (z.B. Text statt Zahl in Age/Height,
+    ' die als Integer typisiert sind). Ohne diesen Handler zeigt die
     ' DataGridView selbst den kryptischen Standarddialog "kann kein Commit durchführen
     ' oder die Änderung nicht abbrechen" und die Zelle bleibt in einem inkonsistenten
     ' Bearbeitungszustand hängen.
