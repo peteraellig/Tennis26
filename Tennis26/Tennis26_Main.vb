@@ -3,6 +3,13 @@
     Public Shared HomePlayer As String() = New String(8) {} ' Name, FirstName, Country, ISO3, Age, Height, Data1, Data2, Data3
     Public Shared AwayPlayer As String() = New String(8) {} ' Name, FirstName, Country, ISO3, Age, Height, Data1, Data2, Data3
 
+    ' Doppel-Partner (nur relevant, wenn CheckBox1 = Doppel aktiv) - gleiche Feldstruktur wie
+    ' HomePlayer/AwayPlayer. Absichtlich separate Arrays statt eines 2D-Arrays: HomePlayer/
+    ' AwayPlayer bleiben dadurch unverändert, jeder bisherige Code (und jede vMix-Grafik für
+    ' Einzel) funktioniert unverändert weiter.
+    Public Shared HomePlayer2 As String() = New String(8) {}
+    Public Shared AwayPlayer2 As String() = New String(8) {}
+
     ' XML file path
     Private Const XML_FILE_PATH As String = "c:\vmix\tennis\data\tennisdata.xml"
 
@@ -239,10 +246,14 @@
         ' Enable drag and drop for the textboxes
         txt_home_player.AllowDrop = True
         txt_away_player.AllowDrop = True
+        txt_home_player2.AllowDrop = True
+        txt_away_player2.AllowDrop = True
 
         ' Make them read-only so users can't type directly
         txt_home_player.ReadOnly = True
         txt_away_player.ReadOnly = True
+        txt_home_player2.ReadOnly = True
+        txt_away_player2.ReadOnly = True
     End Sub
 
     Private Sub LoadSampleData()
@@ -308,6 +319,42 @@
                     AwayPlayer(8) = GetXmlNodeValue(awayPlayerNode, "Data3")
                 End If
 
+                ' Load selected home player 2 (Doppel-Partner)
+                Dim homePlayer2Node = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/HomePlayer2")
+                If homePlayer2Node IsNot Nothing AndAlso homePlayer2Node.HasChildNodes Then
+                    HomePlayer2(0) = GetXmlNodeValue(homePlayer2Node, "Name")
+                    HomePlayer2(1) = GetXmlNodeValue(homePlayer2Node, "FirstName")
+                    HomePlayer2(2) = GetXmlNodeValue(homePlayer2Node, "Country")
+                    HomePlayer2(3) = GetXmlNodeValue(homePlayer2Node, "CountryISO3")
+                    HomePlayer2(4) = GetXmlNodeValue(homePlayer2Node, "Age")
+                    HomePlayer2(5) = GetXmlNodeValue(homePlayer2Node, "Height")
+                    HomePlayer2(6) = GetXmlNodeValue(homePlayer2Node, "Data1")
+                    HomePlayer2(7) = GetXmlNodeValue(homePlayer2Node, "Data2")
+                    HomePlayer2(8) = GetXmlNodeValue(homePlayer2Node, "Data3")
+                End If
+
+                ' Load selected away player 2 (Doppel-Partner)
+                Dim awayPlayer2Node = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/AwayPlayer2")
+                If awayPlayer2Node IsNot Nothing AndAlso awayPlayer2Node.HasChildNodes Then
+                    AwayPlayer2(0) = GetXmlNodeValue(awayPlayer2Node, "Name")
+                    AwayPlayer2(1) = GetXmlNodeValue(awayPlayer2Node, "FirstName")
+                    AwayPlayer2(2) = GetXmlNodeValue(awayPlayer2Node, "Country")
+                    AwayPlayer2(3) = GetXmlNodeValue(awayPlayer2Node, "CountryISO3")
+                    AwayPlayer2(4) = GetXmlNodeValue(awayPlayer2Node, "Age")
+                    AwayPlayer2(5) = GetXmlNodeValue(awayPlayer2Node, "Height")
+                    AwayPlayer2(6) = GetXmlNodeValue(awayPlayer2Node, "Data1")
+                    AwayPlayer2(7) = GetXmlNodeValue(awayPlayer2Node, "Data2")
+                    AwayPlayer2(8) = GetXmlNodeValue(awayPlayer2Node, "Data3")
+                End If
+
+                ' Doppel-Umschalter (CheckBox1) laden
+                Dim isDoublesNode = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/IsDoublesMatch")
+                If isDoublesNode IsNot Nothing Then
+                    Dim isDoubles As Boolean
+                    Boolean.TryParse(isDoublesNode.InnerText, isDoubles)
+                    CheckBox1.Checked = isDoubles
+                End If
+
                 ' Update the display after loading both players
                 UpdatePlayerDisplay()
 
@@ -341,6 +388,24 @@
             txt_away_player.Text = "Drag player here for AWAY"
             txt_away_player.BackColor = SystemColors.Window
         End If
+
+        ' Update Home Player 2 (Doppel-Partner) display
+        If Not String.IsNullOrEmpty(HomePlayer2(0)) AndAlso Not String.IsNullOrEmpty(HomePlayer2(1)) Then
+            txt_home_player2.Text = $"{HomePlayer2(1)} {HomePlayer2(0)} ({HomePlayer2(3)})"
+            txt_home_player2.BackColor = Color.LightGreen
+        Else
+            txt_home_player2.Text = "Drag partner here for HOME (Doubles)"
+            txt_home_player2.BackColor = SystemColors.Window
+        End If
+
+        ' Update Away Player 2 (Doppel-Partner) display
+        If Not String.IsNullOrEmpty(AwayPlayer2(0)) AndAlso Not String.IsNullOrEmpty(AwayPlayer2(1)) Then
+            txt_away_player2.Text = $"{AwayPlayer2(1)} {AwayPlayer2(0)} ({AwayPlayer2(3)})"
+            txt_away_player2.BackColor = Color.LightBlue
+        Else
+            txt_away_player2.Text = "Drag partner here for AWAY (Doubles)"
+            txt_away_player2.BackColor = SystemColors.Window
+        End If
     End Sub
 
     Private Sub SetDefaultPlayerDisplay()
@@ -349,6 +414,10 @@
         txt_away_player.Text = "Drag player here for AWAY"
         txt_home_player.BackColor = SystemColors.Window
         txt_away_player.BackColor = SystemColors.Window
+        txt_home_player2.Text = "Drag partner here for HOME (Doubles)"
+        txt_away_player2.Text = "Drag partner here for AWAY (Doubles)"
+        txt_home_player2.BackColor = SystemColors.Window
+        txt_away_player2.BackColor = SystemColors.Window
     End Sub
 
     Private Function GetXmlNodeValue(parentNode As System.Xml.XmlNode, nodeName As String) As String
@@ -433,6 +502,23 @@
         For i = 0 To 8
             AddXmlElement(xmlDoc, awayPlayerElement, FIELD_NAMES(i), AwayPlayer(i))
         Next
+
+        ' Doppel-Partner (nur inhaltlich befüllt, wenn CheckBox1 = Doppel aktiv war - werden
+        ' aber immer mitgespeichert, damit eine spätere Umschaltung auf Doppel nicht die
+        ' zuletzt gezogenen Partner verliert)
+        Dim homePlayer2Element = xmlDoc.CreateElement("HomePlayer2")
+        selectedPlayersElement.AppendChild(homePlayer2Element)
+        For i = 0 To 8
+            AddXmlElement(xmlDoc, homePlayer2Element, FIELD_NAMES(i), HomePlayer2(i))
+        Next
+
+        Dim awayPlayer2Element = xmlDoc.CreateElement("AwayPlayer2")
+        selectedPlayersElement.AppendChild(awayPlayer2Element)
+        For i = 0 To 8
+            AddXmlElement(xmlDoc, awayPlayer2Element, FIELD_NAMES(i), AwayPlayer2(i))
+        Next
+
+        AddXmlElement(xmlDoc, selectedPlayersElement, "IsDoublesMatch", CheckBox1.Checked.ToString())
 
         Return xmlDoc
     End Function
@@ -610,6 +696,60 @@
         End Try
     End Sub
 
+    ' Drag and Drop Events for Home Player 2 (Doppel-Partner) TextBox
+    Private Sub Txt_home_player2_DragEnter(sender As Object, e As DragEventArgs) Handles txt_home_player2.DragEnter
+        If e.Data.GetDataPresent(DataFormats.Text) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+
+    Private Sub Txt_home_player2_DragDrop(sender As Object, e As DragEventArgs) Handles txt_home_player2.DragDrop
+        Try
+            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
+            Dim playerFields = playerData.Split("|"c)
+
+            If playerFields.Length >= 9 Then
+                For i = 0 To 8
+                    HomePlayer2(i) = playerFields(i)
+                Next
+
+                txt_home_player2.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
+                txt_home_player2.BackColor = Color.LightGreen
+
+                SavePlayerSelection()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error setting home player 2: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    ' Drag and Drop Events for Away Player 2 (Doppel-Partner) TextBox
+    Private Sub Txt_away_player2_DragEnter(sender As Object, e As DragEventArgs) Handles txt_away_player2.DragEnter
+        If e.Data.GetDataPresent(DataFormats.Text) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+
+    Private Sub Txt_away_player2_DragDrop(sender As Object, e As DragEventArgs) Handles txt_away_player2.DragDrop
+        Try
+            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
+            Dim playerFields = playerData.Split("|"c)
+
+            If playerFields.Length >= 9 Then
+                For i = 0 To 8
+                    AwayPlayer2(i) = playerFields(i)
+                Next
+
+                txt_away_player2.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
+                txt_away_player2.BackColor = Color.LightBlue
+
+                SavePlayerSelection()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error setting away player 2: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub SavePlayerSelection()
         Try
             ' Save to XML automatically when players are selected
@@ -629,6 +769,9 @@
         ' Clear player selections
         Array.Clear(HomePlayer, 0, HomePlayer.Length)
         Array.Clear(AwayPlayer, 0, AwayPlayer.Length)
+        Array.Clear(HomePlayer2, 0, HomePlayer2.Length)
+        Array.Clear(AwayPlayer2, 0, AwayPlayer2.Length)
+        CheckBox1.Checked = False
 
         ' Update display
         UpdatePlayerDisplay()
@@ -636,6 +779,13 @@
         ' Save cleared selections to XML
         SaveDataToXML()
         MessageBox.Show("Player selections cleared and XML updated!", "Cleared", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    ' Speichert sofort, wenn zwischen Einzel/Doppel umgeschaltet wird - sonst würde die
+    ' Umschaltung erst beim nächsten Ziehen eines Spielers persistiert (siehe
+    ' SavePlayerSelection), was leicht zu einem falsch gespeicherten Zustand führen könnte.
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        SaveDataToXML()
     End Sub
 
 
@@ -897,6 +1047,42 @@
                 AwayPlayer(6) = GetXmlNodeValue(awayPlayerNode, "Data1")
                 AwayPlayer(7) = GetXmlNodeValue(awayPlayerNode, "Data2")
                 AwayPlayer(8) = GetXmlNodeValue(awayPlayerNode, "Data3")
+            End If
+
+            ' Lade ausgewählten Home Player 2 (Doppel-Partner)
+            Dim homePlayer2Node = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/HomePlayer2")
+            If homePlayer2Node IsNot Nothing AndAlso homePlayer2Node.HasChildNodes Then
+                HomePlayer2(0) = GetXmlNodeValue(homePlayer2Node, "Name")
+                HomePlayer2(1) = GetXmlNodeValue(homePlayer2Node, "FirstName")
+                HomePlayer2(2) = GetXmlNodeValue(homePlayer2Node, "Country")
+                HomePlayer2(3) = GetXmlNodeValue(homePlayer2Node, "CountryISO3")
+                HomePlayer2(4) = GetXmlNodeValue(homePlayer2Node, "Age")
+                HomePlayer2(5) = GetXmlNodeValue(homePlayer2Node, "Height")
+                HomePlayer2(6) = GetXmlNodeValue(homePlayer2Node, "Data1")
+                HomePlayer2(7) = GetXmlNodeValue(homePlayer2Node, "Data2")
+                HomePlayer2(8) = GetXmlNodeValue(homePlayer2Node, "Data3")
+            End If
+
+            ' Lade ausgewählten Away Player 2 (Doppel-Partner)
+            Dim awayPlayer2Node = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/AwayPlayer2")
+            If awayPlayer2Node IsNot Nothing AndAlso awayPlayer2Node.HasChildNodes Then
+                AwayPlayer2(0) = GetXmlNodeValue(awayPlayer2Node, "Name")
+                AwayPlayer2(1) = GetXmlNodeValue(awayPlayer2Node, "FirstName")
+                AwayPlayer2(2) = GetXmlNodeValue(awayPlayer2Node, "Country")
+                AwayPlayer2(3) = GetXmlNodeValue(awayPlayer2Node, "CountryISO3")
+                AwayPlayer2(4) = GetXmlNodeValue(awayPlayer2Node, "Age")
+                AwayPlayer2(5) = GetXmlNodeValue(awayPlayer2Node, "Height")
+                AwayPlayer2(6) = GetXmlNodeValue(awayPlayer2Node, "Data1")
+                AwayPlayer2(7) = GetXmlNodeValue(awayPlayer2Node, "Data2")
+                AwayPlayer2(8) = GetXmlNodeValue(awayPlayer2Node, "Data3")
+            End If
+
+            ' Doppel-Umschalter (CheckBox1) laden
+            Dim isDoublesNode = xmlDoc.SelectSingleNode("//TennisData/SelectedPlayers/IsDoublesMatch")
+            If isDoublesNode IsNot Nothing Then
+                Dim isDoubles As Boolean
+                Boolean.TryParse(isDoublesNode.InnerText, isDoubles)
+                CheckBox1.Checked = isDoubles
             End If
 
             ' Display aktualisieren

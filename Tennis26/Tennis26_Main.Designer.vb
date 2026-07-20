@@ -42,6 +42,9 @@ Partial Class Tennis26_Main
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Btn_Load_File = New System.Windows.Forms.Button()
         Me.Btn_SaveAs = New System.Windows.Forms.Button()
+        Me.txt_away_player2 = New System.Windows.Forms.TextBox()
+        Me.txt_home_player2 = New System.Windows.Forms.TextBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         CType(Me.DataGridView_Players, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -180,7 +183,7 @@ Partial Class Tennis26_Main
         Me.PictureBox1.BackColor = System.Drawing.Color.Silver
         Me.PictureBox1.Location = New System.Drawing.Point(12, 420)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(850, 123)
+        Me.PictureBox1.Size = New System.Drawing.Size(850, 219)
         Me.PictureBox1.TabIndex = 12
         Me.PictureBox1.TabStop = False
         '
@@ -245,11 +248,46 @@ Partial Class Tennis26_Main
         Me.Btn_SaveAs.Text = "Save as.."
         Me.Btn_SaveAs.UseVisualStyleBackColor = True
         '
+        'txt_away_player2
+        '
+        Me.txt_away_player2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_away_player2.Location = New System.Drawing.Point(540, 585)
+        Me.txt_away_player2.Multiline = True
+        Me.txt_away_player2.Name = "txt_away_player2"
+        Me.txt_away_player2.ReadOnly = True
+        Me.txt_away_player2.Size = New System.Drawing.Size(300, 41)
+        Me.txt_away_player2.TabIndex = 38
+        Me.txt_away_player2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'txt_home_player2
+        '
+        Me.txt_home_player2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_home_player2.Location = New System.Drawing.Point(24, 582)
+        Me.txt_home_player2.Multiline = True
+        Me.txt_home_player2.Name = "txt_home_player2"
+        Me.txt_home_player2.ReadOnly = True
+        Me.txt_home_player2.Size = New System.Drawing.Size(300, 41)
+        Me.txt_home_player2.TabIndex = 37
+        Me.txt_home_player2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(365, 532)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(93, 17)
+        Me.CheckBox1.TabIndex = 39
+        Me.CheckBox1.Text = "Double Match"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'Tennis26_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1199, 554)
+        Me.ClientSize = New System.Drawing.Size(1199, 674)
+        Me.Controls.Add(Me.CheckBox1)
+        Me.Controls.Add(Me.txt_away_player2)
+        Me.Controls.Add(Me.txt_home_player2)
         Me.Controls.Add(Me.Btn_SaveAs)
         Me.Controls.Add(Me.Btn_Load_File)
         Me.Controls.Add(Me.Label3)
@@ -298,4 +336,7 @@ Partial Class Tennis26_Main
     Friend WithEvents Label3 As Label
     Friend WithEvents Btn_Load_File As Button
     Friend WithEvents Btn_SaveAs As Button
+    Friend WithEvents txt_away_player2 As TextBox
+    Friend WithEvents txt_home_player2 As TextBox
+    Friend WithEvents CheckBox1 As CheckBox
 End Class
