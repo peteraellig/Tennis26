@@ -370,6 +370,14 @@
         End Try
     End Sub
 
+    ' Für Tennis26_Main2 (Vorbereitungs-Prototyp): erlaubt einer anderen Form, eine dort
+    ' vorbereitete Paarung zu übernehmen, ohne UpdatePlayerDisplay/SaveDataToXML einzeln
+    ' Public machen zu müssen - beide bleiben intern, nur dieser eine Einstiegspunkt ist es.
+    Public Sub RefreshAndSavePlayerSelection()
+        UpdatePlayerDisplay()
+        SaveDataToXML()
+    End Sub
+
     Private Sub UpdatePlayerDisplay()
         ' Update Home Player display
         If Not String.IsNullOrEmpty(HomePlayer(0)) AndAlso Not String.IsNullOrEmpty(HomePlayer(1)) Then
