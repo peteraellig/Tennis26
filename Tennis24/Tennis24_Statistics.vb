@@ -146,47 +146,72 @@ Public Class Tennis24_Statistics
         rowOf("EndsChanged").Cells(1).Value = If(matchEngine.AreSidesCurrentlySwapped(), "Yes", "No")
         rowOf("EndsChanged").Cells(2).Value = ""
 
-        ' Statistics
-        rowOf("TotalPoints").Cells(1).Value = matchEngine.HomeTotalPoints.ToString()
-        rowOf("TotalPoints").Cells(2).Value = matchEngine.AwayTotalPoints.ToString()
+        ' Statistics - alles hier zählt die Punkt-für-Punkt-Historie mit, ist also nach
+        ' einem Zwischeneinstieg (IsMidMatchEntry) nur ab dem Einstiegspunkt korrekt, nicht
+        ' für das ganze Match. Statt eine irreführende Teil-Zahl zu zeigen: "-".
+        If matchEngine.IsMidMatchEntry Then
+            For Each key In {"TotalPoints", "ServiceGames", "ServiceGamesWon", "ServiceWinPct", "Breaks", "TiebreaksWon", "LongestGame", "PointsWinPct"}
+                rowOf(key).Cells(1).Value = "-"
+                rowOf(key).Cells(2).Value = "-"
+            Next
+        Else
+            rowOf("TotalPoints").Cells(1).Value = matchEngine.HomeTotalPoints.ToString()
+            rowOf("TotalPoints").Cells(2).Value = matchEngine.AwayTotalPoints.ToString()
 
-        ' Service Games = Service Games Won + Break Points (gegen mich)
-        Dim homeServiceGamesTotal = matchEngine.HomeServiceGamesWon + matchEngine.AwayBreaks
-        Dim awayServiceGamesTotal = matchEngine.AwayServiceGamesWon + matchEngine.HomeBreaks
+            ' Service Games = Service Games Won + Break Points (gegen mich)
+            Dim homeServiceGamesTotal = matchEngine.HomeServiceGamesWon + matchEngine.AwayBreaks
+            Dim awayServiceGamesTotal = matchEngine.AwayServiceGamesWon + matchEngine.HomeBreaks
 
-        rowOf("ServiceGames").Cells(1).Value = homeServiceGamesTotal.ToString()
-        rowOf("ServiceGames").Cells(2).Value = awayServiceGamesTotal.ToString()
+            rowOf("ServiceGames").Cells(1).Value = homeServiceGamesTotal.ToString()
+            rowOf("ServiceGames").Cells(2).Value = awayServiceGamesTotal.ToString()
 
-        rowOf("ServiceGamesWon").Cells(1).Value = matchEngine.HomeServiceGamesWon.ToString()
-        rowOf("ServiceGamesWon").Cells(2).Value = matchEngine.AwayServiceGamesWon.ToString()
+            rowOf("ServiceGamesWon").Cells(1).Value = matchEngine.HomeServiceGamesWon.ToString()
+            rowOf("ServiceGamesWon").Cells(2).Value = matchEngine.AwayServiceGamesWon.ToString()
 
-        ' Service Win Percentage
-        Dim homeServiceWinPct = If(homeServiceGamesTotal > 0, Math.Round((matchEngine.HomeServiceGamesWon / homeServiceGamesTotal) * 100, 1), 0)
-        Dim awayServiceWinPct = If(awayServiceGamesTotal > 0, Math.Round((matchEngine.AwayServiceGamesWon / awayServiceGamesTotal) * 100, 1), 0)
-        rowOf("ServiceWinPct").Cells(1).Value = $"{homeServiceWinPct}%"
-        rowOf("ServiceWinPct").Cells(2).Value = $"{awayServiceWinPct}%"
+            ' Service Win Percentage
+            Dim homeServiceWinPct = If(homeServiceGamesTotal > 0, Math.Round((matchEngine.HomeServiceGamesWon / homeServiceGamesTotal) * 100, 1), 0)
+            Dim awayServiceWinPct = If(awayServiceGamesTotal > 0, Math.Round((matchEngine.AwayServiceGamesWon / awayServiceGamesTotal) * 100, 1), 0)
+            rowOf("ServiceWinPct").Cells(1).Value = $"{homeServiceWinPct}%"
+            rowOf("ServiceWinPct").Cells(2).Value = $"{awayServiceWinPct}%"
 
-        rowOf("Breaks").Cells(1).Value = matchEngine.HomeBreaks.ToString()
-        rowOf("Breaks").Cells(2).Value = matchEngine.AwayBreaks.ToString()
+            rowOf("Breaks").Cells(1).Value = matchEngine.HomeBreaks.ToString()
+            rowOf("Breaks").Cells(2).Value = matchEngine.AwayBreaks.ToString()
 
-        rowOf("TiebreaksWon").Cells(1).Value = matchEngine.HomeTiebreaksWon.ToString()
-        rowOf("TiebreaksWon").Cells(2).Value = matchEngine.AwayTiebreaksWon.ToString()
+            rowOf("TiebreaksWon").Cells(1).Value = matchEngine.HomeTiebreaksWon.ToString()
+            rowOf("TiebreaksWon").Cells(2).Value = matchEngine.AwayTiebreaksWon.ToString()
 
-        rowOf("LongestGame").Cells(1).Value = $"{matchEngine.LongestGame} pts"
-        rowOf("LongestGame").Cells(2).Value = ""
+            rowOf("LongestGame").Cells(1).Value = $"{matchEngine.LongestGame} pts"
+            rowOf("LongestGame").Cells(2).Value = ""
 
-        ' Total Points Win Percentage
-        Dim totalPointsPlayed = matchEngine.HomeTotalPoints + matchEngine.AwayTotalPoints
-        Dim homePointsWinPct = If(totalPointsPlayed > 0, Math.Round((matchEngine.HomeTotalPoints / totalPointsPlayed) * 100, 1), 0)
-        Dim awayPointsWinPct = If(totalPointsPlayed > 0, Math.Round((matchEngine.AwayTotalPoints / totalPointsPlayed) * 100, 1), 0)
-        rowOf("PointsWinPct").Cells(1).Value = $"{homePointsWinPct}%"
-        rowOf("PointsWinPct").Cells(2).Value = $"{awayPointsWinPct}%"
+            ' Total Points Win Percentage
+            Dim totalPointsPlayed = matchEngine.HomeTotalPoints + matchEngine.AwayTotalPoints
+            Dim homePointsWinPct = If(totalPointsPlayed > 0, Math.Round((matchEngine.HomeTotalPoints / totalPointsPlayed) * 100, 1), 0)
+            Dim awayPointsWinPct = If(totalPointsPlayed > 0, Math.Round((matchEngine.AwayTotalPoints / totalPointsPlayed) * 100, 1), 0)
+            rowOf("PointsWinPct").Cells(1).Value = $"{homePointsWinPct}%"
+            rowOf("PointsWinPct").Cells(2).Value = $"{awayPointsWinPct}%"
+        End If
 
         UpdateBreakPointRows()
         HighlightStatistics()
     End Sub
 
     Private Sub UpdateBreakPointRows()
+        ' Wie oben: Breakball-/Mini-Break-Statistik basiert auf der Punkt-für-Punkt-Historie -
+        ' nach einem Zwischeneinstieg nur ab dem Einstiegspunkt korrekt. BreakPointNow ist
+        ' dagegen eine reine Live-Anzeige aus dem AKTUELLEN Punktestand, bleibt also gültig.
+        If matchEngine.IsMidMatchEntry Then
+            For Each key In {"BreakPtsWonTotal", "BpConversionPct", "BpSaved", "MiniBreaks"}
+                rowOf(key).Cells(1).Value = "-"
+                rowOf(key).Cells(2).Value = "-"
+            Next
+            Dim miniBreaksRowSuppressed = rowOf("MiniBreaks")
+            miniBreaksRowSuppressed.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+            miniBreaksRowSuppressed.Cells(1).Style.BackColor = Color.White
+            miniBreaksRowSuppressed.Cells(2).Style.BackColor = Color.White
+            UpdateBreakPointNowRow()
+            Return
+        End If
+
         ' Verwertete / gehabte Breakbälle (Chancen als Returner)
         rowOf("BreakPtsWonTotal").Cells(1).Value = $"{matchEngine.HomeBreakPointsConverted}/{matchEngine.HomeBreakPointsTotal}"
         rowOf("BreakPtsWonTotal").Cells(2).Value = $"{matchEngine.AwayBreakPointsConverted}/{matchEngine.AwayBreakPointsTotal}"
@@ -202,7 +227,29 @@ Public Class Tennis24_Statistics
         rowOf("BpSaved").Cells(1).Value = $"{homeSaved}/{matchEngine.AwayBreakPointsTotal}"
         rowOf("BpSaved").Cells(2).Value = $"{awaySaved}/{matchEngine.HomeBreakPointsTotal}"
 
-        ' Live-Anzeige für den aktuellen Punkt
+        UpdateBreakPointNowRow()
+
+        ' Mini-Breaks: nur im (Match-)Tiebreak aussagekräftig
+        Dim miniBreaksRow = rowOf("MiniBreaks")
+        miniBreaksRow.Cells(1).Value = matchEngine.HomeMiniBreaks.ToString()
+        miniBreaksRow.Cells(2).Value = matchEngine.AwayMiniBreaks.ToString()
+
+        If matchEngine.IsInAnyTiebreak() Then
+            ' Wer im laufenden Tiebreak mehr Mini-Breaks hat, liegt effektiv vorne
+            miniBreaksRow.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+            miniBreaksRow.Cells(1).Style.BackColor = If(matchEngine.HomeMiniBreaks > matchEngine.AwayMiniBreaks, Color.LightGreen, Color.White)
+            miniBreaksRow.Cells(2).Style.BackColor = If(matchEngine.AwayMiniBreaks > matchEngine.HomeMiniBreaks, Color.LightGreen, Color.White)
+        Else
+            miniBreaksRow.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
+            miniBreaksRow.Cells(1).Style.BackColor = Color.White
+            miniBreaksRow.Cells(2).Style.BackColor = Color.White
+        End If
+    End Sub
+
+    ' Reine Live-Anzeige aus dem AKTUELLEN Punktestand (nicht aus der Historie) - bleibt
+    ' auch nach einem Zwischeneinstieg gültig, deshalb aus der IsMidMatchEntry-Unterdrückung
+    ' herausgezogen und von beiden Zweigen in UpdateBreakPointRows aufgerufen.
+    Private Sub UpdateBreakPointNowRow()
         Dim breakPointHolder As String = matchEngine.BreakPointHolder()
         Dim breakPointCount As Integer = matchEngine.CurrentBreakPointCount()
         Dim breakPointText As String = If(breakPointCount > 1, $"{breakPointCount} BREAK POINTS", "BREAK POINT")
@@ -220,22 +267,6 @@ Public Class Tennis24_Statistics
             breakPointRow.DefaultCellStyle.BackColor = Color.Red
             breakPointRow.DefaultCellStyle.ForeColor = Color.White
             breakPointRow.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-        End If
-
-        ' Mini-Breaks: nur im (Match-)Tiebreak aussagekräftig
-        Dim miniBreaksRow = rowOf("MiniBreaks")
-        miniBreaksRow.Cells(1).Value = matchEngine.HomeMiniBreaks.ToString()
-        miniBreaksRow.Cells(2).Value = matchEngine.AwayMiniBreaks.ToString()
-
-        If matchEngine.IsInAnyTiebreak() Then
-            ' Wer im laufenden Tiebreak mehr Mini-Breaks hat, liegt effektiv vorne
-            miniBreaksRow.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Bold)
-            miniBreaksRow.Cells(1).Style.BackColor = If(matchEngine.HomeMiniBreaks > matchEngine.AwayMiniBreaks, Color.LightGreen, Color.White)
-            miniBreaksRow.Cells(2).Style.BackColor = If(matchEngine.AwayMiniBreaks > matchEngine.HomeMiniBreaks, Color.LightGreen, Color.White)
-        Else
-            miniBreaksRow.DefaultCellStyle.Font = New Font("Segoe UI", 9, FontStyle.Regular)
-            miniBreaksRow.Cells(1).Style.BackColor = Color.White
-            miniBreaksRow.Cells(2).Style.BackColor = Color.White
         End If
     End Sub
 
