@@ -489,18 +489,134 @@ Public Class Tennis24_Scorer
         If isMatchFinished Then Hidepoints()
     End Sub
 
+    ' Baut einen Snapshot des aktuellen Standes - gemeinsam genutzt von der automatischen
+    ' Recovery-Sicherung und dem manuellen "Save Game"-Button.
+    Private Function BuildCurrentSnapshot() As MatchStateSnapshot
+        Dim homePlayerName = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
+        Dim awayPlayerName = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
+        Dim homeSetScores As Integer() = {ParseLabelInt(lbl_home_s1.Text), ParseLabelInt(lbl_home_s2.Text), ParseLabelInt(lbl_home_s3.Text), ParseLabelInt(lbl_home_s4.Text), ParseLabelInt(lbl_home_s5.Text)}
+        Dim awaySetScores As Integer() = {ParseLabelInt(lbl_away_s1.Text), ParseLabelInt(lbl_away_s2.Text), ParseLabelInt(lbl_away_s3.Text), ParseLabelInt(lbl_away_s4.Text), ParseLabelInt(lbl_away_s5.Text)}
+        Return TennisMatchStateStore.BuildSnapshot(match, homePlayerName, awayPlayerName, homeSetScores, awaySetScores)
+    End Function
+
     ' Schreibt den kompletten Engine-Zustand in die feste Recovery-Datei (siehe
     ' TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH). Fehler werden bewusst verschluckt statt
     ' bei jedem Punkt ein Popup zu zeigen - ein dauerhaftes Problem (z.B. Ordner nicht
     ' beschreibbar) würde auch bei einem manuellen Save/Recover auffallen.
     Private Sub SaveAutoRecoveryState()
         Try
-            Dim homePlayerName = If(String.IsNullOrEmpty(Tennis24_Main.HomePlayer(0)), "HOME", Tennis24_Main.HomePlayer(0))
-            Dim awayPlayerName = If(String.IsNullOrEmpty(Tennis24_Main.AwayPlayer(0)), "AWAY", Tennis24_Main.AwayPlayer(0))
-            Dim snapshot = TennisMatchStateStore.BuildSnapshot(match, homePlayerName, awayPlayerName)
-            TennisMatchStateStore.SaveToFile(snapshot, TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH)
+            TennisMatchStateStore.SaveToFile(BuildCurrentSnapshot(), TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH)
         Catch ex As Exception
             ' Bewusst verschluckt - siehe Aufrufstelle
+        End Try
+    End Sub
+
+    ' Übernimmt einen geladenen Snapshot (Save/Load oder Recover) in die laufende Engine UND
+    ' aktualisiert alle betroffenen Anzeigen - Sätze-Labels (die die Engine selbst nicht
+    ' kennt, siehe MatchStateSnapshot), Punkte/Spiele/Server sowie Spielernamen, falls auf
+    ' diesem Rechner noch keine (oder andere) hinterlegt sind.
+    Private Sub ApplySnapshotAndRefresh(snapshot As MatchStateSnapshot)
+        TennisMatchStateStore.ApplySnapshot(match, snapshot)
+
+        Tennis24_Main.HomePlayer(0) = snapshot.HomePlayerName
+        Tennis24_Main.AwayPlayer(0) = snapshot.AwayPlayerName
+
+        lbl_home_s1.Text = snapshot.HomeSetScores(0).ToString()
+        lbl_home_s2.Text = snapshot.HomeSetScores(1).ToString()
+        lbl_home_s3.Text = snapshot.HomeSetScores(2).ToString()
+        lbl_home_s4.Text = snapshot.HomeSetScores(3).ToString()
+        lbl_home_s5.Text = snapshot.HomeSetScores(4).ToString()
+        lbl_away_s1.Text = snapshot.AwaySetScores(0).ToString()
+        lbl_away_s2.Text = snapshot.AwaySetScores(1).ToString()
+        lbl_away_s3.Text = snapshot.AwaySetScores(2).ToString()
+        lbl_away_s4.Text = snapshot.AwaySetScores(3).ToString()
+        lbl_away_s5.Text = snapshot.AwaySetScores(4).ToString()
+
+        lbl_homepoint.Text = ConvertPointsToTennisScore(homePoints, awayPoints)
+        lbl_awaypoint.Text = ConvertPointsToTennisScore(awayPoints, homePoints)
+        UpdateGameLabels()
+        lbl_current_set.Text = $"Set {currentSet}"
+        Lbl_Winner.Visible = isMatchFinished
+
+        BtnChooseService.Enabled = False
+        BtnChooseService.Text = "Server festgelegt"
+
+        UpdateServerDisplay()
+        UpdateScoreDisplays()
+        UpdateScoreBug()
+        Label9.Text = FormatMatchDuration(match.MatchElapsed)
+    End Sub
+
+    ' Speichert den aktuellen Spielstand unter einem selbst gewählten Namen (Save Game) -
+    ' bewusst über einen nativen SaveFileDialog statt einer Eingabebox: erspart eigene
+    ' Namens-Bereinigung (ungültige Dateinamenzeichen etc.) und erlaubt trotzdem freie Wahl.
+    Private Sub Btn_save_match_Click(sender As Object, e As EventArgs) Handles Btn_save_match.Click
+        If Not IO.Directory.Exists(TennisMatchStateStore.SAVES_FOLDER_PATH) Then
+            IO.Directory.CreateDirectory(TennisMatchStateStore.SAVES_FOLDER_PATH)
+        End If
+
+        Using dialog As New SaveFileDialog()
+            dialog.InitialDirectory = TennisMatchStateStore.SAVES_FOLDER_PATH
+            dialog.Filter = "Tennis24 saved match (*.xml)|*.xml"
+            dialog.DefaultExt = "xml"
+            dialog.FileName = $"{Tennis24_Main.HomePlayer(0)} vs {Tennis24_Main.AwayPlayer(0)} {DateTime.Now:yyyy-MM-dd HHmm}.xml"
+
+            If dialog.ShowDialog() = DialogResult.OK Then
+                Try
+                    TennisMatchStateStore.SaveToFile(BuildCurrentSnapshot(), dialog.FileName)
+                    MessageBox.Show($"Match saved as ""{IO.Path.GetFileNameWithoutExtension(dialog.FileName)}"".", "Save Game", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show($"Could not save the match: {ex.Message}", "Save Game", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
+    End Sub
+
+    ' Lädt einen zuvor benannt gespeicherten Spielstand (Load Game).
+    Private Sub Btn_load_match_Click(sender As Object, e As EventArgs) Handles Btn_load_match.Click
+        Using dialog As New OpenFileDialog()
+            dialog.InitialDirectory = TennisMatchStateStore.SAVES_FOLDER_PATH
+            dialog.Filter = "Tennis24 saved match (*.xml)|*.xml"
+
+            If dialog.ShowDialog() = DialogResult.OK Then
+                Try
+                    Dim snapshot = TennisMatchStateStore.LoadFromFile(dialog.FileName)
+                    ApplySnapshotAndRefresh(snapshot)
+                    MessageBox.Show($"Loaded ""{IO.Path.GetFileNameWithoutExtension(dialog.FileName)}"".", "Load Game", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show($"Could not load this match: {ex.Message}", "Load Game", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+        End Using
+    End Sub
+
+    ' Stellt den letzten automatisch gesicherten Spielstand wieder her (Recover) - unabhängig
+    ' davon, ob je manuell gespeichert wurde (siehe SaveAutoRecoveryState). Gedacht für den
+    ' Fall eines Stromausfalls oder Programmabsturzes; fragt vorher nach, da der aktuell
+    ' laufende Spielstand dabei überschrieben wird.
+    Private Sub Btn_recover_Click(sender As Object, e As EventArgs) Handles Btn_recover.Click
+        If Not IO.File.Exists(TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH) Then
+            MessageBox.Show("No automatically saved match state was found to recover.", "Recover", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return
+        End If
+
+        Try
+            Dim snapshot = TennisMatchStateStore.LoadFromFile(TennisMatchStateStore.AUTO_RECOVERY_FILE_PATH)
+            Dim savedAtLocal = snapshot.SavedAt.ToLocalTime()
+
+            Dim confirmResult = MessageBox.Show(
+                "Recover the last automatically saved match state?" & vbNewLine & vbNewLine &
+                $"Match: {snapshot.HomePlayerName} vs {snapshot.AwayPlayerName}" & vbNewLine &
+                $"Saved at: {savedAtLocal:yyyy-MM-dd HH:mm:ss}" & vbNewLine & vbNewLine &
+                "This will overwrite the match currently in progress. Use this after a power outage or program crash.",
+                "Recover Match State", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If confirmResult = DialogResult.Yes Then
+                ApplySnapshotAndRefresh(snapshot)
+                MessageBox.Show("Match state recovered.", "Recover", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        Catch ex As Exception
+            MessageBox.Show($"Could not read the saved match state: {ex.Message}", "Recover", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

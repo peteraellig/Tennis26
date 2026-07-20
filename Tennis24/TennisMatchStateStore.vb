@@ -10,6 +10,13 @@ Public Class MatchStateSnapshot
     Public Property HomePlayerName As String = ""
     Public Property AwayPlayerName As String = ""
 
+    ' Der Spielstand je abgeschlossenem Satz (Games pro Satz) - lebt nirgends in
+    ' TennisMatchEngine (die kennt nur HomeSets/AwaySets als Anzahl gewonnener Sätze plus
+    ' HomeGames/AwayGames für den LAUFENDEN Satz), sondern nur in den Scorer-Labels
+    ' lbl_home_s1..s5/lbl_away_s1..s5 - deshalb hier separat mitgeführt.
+    Public Property HomeSetScores As Integer() = {0, 0, 0, 0, 0}
+    Public Property AwaySetScores As Integer() = {0, 0, 0, 0, 0}
+
     Public Property HomePoints As Integer
     Public Property AwayPoints As Integer
     Public Property HomeGames As Integer
@@ -57,11 +64,13 @@ Public Class TennisMatchStateStore
     Public Const AUTO_RECOVERY_FILE_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\autosave.xml"
     Public Const SAVES_FOLDER_PATH As String = Tennis24_Settings.SETTINGS_DATA_PATH & "\saves"
 
-    Public Shared Function BuildSnapshot(match As TennisMatchEngine, homePlayerName As String, awayPlayerName As String) As MatchStateSnapshot
+    Public Shared Function BuildSnapshot(match As TennisMatchEngine, homePlayerName As String, awayPlayerName As String, homeSetScores As Integer(), awaySetScores As Integer()) As MatchStateSnapshot
         Return New MatchStateSnapshot With {
             .SavedAt = DateTime.UtcNow,
             .HomePlayerName = homePlayerName,
             .AwayPlayerName = awayPlayerName,
+            .HomeSetScores = homeSetScores,
+            .AwaySetScores = awaySetScores,
             .HomePoints = match.HomePoints,
             .AwayPoints = match.AwayPoints,
             .HomeGames = match.HomeGames,
@@ -152,6 +161,8 @@ Public Class TennisMatchStateStore
         AddElement(xmlDoc, root, "SavedAt", snapshot.SavedAt.ToString("o"))
         AddElement(xmlDoc, root, "HomePlayerName", snapshot.HomePlayerName)
         AddElement(xmlDoc, root, "AwayPlayerName", snapshot.AwayPlayerName)
+        AddElement(xmlDoc, root, "HomeSetScores", String.Join(",", snapshot.HomeSetScores))
+        AddElement(xmlDoc, root, "AwaySetScores", String.Join(",", snapshot.AwaySetScores))
         AddElement(xmlDoc, root, "HomePoints", snapshot.HomePoints.ToString())
         AddElement(xmlDoc, root, "AwayPoints", snapshot.AwayPoints.ToString())
         AddElement(xmlDoc, root, "HomeGames", snapshot.HomeGames.ToString())
@@ -200,6 +211,8 @@ Public Class TennisMatchStateStore
             .SavedAt = ParseDateTime(GetText(xmlDoc, "SavedAt")),
             .HomePlayerName = GetText(xmlDoc, "HomePlayerName"),
             .AwayPlayerName = GetText(xmlDoc, "AwayPlayerName"),
+            .HomeSetScores = GetIntArray(xmlDoc, "HomeSetScores"),
+            .AwaySetScores = GetIntArray(xmlDoc, "AwaySetScores"),
             .HomePoints = GetInt(xmlDoc, "HomePoints"),
             .AwayPoints = GetInt(xmlDoc, "AwayPoints"),
             .HomeGames = GetInt(xmlDoc, "HomeGames"),
@@ -251,6 +264,16 @@ Public Class TennisMatchStateStore
         Dim result As Integer
         Integer.TryParse(GetText(doc, name), result)
         Return result
+    End Function
+
+    Private Shared Function GetIntArray(doc As XmlDocument, name As String) As Integer()
+        Dim text = GetText(doc, name)
+        If String.IsNullOrEmpty(text) Then Return {0, 0, 0, 0, 0}
+        Return text.Split(","c).Select(Function(part)
+                                            Dim value As Integer
+                                            Integer.TryParse(part, value)
+                                            Return value
+                                        End Function).ToArray()
     End Function
 
     Private Shared Function GetBool(doc As XmlDocument, name As String) As Boolean
