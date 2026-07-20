@@ -1307,7 +1307,11 @@ Public Class Tennis24_Scorer
         vmixSendTimer.Stop()
 
         Dim protocolLabel As String = If(useTcp, "TCP", "HTTP")
-        Label11.Text = $"{protocolLabel}: {vmixSendTimer.ElapsedMilliseconds} ms"
+        ' ElapsedMilliseconds rundet auf ganze ms ab - bei lokalem vMix (v.a. TCP) liegt die
+        ' tatsächliche Zeit meist deutlich darunter und würde fast immer als "0 ms" erscheinen.
+        ' TotalMilliseconds nutzt die volle Stopwatch-Auflösung (auf Windows üblich: deutlich
+        ' unter 1µs Ticks) für einen aussagekräftigen Vergleich HTTP vs. TCP.
+        Label11.Text = $"{protocolLabel}: {vmixSendTimer.Elapsed.TotalMilliseconds:F4} ms"
 
         Label12.Text = sender.LastCommand
         Label7.Text = result
