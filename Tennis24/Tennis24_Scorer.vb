@@ -1296,8 +1296,19 @@ Public Class Tennis24_Scorer
     Private ReadOnly tcpVmixSender As New VmixTcpSender()
 
     Public Sub SendHTMLtovMix(ByVal command As String)
-        Dim sender As IVmixSender = If(Tennis24_Settings.RadioButtonValues(4), CType(tcpVmixSender, IVmixSender), httpVmixSender)
+        Dim useTcp As Boolean = Tennis24_Settings.RadioButtonValues(4)
+        Dim sender As IVmixSender = If(useTcp, CType(tcpVmixSender, IVmixSender), httpVmixSender)
+
+        ' Laufzeitmessung: vom Absenden bis die (letzte) Antwort da ist - Send() wartet
+        ' intern bereits synchron auf die vollständige Antwort (HTTP-Response bzw. die
+        ' vMix-TCP-Bestätigungszeile), die Zeit hier umschliesst also genau das.
+        Dim vmixSendTimer = Stopwatch.StartNew()
         Dim result As String = sender.Send(command)
+        vmixSendTimer.Stop()
+
+        Dim protocolLabel As String = If(useTcp, "TCP", "HTTP")
+        Label11.Text = $"{protocolLabel}: {vmixSendTimer.ElapsedMilliseconds} ms"
+
         Label12.Text = sender.LastCommand
         Label7.Text = result
     End Sub
