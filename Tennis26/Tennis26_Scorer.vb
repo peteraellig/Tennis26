@@ -817,7 +817,10 @@ Public Class Tennis26_Scorer
             .AddString("matchDuration", matchDurationText) _
             .AddString("updatedAt", DateTime.UtcNow.ToString("o"))
 
-        Return root.ToString()
+        ' vMix erwartet bei einer JSON Data Source zwingend ein Array von Objekten (auch bei
+        ' nur einer "Zeile") - ein einzelnes JSON-Objekt ohne umschliessende [] erkennt vMix
+        ' nicht und zeigt nur ein leeres Fallback-Feld "#text" ohne Spalten an.
+        Return "[" & root.ToString() & "]"
     End Function
 
     ' Die Statistik-Anzeige liegt in einer eigenen Form (Tennis26_Statistics) und wird nur
