@@ -12,6 +12,7 @@
 Public Class Tennis26_Main2
 
     Private Const XML_FILE_PATH As String = "c:\vmix\tennis\data\tennisdata.xml"
+    Private Const PAIRINGS_FILE_PATH As String = "c:\vmix\tennis\data\pairings.xml"
     Private Shared ReadOnly FIELD_NAMES As String() = {"Name", "FirstName", "Country", "CountryISO3", "Age", "Height", "Data1", "Data2", "Data3"}
 
     Private _dragStartPoint As Point
@@ -23,13 +24,32 @@ Public Class Tennis26_Main2
         Public Property Away As String() = New String(8) {}
         Public Property Home2 As String() = New String(8) {}
         Public Property Away2 As String() = New String(8) {}
+        Public Property Doubles As Boolean = False
     End Class
 
     Private ReadOnly pairings As PairingSlot() = {New PairingSlot(), New PairingSlot(), New PairingSlot()}
 
+    ' Index (0-2) der aktuell "aktiven" Paarung (die zuletzt per "Use this pairing" ins
+    ' laufende Match übernommen wurde) - -1 heisst keine. Steuert die LightBlue-Markierung/
+    ' "... ACTIVE"-Beschriftung der jeweiligen GroupBox.
+    Private activeIndex As Integer = -1
+
+    Private ReadOnly Property PairingGroupBoxes As GroupBox()
+        Get
+            Return {GroupBox_Pairing1, GroupBox_Pairing2, GroupBox_Pairing3}
+        End Get
+    End Property
+
+    Private ReadOnly Property PairingDoublesCheckBoxes As CheckBox()
+        Get
+            Return {CheckBox_Pairing1Doubles, CheckBox_Pairing2Doubles, CheckBox_Pairing3Doubles}
+        End Get
+    End Property
+
     Private Sub Tennis26_Main2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         InitializeDataGrid()
         LoadPlayersFromXml()
+        LoadPairingsFromXml()
         RefreshAllPairingDisplays()
     End Sub
 
@@ -216,6 +236,23 @@ Public Class Tennis26_Main2
         ClearPairing(2)
     End Sub
 
+    ' Markiert eine Paarung als "aktiv" (LightBlue + "Pairing X ACTIVE") und setzt die
+    ' anderen beiden auf ihr normales Aussehen zurück - immer nur eine Paarung kann aktiv
+    ' sein, analog zu "das ist gerade das laufende Match".
+    Private Sub SetActivePairing(pairingIndex As Integer)
+        activeIndex = pairingIndex
+        Dim groupBoxes = PairingGroupBoxes
+        For i = 0 To 2
+            If i = pairingIndex Then
+                groupBoxes(i).BackColor = Color.LightBlue
+                groupBoxes(i).Text = $"Pairing {i + 1} ACTIVE"
+            Else
+                groupBoxes(i).BackColor = SystemColors.ControlLight
+                groupBoxes(i).Text = $"Pairing {i + 1}"
+            End If
+        Next
+    End Sub
+
     ' Übernimmt eine vorbereitete Paarung als aktuelles Match: schreibt in dieselben
     ' HomePlayer/AwayPlayer/HomePlayer2/AwayPlayer2-Arrays und dieselbe CheckBox1, die auch
     ' Tennis26_Main verwendet - Main und Scorer merken vom Mechanismus her nichts davon, dass
@@ -228,6 +265,8 @@ Public Class Tennis26_Main2
             Return
         End If
 
+        slot.Doubles = isDoubles
+
         For i = 0 To 8
             Tennis26_Main.HomePlayer(i) = slot.Home(i)
             Tennis26_Main.AwayPlayer(i) = slot.Away(i)
@@ -237,8 +276,7 @@ Public Class Tennis26_Main2
         Tennis26_Main.CheckBox1.Checked = isDoubles
 
         Tennis26_Main.RefreshAndSavePlayerSelection()
-
-        MessageBox.Show($"Pairing activated:{vbNewLine}HOME: {PlayerDisplayText(slot.Home, "")}{vbNewLine}AWAY: {PlayerDisplayText(slot.Away, "")}", "Pairing Activated", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        SetActivePairing(pairingIndex)
     End Sub
 
     Private Sub Btn_Pairing1Activate_Click(sender As Object, e As EventArgs) Handles Btn_Pairing1Activate.Click
@@ -251,6 +289,114 @@ Public Class Tennis26_Main2
 
     Private Sub Btn_Pairing3Activate_Click(sender As Object, e As EventArgs) Handles Btn_Pairing3Activate.Click
         ActivatePairing(2, CheckBox_Pairing3Doubles.Checked)
+    End Sub
+
+    ' Speichert alle 3 vorbereiteten Paarungen (inkl. Doubles-Häkchen und welche gerade aktiv
+    ' ist) in eine eigene XML-Datei - unabhängig von tennisdata.xml, damit die Vorbereitung
+    ' auch über einen Neustart von Tennis26_Main2 hinweg erhalten bleibt.
+    Private Sub Btn_save_Click(sender As Object, e As EventArgs) Handles Btn_save.Click
+        Try
+            SavePairingsToXml()
+            MessageBox.Show("Pairings saved.", "Save Pairings", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Catch ex As Exception
+            MessageBox.Show($"Error saving pairings: {ex.Message}", "Save Pairings", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub SavePairingsToXml()
+        Dim directoryPath = IO.Path.GetDirectoryName(PAIRINGS_FILE_PATH)
+        If Not IO.Directory.Exists(directoryPath) Then IO.Directory.CreateDirectory(directoryPath)
+
+        Dim xmlDoc As New Xml.XmlDocument()
+        Dim xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
+        xmlDoc.AppendChild(xmlDeclaration)
+
+        Dim root = xmlDoc.CreateElement("TennisPairings")
+        xmlDoc.AppendChild(root)
+
+        Dim activeIndexElement = xmlDoc.CreateElement("ActiveIndex")
+        activeIndexElement.InnerText = activeIndex.ToString()
+        root.AppendChild(activeIndexElement)
+
+        For i = 0 To 2
+            Dim pairingElement = xmlDoc.CreateElement("Pairing")
+            pairingElement.SetAttribute("index", i.ToString())
+            root.AppendChild(pairingElement)
+
+            Dim doublesElement = xmlDoc.CreateElement("Doubles")
+            doublesElement.InnerText = pairings(i).Doubles.ToString()
+            pairingElement.AppendChild(doublesElement)
+
+            AppendPlayerElement(xmlDoc, pairingElement, "Home", pairings(i).Home)
+            AppendPlayerElement(xmlDoc, pairingElement, "Away", pairings(i).Away)
+            AppendPlayerElement(xmlDoc, pairingElement, "Home2", pairings(i).Home2)
+            AppendPlayerElement(xmlDoc, pairingElement, "Away2", pairings(i).Away2)
+        Next
+
+        Using writer As New Xml.XmlTextWriter(PAIRINGS_FILE_PATH, System.Text.Encoding.UTF8)
+            writer.Formatting = Xml.Formatting.Indented
+            xmlDoc.Save(writer)
+        End Using
+    End Sub
+
+    Private Sub AppendPlayerElement(xmlDoc As Xml.XmlDocument, parent As Xml.XmlElement, elementName As String, fields As String())
+        Dim playerElement = xmlDoc.CreateElement(elementName)
+        parent.AppendChild(playerElement)
+        For i = 0 To 8
+            Dim fieldElement = xmlDoc.CreateElement(FIELD_NAMES(i))
+            fieldElement.InnerText = If(fields(i), "")
+            playerElement.AppendChild(fieldElement)
+        Next
+    End Sub
+
+    Private Sub LoadPairingsFromXml()
+        Try
+            If Not IO.File.Exists(PAIRINGS_FILE_PATH) Then Return
+
+            Dim xmlDoc As New Xml.XmlDocument()
+            xmlDoc.Load(PAIRINGS_FILE_PATH)
+
+            Dim activeIndexNode = xmlDoc.SelectSingleNode("//TennisPairings/ActiveIndex")
+            Dim loadedActiveIndex As Integer = -1
+            If activeIndexNode IsNot Nothing Then Integer.TryParse(activeIndexNode.InnerText, loadedActiveIndex)
+
+            For Each pairingNode As Xml.XmlNode In xmlDoc.SelectNodes("//TennisPairings/Pairing")
+                Dim indexAttr = pairingNode.Attributes("index")
+                If indexAttr Is Nothing Then Continue For
+                Dim pairingIndex As Integer
+                If Not Integer.TryParse(indexAttr.Value, pairingIndex) OrElse pairingIndex < 0 OrElse pairingIndex > 2 Then Continue For
+
+                Dim doublesNode = pairingNode.SelectSingleNode("Doubles")
+                Dim isDoubles As Boolean = False
+                If doublesNode IsNot Nothing Then Boolean.TryParse(doublesNode.InnerText, isDoubles)
+                pairings(pairingIndex).Doubles = isDoubles
+                PairingDoublesCheckBoxes(pairingIndex).Checked = isDoubles
+
+                ReadPlayerElement(pairingNode, "Home", pairings(pairingIndex).Home)
+                ReadPlayerElement(pairingNode, "Away", pairings(pairingIndex).Away)
+                ReadPlayerElement(pairingNode, "Home2", pairings(pairingIndex).Home2)
+                ReadPlayerElement(pairingNode, "Away2", pairings(pairingIndex).Away2)
+            Next
+
+            If loadedActiveIndex >= 0 AndAlso loadedActiveIndex <= 2 Then
+                SetActivePairing(loadedActiveIndex)
+            End If
+        Catch ex As Exception
+            MessageBox.Show($"Error loading saved pairings: {ex.Message}", "Load Pairings", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End Try
+    End Sub
+
+    Private Sub ReadPlayerElement(pairingNode As Xml.XmlNode, elementName As String, fields As String())
+        Dim playerNode = pairingNode.SelectSingleNode(elementName)
+        If playerNode Is Nothing Then Return
+        For i = 0 To 8
+            Dim fieldNode = playerNode.SelectSingleNode(FIELD_NAMES(i))
+            fields(i) = If(fieldNode IsNot Nothing, fieldNode.InnerText, "")
+        Next
     End Sub
 
 End Class

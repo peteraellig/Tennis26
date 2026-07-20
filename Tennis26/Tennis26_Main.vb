@@ -248,13 +248,10 @@
         End If
     End Sub
 
+    ' Die Paarungsfelder sind reine Anzeige der aktuell aktiven Paarung - Auswahl per
+    ' Drag&Drop läuft nur noch über Tennis26_Main2 (Btn_open_pairings), siehe dort. Deshalb
+    ' hier bewusst kein AllowDrop mehr; die zugehörigen Drag&Drop-Handler wurden entfernt.
     Private Sub InitializePlayerFields()
-        ' Enable drag and drop for the textboxes
-        txt_home_player.AllowDrop = True
-        txt_away_player.AllowDrop = True
-        txt_home_player2.AllowDrop = True
-        txt_away_player2.AllowDrop = True
-
         ' Make them read-only so users can't type directly
         txt_home_player.ReadOnly = True
         txt_away_player.ReadOnly = True
@@ -648,135 +645,6 @@
                 _dragRowIndex = -1
             End If
         End If
-    End Sub
-
-    ' Drag and Drop Events for Home Player TextBox
-    Private Sub Txt_home_player_DragEnter(sender As Object, e As DragEventArgs) Handles txt_home_player.DragEnter
-        If e.Data.GetDataPresent(DataFormats.Text) Then
-            e.Effect = DragDropEffects.Copy
-        End If
-    End Sub
-
-    Private Sub Txt_home_player_DragDrop(sender As Object, e As DragEventArgs) Handles txt_home_player.DragDrop
-        Try
-            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
-            Dim playerFields = playerData.Split("|"c)
-
-            If playerFields.Length >= 9 Then
-                ' Store in HomePlayer array
-                For i = 0 To 8
-                    HomePlayer(i) = playerFields(i)
-                Next
-
-                ' Display in textbox
-                txt_home_player.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
-                txt_home_player.BackColor = Color.LightGreen
-
-                ' Save player selection
-                SavePlayerSelection()
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error setting home player: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    ' Drag and Drop Events for Away Player TextBox
-    Private Sub Txt_away_player_DragEnter(sender As Object, e As DragEventArgs) Handles txt_away_player.DragEnter
-        If e.Data.GetDataPresent(DataFormats.Text) Then
-            e.Effect = DragDropEffects.Copy
-        End If
-    End Sub
-
-    Private Sub Txt_away_player_DragDrop(sender As Object, e As DragEventArgs) Handles txt_away_player.DragDrop
-        Try
-            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
-            Dim playerFields = playerData.Split("|"c)
-
-            If playerFields.Length >= 9 Then
-                ' Store in AwayPlayer array
-                For i = 0 To 8
-                    AwayPlayer(i) = playerFields(i)
-                Next
-
-                ' Display in textbox
-                txt_away_player.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
-                txt_away_player.BackColor = Color.LightBlue
-
-                ' Save player selection
-                SavePlayerSelection()
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error setting away player: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    ' Drag and Drop Events for Home Player 2 (Doppel-Partner) TextBox
-    Private Sub Txt_home_player2_DragEnter(sender As Object, e As DragEventArgs) Handles txt_home_player2.DragEnter
-        If e.Data.GetDataPresent(DataFormats.Text) Then
-            e.Effect = DragDropEffects.Copy
-        End If
-    End Sub
-
-    Private Sub Txt_home_player2_DragDrop(sender As Object, e As DragEventArgs) Handles txt_home_player2.DragDrop
-        Try
-            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
-            Dim playerFields = playerData.Split("|"c)
-
-            If playerFields.Length >= 9 Then
-                For i = 0 To 8
-                    HomePlayer2(i) = playerFields(i)
-                Next
-
-                txt_home_player2.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
-                txt_home_player2.BackColor = Color.LightGreen
-
-                SavePlayerSelection()
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error setting home player 2: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    ' Drag and Drop Events for Away Player 2 (Doppel-Partner) TextBox
-    Private Sub Txt_away_player2_DragEnter(sender As Object, e As DragEventArgs) Handles txt_away_player2.DragEnter
-        If e.Data.GetDataPresent(DataFormats.Text) Then
-            e.Effect = DragDropEffects.Copy
-        End If
-    End Sub
-
-    Private Sub Txt_away_player2_DragDrop(sender As Object, e As DragEventArgs) Handles txt_away_player2.DragDrop
-        Try
-            Dim playerData = e.Data.GetData(DataFormats.Text).ToString()
-            Dim playerFields = playerData.Split("|"c)
-
-            If playerFields.Length >= 9 Then
-                For i = 0 To 8
-                    AwayPlayer2(i) = playerFields(i)
-                Next
-
-                txt_away_player2.Text = $"{playerFields(1)} {playerFields(0)} ({playerFields(3)})"
-                txt_away_player2.BackColor = Color.LightBlue
-
-                SavePlayerSelection()
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error setting away player 2: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    Private Sub SavePlayerSelection()
-        Try
-            ' Save to XML automatically when players are selected
-            SaveDataToXML()
-
-            ' Show confirmation if both players are selected
-            If Not String.IsNullOrEmpty(HomePlayer(0)) AndAlso Not String.IsNullOrEmpty(AwayPlayer(0)) Then
-                MessageBox.Show($"Match players set and saved to XML:{vbNewLine}HOME: {HomePlayer(1)} {HomePlayer(0)}{vbNewLine}AWAY: {AwayPlayer(1)} {AwayPlayer(0)}",
-                               "Players Selected", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error saving player selection: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
     End Sub
 
     Private Sub Btn_clear_players_Click(sender As Object, e As EventArgs) Handles btn_clear_players.Click
