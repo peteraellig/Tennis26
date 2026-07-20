@@ -722,9 +722,35 @@ Public Class Tennis26_Scorer
                       .AddString("data2", Tennis26_Main.AwayPlayer(7)) _
                       .AddString("data3", Tennis26_Main.AwayPlayer(8))
 
+        ' Doppel-Partner (HomePlayer2/AwayPlayer2) - immer mitgegeben, unabhängig von
+        ' isDoublesMatch, damit ein externer Konsument nicht zwei verschiedene JSON-Formen
+        ' unterscheiden muss (bei Einzel einfach mit leeren Strings befüllt).
+        Dim homePlayer2Obj As New JsonObjectBuilder()
+        homePlayer2Obj.AddString("name", Tennis26_Main.HomePlayer2(0)) _
+                       .AddString("firstName", Tennis26_Main.HomePlayer2(1)) _
+                       .AddString("country", Tennis26_Main.HomePlayer2(2)) _
+                       .AddString("countryISO3", Tennis26_Main.HomePlayer2(3)) _
+                       .AddString("age", Tennis26_Main.HomePlayer2(4)) _
+                       .AddString("height", Tennis26_Main.HomePlayer2(5)) _
+                       .AddString("data1", Tennis26_Main.HomePlayer2(6)) _
+                       .AddString("data2", Tennis26_Main.HomePlayer2(7)) _
+                       .AddString("data3", Tennis26_Main.HomePlayer2(8))
+
+        Dim awayPlayer2Obj As New JsonObjectBuilder()
+        awayPlayer2Obj.AddString("name", Tennis26_Main.AwayPlayer2(0)) _
+                       .AddString("firstName", Tennis26_Main.AwayPlayer2(1)) _
+                       .AddString("country", Tennis26_Main.AwayPlayer2(2)) _
+                       .AddString("countryISO3", Tennis26_Main.AwayPlayer2(3)) _
+                       .AddString("age", Tennis26_Main.AwayPlayer2(4)) _
+                       .AddString("height", Tennis26_Main.AwayPlayer2(5)) _
+                       .AddString("data1", Tennis26_Main.AwayPlayer2(6)) _
+                       .AddString("data2", Tennis26_Main.AwayPlayer2(7)) _
+                       .AddString("data3", Tennis26_Main.AwayPlayer2(8))
+
         Dim homeObj As New JsonObjectBuilder()
         homeObj.AddString("name", homePlayerName) _
                .AddRaw("player", homePlayerObj.ToString()) _
+               .AddRaw("player2", homePlayer2Obj.ToString()) _
                .AddString("points", ConvertPointsToTennisScore(homePoints, awayPoints)) _
                .AddInt("games", homeGames) _
                .AddInt("sets", homeSets) _
@@ -745,6 +771,7 @@ Public Class Tennis26_Scorer
         Dim awayObj As New JsonObjectBuilder()
         awayObj.AddString("name", awayPlayerName) _
                .AddRaw("player", awayPlayerObj.ToString()) _
+               .AddRaw("player2", awayPlayer2Obj.ToString()) _
                .AddString("points", ConvertPointsToTennisScore(awayPoints, homePoints)) _
                .AddInt("games", awayGames) _
                .AddInt("sets", awaySets) _
@@ -780,6 +807,7 @@ Public Class Tennis26_Scorer
             .AddBool("isMatchTiebreak", isMatchTiebreakSet) _
             .AddBool("isMatchFinished", isMatchFinished) _
             .AddBool("isMidMatchEntry", match.IsMidMatchEntry) _
+            .AddBool("isDoublesMatch", IsDoublesMatch()) _
             .AddString("breakPointHolder", match.BreakPointHolder()) _
             .AddInt("breakPointCount", match.CurrentBreakPointCount()) _
             .AddBool("sidesSwapped", match.AreSidesCurrentlySwapped()) _
@@ -1276,15 +1304,25 @@ Public Class Tennis26_Scorer
         UpdateButtonNames()
     End Sub
 
+    ' Doppel-Umschalter lebt in Main (CheckBox1, neben der Spielerauswahl) statt in den
+    ' Settings - passt inhaltlich besser dorthin, wo auch die Partner ausgewählt werden.
+    Private Function IsDoublesMatch() As Boolean
+        Return Tennis26_Main.CheckBox1.Checked
+    End Function
+
     Private Sub SendDataToGraphicsEngine()
-        ' Scorebug(s) aktualisieren 
+        ' Scorebug(s) aktualisieren
         Dim scorebugtitles() As String = {"scorebug_1s.gtzip", "scorebug_2s.gtzip", "scorebug_3s.gtzip", "scorebug_4s.gtzip", "scorebug_5s.gtzip"}
+        Dim isDoubles As Boolean = IsDoublesMatch()
 
         For Each scorebugtitle As String In scorebugtitles
             Dim sendstring() As String
             Dim index As Integer = 0
 
-            ReDim sendstring(17)
+            ' 4 zusätzliche Slots für h2name/a2name/h2country/a2country (Doppel-Partner) -
+            ' bleiben bei Einzel schlicht Nothing und werden von SendToGraphicsEngine
+            ' übersprungen (siehe dort).
+            ReDim sendstring(21)
 
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hpoint.Text", lbl_homepoint.Text)
             index += 1
@@ -1306,6 +1344,22 @@ Public Class Tennis26_Scorer
             index += 1
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awayCountryISO3)
             index += 1
+
+            If isDoubles Then
+                Dim homePlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(0))
+                Dim awayPlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(0))
+                Dim homePlayer2CountryISO3 As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(3)), "", Tennis26_Main.HomePlayer2(3))
+                Dim awayPlayer2CountryISO3 As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(3)), "", Tennis26_Main.AwayPlayer2(3))
+
+                sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h2name.Text", homePlayer2Name)
+                index += 1
+                sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a2name.Text", awayPlayer2Name)
+                index += 1
+                sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "h2country.Text", homePlayer2CountryISO3)
+                index += 1
+                sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "a2country.Text", awayPlayer2CountryISO3)
+                index += 1
+            End If
 
             If Not isMatchFinished Then
                 If PBHome.Visible = True Then
@@ -1393,6 +1447,13 @@ Public Class Tennis26_Scorer
             sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
         Else
             sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+        End If
+
+        If IsDoublesMatch() Then
+            Dim h2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
+            Dim a2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2name.Text", h2PlayerName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2name.Text", a2PlayerName) : SendHTMLtovMix(sendstring)
         End If
 
     End Sub
@@ -1829,6 +1890,55 @@ Public Class Tennis26_Scorer
                 sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
             Else
                 sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+            End If
+
+            ' Doppel-Partner (h2xxx/a2xxx) - nur senden, wenn Doppel aktiv ist
+            If IsDoublesMatch() Then
+                Dim h2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
+                Dim h2country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(3))
+                Dim h2age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), "", "Age: " & Tennis26_Main.HomePlayer2(4))
+                Dim h2height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), "", "Height: " & Tennis26_Main.HomePlayer2(5))
+                Dim h2data1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), "", Tennis26_Main.HomePlayer2(6))
+                Dim h2data2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(7)), "", Tennis26_Main.HomePlayer2(7))
+                Dim h2data3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(8)), "", Tennis26_Main.HomePlayer2(8))
+
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2name.Text", h2PlayerName) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2country.Text", h2country) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2age.Text", h2age) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2height.Text", h2height) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2data1.Text", h2data1) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2data2.Text", h2data2) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2data3.Text", h2data3) : SendHTMLtovMix(sendstring)
+
+                Dim h2FlagInfo = GetFlagInfo(h2country)
+                If h2FlagInfo.Exists Then
+                    sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "h2country_flag.Source", h2FlagInfo.Path) : SendHTMLtovMix(sendstring)
+                Else
+                    sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "h2country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+                End If
+
+                Dim a2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
+                Dim a2country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(3))
+                Dim a2age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), "", "Age: " & Tennis26_Main.AwayPlayer2(4))
+                Dim a2height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), "", "Height: " & Tennis26_Main.AwayPlayer2(5))
+                Dim a2data1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), "", Tennis26_Main.AwayPlayer2(6))
+                Dim a2data2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(7)), "", Tennis26_Main.AwayPlayer2(7))
+                Dim a2data3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(8)), "", Tennis26_Main.AwayPlayer2(8))
+
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2name.Text", a2PlayerName) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2country.Text", a2country) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2age.Text", a2age) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2height.Text", a2height) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2data1.Text", a2data1) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2data2.Text", a2data2) : SendHTMLtovMix(sendstring)
+                sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2data3.Text", a2data3) : SendHTMLtovMix(sendstring)
+
+                Dim a2FlagInfo = GetFlagInfo(a2country)
+                If a2FlagInfo.Exists Then
+                    sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "a2country_flag.Source", a2FlagInfo.Path) : SendHTMLtovMix(sendstring)
+                Else
+                    sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "a2country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+                End If
             End If
         Next
     End Sub
