@@ -154,6 +154,12 @@
     <Compile Include="VmixHttpSender.vb" />
     <Compile Include="VmixTcpSender.vb" />
     <Compile Include="TennisMatchStateStore.vb" />
+    <Compile Include="Tennis24_MidMatchEntry.Designer.vb">
+      <DependentUpon>Tennis24_MidMatchEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tennis24_MidMatchEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tennis24_Statistics.resx">
       <DependentUpon>Tennis24_Statistics.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tennis24_MidMatchEntry.resx">
+      <DependentUpon>Tennis24_MidMatchEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

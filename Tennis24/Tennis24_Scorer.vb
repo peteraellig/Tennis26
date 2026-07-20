@@ -620,6 +620,17 @@ Public Class Tennis24_Scorer
         End Try
     End Sub
 
+    ' Zwischeneinstieg: öffnet die Eingabe-Form modal, übernimmt das Ergebnis bei "Apply"
+    ' über dieselbe ApplySnapshotAndRefresh() wie Save/Load/Recover - keine eigene
+    ' Anwende-Logik nötig (siehe Tennis24_MidMatchEntry.vb).
+    Private Sub Btn_betweenentry_Click(sender As Object, e As EventArgs) Handles Btn_betweenentry.Click
+        Using entryForm As New Tennis24_MidMatchEntry()
+            If entryForm.ShowDialog(Me) = DialogResult.OK Then
+                ApplySnapshotAndRefresh(entryForm.ResultSnapshot)
+            End If
+        End Using
+    End Sub
+
     ' Schreibt die Live-JSON-Datei einmal beim Matchstart (Settings-Checkbox3), damit z.B.
     ' Spielernamen schon vor dem ersten Punkt auf einer externen Anzeige verfügbar sind.
     ' Anders als die Datei-Updates pro Punkt wird ein Fehler hier direkt gemeldet, weil er
