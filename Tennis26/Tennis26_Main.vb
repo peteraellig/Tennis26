@@ -47,6 +47,12 @@
     End Sub
 
 
+    ' Öffnet den Paarungs-Vorbereitungs-Prototyp (siehe Tennis26_Main2.vb) - nicht-modal,
+    ' damit gleichzeitig in Main weiter mit der Spielerdatenbank gearbeitet werden kann.
+    Private Sub Btn_open_pairings_Click(sender As Object, e As EventArgs) Handles Btn_open_pairings.Click
+        Tennis26_Main2.Show()
+    End Sub
+
     Private Sub Btn_live_Click(sender As Object, e As EventArgs) Handles btn_live.Click
         Try
             ' Prüfe zuerst die Spielerpaarung

@@ -45,6 +45,7 @@ Partial Class Tennis26_Main
         Me.txt_away_player2 = New System.Windows.Forms.TextBox()
         Me.txt_home_player2 = New System.Windows.Forms.TextBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Btn_open_pairings = New System.Windows.Forms.Button()
         CType(Me.DataGridView_Players, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -280,11 +281,21 @@ Partial Class Tennis26_Main
         Me.CheckBox1.Text = "Double Match"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
+        'Btn_open_pairings
+        '
+        Me.Btn_open_pairings.Location = New System.Drawing.Point(1034, 381)
+        Me.Btn_open_pairings.Name = "Btn_open_pairings"
+        Me.Btn_open_pairings.Size = New System.Drawing.Size(152, 74)
+        Me.Btn_open_pairings.TabIndex = 40
+        Me.Btn_open_pairings.Text = "Main2"
+        Me.Btn_open_pairings.UseVisualStyleBackColor = True
+        '
         'Tennis26_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1199, 674)
+        Me.Controls.Add(Me.Btn_open_pairings)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.txt_away_player2)
         Me.Controls.Add(Me.txt_home_player2)
@@ -339,4 +350,5 @@ Partial Class Tennis26_Main
     Friend WithEvents txt_away_player2 As TextBox
     Friend WithEvents txt_home_player2 As TextBox
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Btn_open_pairings As Button
 End Class
