@@ -58,7 +58,7 @@ Partial Class Tennis26_Main
         Me.btn_exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btn_exit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_exit.ForeColor = System.Drawing.Color.White
-        Me.btn_exit.Location = New System.Drawing.Point(1033, 490)
+        Me.btn_exit.Location = New System.Drawing.Point(1034, 603)
         Me.btn_exit.Name = "btn_exit"
         Me.btn_exit.Size = New System.Drawing.Size(153, 59)
         Me.btn_exit.TabIndex = 0
@@ -84,7 +84,7 @@ Partial Class Tennis26_Main
         Me.DataGridView_Players.Location = New System.Drawing.Point(12, 12)
         Me.DataGridView_Players.Name = "DataGridView_Players"
         Me.DataGridView_Players.RowHeadersWidth = 51
-        Me.DataGridView_Players.Size = New System.Drawing.Size(1010, 323)
+        Me.DataGridView_Players.Size = New System.Drawing.Size(1010, 348)
         Me.DataGridView_Players.TabIndex = 2
         '
         'btn_save
@@ -92,7 +92,7 @@ Partial Class Tennis26_Main
         Me.btn_save.BackColor = System.Drawing.Color.LimeGreen
         Me.btn_save.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_save.ForeColor = System.Drawing.Color.White
-        Me.btn_save.Location = New System.Drawing.Point(358, 342)
+        Me.btn_save.Location = New System.Drawing.Point(358, 367)
         Me.btn_save.Name = "btn_save"
         Me.btn_save.Size = New System.Drawing.Size(100, 25)
         Me.btn_save.TabIndex = 3
@@ -102,7 +102,7 @@ Partial Class Tennis26_Main
         'btn_update
         '
         Me.btn_update.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_update.Location = New System.Drawing.Point(118, 342)
+        Me.btn_update.Location = New System.Drawing.Point(118, 367)
         Me.btn_update.Name = "btn_update"
         Me.btn_update.Size = New System.Drawing.Size(100, 25)
         Me.btn_update.TabIndex = 4
@@ -112,7 +112,7 @@ Partial Class Tennis26_Main
         'btn_delete
         '
         Me.btn_delete.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_delete.Location = New System.Drawing.Point(224, 342)
+        Me.btn_delete.Location = New System.Drawing.Point(224, 367)
         Me.btn_delete.Name = "btn_delete"
         Me.btn_delete.Size = New System.Drawing.Size(100, 25)
         Me.btn_delete.TabIndex = 5
@@ -122,7 +122,7 @@ Partial Class Tennis26_Main
         'btn_new
         '
         Me.btn_new.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_new.Location = New System.Drawing.Point(12, 342)
+        Me.btn_new.Location = New System.Drawing.Point(12, 367)
         Me.btn_new.Name = "btn_new"
         Me.btn_new.Size = New System.Drawing.Size(100, 25)
         Me.btn_new.TabIndex = 6
@@ -132,7 +132,7 @@ Partial Class Tennis26_Main
         'txt_home_player
         '
         Me.txt_home_player.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_home_player.Location = New System.Drawing.Point(24, 487)
+        Me.txt_home_player.Location = New System.Drawing.Point(24, 547)
         Me.txt_home_player.Multiline = True
         Me.txt_home_player.Name = "txt_home_player"
         Me.txt_home_player.ReadOnly = True
@@ -143,7 +143,7 @@ Partial Class Tennis26_Main
         'txt_away_player
         '
         Me.txt_away_player.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_away_player.Location = New System.Drawing.Point(686, 490)
+        Me.txt_away_player.Location = New System.Drawing.Point(686, 547)
         Me.txt_away_player.Multiline = True
         Me.txt_away_player.Name = "txt_away_player"
         Me.txt_away_player.ReadOnly = True
@@ -155,7 +155,7 @@ Partial Class Tennis26_Main
         '
         Me.lbl_home_player.AutoSize = True
         Me.lbl_home_player.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_home_player.Location = New System.Drawing.Point(25, 468)
+        Me.lbl_home_player.Location = New System.Drawing.Point(25, 528)
         Me.lbl_home_player.Name = "lbl_home_player"
         Me.lbl_home_player.Size = New System.Drawing.Size(92, 17)
         Me.lbl_home_player.TabIndex = 9
@@ -165,7 +165,7 @@ Partial Class Tennis26_Main
         '
         Me.lbl_away_player.AutoSize = True
         Me.lbl_away_player.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_away_player.Location = New System.Drawing.Point(686, 471)
+        Me.lbl_away_player.Location = New System.Drawing.Point(686, 528)
         Me.lbl_away_player.Name = "lbl_away_player"
         Me.lbl_away_player.Size = New System.Drawing.Size(86, 17)
         Me.lbl_away_player.TabIndex = 10
@@ -174,9 +174,9 @@ Partial Class Tennis26_Main
         'PictureBox1
         '
         Me.PictureBox1.BackColor = System.Drawing.Color.Silver
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 420)
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 481)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(1010, 219)
+        Me.PictureBox1.Size = New System.Drawing.Size(1010, 181)
         Me.PictureBox1.TabIndex = 12
         Me.PictureBox1.TabStop = False
         '
@@ -184,7 +184,7 @@ Partial Class Tennis26_Main
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(291, 430)
+        Me.Label1.Location = New System.Drawing.Point(353, 495)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(130, 25)
         Me.Label1.TabIndex = 13
@@ -205,7 +205,7 @@ Partial Class Tennis26_Main
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(426, 430)
+        Me.Label2.Location = New System.Drawing.Point(500, 495)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(69, 25)
         Me.Label2.TabIndex = 33
@@ -214,9 +214,9 @@ Partial Class Tennis26_Main
         'Btn_SelectPairing1
         '
         Me.Btn_SelectPairing1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SelectPairing1.Location = New System.Drawing.Point(12, 396)
+        Me.Btn_SelectPairing1.Location = New System.Drawing.Point(12, 419)
         Me.Btn_SelectPairing1.Name = "Btn_SelectPairing1"
-        Me.Btn_SelectPairing1.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing1.Size = New System.Drawing.Size(245, 56)
         Me.Btn_SelectPairing1.TabIndex = 34
         Me.Btn_SelectPairing1.Text = "Pairing 1 (empty)"
         Me.Btn_SelectPairing1.UseVisualStyleBackColor = True
@@ -224,9 +224,9 @@ Partial Class Tennis26_Main
         'Btn_SelectPairing2
         '
         Me.Btn_SelectPairing2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SelectPairing2.Location = New System.Drawing.Point(267, 396)
+        Me.Btn_SelectPairing2.Location = New System.Drawing.Point(267, 419)
         Me.Btn_SelectPairing2.Name = "Btn_SelectPairing2"
-        Me.Btn_SelectPairing2.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing2.Size = New System.Drawing.Size(245, 56)
         Me.Btn_SelectPairing2.TabIndex = 35
         Me.Btn_SelectPairing2.Text = "Pairing 2 (empty)"
         Me.Btn_SelectPairing2.UseVisualStyleBackColor = True
@@ -234,9 +234,9 @@ Partial Class Tennis26_Main
         'Btn_SelectPairing3
         '
         Me.Btn_SelectPairing3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SelectPairing3.Location = New System.Drawing.Point(522, 396)
+        Me.Btn_SelectPairing3.Location = New System.Drawing.Point(522, 419)
         Me.Btn_SelectPairing3.Name = "Btn_SelectPairing3"
-        Me.Btn_SelectPairing3.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing3.Size = New System.Drawing.Size(245, 56)
         Me.Btn_SelectPairing3.TabIndex = 36
         Me.Btn_SelectPairing3.Text = "Pairing 3 (empty)"
         Me.Btn_SelectPairing3.UseVisualStyleBackColor = True
@@ -244,9 +244,9 @@ Partial Class Tennis26_Main
         'Btn_SelectPairing4
         '
         Me.Btn_SelectPairing4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SelectPairing4.Location = New System.Drawing.Point(777, 396)
+        Me.Btn_SelectPairing4.Location = New System.Drawing.Point(777, 419)
         Me.Btn_SelectPairing4.Name = "Btn_SelectPairing4"
-        Me.Btn_SelectPairing4.Size = New System.Drawing.Size(245, 22)
+        Me.Btn_SelectPairing4.Size = New System.Drawing.Size(245, 56)
         Me.Btn_SelectPairing4.TabIndex = 37
         Me.Btn_SelectPairing4.Text = "Pairing 4 (empty)"
         Me.Btn_SelectPairing4.UseVisualStyleBackColor = True
@@ -254,7 +254,7 @@ Partial Class Tennis26_Main
         'Btn_Load_File
         '
         Me.Btn_Load_File.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Load_File.Location = New System.Drawing.Point(543, 341)
+        Me.Btn_Load_File.Location = New System.Drawing.Point(543, 366)
         Me.Btn_Load_File.Name = "Btn_Load_File"
         Me.Btn_Load_File.Size = New System.Drawing.Size(100, 25)
         Me.Btn_Load_File.TabIndex = 35
@@ -264,7 +264,7 @@ Partial Class Tennis26_Main
         'Btn_SaveAs
         '
         Me.Btn_SaveAs.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SaveAs.Location = New System.Drawing.Point(670, 341)
+        Me.Btn_SaveAs.Location = New System.Drawing.Point(670, 366)
         Me.Btn_SaveAs.Name = "Btn_SaveAs"
         Me.Btn_SaveAs.Size = New System.Drawing.Size(100, 25)
         Me.Btn_SaveAs.TabIndex = 36
@@ -274,7 +274,7 @@ Partial Class Tennis26_Main
         'txt_away_player2
         '
         Me.txt_away_player2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_away_player2.Location = New System.Drawing.Point(686, 585)
+        Me.txt_away_player2.Location = New System.Drawing.Point(686, 608)
         Me.txt_away_player2.Multiline = True
         Me.txt_away_player2.Name = "txt_away_player2"
         Me.txt_away_player2.ReadOnly = True
@@ -285,7 +285,7 @@ Partial Class Tennis26_Main
         'txt_home_player2
         '
         Me.txt_home_player2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_home_player2.Location = New System.Drawing.Point(24, 582)
+        Me.txt_home_player2.Location = New System.Drawing.Point(24, 605)
         Me.txt_home_player2.Multiline = True
         Me.txt_home_player2.Name = "txt_home_player2"
         Me.txt_home_player2.ReadOnly = True
@@ -296,7 +296,7 @@ Partial Class Tennis26_Main
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(365, 532)
+        Me.CheckBox1.Location = New System.Drawing.Point(365, 555)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(93, 17)
         Me.CheckBox1.TabIndex = 39
@@ -305,7 +305,7 @@ Partial Class Tennis26_Main
         '
         'Btn_open_pairings
         '
-        Me.Btn_open_pairings.Location = New System.Drawing.Point(1034, 381)
+        Me.Btn_open_pairings.Location = New System.Drawing.Point(1035, 481)
         Me.Btn_open_pairings.Name = "Btn_open_pairings"
         Me.Btn_open_pairings.Size = New System.Drawing.Size(152, 74)
         Me.Btn_open_pairings.TabIndex = 40
