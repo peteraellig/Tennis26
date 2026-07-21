@@ -48,14 +48,11 @@
         End Try
     End Sub
 
-    ' Kurzer, nicht-blockierender Verbindungstest zu vMix beim Start - nutzt dasselbe
-    ' IVmixSender-Protokoll (HTTP/TCP) wie der Scorer, aber mit einer eigenen, temporären
-    ' Sender-Instanz statt der im Scorer dauerhaft gehaltenen (Main läuft ja unabhängig davon,
-    ' ob der Scorer schon geöffnet wurde). Ein leerer Befehl reicht als "Ping": bei HTTP fragt
-    ' das nur den aktuellen vMix-Status ab (kein Seiteneffekt), bei TCP genügt der blosse
-    ' Verbindungsaufbau. Blockiert den Start nicht dauerhaft - schlägt der Verbindungsaufbau
-    ' fehl, kommt IVmixSender.Send() ohnehin nach kurzer Zeit mit einer Fehlermeldung zurück,
-    ' statt eine Exception zu werfen.
+    ' Einmaliger Verbindungstest beim Start (kein periodischer Timer hier) - sobald der
+    ' Operator "Live" klickt und Tennis26_Scorer öffnet, übernimmt dessen bereits laufender
+    ' Timer1 (1x/Sekunde) das Aktualisieren von Label3 mit (siehe Scorer.CheckVmixConnection),
+    ' da Main beim Wechsel zu Scorer nur Hide() statt Close() macht und im Hintergrund
+    ' weiterexistiert - ein zweiter, redundanter Timer nur für Main ist damit unnötig.
     Private Sub CheckVmixConnection()
         Dim useTcp As Boolean = Tennis26_Settings.RadioButtonValues(4)
         Dim protocolLabel As String = If(useTcp, "TCP", "HTTP")

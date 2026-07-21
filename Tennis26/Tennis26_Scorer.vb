@@ -757,12 +757,18 @@ Public Class Tennis26_Scorer
         Dim result As String = sender.Send("")
         isVmixConnected = Not result.StartsWith("Exception Error in VTX")
 
-        If isVmixConnected Then
-            Label14.Text = $"vMix found - {protocolLabel} connected"
-            Label14.ForeColor = Color.Green
-        Else
-            Label14.Text = "vMix not found - please start vMix"
-            Label14.ForeColor = Color.Red
+        Dim statusText As String = If(isVmixConnected, $"vMix found - {protocolLabel} connected", "vMix not found - please start vMix")
+        Dim statusColor As Color = If(isVmixConnected, Color.Green, Color.Red)
+
+        Label14.Text = statusText
+        Label14.ForeColor = statusColor
+
+        ' Main bleibt beim Wechsel zu Scorer nur "gehidet" (Btn_live_Click macht Hide(), kein
+        ' Close()) und existiert im Hintergrund weiter - Label3 dort gleich mit aktualisieren,
+        ' damit kein zweiter, redundanter Timer nur für Main nötig ist.
+        If Not Tennis26_Main.IsDisposed Then
+            Tennis26_Main.Label3.Text = statusText
+            Tennis26_Main.Label3.ForeColor = statusColor
         End If
     End Sub
 

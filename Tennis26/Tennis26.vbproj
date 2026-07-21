@@ -114,9 +114,7 @@
     <Compile Include="Tennis26_Settings.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tennis26_Main.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Tennis26_Main.vb" />
     <Compile Include="Tennis26_Main.Designer.vb">
       <DependentUpon>Tennis26_Main.vb</DependentUpon>
       <SubType>Form</SubType>
