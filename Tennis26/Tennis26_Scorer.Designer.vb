@@ -110,6 +110,11 @@ Partial Class Tennis26_Scorer
         Me.PictureBox13 = New System.Windows.Forms.PictureBox()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.CheckBox_hidehight = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hiderank = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hidepoints = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hideassociation = New System.Windows.Forms.CheckBox()
+        Me.Label13 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -282,13 +287,14 @@ Partial Class Tennis26_Scorer
         '
         'btn_undo
         '
+        Me.btn_undo.BackColor = System.Drawing.Color.MistyRose
         Me.btn_undo.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_undo.Location = New System.Drawing.Point(435, 287)
         Me.btn_undo.Name = "btn_undo"
         Me.btn_undo.Size = New System.Drawing.Size(135, 156)
         Me.btn_undo.TabIndex = 14
         Me.btn_undo.Text = "UNDO"
-        Me.btn_undo.UseVisualStyleBackColor = True
+        Me.btn_undo.UseVisualStyleBackColor = False
         '
         'btn_reset_match
         '
@@ -398,13 +404,14 @@ Partial Class Tennis26_Scorer
         '
         'Btn_Scorebug
         '
+        Me.Btn_Scorebug.BackColor = System.Drawing.SystemColors.GradientActiveCaption
         Me.Btn_Scorebug.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Scorebug.Location = New System.Drawing.Point(33, 287)
         Me.Btn_Scorebug.Name = "Btn_Scorebug"
         Me.Btn_Scorebug.Size = New System.Drawing.Size(339, 156)
         Me.Btn_Scorebug.TabIndex = 31
         Me.Btn_Scorebug.Text = "scorebug"
-        Me.Btn_Scorebug.UseVisualStyleBackColor = True
+        Me.Btn_Scorebug.UseVisualStyleBackColor = False
         '
         'Btn_exit
         '
@@ -644,11 +651,11 @@ Partial Class Tennis26_Scorer
         'CheckBox_hidedetails
         '
         Me.CheckBox_hidedetails.AutoSize = True
-        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(292, 638)
+        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(642, 512)
         Me.CheckBox_hidedetails.Name = "CheckBox_hidedetails"
-        Me.CheckBox_hidedetails.Size = New System.Drawing.Size(186, 17)
+        Me.CheckBox_hidedetails.Size = New System.Drawing.Size(45, 17)
         Me.CheckBox_hidedetails.TabIndex = 58
-        Me.CheckBox_hidedetails.Text = "hide Player Details (age/hight..)"
+        Me.CheckBox_hidedetails.Text = "age"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
         Me.CheckBox_hidedetails.UseVisualStyleBackColor = True
@@ -1012,12 +1019,74 @@ Partial Class Tennis26_Scorer
         Me.Label8.TabIndex = 255
         Me.Label8.Text = "Label8"
         '
+        'CheckBox_hidehight
+        '
+        Me.CheckBox_hidehight.AutoSize = True
+        Me.CheckBox_hidehight.Location = New System.Drawing.Point(642, 535)
+        Me.CheckBox_hidehight.Name = "CheckBox_hidehight"
+        Me.CheckBox_hidehight.Size = New System.Drawing.Size(54, 17)
+        Me.CheckBox_hidehight.TabIndex = 256
+        Me.CheckBox_hidehight.Text = "hight"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidehight, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hidehight.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hiderank
+        '
+        Me.CheckBox_hiderank.AutoSize = True
+        Me.CheckBox_hiderank.Location = New System.Drawing.Point(642, 558)
+        Me.CheckBox_hiderank.Name = "CheckBox_hiderank"
+        Me.CheckBox_hiderank.Size = New System.Drawing.Size(49, 17)
+        Me.CheckBox_hiderank.TabIndex = 257
+        Me.CheckBox_hiderank.Text = "rank"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hiderank, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hiderank.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hidepoints
+        '
+        Me.CheckBox_hidepoints.AutoSize = True
+        Me.CheckBox_hidepoints.Location = New System.Drawing.Point(642, 582)
+        Me.CheckBox_hidepoints.Name = "CheckBox_hidepoints"
+        Me.CheckBox_hidepoints.Size = New System.Drawing.Size(59, 17)
+        Me.CheckBox_hidepoints.TabIndex = 258
+        Me.CheckBox_hidepoints.Text = "points"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidepoints, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hidepoints.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hideassociation
+        '
+        Me.CheckBox_hideassociation.AutoSize = True
+        Me.CheckBox_hideassociation.Location = New System.Drawing.Point(642, 609)
+        Me.CheckBox_hideassociation.Name = "CheckBox_hideassociation"
+        Me.CheckBox_hideassociation.Size = New System.Drawing.Size(84, 17)
+        Me.CheckBox_hideassociation.TabIndex = 259
+        Me.CheckBox_hideassociation.Text = "association"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hideassociation, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hideassociation.UseVisualStyleBackColor = True
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(642, 488)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(100, 13)
+        Me.Label13.TabIndex = 260
+        Me.Label13.Text = "hide Player details"
+        '
         'Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1535, 761)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.CheckBox_hideassociation)
+        Me.Controls.Add(Me.CheckBox_hidepoints)
+        Me.Controls.Add(Me.CheckBox_hiderank)
+        Me.Controls.Add(Me.CheckBox_hidehight)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Btn_recover)
         Me.Controls.Add(Me.Btn_load_match)
@@ -1217,4 +1286,9 @@ Partial Class Tennis26_Scorer
     Friend WithEvents PictureBox13 As PictureBox
     Friend WithEvents PictureBox14 As PictureBox
     Friend WithEvents Label8 As Label
+    Friend WithEvents CheckBox_hidehight As CheckBox
+    Friend WithEvents CheckBox_hiderank As CheckBox
+    Friend WithEvents CheckBox_hidepoints As CheckBox
+    Friend WithEvents CheckBox_hideassociation As CheckBox
+    Friend WithEvents Label13 As Label
 End Class

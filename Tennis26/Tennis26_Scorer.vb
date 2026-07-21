@@ -2,8 +2,14 @@
 
 Public Class Tennis26_Scorer
 
-    'zeigt keine Spielerdetails an wie alter etc.
-    Private hidedetails As Boolean = False
+    ' Einzeln ein-/ausschaltbare Spielerdetails (Age/Height/Ranking/Points/Association) für
+    ' Lower1/2, LowerHome2/Away2 und Pairing() - vorher ein einzelnes "hidedetails", das alle
+    ' Felder gemeinsam ein-/ausblendete.
+    Private hideAge As Boolean = False
+    Private hideHeight As Boolean = False
+    Private hideRank As Boolean = False
+    Private hideDataPoints As Boolean = False
+    Private hideAssociation As Boolean = False
 
     ' Toggle-Status für Scorebug- und Sponsor-Buttons (eigene vMix-Layer, daher nicht Teil der
     ' gemeinsam ausschliessenden Overlay-Registry weiter unten)
@@ -335,8 +341,17 @@ Public Class Tennis26_Scorer
 
         ' CheckBox aus Settings laden
         CheckBox_keypress_Mode.Checked = My.Settings.keypress_mode
+
         CheckBox_hidedetails.Checked = My.Settings.hidedetails
-        hidedetails = CheckBox_hidedetails.Checked
+        hideAge = CheckBox_hidedetails.Checked
+        CheckBox_hidehight.Checked = My.Settings.hidehight
+        hideHeight = CheckBox_hidehight.Checked
+        CheckBox_hiderank.Checked = My.Settings.hiderank
+        hideRank = CheckBox_hiderank.Checked
+        CheckBox_hidepoints.Checked = My.Settings.hidepoints
+        hideDataPoints = CheckBox_hidepoints.Checked
+        CheckBox_hideassociation.Checked = My.Settings.hideassociation
+        hideAssociation = CheckBox_hideassociation.Checked
 
         ' CheckBox-Text entsprechend setzen
         If CheckBox_keypress_Mode.Checked Then
@@ -1910,11 +1925,11 @@ Public Class Tennis26_Scorer
         Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
 
         ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), " ", "Age: " & Tennis26_Main.HomePlayer(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), " ", "Height: " & Tennis26_Main.HomePlayer(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), " ", Tennis26_Main.HomePlayer(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(7)), " ", Tennis26_Main.HomePlayer(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(8)), " ", Tennis26_Main.HomePlayer(8))
+        Dim age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), " ", "Age: " & Tennis26_Main.HomePlayer(4))
+        Dim height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), " ", "Height: " & Tennis26_Main.HomePlayer(5))
+        Dim info1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), " ", Tennis26_Main.HomePlayer(6))
+        Dim info2 As String = If(hideDataPoints OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(7)), " ", Tennis26_Main.HomePlayer(7))
+        Dim info3 As String = If(hideAssociation OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(8)), " ", Tennis26_Main.HomePlayer(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -1939,11 +1954,11 @@ Public Class Tennis26_Scorer
         Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(3))
 
         ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), " ", "Age: " & Tennis26_Main.AwayPlayer(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), " ", "Height: " & Tennis26_Main.AwayPlayer(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), " ", Tennis26_Main.AwayPlayer(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(7)), " ", Tennis26_Main.AwayPlayer(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(8)), " ", Tennis26_Main.AwayPlayer(8))
+        Dim age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), " ", "Age: " & Tennis26_Main.AwayPlayer(4))
+        Dim height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), " ", "Height: " & Tennis26_Main.AwayPlayer(5))
+        Dim info1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), " ", Tennis26_Main.AwayPlayer(6))
+        Dim info2 As String = If(hideDataPoints OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(7)), " ", Tennis26_Main.AwayPlayer(7))
+        Dim info3 As String = If(hideAssociation OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(8)), " ", Tennis26_Main.AwayPlayer(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -1971,11 +1986,11 @@ Public Class Tennis26_Scorer
         Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
         Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(3))
 
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), " ", "Age: " & Tennis26_Main.HomePlayer2(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), " ", "Height: " & Tennis26_Main.HomePlayer2(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), " ", Tennis26_Main.HomePlayer2(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(7)), " ", Tennis26_Main.HomePlayer2(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(8)), " ", Tennis26_Main.HomePlayer2(8))
+        Dim age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), " ", "Age: " & Tennis26_Main.HomePlayer2(4))
+        Dim height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), " ", "Height: " & Tennis26_Main.HomePlayer2(5))
+        Dim info1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), " ", Tennis26_Main.HomePlayer2(6))
+        Dim info2 As String = If(hideDataPoints OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(7)), " ", Tennis26_Main.HomePlayer2(7))
+        Dim info3 As String = If(hideAssociation OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(8)), " ", Tennis26_Main.HomePlayer2(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -1999,11 +2014,11 @@ Public Class Tennis26_Scorer
         Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
         Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(3))
 
-        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), " ", "Age: " & Tennis26_Main.AwayPlayer2(4))
-        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), " ", "Height: " & Tennis26_Main.AwayPlayer2(5))
-        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), " ", Tennis26_Main.AwayPlayer2(6))
-        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(7)), " ", Tennis26_Main.AwayPlayer2(7))
-        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(8)), " ", Tennis26_Main.AwayPlayer2(8))
+        Dim age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), " ", "Age: " & Tennis26_Main.AwayPlayer2(4))
+        Dim height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), " ", "Height: " & Tennis26_Main.AwayPlayer2(5))
+        Dim info1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), " ", Tennis26_Main.AwayPlayer2(6))
+        Dim info2 As String = If(hideDataPoints OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(7)), " ", Tennis26_Main.AwayPlayer2(7))
+        Dim info3 As String = If(hideAssociation OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(8)), " ", Tennis26_Main.AwayPlayer2(8))
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
@@ -2041,9 +2056,9 @@ Public Class Tennis26_Scorer
             Dim hcountry As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
 
             ' Vereinfachte Logik: Präfix nur hinzufügen wenn nicht versteckt UND Wert vorhanden
-            Dim hage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), "", "Age: " & Tennis26_Main.HomePlayer(4))
-            Dim hheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), "", "Height: " & Tennis26_Main.HomePlayer(5))
-            Dim hdata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), "", Tennis26_Main.HomePlayer(6))
+            Dim hage As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(4)), "", "Age: " & Tennis26_Main.HomePlayer(4))
+            Dim hheight As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(5)), "", "Height: " & Tennis26_Main.HomePlayer(5))
+            Dim hdata1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer(6)), "", Tennis26_Main.HomePlayer(6))
 
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", hPlayerName) : SendHTMLtovMix(sendstring)
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", hcountry) : SendHTMLtovMix(sendstring)
@@ -2062,9 +2077,9 @@ Public Class Tennis26_Scorer
             Dim aPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "Away", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
             Dim acountry As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "Away", Tennis26_Main.AwayPlayer(3))
 
-            Dim aage As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), "", "Age: " & Tennis26_Main.AwayPlayer(4))
-            Dim aheight As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), "", "Height: " & Tennis26_Main.AwayPlayer(5))
-            Dim adata1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), "", Tennis26_Main.AwayPlayer(6))
+            Dim aage As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(4)), "", "Age: " & Tennis26_Main.AwayPlayer(4))
+            Dim aheight As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(5)), "", "Height: " & Tennis26_Main.AwayPlayer(5))
+            Dim adata1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(6)), "", Tennis26_Main.AwayPlayer(6))
 
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", aPlayerName) : SendHTMLtovMix(sendstring)
             sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", acountry) : SendHTMLtovMix(sendstring)
@@ -2088,9 +2103,9 @@ Public Class Tennis26_Scorer
             If IsDoublesMatch() Then
                 Dim h2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
                 Dim h2country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(3))
-                Dim h2age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), "", "Age: " & Tennis26_Main.HomePlayer2(4))
-                Dim h2height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), "", "Height: " & Tennis26_Main.HomePlayer2(5))
-                Dim h2data1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), "", Tennis26_Main.HomePlayer2(6))
+                Dim h2age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), "", "Age: " & Tennis26_Main.HomePlayer2(4))
+                Dim h2height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), "", "Height: " & Tennis26_Main.HomePlayer2(5))
+                Dim h2data1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), "", Tennis26_Main.HomePlayer2(6))
 
                 sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname2.Text", h2PlayerName) : SendHTMLtovMix(sendstring)
                 sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry2.Text", h2country) : SendHTMLtovMix(sendstring)
@@ -2107,9 +2122,9 @@ Public Class Tennis26_Scorer
 
                 Dim a2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
                 Dim a2country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(3))
-                Dim a2age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), "", "Age: " & Tennis26_Main.AwayPlayer2(4))
-                Dim a2height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), "", "Height: " & Tennis26_Main.AwayPlayer2(5))
-                Dim a2data1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), "", Tennis26_Main.AwayPlayer2(6))
+                Dim a2age As String = If(hideAge OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), "", "Age: " & Tennis26_Main.AwayPlayer2(4))
+                Dim a2height As String = If(hideHeight OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), "", "Height: " & Tennis26_Main.AwayPlayer2(5))
+                Dim a2data1 As String = If(hideRank OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), "", Tennis26_Main.AwayPlayer2(6))
 
                 sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname2.Text", a2PlayerName) : SendHTMLtovMix(sendstring)
                 sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry2.Text", a2country) : SendHTMLtovMix(sendstring)
@@ -2394,15 +2409,43 @@ Public Class Tennis26_Scorer
 
     End Sub
 
+    ' Je eine Checkbox pro Spielerdetail (Age/Height/Ranking/Points/Association) - Lower1/2,
+    ' LowerHome2/Away2 und Pairing() berücksichtigen die jeweilige Variable bereits bei jedem
+    ' Aufruf. Der Pairing()-Refresh hier sorgt dafür, dass eine bereits auf Sendung sichtbare
+    ' "names match pairing"/matchpairing1-4-Grafik die Änderung sofort übernimmt, nicht erst
+    ' beim nächsten Ein-/Ausblenden.
     Private Sub CheckBox_hidedetails_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidedetails.CheckedChanged
         My.Settings.hidedetails = CheckBox_hidedetails.Checked
         My.Settings.Save()
-        hidedetails = CheckBox_hidedetails.Checked
+        hideAge = CheckBox_hidedetails.Checked
+        Pairing()
+    End Sub
 
-        ' Pairing() berücksichtigt "hidedetails" bereits bei jedem Aufruf (Age/Height/Data
-        ' werden dann leer gesendet) - ohne diesen Refresh hier würde eine bereits auf Sendung
-        ' sichtbare "names match pairing"/matchpairing1-4-Grafik die Änderung aber erst beim
-        ' nächsten Ein-/Ausblenden übernehmen, nicht sofort beim Umschalten der Checkbox.
+    Private Sub CheckBox_hidehight_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidehight.CheckedChanged
+        My.Settings.hidehight = CheckBox_hidehight.Checked
+        My.Settings.Save()
+        hideHeight = CheckBox_hidehight.Checked
+        Pairing()
+    End Sub
+
+    Private Sub CheckBox_hiderank_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hiderank.CheckedChanged
+        My.Settings.hiderank = CheckBox_hiderank.Checked
+        My.Settings.Save()
+        hideRank = CheckBox_hiderank.Checked
+        Pairing()
+    End Sub
+
+    Private Sub CheckBox_hidepoints_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidepoints.CheckedChanged
+        My.Settings.hidepoints = CheckBox_hidepoints.Checked
+        My.Settings.Save()
+        hideDataPoints = CheckBox_hidepoints.Checked
+        Pairing()
+    End Sub
+
+    Private Sub CheckBox_hideassociation_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hideassociation.CheckedChanged
+        My.Settings.hideassociation = CheckBox_hideassociation.Checked
+        My.Settings.Save()
+        hideAssociation = CheckBox_hideassociation.Checked
         Pairing()
     End Sub
 

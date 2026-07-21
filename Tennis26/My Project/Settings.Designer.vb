@@ -149,6 +149,54 @@ Namespace My
                 Me("hidedetails") = value
             End Set
         End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property hidehight() As Boolean
+            Get
+                Return CType(Me("hidehight"),Boolean)
+            End Get
+            Set
+                Me("hidehight") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property hiderank() As Boolean
+            Get
+                Return CType(Me("hiderank"),Boolean)
+            End Get
+            Set
+                Me("hiderank") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property hidepoints() As Boolean
+            Get
+                Return CType(Me("hidepoints"),Boolean)
+            End Get
+            Set
+                Me("hidepoints") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property hideassociation() As Boolean
+            Get
+                Return CType(Me("hideassociation"),Boolean)
+            End Get
+            Set
+                Me("hideassociation") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
