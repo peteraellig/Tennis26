@@ -124,7 +124,7 @@ Partial Class Tennis26_Scorer
         '
         'btn_homepoint
         '
-        Me.btn_homepoint.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_homepoint.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_homepoint.Location = New System.Drawing.Point(33, 36)
         Me.btn_homepoint.Name = "btn_homepoint"
         Me.btn_homepoint.Size = New System.Drawing.Size(150, 70)
@@ -486,7 +486,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Home2
         '
         Me.Btn_Name_Home2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Home2.Location = New System.Drawing.Point(900, 520)
+        Me.Btn_Name_Home2.Location = New System.Drawing.Point(413, 533)
         Me.Btn_Name_Home2.Name = "Btn_Name_Home2"
         Me.Btn_Name_Home2.Size = New System.Drawing.Size(150, 70)
         Me.Btn_Name_Home2.TabIndex = 250
@@ -496,7 +496,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Away2
         '
         Me.Btn_Name_Away2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Away2.Location = New System.Drawing.Point(1082, 520)
+        Me.Btn_Name_Away2.Location = New System.Drawing.Point(617, 541)
         Me.Btn_Name_Away2.Name = "Btn_Name_Away2"
         Me.Btn_Name_Away2.Size = New System.Drawing.Size(150, 70)
         Me.Btn_Name_Away2.TabIndex = 251
@@ -943,7 +943,7 @@ Partial Class Tennis26_Scorer
         '
         'Btn_betweenentry
         '
-        Me.Btn_betweenentry.Location = New System.Drawing.Point(12, 580)
+        Me.Btn_betweenentry.Location = New System.Drawing.Point(850, 650)
         Me.Btn_betweenentry.Name = "Btn_betweenentry"
         Me.Btn_betweenentry.Size = New System.Drawing.Size(169, 23)
         Me.Btn_betweenentry.TabIndex = 83
@@ -952,7 +952,7 @@ Partial Class Tennis26_Scorer
         '
         'Btn_save_match
         '
-        Me.Btn_save_match.Location = New System.Drawing.Point(355, 518)
+        Me.Btn_save_match.Location = New System.Drawing.Point(1193, 588)
         Me.Btn_save_match.Name = "Btn_save_match"
         Me.Btn_save_match.Size = New System.Drawing.Size(169, 23)
         Me.Btn_save_match.TabIndex = 84
@@ -961,7 +961,7 @@ Partial Class Tennis26_Scorer
         '
         'Btn_load_match
         '
-        Me.Btn_load_match.Location = New System.Drawing.Point(355, 547)
+        Me.Btn_load_match.Location = New System.Drawing.Point(1193, 617)
         Me.Btn_load_match.Name = "Btn_load_match"
         Me.Btn_load_match.Size = New System.Drawing.Size(169, 23)
         Me.Btn_load_match.TabIndex = 85
@@ -970,7 +970,7 @@ Partial Class Tennis26_Scorer
         '
         'Btn_recover
         '
-        Me.Btn_recover.Location = New System.Drawing.Point(355, 576)
+        Me.Btn_recover.Location = New System.Drawing.Point(1193, 646)
         Me.Btn_recover.Name = "Btn_recover"
         Me.Btn_recover.Size = New System.Drawing.Size(169, 23)
         Me.Btn_recover.TabIndex = 86
@@ -981,7 +981,7 @@ Partial Class Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1535, 606)
+        Me.ClientSize = New System.Drawing.Size(1535, 761)
         Me.ControlBox = False
         Me.Controls.Add(Me.Btn_recover)
         Me.Controls.Add(Me.Btn_load_match)
@@ -1065,10 +1065,10 @@ Partial Class Tennis26_Scorer
         Me.Controls.Add(Me.PictureBox11)
         Me.Controls.Add(Me.PictureBox7)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximumSize = New System.Drawing.Size(1551, 645)
-        Me.MinimumSize = New System.Drawing.Size(1551, 645)
+        Me.MaximumSize = New System.Drawing.Size(1551, 800)
+        Me.MinimumSize = New System.Drawing.Size(1551, 800)
         Me.Name = "Tennis26_Scorer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tennis26_Scorer"
