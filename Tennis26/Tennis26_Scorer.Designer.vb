@@ -121,6 +121,8 @@ Partial Class Tennis26_Scorer
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -340,7 +342,7 @@ Partial Class Tennis26_Scorer
         'Btn_statistics
         '
         Me.Btn_statistics.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_statistics.Location = New System.Drawing.Point(1352, 575)
+        Me.Btn_statistics.Location = New System.Drawing.Point(1259, 571)
         Me.Btn_statistics.Name = "Btn_statistics"
         Me.Btn_statistics.Size = New System.Drawing.Size(152, 50)
         Me.Btn_statistics.TabIndex = 20
@@ -436,7 +438,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_exit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn_exit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_exit.ForeColor = System.Drawing.Color.White
-        Me.Btn_exit.Location = New System.Drawing.Point(1352, 642)
+        Me.Btn_exit.Location = New System.Drawing.Point(1259, 632)
         Me.Btn_exit.Name = "Btn_exit"
         Me.Btn_exit.Size = New System.Drawing.Size(152, 99)
         Me.Btn_exit.TabIndex = 32
@@ -1192,13 +1194,35 @@ Partial Class Tennis26_Scorer
         Me.Label14.TabIndex = 266
         Me.Label14.Text = "Label14"
         '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.ForeColor = System.Drawing.Color.White
+        Me.Label15.Location = New System.Drawing.Point(290, 739)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(46, 13)
+        Me.Label15.TabIndex = 267
+        Me.Label15.Text = "Label15"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.ForeColor = System.Drawing.Color.White
+        Me.Label16.Location = New System.Drawing.Point(570, 739)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(46, 13)
+        Me.Label16.TabIndex = 268
+        Me.Label16.Text = "Label16"
+        '
         'Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Gray
-        Me.ClientSize = New System.Drawing.Size(1535, 761)
+        Me.ClientSize = New System.Drawing.Size(1435, 761)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.Btn_Title_edit)
         Me.Controls.Add(Me.Btn_info4_edit)
@@ -1297,8 +1321,8 @@ Partial Class Tennis26_Scorer
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximumSize = New System.Drawing.Size(1551, 800)
-        Me.MinimumSize = New System.Drawing.Size(1551, 800)
+        Me.MaximumSize = New System.Drawing.Size(1451, 800)
+        Me.MinimumSize = New System.Drawing.Size(1451, 800)
         Me.Name = "Tennis26_Scorer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tennis26_Scorer"
@@ -1420,4 +1444,6 @@ Partial Class Tennis26_Scorer
     Friend WithEvents Btn_info4_edit As Button
     Friend WithEvents Btn_Title_edit As Button
     Friend WithEvents Label14 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label16 As Label
 End Class

@@ -124,6 +124,9 @@ Partial Class Tennis26_Settings
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.RadioButton4 = New System.Windows.Forms.RadioButton()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.TextBox_jsasonfeed = New System.Windows.Forms.TextBox()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,6 +136,7 @@ Partial Class Tennis26_Settings
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TextBox22
@@ -1122,7 +1126,7 @@ Partial Class Tennis26_Settings
         '
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox3.Location = New System.Drawing.Point(105, 328)
+        Me.CheckBox3.Location = New System.Drawing.Point(109, 328)
         Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(81, 19)
@@ -1156,7 +1160,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(190, 330)
+        Me.Label28.Location = New System.Drawing.Point(195, 330)
         Me.Label28.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(210, 15)
@@ -1218,12 +1222,45 @@ Partial Class Tennis26_Settings
         Me.RadioButton3.Text = "HTTP"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
+        'PictureBox7
+        '
+        Me.PictureBox7.BackColor = System.Drawing.Color.Silver
+        Me.PictureBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox7.Location = New System.Drawing.Point(8, 357)
+        Me.PictureBox7.Name = "PictureBox7"
+        Me.PictureBox7.Size = New System.Drawing.Size(443, 29)
+        Me.PictureBox7.TabIndex = 246
+        Me.PictureBox7.TabStop = False
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.BackColor = System.Drawing.Color.IndianRed
+        Me.Label36.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label36.ForeColor = System.Drawing.Color.White
+        Me.Label36.Location = New System.Drawing.Point(38, 361)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(61, 15)
+        Me.Label36.TabIndex = 247
+        Me.Label36.Text = "JSON feed"
+        '
+        'TextBox_jsasonfeed
+        '
+        Me.TextBox_jsasonfeed.Location = New System.Drawing.Point(107, 358)
+        Me.TextBox_jsasonfeed.Name = "TextBox_jsasonfeed"
+        Me.TextBox_jsasonfeed.Size = New System.Drawing.Size(323, 22)
+        Me.TextBox_jsasonfeed.TabIndex = 248
+        Me.TextBox_jsasonfeed.Text = "http://192.168.1.11:42100/tennis24_live.json"
+        '
         'Tennis26_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1435, 421)
         Me.ControlBox = False
+        Me.Controls.Add(Me.TextBox_jsasonfeed)
+        Me.Controls.Add(Me.Label36)
+        Me.Controls.Add(Me.PictureBox7)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.Label35)
@@ -1330,6 +1367,7 @@ Partial Class Tennis26_Settings
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1435,4 +1473,7 @@ Partial Class Tennis26_Settings
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents RadioButton4 As RadioButton
     Friend WithEvents RadioButton3 As RadioButton
+    Friend WithEvents PictureBox7 As PictureBox
+    Friend WithEvents Label36 As Label
+    Friend WithEvents TextBox_jsasonfeed As TextBox
 End Class
