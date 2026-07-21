@@ -1248,6 +1248,22 @@ Public Class Tennis26_Scorer
         UpdateServerDisplay()
         UpdateScoreDisplays()
         Showpoints()
+        UpdateMatchTypeButtonVisibility()
+    End Sub
+
+    ' Blendet die nur für Einzel bzw. nur für Doppel sinnvollen Buttons passend aus - läuft
+    ' bei jedem Matchstart (ResetMatch, also auch bei "New Match"), nicht nur einmalig beim
+    ' Öffnen des Scorers, da CheckBox1 (Doppel-Flag) sich zwischen zwei Matches ändern kann.
+    Private Sub UpdateMatchTypeButtonVisibility()
+        Dim isDoubles = IsDoublesMatch()
+
+        Btn_Name_Home2.Visible = isDoubles
+        Btn_Name_Away2.Visible = isDoubles
+
+        Btn_matchpairing1.Visible = Not isDoubles
+        Btn_matchpairing2.Visible = Not isDoubles
+        Btn_matchpairing3.Visible = Not isDoubles
+        Btn_matchpairing4.Visible = Not isDoubles
     End Sub
 
     Private Sub Btn_undo_Click(sender As Object, e As EventArgs) Handles btn_undo.Click
