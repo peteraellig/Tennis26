@@ -135,10 +135,10 @@ Partial Class Tennis26_Scorer
         '
         'btn_homepoint
         '
-        Me.btn_homepoint.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_homepoint.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_homepoint.Location = New System.Drawing.Point(33, 36)
         Me.btn_homepoint.Name = "btn_homepoint"
-        Me.btn_homepoint.Size = New System.Drawing.Size(150, 70)
+        Me.btn_homepoint.Size = New System.Drawing.Size(197, 70)
         Me.btn_homepoint.TabIndex = 0
         Me.btn_homepoint.Text = "btn_homepoint"
         Me.btn_homepoint.UseVisualStyleBackColor = True
@@ -148,7 +148,7 @@ Partial Class Tennis26_Scorer
         Me.btn_awaypoint.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_awaypoint.Location = New System.Drawing.Point(33, 180)
         Me.btn_awaypoint.Name = "btn_awaypoint"
-        Me.btn_awaypoint.Size = New System.Drawing.Size(150, 70)
+        Me.btn_awaypoint.Size = New System.Drawing.Size(197, 70)
         Me.btn_awaypoint.TabIndex = 1
         Me.btn_awaypoint.Text = "btn_awaypoint"
         Me.btn_awaypoint.UseVisualStyleBackColor = True
@@ -267,7 +267,7 @@ Partial Class Tennis26_Scorer
         '
         Me.lbl_awaypoint.BackColor = System.Drawing.Color.LightGray
         Me.lbl_awaypoint.Font = New System.Drawing.Font("Segoe UI Semibold", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_awaypoint.Location = New System.Drawing.Point(285, 177)
+        Me.lbl_awaypoint.Location = New System.Drawing.Point(308, 177)
         Me.lbl_awaypoint.Name = "lbl_awaypoint"
         Me.lbl_awaypoint.Size = New System.Drawing.Size(77, 74)
         Me.lbl_awaypoint.TabIndex = 13
@@ -278,7 +278,7 @@ Partial Class Tennis26_Scorer
         '
         Me.lbl_homepoint.BackColor = System.Drawing.Color.LightGray
         Me.lbl_homepoint.Font = New System.Drawing.Font("Segoe UI Semibold", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_homepoint.Location = New System.Drawing.Point(285, 36)
+        Me.lbl_homepoint.Location = New System.Drawing.Point(308, 36)
         Me.lbl_homepoint.Name = "lbl_homepoint"
         Me.lbl_homepoint.Size = New System.Drawing.Size(77, 74)
         Me.lbl_homepoint.TabIndex = 12
@@ -288,8 +288,8 @@ Partial Class Tennis26_Scorer
         'btn_undo
         '
         Me.btn_undo.BackColor = System.Drawing.Color.MistyRose
-        Me.btn_undo.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_undo.Location = New System.Drawing.Point(435, 287)
+        Me.btn_undo.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_undo.Location = New System.Drawing.Point(435, 291)
         Me.btn_undo.Name = "btn_undo"
         Me.btn_undo.Size = New System.Drawing.Size(135, 156)
         Me.btn_undo.TabIndex = 14
@@ -310,6 +310,7 @@ Partial Class Tennis26_Scorer
         '
         Me.CheckBox_keypress_Mode.AutoSize = True
         Me.CheckBox_keypress_Mode.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox_keypress_Mode.ForeColor = System.Drawing.Color.White
         Me.CheckBox_keypress_Mode.Location = New System.Drawing.Point(33, 135)
         Me.CheckBox_keypress_Mode.Name = "CheckBox_keypress_Mode"
         Me.CheckBox_keypress_Mode.Size = New System.Drawing.Size(89, 21)
@@ -349,8 +350,9 @@ Partial Class Tennis26_Scorer
         '
         'PBAway
         '
+        Me.PBAway.BackColor = System.Drawing.Color.OldLace
         Me.PBAway.Image = Global.Tennis26.My.Resources.Resources.tennisball_klein
-        Me.PBAway.Location = New System.Drawing.Point(214, 188)
+        Me.PBAway.Location = New System.Drawing.Point(248, 188)
         Me.PBAway.Name = "PBAway"
         Me.PBAway.Size = New System.Drawing.Size(50, 50)
         Me.PBAway.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -359,8 +361,9 @@ Partial Class Tennis26_Scorer
         '
         'PBHome
         '
+        Me.PBHome.BackColor = System.Drawing.Color.OldLace
         Me.PBHome.Image = Global.Tennis26.My.Resources.Resources.tennisball_klein
-        Me.PBHome.Location = New System.Drawing.Point(213, 49)
+        Me.PBHome.Location = New System.Drawing.Point(247, 49)
         Me.PBHome.Name = "PBHome"
         Me.PBHome.Size = New System.Drawing.Size(50, 50)
         Me.PBHome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -387,6 +390,7 @@ Partial Class Tennis26_Scorer
         'Label12
         '
         Me.Label12.AutoSize = True
+        Me.Label12.ForeColor = System.Drawing.Color.White
         Me.Label12.Location = New System.Drawing.Point(19, 678)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(46, 13)
@@ -396,6 +400,7 @@ Partial Class Tennis26_Scorer
         'Label7
         '
         Me.Label7.AutoSize = True
+        Me.Label7.ForeColor = System.Drawing.Color.White
         Me.Label7.Location = New System.Drawing.Point(19, 699)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(40, 13)
@@ -404,9 +409,9 @@ Partial Class Tennis26_Scorer
         '
         'Btn_Scorebug
         '
-        Me.Btn_Scorebug.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.Btn_Scorebug.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Scorebug.Location = New System.Drawing.Point(33, 287)
+        Me.Btn_Scorebug.BackColor = System.Drawing.SystemColors.Control
+        Me.Btn_Scorebug.Font = New System.Drawing.Font("Segoe UI", 26.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Scorebug.Location = New System.Drawing.Point(33, 291)
         Me.Btn_Scorebug.Name = "Btn_Scorebug"
         Me.Btn_Scorebug.Size = New System.Drawing.Size(339, 156)
         Me.Btn_Scorebug.TabIndex = 31
@@ -430,7 +435,7 @@ Partial Class Tennis26_Scorer
         '
         Me.Btn_LargeResult.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.Btn_LargeResult.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_LargeResult.Location = New System.Drawing.Point(632, 287)
+        Me.Btn_LargeResult.Location = New System.Drawing.Point(632, 291)
         Me.Btn_LargeResult.Name = "Btn_LargeResult"
         Me.Btn_LargeResult.Size = New System.Drawing.Size(135, 156)
         Me.Btn_LargeResult.TabIndex = 33
@@ -459,11 +464,11 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox4
         '
-        Me.PictureBox4.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox4.BackColor = System.Drawing.Color.Silver
         Me.PictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox4.Location = New System.Drawing.Point(15, 471)
+        Me.PictureBox4.Location = New System.Drawing.Point(15, 484)
         Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(777, 194)
+        Me.PictureBox4.Size = New System.Drawing.Size(777, 181)
         Me.PictureBox4.TabIndex = 36
         Me.PictureBox4.TabStop = False
         '
@@ -480,7 +485,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Home
         '
         Me.Btn_Name_Home.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Home.Location = New System.Drawing.Point(22, 479)
+        Me.Btn_Name_Home.Location = New System.Drawing.Point(22, 498)
         Me.Btn_Name_Home.Name = "Btn_Name_Home"
         Me.Btn_Name_Home.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Home.TabIndex = 38
@@ -490,7 +495,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Away
         '
         Me.Btn_Name_Away.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Away.Location = New System.Drawing.Point(208, 479)
+        Me.Btn_Name_Away.Location = New System.Drawing.Point(208, 498)
         Me.Btn_Name_Away.Name = "Btn_Name_Away"
         Me.Btn_Name_Away.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Away.TabIndex = 39
@@ -500,7 +505,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Home2
         '
         Me.Btn_Name_Home2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Home2.Location = New System.Drawing.Point(22, 556)
+        Me.Btn_Name_Home2.Location = New System.Drawing.Point(22, 575)
         Me.Btn_Name_Home2.Name = "Btn_Name_Home2"
         Me.Btn_Name_Home2.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Home2.TabIndex = 250
@@ -510,7 +515,7 @@ Partial Class Tennis26_Scorer
         'Btn_Name_Away2
         '
         Me.Btn_Name_Away2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Away2.Location = New System.Drawing.Point(208, 555)
+        Me.Btn_Name_Away2.Location = New System.Drawing.Point(208, 574)
         Me.Btn_Name_Away2.Name = "Btn_Name_Away2"
         Me.Btn_Name_Away2.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Away2.TabIndex = 251
@@ -520,7 +525,7 @@ Partial Class Tennis26_Scorer
         'Btn_matchpairing
         '
         Me.Btn_matchpairing.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_matchpairing.Location = New System.Drawing.Point(408, 479)
+        Me.Btn_matchpairing.Location = New System.Drawing.Point(408, 498)
         Me.Btn_matchpairing.Name = "Btn_matchpairing"
         Me.Btn_matchpairing.Size = New System.Drawing.Size(177, 70)
         Me.Btn_matchpairing.TabIndex = 40
@@ -562,7 +567,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox6
         '
-        Me.PictureBox6.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox6.BackColor = System.Drawing.Color.Silver
         Me.PictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox6.Location = New System.Drawing.Point(1025, 24)
         Me.PictureBox6.Name = "PictureBox6"
@@ -575,7 +580,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_matchpairing1.BackgroundImage = CType(resources.GetObject("Btn_matchpairing1.BackgroundImage"), System.Drawing.Image)
         Me.Btn_matchpairing1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_matchpairing1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_matchpairing1.Location = New System.Drawing.Point(405, 583)
+        Me.Btn_matchpairing1.Location = New System.Drawing.Point(405, 602)
         Me.Btn_matchpairing1.Name = "Btn_matchpairing1"
         Me.Btn_matchpairing1.Size = New System.Drawing.Size(42, 43)
         Me.Btn_matchpairing1.TabIndex = 46
@@ -586,7 +591,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_matchpairing2.BackgroundImage = CType(resources.GetObject("Btn_matchpairing2.BackgroundImage"), System.Drawing.Image)
         Me.Btn_matchpairing2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_matchpairing2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_matchpairing2.Location = New System.Drawing.Point(451, 583)
+        Me.Btn_matchpairing2.Location = New System.Drawing.Point(451, 602)
         Me.Btn_matchpairing2.Name = "Btn_matchpairing2"
         Me.Btn_matchpairing2.Size = New System.Drawing.Size(42, 43)
         Me.Btn_matchpairing2.TabIndex = 47
@@ -597,7 +602,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_matchpairing3.BackgroundImage = CType(resources.GetObject("Btn_matchpairing3.BackgroundImage"), System.Drawing.Image)
         Me.Btn_matchpairing3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_matchpairing3.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_matchpairing3.Location = New System.Drawing.Point(498, 583)
+        Me.Btn_matchpairing3.Location = New System.Drawing.Point(498, 602)
         Me.Btn_matchpairing3.Name = "Btn_matchpairing3"
         Me.Btn_matchpairing3.Size = New System.Drawing.Size(42, 43)
         Me.Btn_matchpairing3.TabIndex = 48
@@ -608,7 +613,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_matchpairing4.BackgroundImage = CType(resources.GetObject("Btn_matchpairing4.BackgroundImage"), System.Drawing.Image)
         Me.Btn_matchpairing4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_matchpairing4.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_matchpairing4.Location = New System.Drawing.Point(543, 583)
+        Me.Btn_matchpairing4.Location = New System.Drawing.Point(543, 602)
         Me.Btn_matchpairing4.Name = "Btn_matchpairing4"
         Me.Btn_matchpairing4.Size = New System.Drawing.Size(42, 43)
         Me.Btn_matchpairing4.TabIndex = 49
@@ -617,6 +622,7 @@ Partial Class Tennis26_Scorer
         'CheckBox_noTiebreak
         '
         Me.CheckBox_noTiebreak.AutoSize = True
+        Me.CheckBox_noTiebreak.ForeColor = System.Drawing.Color.White
         Me.CheckBox_noTiebreak.Location = New System.Drawing.Point(602, 135)
         Me.CheckBox_noTiebreak.Name = "CheckBox_noTiebreak"
         Me.CheckBox_noTiebreak.Size = New System.Drawing.Size(86, 17)
@@ -651,14 +657,16 @@ Partial Class Tennis26_Scorer
         'CheckBox_hidedetails
         '
         Me.CheckBox_hidedetails.AutoSize = True
-        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(642, 512)
+        Me.CheckBox_hidedetails.BackColor = System.Drawing.Color.Silver
+        Me.CheckBox_hidedetails.ForeColor = System.Drawing.Color.Black
+        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(642, 531)
         Me.CheckBox_hidedetails.Name = "CheckBox_hidedetails"
         Me.CheckBox_hidedetails.Size = New System.Drawing.Size(45, 17)
         Me.CheckBox_hidedetails.TabIndex = 58
         Me.CheckBox_hidedetails.Text = "age"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hidedetails, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
-        Me.CheckBox_hidedetails.UseVisualStyleBackColor = True
+        Me.CheckBox_hidedetails.UseVisualStyleBackColor = False
         '
         'Btn_ref1
         '
@@ -692,7 +700,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_com1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Btn_com1.Size = New System.Drawing.Size(169, 34)
         Me.Btn_com1.TabIndex = 62
-        Me.Btn_com1.Text = "Commentator (s)"
+        Me.Btn_com1.Text = "Commentator"
         Me.Btn_com1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip1.SetToolTip(Me.Btn_com1, "Edit this title manually in GT Designer.")
         Me.Btn_com1.UseVisualStyleBackColor = True
@@ -704,11 +712,10 @@ Partial Class Tennis26_Scorer
         Me.Btn_com2.Name = "Btn_com2"
         Me.Btn_com2.Size = New System.Drawing.Size(169, 34)
         Me.Btn_com2.TabIndex = 63
-        Me.Btn_com2.Text = "com2 not used"
+        Me.Btn_com2.Text = "Commentator2, expert"
         Me.Btn_com2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip1.SetToolTip(Me.Btn_com2, "Edit this title manually in GT Designer.")
         Me.Btn_com2.UseVisualStyleBackColor = True
-        Me.Btn_com2.Visible = False
         '
         'Btn_freename1
         '
@@ -795,50 +802,58 @@ Partial Class Tennis26_Scorer
         'CheckBox_hidehight
         '
         Me.CheckBox_hidehight.AutoSize = True
-        Me.CheckBox_hidehight.Location = New System.Drawing.Point(642, 535)
+        Me.CheckBox_hidehight.BackColor = System.Drawing.Color.Silver
+        Me.CheckBox_hidehight.ForeColor = System.Drawing.Color.Black
+        Me.CheckBox_hidehight.Location = New System.Drawing.Point(642, 554)
         Me.CheckBox_hidehight.Name = "CheckBox_hidehight"
         Me.CheckBox_hidehight.Size = New System.Drawing.Size(54, 17)
         Me.CheckBox_hidehight.TabIndex = 256
         Me.CheckBox_hidehight.Text = "hight"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hidehight, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
-        Me.CheckBox_hidehight.UseVisualStyleBackColor = True
+        Me.CheckBox_hidehight.UseVisualStyleBackColor = False
         '
         'CheckBox_hiderank
         '
         Me.CheckBox_hiderank.AutoSize = True
-        Me.CheckBox_hiderank.Location = New System.Drawing.Point(642, 558)
+        Me.CheckBox_hiderank.BackColor = System.Drawing.Color.Silver
+        Me.CheckBox_hiderank.ForeColor = System.Drawing.Color.Black
+        Me.CheckBox_hiderank.Location = New System.Drawing.Point(642, 577)
         Me.CheckBox_hiderank.Name = "CheckBox_hiderank"
         Me.CheckBox_hiderank.Size = New System.Drawing.Size(49, 17)
         Me.CheckBox_hiderank.TabIndex = 257
         Me.CheckBox_hiderank.Text = "rank"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hiderank, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
-        Me.CheckBox_hiderank.UseVisualStyleBackColor = True
+        Me.CheckBox_hiderank.UseVisualStyleBackColor = False
         '
         'CheckBox_hidepoints
         '
         Me.CheckBox_hidepoints.AutoSize = True
-        Me.CheckBox_hidepoints.Location = New System.Drawing.Point(642, 582)
+        Me.CheckBox_hidepoints.BackColor = System.Drawing.Color.Silver
+        Me.CheckBox_hidepoints.ForeColor = System.Drawing.Color.Black
+        Me.CheckBox_hidepoints.Location = New System.Drawing.Point(642, 601)
         Me.CheckBox_hidepoints.Name = "CheckBox_hidepoints"
         Me.CheckBox_hidepoints.Size = New System.Drawing.Size(59, 17)
         Me.CheckBox_hidepoints.TabIndex = 258
         Me.CheckBox_hidepoints.Text = "points"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hidepoints, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
-        Me.CheckBox_hidepoints.UseVisualStyleBackColor = True
+        Me.CheckBox_hidepoints.UseVisualStyleBackColor = False
         '
         'CheckBox_hideassociation
         '
         Me.CheckBox_hideassociation.AutoSize = True
-        Me.CheckBox_hideassociation.Location = New System.Drawing.Point(642, 609)
+        Me.CheckBox_hideassociation.BackColor = System.Drawing.Color.Silver
+        Me.CheckBox_hideassociation.ForeColor = System.Drawing.Color.Black
+        Me.CheckBox_hideassociation.Location = New System.Drawing.Point(642, 628)
         Me.CheckBox_hideassociation.Name = "CheckBox_hideassociation"
         Me.CheckBox_hideassociation.Size = New System.Drawing.Size(84, 17)
         Me.CheckBox_hideassociation.TabIndex = 259
         Me.CheckBox_hideassociation.Text = "association"
         Me.ToolTip1.SetToolTip(Me.CheckBox_hideassociation, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
         "ated od deactivated at any time during the game.")
-        Me.CheckBox_hideassociation.UseVisualStyleBackColor = True
+        Me.CheckBox_hideassociation.UseVisualStyleBackColor = False
         '
         'Label2
         '
@@ -882,7 +897,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox9
         '
-        Me.PictureBox9.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox9.BackColor = System.Drawing.Color.Silver
         Me.PictureBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox9.Location = New System.Drawing.Point(1222, 23)
         Me.PictureBox9.Name = "PictureBox9"
@@ -893,6 +908,8 @@ Partial Class Tennis26_Scorer
         'Label4
         '
         Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Silver
+        Me.Label4.ForeColor = System.Drawing.Color.Black
         Me.Label4.Location = New System.Drawing.Point(1228, 27)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(51, 13)
@@ -901,7 +918,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox10
         '
-        Me.PictureBox10.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox10.BackColor = System.Drawing.Color.Silver
         Me.PictureBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox10.Location = New System.Drawing.Point(1222, 135)
         Me.PictureBox10.Name = "PictureBox10"
@@ -912,6 +929,8 @@ Partial Class Tennis26_Scorer
         'Label5
         '
         Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Silver
+        Me.Label5.ForeColor = System.Drawing.Color.Black
         Me.Label5.Location = New System.Drawing.Point(1228, 139)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(82, 13)
@@ -920,7 +939,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox11
         '
-        Me.PictureBox11.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox11.BackColor = System.Drawing.Color.Silver
         Me.PictureBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox11.Location = New System.Drawing.Point(1222, 297)
         Me.PictureBox11.Name = "PictureBox11"
@@ -931,6 +950,8 @@ Partial Class Tennis26_Scorer
         'Label6
         '
         Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Silver
+        Me.Label6.ForeColor = System.Drawing.Color.Black
         Me.Label6.Location = New System.Drawing.Point(1229, 304)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(63, 13)
@@ -941,7 +962,7 @@ Partial Class Tennis26_Scorer
         '
         Me.Lbl_Winner.BackColor = System.Drawing.Color.FromArgb(CType(CType(219, Byte), Integer), CType(CType(172, Byte), Integer), CType(CType(52, Byte), Integer))
         Me.Lbl_Winner.Font = New System.Drawing.Font("Segoe UI Semibold", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Winner.Location = New System.Drawing.Point(15, 122)
+        Me.Lbl_Winner.Location = New System.Drawing.Point(15, 121)
         Me.Lbl_Winner.Name = "Lbl_Winner"
         Me.Lbl_Winner.Size = New System.Drawing.Size(777, 45)
         Me.Lbl_Winner.TabIndex = 77
@@ -954,7 +975,7 @@ Partial Class Tennis26_Scorer
         '
         'Label9
         '
-        Me.Label9.BackColor = System.Drawing.Color.OldLace
+        Me.Label9.BackColor = System.Drawing.Color.Silver
         Me.Label9.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(819, 55)
         Me.Label9.Name = "Label9"
@@ -986,6 +1007,7 @@ Partial Class Tennis26_Scorer
         'Label11
         '
         Me.Label11.AutoSize = True
+        Me.Label11.ForeColor = System.Drawing.Color.White
         Me.Label11.Location = New System.Drawing.Point(19, 718)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(46, 13)
@@ -1030,9 +1052,9 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox12
         '
-        Me.PictureBox12.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox12.BackColor = System.Drawing.Color.Silver
         Me.PictureBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox12.Location = New System.Drawing.Point(16, 272)
+        Me.PictureBox12.Location = New System.Drawing.Point(16, 276)
         Me.PictureBox12.Name = "PictureBox12"
         Me.PictureBox12.Size = New System.Drawing.Size(776, 194)
         Me.PictureBox12.TabIndex = 252
@@ -1040,7 +1062,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox13
         '
-        Me.PictureBox13.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox13.BackColor = System.Drawing.Color.Silver
         Me.PictureBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox13.Location = New System.Drawing.Point(814, 556)
         Me.PictureBox13.Name = "PictureBox13"
@@ -1050,7 +1072,7 @@ Partial Class Tennis26_Scorer
         '
         'PictureBox14
         '
-        Me.PictureBox14.BackColor = System.Drawing.Color.OldLace
+        Me.PictureBox14.BackColor = System.Drawing.Color.Silver
         Me.PictureBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox14.Location = New System.Drawing.Point(1024, 557)
         Me.PictureBox14.Name = "PictureBox14"
@@ -1061,6 +1083,8 @@ Partial Class Tennis26_Scorer
         'Label8
         '
         Me.Label8.AutoSize = True
+        Me.Label8.BackColor = System.Drawing.Color.Silver
+        Me.Label8.ForeColor = System.Drawing.Color.Black
         Me.Label8.Location = New System.Drawing.Point(1231, 231)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(40, 13)
@@ -1070,7 +1094,9 @@ Partial Class Tennis26_Scorer
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(642, 488)
+        Me.Label13.BackColor = System.Drawing.Color.Silver
+        Me.Label13.ForeColor = System.Drawing.Color.Black
+        Me.Label13.Location = New System.Drawing.Point(642, 507)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(111, 13)
         Me.Label13.TabIndex = 260
@@ -1080,6 +1106,7 @@ Partial Class Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.Gray
         Me.ClientSize = New System.Drawing.Size(1535, 761)
         Me.ControlBox = False
         Me.Controls.Add(Me.Label13)

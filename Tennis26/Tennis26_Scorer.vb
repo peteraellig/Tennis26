@@ -1728,7 +1728,7 @@ Public Class Tennis26_Scorer
         If scorebugtoggleStatus Then
             sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "In&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = Color.Red
-            Btn_Scorebug.Text = $"Scorebug ON (Set {displayedScorebugSet})"
+            Btn_Scorebug.Text = $"Scorebug ON {vbCrLf}(Set {displayedScorebugSet})"
         Else
             sendstring = "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(2) + "Out&Input=scorebug_" & displayedScorebugSet.ToString() & "s.gtzip&Mix=0"
             Btn_Scorebug.BackColor = SystemColors.ButtonHighlight
