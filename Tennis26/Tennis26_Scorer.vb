@@ -1079,6 +1079,11 @@ Public Class Tennis26_Scorer
         Btn_Name_Away.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer, "AWAY")
         Btn_Name_Home2.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.HomePlayer2, "HOME2")
         Btn_Name_Away2.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer2, "AWAY2")
+
+        Btn_info1.Text = "Info 1"
+        Btn_info2.Text = "Info 2"
+        Btn_info3.Text = "Info 3"
+        Btn_info4.Text = "Info 4"
     End Sub
 
     Private Sub UpdatePoints(player As String)

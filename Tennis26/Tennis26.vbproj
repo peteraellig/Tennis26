@@ -164,7 +164,9 @@
     <Compile Include="Tennis26_Main2.Designer.vb">
       <DependentUpon>Tennis26_Main2.vb</DependentUpon>
     </Compile>
-    <Compile Include="Tennis26_Main2.vb" />
+    <Compile Include="Tennis26_Main2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Tennis26_TitleEdit.Designer.vb">
       <DependentUpon>Tennis26_TitleEdit.vb</DependentUpon>
     </Compile>
