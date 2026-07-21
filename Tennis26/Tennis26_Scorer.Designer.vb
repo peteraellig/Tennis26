@@ -299,6 +299,9 @@ Partial Class Tennis26_Scorer
         Me.btn_undo.Size = New System.Drawing.Size(135, 156)
         Me.btn_undo.TabIndex = 14
         Me.btn_undo.Text = "UNDO"
+        Me.ToolTip1.SetToolTip(Me.btn_undo, "This undoes the most recent actions taken when assigning points. Undo keeps track" &
+        " of each point and can go back to any point, all the way back to the start of th" &
+        "e game.")
         Me.btn_undo.UseVisualStyleBackColor = False
         '
         'btn_reset_match
@@ -341,6 +344,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_statistics.Size = New System.Drawing.Size(152, 50)
         Me.Btn_statistics.TabIndex = 20
         Me.Btn_statistics.Text = "Statistik anzeigen"
+        Me.ToolTip1.SetToolTip(Me.Btn_statistics, "zeigt die statistik und engine punkte hier an")
         Me.Btn_statistics.UseVisualStyleBackColor = True
         '
         'BtnChooseService
@@ -351,6 +355,8 @@ Partial Class Tennis26_Scorer
         Me.BtnChooseService.Size = New System.Drawing.Size(150, 70)
         Me.BtnChooseService.TabIndex = 21
         Me.BtnChooseService.Text = "Server wählen"
+        Me.ToolTip1.SetToolTip(Me.BtnChooseService, "Use this button to select the server before the game starts; it does not work whi" &
+        "le the game is in progress.")
         Me.BtnChooseService.UseVisualStyleBackColor = True
         '
         'PBAway
@@ -445,6 +451,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_LargeResult.Size = New System.Drawing.Size(135, 156)
         Me.Btn_LargeResult.TabIndex = 33
         Me.Btn_LargeResult.Text = "large result"
+        Me.ToolTip1.SetToolTip(Me.Btn_LargeResult, "Game result when players are seated")
         Me.Btn_LargeResult.UseVisualStyleBackColor = False
         '
         'PictureBox2
@@ -495,6 +502,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_Name_Home.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Home.TabIndex = 38
         Me.Btn_Name_Home.Text = "Name Home"
+        Me.ToolTip1.SetToolTip(Me.Btn_Name_Home, "Single names")
         Me.Btn_Name_Home.UseVisualStyleBackColor = True
         '
         'Btn_Name_Away
@@ -535,6 +543,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_matchpairing.Size = New System.Drawing.Size(177, 70)
         Me.Btn_matchpairing.TabIndex = 40
         Me.Btn_matchpairing.Text = "names match pairing"
+        Me.ToolTip1.SetToolTip(Me.Btn_matchpairing, "Player pairings to preview the next match")
         Me.Btn_matchpairing.UseVisualStyleBackColor = True
         '
         'Btn_Title
@@ -545,7 +554,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_Title.Size = New System.Drawing.Size(120, 30)
         Me.Btn_Title.TabIndex = 41
         Me.Btn_Title.Text = "Title"
-        Me.ToolTip1.SetToolTip(Me.Btn_Title, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_Title, "title.gtzip Edit the title content with the button e, the design in GT Designer.")
         Me.Btn_Title.UseVisualStyleBackColor = True
         '
         'Btn_info1
@@ -556,7 +565,8 @@ Partial Class Tennis26_Scorer
         Me.Btn_info1.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info1.TabIndex = 42
         Me.Btn_info1.Text = "1"
-        Me.ToolTip1.SetToolTip(Me.Btn_info1, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info1, "info1.gtzip  Edit the title content with the button e, the design in GT Designer." &
+        ".")
         Me.Btn_info1.UseVisualStyleBackColor = True
         '
         'Btn_info2
@@ -567,7 +577,8 @@ Partial Class Tennis26_Scorer
         Me.Btn_info2.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info2.TabIndex = 43
         Me.Btn_info2.Text = "2"
-        Me.ToolTip1.SetToolTip(Me.Btn_info2, "info2.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info2, "info2.gtzip  Edit the title content with the button e, the design in GT Designer." &
+        "")
         Me.Btn_info2.UseVisualStyleBackColor = True
         '
         'PictureBox6
@@ -790,7 +801,8 @@ Partial Class Tennis26_Scorer
         Me.Btn_info3.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info3.TabIndex = 74
         Me.Btn_info3.Text = "3"
-        Me.ToolTip1.SetToolTip(Me.Btn_info3, "info3.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info3, "info3.gtzip  Edit the title content with the button e, the design in GT Designer." &
+        "")
         Me.Btn_info3.UseVisualStyleBackColor = True
         '
         'Btn_info4
@@ -801,7 +813,8 @@ Partial Class Tennis26_Scorer
         Me.Btn_info4.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info4.TabIndex = 75
         Me.Btn_info4.Text = "4"
-        Me.ToolTip1.SetToolTip(Me.Btn_info4, "info4.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info4, "info4.gtzip  Edit the title content with the button e, the design in GT Designer." &
+        "")
         Me.Btn_info4.UseVisualStyleBackColor = True
         '
         'CheckBox_hidehight
@@ -868,7 +881,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info1_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info1_edit.TabIndex = 261
         Me.Btn_info1_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info1_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info1_edit, "info1.gtzip Edit the title content here, the design in GT Designer." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.Btn_info1_edit.UseVisualStyleBackColor = True
         '
         'Btn_info2_edit
@@ -879,7 +892,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info2_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info2_edit.TabIndex = 262
         Me.Btn_info2_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info2_edit, "info2.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info2_edit, "info2.gtzip Edit the title content here, the design in GT Designer." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.Btn_info2_edit.UseVisualStyleBackColor = True
         '
         'Btn_info3_edit
@@ -890,7 +903,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info3_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info3_edit.TabIndex = 263
         Me.Btn_info3_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info3_edit, "info3.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info3_edit, "info3.gtzip Edit the title content here, the design in GT Designer.")
         Me.Btn_info3_edit.UseVisualStyleBackColor = True
         '
         'Btn_info4_edit
@@ -901,7 +914,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info4_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info4_edit.TabIndex = 264
         Me.Btn_info4_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info4_edit, "info4.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info4_edit, "info4.gtzip Edit the title content here, the design in GT Designer.")
         Me.Btn_info4_edit.UseVisualStyleBackColor = True
         '
         'Btn_Title_edit
@@ -912,7 +925,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_Title_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_Title_edit.TabIndex = 265
         Me.Btn_Title_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_Title_edit, "title.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_Title_edit, "title.gtzip Edit the title content here, the design in GT Designer." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.Btn_Title_edit.UseVisualStyleBackColor = True
         '
         'Label2
@@ -943,6 +956,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_clearLayers.Size = New System.Drawing.Size(150, 70)
         Me.Btn_clearLayers.TabIndex = 55
         Me.Btn_clearLayers.Text = "clear all CG layers"
+        Me.ToolTip1.SetToolTip(Me.Btn_clearLayers, "switch off all vMix Overlays")
         Me.Btn_clearLayers.UseVisualStyleBackColor = True
         '
         'PictureBox8
@@ -1035,7 +1049,7 @@ Partial Class Tennis26_Scorer
         '
         'Label9
         '
-        Me.Label9.BackColor = System.Drawing.Color.Silver
+        Me.Label9.BackColor = System.Drawing.Color.OldLace
         Me.Label9.Font = New System.Drawing.Font("Segoe UI", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(819, 55)
         Me.Label9.Name = "Label9"
@@ -1081,6 +1095,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_betweenentry.Size = New System.Drawing.Size(149, 56)
         Me.Btn_betweenentry.TabIndex = 83
         Me.Btn_betweenentry.Text = "Enter between running game"
+        Me.ToolTip1.SetToolTip(Me.Btn_betweenentry, "If you want to generate graphics but the game is already running")
         Me.Btn_betweenentry.UseVisualStyleBackColor = True
         '
         'Btn_save_match
@@ -1090,6 +1105,8 @@ Partial Class Tennis26_Scorer
         Me.Btn_save_match.Size = New System.Drawing.Size(149, 36)
         Me.Btn_save_match.TabIndex = 84
         Me.Btn_save_match.Text = "SAVE Game"
+        Me.ToolTip1.SetToolTip(Me.Btn_save_match, "Save the game at any point, for example, if the game is interrupted due to poor l" &
+        "ighting on the field and will continue tomorrow")
         Me.Btn_save_match.UseVisualStyleBackColor = True
         '
         'Btn_load_match
@@ -1099,6 +1116,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_load_match.Size = New System.Drawing.Size(149, 36)
         Me.Btn_load_match.TabIndex = 85
         Me.Btn_load_match.Text = "Load saved game"
+        Me.ToolTip1.SetToolTip(Me.Btn_load_match, "Load a saved Game")
         Me.Btn_load_match.UseVisualStyleBackColor = True
         '
         'Btn_recover
@@ -1108,6 +1126,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_recover.Size = New System.Drawing.Size(149, 23)
         Me.Btn_recover.TabIndex = 86
         Me.Btn_recover.Text = "!! RECOVER !!"
+        Me.ToolTip1.SetToolTip(Me.Btn_recover, "only use after a power outage or computer crash")
         Me.Btn_recover.UseVisualStyleBackColor = True
         '
         'PictureBox12
