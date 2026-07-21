@@ -17,6 +17,16 @@ Public Class Tennis26_Scorer
     ' 5 separater Dateien. Siehe Tennis26_TitleEdit.vb für den Bearbeitungs-Dialog.
     Private Const TITLE_BOARDS_FILE_PATH As String = "c:\vmix\tennis\data\titleboards.xml"
 
+    ' Gecachter vMix-Verbindungsstatus - wird nur periodisch (Timer1_Tick, 1x/Sekunde) per
+    ' echtem Netzwerkversuch aktualisiert, NICHT bei jedem einzelnen SendHTMLtovMix-Aufruf.
+    ' Ein einzelner Punkt löst über SendDataToGraphicsEngine() ca. 75-100 einzelne Sende-
+    ' Aufrufe aus (5 Scorebug-Vorlagen x ~15-20 Felder) - lief vMix nicht, musste bisher JEDER
+    ' einzelne dieser Aufrufe erst in einen Verbindungs-Timeout laufen, was sich zu einem für
+    ' ~1 Minute eingefrorenen Programm summierte. SendHTMLtovMix() prüft dieses Flag jetzt
+    ' zuerst (praktisch kostenlos) und überspringt den eigentlichen Versand komplett, wenn
+    ' nicht verbunden.
+    Private isVmixConnected As Boolean = False
+
     ' Toggle-Status für Scorebug- und Sponsor-Buttons (eigene vMix-Layer, daher nicht Teil der
     ' gemeinsam ausschliessenden Overlay-Registry weiter unten)
     Private scorebugtoggleStatus As Boolean = False
@@ -314,6 +324,10 @@ Public Class Tennis26_Scorer
         ' unabhängig davon jede Sekunde mit (siehe Timer1_Tick).
         Timer1.Interval = 1000
         Timer1.Start()
+
+        ' Einmaliger Check vor dem ersten ResetMatch()-Aufruf (der schon beim Laden Dutzende
+        ' SendHTMLtovMix-Aufrufe ausloest) - siehe CheckVmixConnection() fuer die Begruendung.
+        CheckVmixConnection()
 
         Tennis26_Settings.SetVariables()
 
@@ -721,7 +735,35 @@ Public Class Tennis26_Scorer
             WriteLiveJsonFile()
         End If
 
+        ' vMix-Verbindung 1x/Sekunde neu prüfen (siehe isVmixConnected) - dieselbe Sekunden-
+        ' Kadenz, die Timer1 hier ohnehin schon fürs Spielzeit-Label nutzt, kein separater Timer nötig.
+        CheckVmixConnection()
+
         If isMatchFinished Then Timer1.Stop()
+    End Sub
+
+    ' Prüft per echtem HTTP/TCP-Versuch (aktuell gewähltes Protokoll aus den Settings), ob
+    ' vMix erreichbar ist, und aktualisiert isVmixConnected + Label14 entsprechend. Wird NUR
+    ' hier (einmalig beim Laden + 1x/Sekunde über Timer1_Tick) aufgerufen - SendHTMLtovMix()
+    ' selbst prüft nur noch das gecachte Flag, siehe dort.
+    Private Sub CheckVmixConnection()
+        Dim useTcp As Boolean = Tennis26_Settings.RadioButtonValues(4)
+        Dim protocolLabel As String = If(useTcp, "TCP", "HTTP")
+
+        ' Nutzt dieselbe dauerhafte Sender-Instanz wie SendHTMLtovMix() (siehe httpVmixSender/
+        ' tcpVmixSender weiter unten) statt bei jedem Check neu zu verbinden/trennen - bei TCP
+        ' bleibt die einmal aufgebaute Verbindung so bestehen, kein unnötiger Neuaufbau pro Sekunde.
+        Dim sender As IVmixSender = If(useTcp, CType(tcpVmixSender, IVmixSender), httpVmixSender)
+        Dim result As String = sender.Send("")
+        isVmixConnected = Not result.StartsWith("Exception Error in VTX")
+
+        If isVmixConnected Then
+            Label14.Text = $"vMix found - {protocolLabel} connected"
+            Label14.ForeColor = Color.Green
+        Else
+            Label14.Text = "vMix not found - please start vMix"
+            Label14.ForeColor = Color.Red
+        End If
     End Sub
 
     ' Baut den kompletten aktuellen Spielstand als JSON - unabhängig von vMix, für beliebige
@@ -1687,6 +1729,15 @@ Public Class Tennis26_Scorer
     Private ReadOnly tcpVmixSender As New VmixTcpSender()
 
     Public Sub SendHTMLtovMix(ByVal command As String)
+        ' Verlässt sich auf das gecachte isVmixConnected-Flag (siehe CheckVmixConnection) statt
+        ' bei jedem einzelnen Aufruf selbst einen Verbindungsversuch zu unternehmen - ein Punkt
+        ' löst ~75-100 solcher Aufrufe aus, die sonst bei fehlender vMix-Verbindung alle einzeln
+        ' timeouten und das Programm für bis zu einer Minute einfrieren liessen.
+        If Not isVmixConnected Then
+            Label7.Text = "vMix not connected - command skipped"
+            Return
+        End If
+
         Dim useTcp As Boolean = Tennis26_Settings.RadioButtonValues(4)
         Dim sender As IVmixSender = If(useTcp, CType(tcpVmixSender, IVmixSender), httpVmixSender)
 
@@ -1706,6 +1757,12 @@ Public Class Tennis26_Scorer
 
         Label12.Text = sender.LastCommand
         Label7.Text = result
+
+        ' Schlägt ein Sende-Versuch MITTEN in einem Burst (z.B. alle Scorebug-Felder eines
+        ' Punktes) tatsächlich fehl, sofort auf "nicht verbunden" umschalten - so timeoutet nur
+        ' der erste fehlgeschlagene Aufruf, nicht auch noch die restlichen ~99 desselben Bursts.
+        ' Der nächste periodische Check (Timer1_Tick) erkennt eine Wiederverbindung ohnehin.
+        If result.StartsWith("Exception Error in VTX") Then isVmixConnected = False
     End Sub
 
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click
