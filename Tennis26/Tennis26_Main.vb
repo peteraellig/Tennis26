@@ -40,9 +40,44 @@
             UpdateBestOfLabel()
             LoadPairingButtonCaptions()
 
+            CheckVmixConnection()
+
             Me.Text = My.Application.Info.AssemblyName + " " + My.Application.Info.Version.ToString() + " | " + My.Application.Info.Copyright.ToString()
         Catch ex As Exception
             MessageBox.Show($"Fehler beim Initialisieren der Anwendung: {ex.Message}", "Initialisierungsfehler", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    ' Kurzer, nicht-blockierender Verbindungstest zu vMix beim Start - nutzt dasselbe
+    ' IVmixSender-Protokoll (HTTP/TCP) wie der Scorer, aber mit einer eigenen, temporären
+    ' Sender-Instanz statt der im Scorer dauerhaft gehaltenen (Main läuft ja unabhängig davon,
+    ' ob der Scorer schon geöffnet wurde). Ein leerer Befehl reicht als "Ping": bei HTTP fragt
+    ' das nur den aktuellen vMix-Status ab (kein Seiteneffekt), bei TCP genügt der blosse
+    ' Verbindungsaufbau. Blockiert den Start nicht dauerhaft - schlägt der Verbindungsaufbau
+    ' fehl, kommt IVmixSender.Send() ohnehin nach kurzer Zeit mit einer Fehlermeldung zurück,
+    ' statt eine Exception zu werfen.
+    Private Sub CheckVmixConnection()
+        Dim useTcp As Boolean = Tennis26_Settings.RadioButtonValues(4)
+        Dim protocolLabel As String = If(useTcp, "TCP", "HTTP")
+        Dim sender As IVmixSender = Nothing
+
+        Try
+            sender = If(useTcp, CType(New VmixTcpSender(), IVmixSender), New VmixHttpSender())
+            Dim result As String = sender.Send("")
+
+            If result.StartsWith("Exception Error in VTX") Then
+                Label3.Text = "vMix not found - please start vMix"
+                Label3.ForeColor = Color.Red
+            Else
+                Label3.Text = $"vMix found - {protocolLabel} connected"
+                Label3.ForeColor = Color.Green
+            End If
+        Catch ex As Exception
+            Label3.Text = "vMix not found - please start vMix"
+            Label3.ForeColor = Color.Red
+        Finally
+            Dim disposableSender = TryCast(sender, IDisposable)
+            If disposableSender IsNot Nothing Then disposableSender.Dispose()
         End Try
     End Sub
 

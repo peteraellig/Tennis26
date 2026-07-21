@@ -526,7 +526,7 @@ Partial Class Tennis26_Settings
         Me.ComboBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox3.FormattingEnabled = True
         Me.ComboBox3.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8"})
-        Me.ComboBox3.Location = New System.Drawing.Point(137, 239)
+        Me.ComboBox3.Location = New System.Drawing.Point(137, 267)
         Me.ComboBox3.Name = "ComboBox3"
         Me.ComboBox3.Size = New System.Drawing.Size(45, 23)
         Me.ComboBox3.TabIndex = 198
@@ -535,7 +535,7 @@ Partial Class Tennis26_Settings
         '
         Me.LabelsponsorOVL.BackColor = System.Drawing.Color.LightBlue
         Me.LabelsponsorOVL.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelsponsorOVL.Location = New System.Drawing.Point(10, 239)
+        Me.LabelsponsorOVL.Location = New System.Drawing.Point(10, 267)
         Me.LabelsponsorOVL.Name = "LabelsponsorOVL"
         Me.LabelsponsorOVL.Size = New System.Drawing.Size(114, 20)
         Me.LabelsponsorOVL.TabIndex = 197
@@ -547,7 +547,7 @@ Partial Class Tennis26_Settings
         '
         Me.LabelStdOVL.BackColor = System.Drawing.Color.LightBlue
         Me.LabelStdOVL.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelStdOVL.Location = New System.Drawing.Point(12, 158)
+        Me.LabelStdOVL.Location = New System.Drawing.Point(12, 186)
         Me.LabelStdOVL.Name = "LabelStdOVL"
         Me.LabelStdOVL.Size = New System.Drawing.Size(113, 20)
         Me.LabelStdOVL.TabIndex = 196
@@ -559,7 +559,7 @@ Partial Class Tennis26_Settings
         '
         Me.LabelscorebugOVL.BackColor = System.Drawing.Color.LightYellow
         Me.LabelscorebugOVL.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelscorebugOVL.Location = New System.Drawing.Point(10, 180)
+        Me.LabelscorebugOVL.Location = New System.Drawing.Point(10, 208)
         Me.LabelscorebugOVL.Name = "LabelscorebugOVL"
         Me.LabelscorebugOVL.Size = New System.Drawing.Size(114, 20)
         Me.LabelscorebugOVL.TabIndex = 195
@@ -574,7 +574,7 @@ Partial Class Tennis26_Settings
         Me.ComboBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8"})
-        Me.ComboBox1.Location = New System.Drawing.Point(136, 156)
+        Me.ComboBox1.Location = New System.Drawing.Point(136, 184)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(46, 23)
         Me.ComboBox1.TabIndex = 194
@@ -586,7 +586,7 @@ Partial Class Tennis26_Settings
         Me.ComboBox2.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8"})
-        Me.ComboBox2.Location = New System.Drawing.Point(136, 184)
+        Me.ComboBox2.Location = New System.Drawing.Point(136, 212)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(46, 23)
         Me.ComboBox2.TabIndex = 193
@@ -597,7 +597,7 @@ Partial Class Tennis26_Settings
         Me.PictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox2.Location = New System.Drawing.Point(4, 6)
         Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(191, 272)
+        Me.PictureBox2.Size = New System.Drawing.Size(191, 312)
         Me.PictureBox2.TabIndex = 186
         Me.PictureBox2.TabStop = False
         '
@@ -740,7 +740,7 @@ Partial Class Tennis26_Settings
         '
         Me.TextBox46.BackColor = System.Drawing.Color.LightYellow
         Me.TextBox46.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox46.Location = New System.Drawing.Point(80, 55)
+        Me.TextBox46.Location = New System.Drawing.Point(80, 83)
         Me.TextBox46.Name = "TextBox46"
         Me.TextBox46.Size = New System.Drawing.Size(45, 23)
         Me.TextBox46.TabIndex = 203
@@ -750,7 +750,7 @@ Partial Class Tennis26_Settings
         '
         Me.TextBox45.BackColor = System.Drawing.Color.LightBlue
         Me.TextBox45.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox45.Location = New System.Drawing.Point(80, 30)
+        Me.TextBox45.Location = New System.Drawing.Point(80, 58)
         Me.TextBox45.Name = "TextBox45"
         Me.TextBox45.Size = New System.Drawing.Size(105, 23)
         Me.TextBox45.TabIndex = 201
@@ -761,7 +761,7 @@ Partial Class Tennis26_Settings
         Me.Label41.BackColor = System.Drawing.Color.LightYellow
         Me.Label41.Enabled = False
         Me.Label41.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(8, 57)
+        Me.Label41.Location = New System.Drawing.Point(8, 85)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(62, 20)
         Me.Label41.TabIndex = 202
@@ -774,7 +774,7 @@ Partial Class Tennis26_Settings
         Me.Label40.BackColor = System.Drawing.Color.LightBlue
         Me.Label40.Enabled = False
         Me.Label40.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(24, 29)
+        Me.Label40.Location = New System.Drawing.Point(24, 57)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(50, 20)
         Me.Label40.TabIndex = 200
@@ -1077,7 +1077,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label32.BackColor = System.Drawing.Color.LightYellow
         Me.Label32.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(10, 209)
+        Me.Label32.Location = New System.Drawing.Point(10, 237)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(114, 20)
         Me.Label32.TabIndex = 241
@@ -1090,7 +1090,7 @@ Partial Class Tennis26_Settings
         Me.Label35.BackColor = System.Drawing.Color.LightYellow
         Me.Label35.Enabled = False
         Me.Label35.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label35.Location = New System.Drawing.Point(8, 85)
+        Me.Label35.Location = New System.Drawing.Point(8, 113)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(62, 20)
         Me.Label35.TabIndex = 243
@@ -1112,7 +1112,7 @@ Partial Class Tennis26_Settings
         '
         Me.PictureBox6.BackColor = System.Drawing.Color.Silver
         Me.PictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox6.Location = New System.Drawing.Point(8, 284)
+        Me.PictureBox6.Location = New System.Drawing.Point(8, 324)
         Me.PictureBox6.Name = "PictureBox6"
         Me.PictureBox6.Size = New System.Drawing.Size(443, 29)
         Me.PictureBox6.TabIndex = 233
@@ -1122,7 +1122,7 @@ Partial Class Tennis26_Settings
         '
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox3.Location = New System.Drawing.Point(105, 288)
+        Me.CheckBox3.Location = New System.Drawing.Point(105, 328)
         Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(81, 19)
@@ -1136,7 +1136,7 @@ Partial Class Tennis26_Settings
         Me.Label29.BackColor = System.Drawing.Color.IndianRed
         Me.Label29.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label29.ForeColor = System.Drawing.Color.White
-        Me.Label29.Location = New System.Drawing.Point(9, 289)
+        Me.Label29.Location = New System.Drawing.Point(9, 329)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(93, 15)
         Me.Label29.TabIndex = 238
@@ -1156,7 +1156,7 @@ Partial Class Tennis26_Settings
         '
         Me.Label28.AutoSize = True
         Me.Label28.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(190, 290)
+        Me.Label28.Location = New System.Drawing.Point(190, 330)
         Me.Label28.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(210, 15)
@@ -1170,7 +1170,7 @@ Partial Class Tennis26_Settings
         Me.ComboBox4.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ComboBox4.FormattingEnabled = True
         Me.ComboBox4.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8"})
-        Me.ComboBox4.Location = New System.Drawing.Point(136, 209)
+        Me.ComboBox4.Location = New System.Drawing.Point(136, 237)
         Me.ComboBox4.Name = "ComboBox4"
         Me.ComboBox4.Size = New System.Drawing.Size(46, 23)
         Me.ComboBox4.TabIndex = 240
@@ -1179,7 +1179,7 @@ Partial Class Tennis26_Settings
         '
         Me.TextBox9.BackColor = System.Drawing.Color.LightYellow
         Me.TextBox9.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox9.Location = New System.Drawing.Point(80, 83)
+        Me.TextBox9.Location = New System.Drawing.Point(80, 111)
         Me.TextBox9.Name = "TextBox9"
         Me.TextBox9.Size = New System.Drawing.Size(45, 23)
         Me.TextBox9.TabIndex = 244
@@ -1189,7 +1189,7 @@ Partial Class Tennis26_Settings
         '
         Me.GroupBox2.Controls.Add(Me.RadioButton4)
         Me.GroupBox2.Controls.Add(Me.RadioButton3)
-        Me.GroupBox2.Location = New System.Drawing.Point(10, 112)
+        Me.GroupBox2.Location = New System.Drawing.Point(10, 140)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(175, 39)
         Me.GroupBox2.TabIndex = 245
@@ -1222,7 +1222,7 @@ Partial Class Tennis26_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1451, 460)
+        Me.ClientSize = New System.Drawing.Size(1435, 421)
         Me.ControlBox = False
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.TextBox9)
