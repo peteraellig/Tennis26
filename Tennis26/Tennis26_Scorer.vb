@@ -1004,13 +1004,18 @@ Public Class Tennis26_Scorer
     ' den per Checkbox aktivierten Details, mit 4 Leerzeichen getrennt. Kein Kürzen nötig: das
     ' vMix-Textfeld verkleinert die Schrift selbst automatisch, wenn der Inhalt zu lang wird.
     Private Function BuildPlayerDetailsText(player As String()) As String
+        ' .Trim() pro Feld: unsichtbare führende/nachfolgende Leerzeichen aus der Spieler-
+        ' datenbank (z.B. bei frei eingetippten Feldern wie "Points") blähen den kombinierten
+        ' String sonst auf, ohne dass es im Text sichtbar wäre - vMix schrumpft die Schrift dann
+        ' viel stärker, als der sichtbare Inhalt eigentlich verlangen würde. IsNullOrWhiteSpace
+        ' statt IsNullOrEmpty überspringt ausserdem Felder, die nur aus Leerzeichen bestehen.
         Dim parts As New List(Of String)
 
-        If Not hideAge AndAlso Not String.IsNullOrEmpty(player(4)) Then parts.Add("Age: " & player(4))
-        If Not hideHeight AndAlso Not String.IsNullOrEmpty(player(5)) Then parts.Add("Height: " & player(5))
-        If Not hideRank AndAlso Not String.IsNullOrEmpty(player(6)) Then parts.Add(player(6))
-        If Not hideDataPoints AndAlso Not String.IsNullOrEmpty(player(7)) Then parts.Add(player(7))
-        If Not hideAssociation AndAlso Not String.IsNullOrEmpty(player(8)) Then parts.Add(player(8))
+        If Not hideAge AndAlso Not String.IsNullOrWhiteSpace(player(4)) Then parts.Add("Age: " & player(4).Trim())
+        If Not hideHeight AndAlso Not String.IsNullOrWhiteSpace(player(5)) Then parts.Add("Height: " & player(5).Trim())
+        If Not hideRank AndAlso Not String.IsNullOrWhiteSpace(player(6)) Then parts.Add(player(6).Trim())
+        If Not hideDataPoints AndAlso Not String.IsNullOrWhiteSpace(player(7)) Then parts.Add(player(7).Trim())
+        If Not hideAssociation AndAlso Not String.IsNullOrWhiteSpace(player(8)) Then parts.Add(player(8).Trim())
 
         Return String.Join("    ", parts)
     End Function
