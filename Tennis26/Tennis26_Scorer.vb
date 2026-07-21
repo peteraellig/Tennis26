@@ -361,13 +361,13 @@ Public Class Tennis26_Scorer
     Private Sub InitOverlayToggles()
         overlayToggles = New List(Of OverlayToggle) From {
             New OverlayToggle With {.Key = "home", .Button = Btn_Name_Home, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")},
+                .ResetText = Function() "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.HomePlayer, "HOME")},
             New OverlayToggle With {.Key = "away", .Button = Btn_Name_Away, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")},
+                .ResetText = Function() "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer, "AWAY")},
             New OverlayToggle With {.Key = "home2", .Button = Btn_Name_Home2, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))},
+                .ResetText = Function() "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.HomePlayer2, "HOME2")},
             New OverlayToggle With {.Key = "away2", .Button = Btn_Name_Away2, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))},
+                .ResetText = Function() "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer2, "AWAY2")},
             New OverlayToggle With {.Key = "largeresult", .Button = Btn_LargeResult, .Template = "large_result.gtzip", .ComboIndex = 1,
                 .ResetText = Function() "Large Result OFF"},
             New OverlayToggle With {.Key = "title", .Button = Btn_Title, .Template = "title.gtzip", .ComboIndex = 1,
@@ -937,15 +937,21 @@ Public Class Tennis26_Scorer
         End If
     End Sub
 
-    ' Team-Anzeigename für Stellen mit Platz für nur eine Textzeile (Punkte-Buttons, Name-
-    ' Einblender Home/Away) - bei Doppel beide Nachnamen kombiniert ("Nachname1 / Nachname2"),
-    ' bei Einzel unverändert nur der eine Nachname. Die vollständige Doppel-Bio (Vorname,
-    ' Land, Alter etc. pro Spieler) läuft weiterhin separat über Lower1/Lower2/LowerHome2/
-    ' LowerAway2 bzw. Pairing() - hier geht es nur um die kurze Team-Bezeichnung.
+    ' Individueller Anzeigename "Vorname Nachname" eines einzelnen Spielers (mit Fallback,
+    ' solange noch keiner ausgewählt ist) - für die vier Namen-Einblender-Buttons (Home/
+    ' Home2/Away/Away2), die je genau einen Spieler zeigen, nicht das ganze Team.
+    Private Function GetFullPlayerName(player As String(), fallback As String) As String
+        Return If(String.IsNullOrEmpty(player(0)), fallback, player(1) & " " & player(0))
+    End Function
+
+    ' Team-Anzeigename für die Punkte-Buttons (btn_homepoint/awaypoint) - bei Doppel beide
+    ' Nachnamen je auf einer eigenen Zeile statt nebeneinander mit "/", weil der 2. Name bei
+    ' langen Namen bzw. grosser Schrift sonst im Button abgeschnitten wird und nicht mehr
+    ' sichtbar ist. Bei Einzel unverändert nur der eine Nachname.
     Private Function GetTeamDisplayName(player As String(), player2 As String(), fallback As String) As String
         Dim name1 = If(String.IsNullOrEmpty(player(0)), fallback, player(0))
         If IsDoublesMatch() AndAlso Not String.IsNullOrEmpty(player2(0)) Then
-            Return name1 & " / " & player2(0)
+            Return name1 & vbNewLine & player2(0)
         End If
         Return name1
     End Function
@@ -977,16 +983,13 @@ Public Class Tennis26_Scorer
         ' Schreibt undo Button mit aufwärtspfeil an
         btn_undo.Text = "↑" & vbNewLine & "UNDO"
 
-        'schreibt spielernamen_lower an
-        Btn_Name_Home.Text = "lower" & vbNewLine & homePlayerName
-        Btn_Name_Away.Text = "lower" & vbNewLine & awayPlayerName
-
-        ' Name-Einblender für den 2. Doppelpartner - immer der individuelle Name (kein
-        ' Team-Zusammenzug wie bei Btn_Name_Home/Away), analog zu Btn_Name_Home/Away für Spieler 1.
-        Dim homePlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))
-        Dim awayPlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))
-        Btn_Name_Home2.Text = "lower" & vbNewLine & homePlayer2Name
-        Btn_Name_Away2.Text = "lower" & vbNewLine & awayPlayer2Name
+        ' Namen-Einblender Home/Home2/Away/Away2 zeigen je den vollen Namen (Vorname Nachname)
+        ' genau eines Spielers - kein Team-Zusammenzug, im Gegensatz zu homePlayerName/
+        ' awayPlayerName oben (die sind nur für die Punkte-Buttons gedacht).
+        Btn_Name_Home.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.HomePlayer, "HOME")
+        Btn_Name_Away.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer, "AWAY")
+        Btn_Name_Home2.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.HomePlayer2, "HOME2")
+        Btn_Name_Away2.Text = "lower" & vbNewLine & GetFullPlayerName(Tennis26_Main.AwayPlayer2, "AWAY2")
     End Sub
 
     Private Sub UpdatePoints(player As String)
@@ -2065,7 +2068,7 @@ Public Class Tennis26_Scorer
     Private Sub Btn_Name_Home_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home.Click
         'blendet spielername1 ein und aus
         Dim entry = GetToggle("home")
-        Dim homePlayerName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
+        Dim homePlayerName As String = GetFullPlayerName(Tennis26_Main.HomePlayer, "HOME")
         Dim Playername = "lower" & vbNewLine & homePlayerName
 
         ' Reset other toggles first
@@ -2082,7 +2085,7 @@ Public Class Tennis26_Scorer
     Private Sub Btn_Name_Away_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away.Click
         'blendet spielername2 ein und aus
         Dim entry = GetToggle("away")
-        Dim awayPlayerName As String = GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")
+        Dim awayPlayerName As String = GetFullPlayerName(Tennis26_Main.AwayPlayer, "AWAY")
         Dim Playername = "lower" & vbNewLine & awayPlayerName
 
         ' Reset other toggles first
@@ -2100,7 +2103,7 @@ Public Class Tennis26_Scorer
     ' zeigt aber immer den individuellen Namen des 2. Spielers (kein Team-Zusammenzug).
     Private Sub Btn_Name_Home2_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home2.Click
         Dim entry = GetToggle("home2")
-        Dim homePlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))
+        Dim homePlayer2Name As String = GetFullPlayerName(Tennis26_Main.HomePlayer2, "HOME2")
         Dim Playername = "lower" & vbNewLine & homePlayer2Name
 
         ResetOtherOverlayToggles(entry.Key)
@@ -2115,7 +2118,7 @@ Public Class Tennis26_Scorer
 
     Private Sub Btn_Name_Away2_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away2.Click
         Dim entry = GetToggle("away2")
-        Dim awayPlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))
+        Dim awayPlayer2Name As String = GetFullPlayerName(Tennis26_Main.AwayPlayer2, "AWAY2")
         Dim Playername = "lower" & vbNewLine & awayPlayer2Name
 
         ResetOtherOverlayToggles(entry.Key)
