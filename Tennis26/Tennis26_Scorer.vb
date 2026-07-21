@@ -2398,6 +2398,12 @@ Public Class Tennis26_Scorer
         My.Settings.hidedetails = CheckBox_hidedetails.Checked
         My.Settings.Save()
         hidedetails = CheckBox_hidedetails.Checked
+
+        ' Pairing() berücksichtigt "hidedetails" bereits bei jedem Aufruf (Age/Height/Data
+        ' werden dann leer gesendet) - ohne diesen Refresh hier würde eine bereits auf Sendung
+        ' sichtbare "names match pairing"/matchpairing1-4-Grafik die Änderung aber erst beim
+        ' nächsten Ein-/Ausblenden übernehmen, nicht sofort beim Umschalten der Checkbox.
+        Pairing()
     End Sub
 
     Private Sub Btn_Name1_Click(sender As Object, e As EventArgs) Handles Btn_freename1.Click, Btn_freename2.Click, Btn_freename3.Click, Btn_freename4.Click, Btn_freename5.Click, Btn_ref1.Click, Btn_ref2.Click, Btn_com1.Click, Btn_com2.Click
