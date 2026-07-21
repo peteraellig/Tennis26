@@ -318,6 +318,7 @@ Partial Class Tennis26_Main
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1199, 674)
+        Me.ControlBox = False
         Me.Controls.Add(Me.Btn_open_pairings)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.txt_away_player2)

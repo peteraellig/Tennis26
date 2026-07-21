@@ -100,6 +100,7 @@ Partial Class Tennis26_Main2
         Me.GroupBox_Pairing1.Location = New System.Drawing.Point(510, 12)
         Me.GroupBox_Pairing1.Name = "GroupBox_Pairing1"
         Me.GroupBox_Pairing1.Size = New System.Drawing.Size(610, 145)
+        Me.GroupBox_Pairing1.TabIndex = 2
         Me.GroupBox_Pairing1.TabStop = False
         Me.GroupBox_Pairing1.Text = "Pairing 1"
         '
@@ -110,6 +111,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing1Clear.Location = New System.Drawing.Point(565, 5)
         Me.Btn_Pairing1Clear.Name = "Btn_Pairing1Clear"
         Me.Btn_Pairing1Clear.Size = New System.Drawing.Size(30, 25)
+        Me.Btn_Pairing1Clear.TabIndex = 0
         Me.Btn_Pairing1Clear.Text = "X"
         Me.Btn_Pairing1Clear.UseVisualStyleBackColor = False
         '
@@ -120,7 +122,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing1Home.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing1Home.Location = New System.Drawing.Point(10, 20)
         Me.Label_Pairing1Home.Name = "Label_Pairing1Home"
-        Me.Label_Pairing1Home.Size = New System.Drawing.Size(120, 13)
+        Me.Label_Pairing1Home.Size = New System.Drawing.Size(128, 13)
+        Me.Label_Pairing1Home.TabIndex = 1
         Me.Label_Pairing1Home.Text = "Drag HOME player here"
         '
         'Label_Pairing1Away
@@ -130,7 +133,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing1Away.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing1Away.Location = New System.Drawing.Point(300, 20)
         Me.Label_Pairing1Away.Name = "Label_Pairing1Away"
-        Me.Label_Pairing1Away.Size = New System.Drawing.Size(118, 13)
+        Me.Label_Pairing1Away.Size = New System.Drawing.Size(123, 13)
+        Me.Label_Pairing1Away.TabIndex = 2
         Me.Label_Pairing1Away.Text = "Drag AWAY player here"
         '
         'TextBox_Pairing1Home
@@ -139,6 +143,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing1Home.Location = New System.Drawing.Point(10, 38)
         Me.TextBox_Pairing1Home.Name = "TextBox_Pairing1Home"
         Me.TextBox_Pairing1Home.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing1Home.TabIndex = 3
         '
         'TextBox_Pairing1Away
         '
@@ -146,6 +151,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing1Away.Location = New System.Drawing.Point(300, 38)
         Me.TextBox_Pairing1Away.Name = "TextBox_Pairing1Away"
         Me.TextBox_Pairing1Away.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing1Away.TabIndex = 4
         '
         'CheckBox_Pairing1Doubles
         '
@@ -153,6 +159,7 @@ Partial Class Tennis26_Main2
         Me.CheckBox_Pairing1Doubles.Location = New System.Drawing.Point(10, 72)
         Me.CheckBox_Pairing1Doubles.Name = "CheckBox_Pairing1Doubles"
         Me.CheckBox_Pairing1Doubles.Size = New System.Drawing.Size(89, 25)
+        Me.CheckBox_Pairing1Doubles.TabIndex = 5
         Me.CheckBox_Pairing1Doubles.Text = "Doubles"
         Me.CheckBox_Pairing1Doubles.UseVisualStyleBackColor = True
         '
@@ -162,6 +169,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing1Activate.Location = New System.Drawing.Point(300, 66)
         Me.Btn_Pairing1Activate.Name = "Btn_Pairing1Activate"
         Me.Btn_Pairing1Activate.Size = New System.Drawing.Size(280, 30)
+        Me.Btn_Pairing1Activate.TabIndex = 6
         Me.Btn_Pairing1Activate.Text = "Use this pairing"
         Me.Btn_Pairing1Activate.UseVisualStyleBackColor = False
         '
@@ -172,7 +180,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing1Home2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing1Home2.Location = New System.Drawing.Point(10, 100)
         Me.Label_Pairing1Home2.Name = "Label_Pairing1Home2"
-        Me.Label_Pairing1Home2.Size = New System.Drawing.Size(133, 13)
+        Me.Label_Pairing1Home2.Size = New System.Drawing.Size(135, 13)
+        Me.Label_Pairing1Home2.TabIndex = 7
         Me.Label_Pairing1Home2.Text = "Drag HOME partner here"
         '
         'Label_Pairing1Away2
@@ -182,7 +191,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing1Away2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing1Away2.Location = New System.Drawing.Point(300, 100)
         Me.Label_Pairing1Away2.Name = "Label_Pairing1Away2"
-        Me.Label_Pairing1Away2.Size = New System.Drawing.Size(131, 13)
+        Me.Label_Pairing1Away2.Size = New System.Drawing.Size(130, 13)
+        Me.Label_Pairing1Away2.TabIndex = 8
         Me.Label_Pairing1Away2.Text = "Drag AWAY partner here"
         '
         'TextBox_Pairing1Home2
@@ -191,6 +201,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing1Home2.Location = New System.Drawing.Point(10, 118)
         Me.TextBox_Pairing1Home2.Name = "TextBox_Pairing1Home2"
         Me.TextBox_Pairing1Home2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing1Home2.TabIndex = 9
         '
         'TextBox_Pairing1Away2
         '
@@ -198,6 +209,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing1Away2.Location = New System.Drawing.Point(300, 118)
         Me.TextBox_Pairing1Away2.Name = "TextBox_Pairing1Away2"
         Me.TextBox_Pairing1Away2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing1Away2.TabIndex = 10
         '
         'GroupBox_Pairing2
         '
@@ -217,6 +229,7 @@ Partial Class Tennis26_Main2
         Me.GroupBox_Pairing2.Location = New System.Drawing.Point(510, 165)
         Me.GroupBox_Pairing2.Name = "GroupBox_Pairing2"
         Me.GroupBox_Pairing2.Size = New System.Drawing.Size(610, 145)
+        Me.GroupBox_Pairing2.TabIndex = 3
         Me.GroupBox_Pairing2.TabStop = False
         Me.GroupBox_Pairing2.Text = "Pairing 2"
         '
@@ -227,6 +240,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing2Clear.Location = New System.Drawing.Point(565, 5)
         Me.Btn_Pairing2Clear.Name = "Btn_Pairing2Clear"
         Me.Btn_Pairing2Clear.Size = New System.Drawing.Size(30, 25)
+        Me.Btn_Pairing2Clear.TabIndex = 0
         Me.Btn_Pairing2Clear.Text = "X"
         Me.Btn_Pairing2Clear.UseVisualStyleBackColor = False
         '
@@ -237,7 +251,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing2Home.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing2Home.Location = New System.Drawing.Point(10, 20)
         Me.Label_Pairing2Home.Name = "Label_Pairing2Home"
-        Me.Label_Pairing2Home.Size = New System.Drawing.Size(120, 13)
+        Me.Label_Pairing2Home.Size = New System.Drawing.Size(128, 13)
+        Me.Label_Pairing2Home.TabIndex = 1
         Me.Label_Pairing2Home.Text = "Drag HOME player here"
         '
         'Label_Pairing2Away
@@ -247,7 +262,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing2Away.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing2Away.Location = New System.Drawing.Point(300, 20)
         Me.Label_Pairing2Away.Name = "Label_Pairing2Away"
-        Me.Label_Pairing2Away.Size = New System.Drawing.Size(118, 13)
+        Me.Label_Pairing2Away.Size = New System.Drawing.Size(123, 13)
+        Me.Label_Pairing2Away.TabIndex = 2
         Me.Label_Pairing2Away.Text = "Drag AWAY player here"
         '
         'TextBox_Pairing2Home
@@ -256,6 +272,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing2Home.Location = New System.Drawing.Point(10, 38)
         Me.TextBox_Pairing2Home.Name = "TextBox_Pairing2Home"
         Me.TextBox_Pairing2Home.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing2Home.TabIndex = 3
         '
         'TextBox_Pairing2Away
         '
@@ -263,6 +280,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing2Away.Location = New System.Drawing.Point(300, 38)
         Me.TextBox_Pairing2Away.Name = "TextBox_Pairing2Away"
         Me.TextBox_Pairing2Away.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing2Away.TabIndex = 4
         '
         'CheckBox_Pairing2Doubles
         '
@@ -270,6 +288,7 @@ Partial Class Tennis26_Main2
         Me.CheckBox_Pairing2Doubles.Location = New System.Drawing.Point(10, 72)
         Me.CheckBox_Pairing2Doubles.Name = "CheckBox_Pairing2Doubles"
         Me.CheckBox_Pairing2Doubles.Size = New System.Drawing.Size(89, 25)
+        Me.CheckBox_Pairing2Doubles.TabIndex = 5
         Me.CheckBox_Pairing2Doubles.Text = "Doubles"
         Me.CheckBox_Pairing2Doubles.UseVisualStyleBackColor = True
         '
@@ -279,6 +298,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing2Activate.Location = New System.Drawing.Point(300, 66)
         Me.Btn_Pairing2Activate.Name = "Btn_Pairing2Activate"
         Me.Btn_Pairing2Activate.Size = New System.Drawing.Size(280, 30)
+        Me.Btn_Pairing2Activate.TabIndex = 6
         Me.Btn_Pairing2Activate.Text = "Use this pairing"
         Me.Btn_Pairing2Activate.UseVisualStyleBackColor = False
         '
@@ -289,7 +309,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing2Home2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing2Home2.Location = New System.Drawing.Point(10, 100)
         Me.Label_Pairing2Home2.Name = "Label_Pairing2Home2"
-        Me.Label_Pairing2Home2.Size = New System.Drawing.Size(133, 13)
+        Me.Label_Pairing2Home2.Size = New System.Drawing.Size(135, 13)
+        Me.Label_Pairing2Home2.TabIndex = 7
         Me.Label_Pairing2Home2.Text = "Drag HOME partner here"
         '
         'Label_Pairing2Away2
@@ -299,7 +320,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing2Away2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing2Away2.Location = New System.Drawing.Point(300, 100)
         Me.Label_Pairing2Away2.Name = "Label_Pairing2Away2"
-        Me.Label_Pairing2Away2.Size = New System.Drawing.Size(131, 13)
+        Me.Label_Pairing2Away2.Size = New System.Drawing.Size(130, 13)
+        Me.Label_Pairing2Away2.TabIndex = 8
         Me.Label_Pairing2Away2.Text = "Drag AWAY partner here"
         '
         'TextBox_Pairing2Home2
@@ -308,6 +330,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing2Home2.Location = New System.Drawing.Point(10, 118)
         Me.TextBox_Pairing2Home2.Name = "TextBox_Pairing2Home2"
         Me.TextBox_Pairing2Home2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing2Home2.TabIndex = 9
         '
         'TextBox_Pairing2Away2
         '
@@ -315,6 +338,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing2Away2.Location = New System.Drawing.Point(300, 118)
         Me.TextBox_Pairing2Away2.Name = "TextBox_Pairing2Away2"
         Me.TextBox_Pairing2Away2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing2Away2.TabIndex = 10
         '
         'GroupBox_Pairing3
         '
@@ -334,6 +358,7 @@ Partial Class Tennis26_Main2
         Me.GroupBox_Pairing3.Location = New System.Drawing.Point(510, 318)
         Me.GroupBox_Pairing3.Name = "GroupBox_Pairing3"
         Me.GroupBox_Pairing3.Size = New System.Drawing.Size(610, 145)
+        Me.GroupBox_Pairing3.TabIndex = 4
         Me.GroupBox_Pairing3.TabStop = False
         Me.GroupBox_Pairing3.Text = "Pairing 3"
         '
@@ -344,6 +369,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing3Clear.Location = New System.Drawing.Point(565, 5)
         Me.Btn_Pairing3Clear.Name = "Btn_Pairing3Clear"
         Me.Btn_Pairing3Clear.Size = New System.Drawing.Size(30, 25)
+        Me.Btn_Pairing3Clear.TabIndex = 0
         Me.Btn_Pairing3Clear.Text = "X"
         Me.Btn_Pairing3Clear.UseVisualStyleBackColor = False
         '
@@ -354,7 +380,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing3Home.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing3Home.Location = New System.Drawing.Point(10, 20)
         Me.Label_Pairing3Home.Name = "Label_Pairing3Home"
-        Me.Label_Pairing3Home.Size = New System.Drawing.Size(120, 13)
+        Me.Label_Pairing3Home.Size = New System.Drawing.Size(128, 13)
+        Me.Label_Pairing3Home.TabIndex = 1
         Me.Label_Pairing3Home.Text = "Drag HOME player here"
         '
         'Label_Pairing3Away
@@ -364,7 +391,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing3Away.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing3Away.Location = New System.Drawing.Point(300, 20)
         Me.Label_Pairing3Away.Name = "Label_Pairing3Away"
-        Me.Label_Pairing3Away.Size = New System.Drawing.Size(118, 13)
+        Me.Label_Pairing3Away.Size = New System.Drawing.Size(123, 13)
+        Me.Label_Pairing3Away.TabIndex = 2
         Me.Label_Pairing3Away.Text = "Drag AWAY player here"
         '
         'TextBox_Pairing3Home
@@ -373,6 +401,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing3Home.Location = New System.Drawing.Point(10, 38)
         Me.TextBox_Pairing3Home.Name = "TextBox_Pairing3Home"
         Me.TextBox_Pairing3Home.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing3Home.TabIndex = 3
         '
         'TextBox_Pairing3Away
         '
@@ -380,6 +409,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing3Away.Location = New System.Drawing.Point(300, 38)
         Me.TextBox_Pairing3Away.Name = "TextBox_Pairing3Away"
         Me.TextBox_Pairing3Away.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing3Away.TabIndex = 4
         '
         'CheckBox_Pairing3Doubles
         '
@@ -387,6 +417,7 @@ Partial Class Tennis26_Main2
         Me.CheckBox_Pairing3Doubles.Location = New System.Drawing.Point(10, 72)
         Me.CheckBox_Pairing3Doubles.Name = "CheckBox_Pairing3Doubles"
         Me.CheckBox_Pairing3Doubles.Size = New System.Drawing.Size(89, 25)
+        Me.CheckBox_Pairing3Doubles.TabIndex = 5
         Me.CheckBox_Pairing3Doubles.Text = "Doubles"
         Me.CheckBox_Pairing3Doubles.UseVisualStyleBackColor = True
         '
@@ -396,6 +427,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing3Activate.Location = New System.Drawing.Point(300, 66)
         Me.Btn_Pairing3Activate.Name = "Btn_Pairing3Activate"
         Me.Btn_Pairing3Activate.Size = New System.Drawing.Size(280, 30)
+        Me.Btn_Pairing3Activate.TabIndex = 6
         Me.Btn_Pairing3Activate.Text = "Use this pairing"
         Me.Btn_Pairing3Activate.UseVisualStyleBackColor = False
         '
@@ -406,7 +438,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing3Home2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing3Home2.Location = New System.Drawing.Point(10, 100)
         Me.Label_Pairing3Home2.Name = "Label_Pairing3Home2"
-        Me.Label_Pairing3Home2.Size = New System.Drawing.Size(133, 13)
+        Me.Label_Pairing3Home2.Size = New System.Drawing.Size(135, 13)
+        Me.Label_Pairing3Home2.TabIndex = 7
         Me.Label_Pairing3Home2.Text = "Drag HOME partner here"
         '
         'Label_Pairing3Away2
@@ -416,7 +449,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing3Away2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing3Away2.Location = New System.Drawing.Point(300, 100)
         Me.Label_Pairing3Away2.Name = "Label_Pairing3Away2"
-        Me.Label_Pairing3Away2.Size = New System.Drawing.Size(131, 13)
+        Me.Label_Pairing3Away2.Size = New System.Drawing.Size(130, 13)
+        Me.Label_Pairing3Away2.TabIndex = 8
         Me.Label_Pairing3Away2.Text = "Drag AWAY partner here"
         '
         'TextBox_Pairing3Home2
@@ -425,6 +459,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing3Home2.Location = New System.Drawing.Point(10, 118)
         Me.TextBox_Pairing3Home2.Name = "TextBox_Pairing3Home2"
         Me.TextBox_Pairing3Home2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing3Home2.TabIndex = 9
         '
         'TextBox_Pairing3Away2
         '
@@ -432,6 +467,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing3Away2.Location = New System.Drawing.Point(300, 118)
         Me.TextBox_Pairing3Away2.Name = "TextBox_Pairing3Away2"
         Me.TextBox_Pairing3Away2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing3Away2.TabIndex = 10
         '
         'GroupBox_Pairing4
         '
@@ -451,6 +487,7 @@ Partial Class Tennis26_Main2
         Me.GroupBox_Pairing4.Location = New System.Drawing.Point(510, 471)
         Me.GroupBox_Pairing4.Name = "GroupBox_Pairing4"
         Me.GroupBox_Pairing4.Size = New System.Drawing.Size(610, 145)
+        Me.GroupBox_Pairing4.TabIndex = 5
         Me.GroupBox_Pairing4.TabStop = False
         Me.GroupBox_Pairing4.Text = "Pairing 4"
         '
@@ -461,6 +498,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing4Clear.Location = New System.Drawing.Point(565, 5)
         Me.Btn_Pairing4Clear.Name = "Btn_Pairing4Clear"
         Me.Btn_Pairing4Clear.Size = New System.Drawing.Size(30, 25)
+        Me.Btn_Pairing4Clear.TabIndex = 0
         Me.Btn_Pairing4Clear.Text = "X"
         Me.Btn_Pairing4Clear.UseVisualStyleBackColor = False
         '
@@ -471,7 +509,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing4Home.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing4Home.Location = New System.Drawing.Point(10, 20)
         Me.Label_Pairing4Home.Name = "Label_Pairing4Home"
-        Me.Label_Pairing4Home.Size = New System.Drawing.Size(120, 13)
+        Me.Label_Pairing4Home.Size = New System.Drawing.Size(128, 13)
+        Me.Label_Pairing4Home.TabIndex = 1
         Me.Label_Pairing4Home.Text = "Drag HOME player here"
         '
         'Label_Pairing4Away
@@ -481,7 +520,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing4Away.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing4Away.Location = New System.Drawing.Point(300, 20)
         Me.Label_Pairing4Away.Name = "Label_Pairing4Away"
-        Me.Label_Pairing4Away.Size = New System.Drawing.Size(118, 13)
+        Me.Label_Pairing4Away.Size = New System.Drawing.Size(123, 13)
+        Me.Label_Pairing4Away.TabIndex = 2
         Me.Label_Pairing4Away.Text = "Drag AWAY player here"
         '
         'TextBox_Pairing4Home
@@ -490,6 +530,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing4Home.Location = New System.Drawing.Point(10, 38)
         Me.TextBox_Pairing4Home.Name = "TextBox_Pairing4Home"
         Me.TextBox_Pairing4Home.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing4Home.TabIndex = 3
         '
         'TextBox_Pairing4Away
         '
@@ -497,6 +538,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing4Away.Location = New System.Drawing.Point(300, 38)
         Me.TextBox_Pairing4Away.Name = "TextBox_Pairing4Away"
         Me.TextBox_Pairing4Away.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing4Away.TabIndex = 4
         '
         'CheckBox_Pairing4Doubles
         '
@@ -504,6 +546,7 @@ Partial Class Tennis26_Main2
         Me.CheckBox_Pairing4Doubles.Location = New System.Drawing.Point(10, 72)
         Me.CheckBox_Pairing4Doubles.Name = "CheckBox_Pairing4Doubles"
         Me.CheckBox_Pairing4Doubles.Size = New System.Drawing.Size(89, 25)
+        Me.CheckBox_Pairing4Doubles.TabIndex = 5
         Me.CheckBox_Pairing4Doubles.Text = "Doubles"
         Me.CheckBox_Pairing4Doubles.UseVisualStyleBackColor = True
         '
@@ -513,6 +556,7 @@ Partial Class Tennis26_Main2
         Me.Btn_Pairing4Activate.Location = New System.Drawing.Point(300, 66)
         Me.Btn_Pairing4Activate.Name = "Btn_Pairing4Activate"
         Me.Btn_Pairing4Activate.Size = New System.Drawing.Size(280, 30)
+        Me.Btn_Pairing4Activate.TabIndex = 6
         Me.Btn_Pairing4Activate.Text = "Use this pairing"
         Me.Btn_Pairing4Activate.UseVisualStyleBackColor = False
         '
@@ -523,7 +567,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing4Home2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing4Home2.Location = New System.Drawing.Point(10, 100)
         Me.Label_Pairing4Home2.Name = "Label_Pairing4Home2"
-        Me.Label_Pairing4Home2.Size = New System.Drawing.Size(133, 13)
+        Me.Label_Pairing4Home2.Size = New System.Drawing.Size(135, 13)
+        Me.Label_Pairing4Home2.TabIndex = 7
         Me.Label_Pairing4Home2.Text = "Drag HOME partner here"
         '
         'Label_Pairing4Away2
@@ -533,7 +578,8 @@ Partial Class Tennis26_Main2
         Me.Label_Pairing4Away2.ForeColor = System.Drawing.SystemColors.GrayText
         Me.Label_Pairing4Away2.Location = New System.Drawing.Point(300, 100)
         Me.Label_Pairing4Away2.Name = "Label_Pairing4Away2"
-        Me.Label_Pairing4Away2.Size = New System.Drawing.Size(131, 13)
+        Me.Label_Pairing4Away2.Size = New System.Drawing.Size(130, 13)
+        Me.Label_Pairing4Away2.TabIndex = 8
         Me.Label_Pairing4Away2.Text = "Drag AWAY partner here"
         '
         'TextBox_Pairing4Home2
@@ -542,6 +588,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing4Home2.Location = New System.Drawing.Point(10, 118)
         Me.TextBox_Pairing4Home2.Name = "TextBox_Pairing4Home2"
         Me.TextBox_Pairing4Home2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing4Home2.TabIndex = 9
         '
         'TextBox_Pairing4Away2
         '
@@ -549,6 +596,7 @@ Partial Class Tennis26_Main2
         Me.TextBox_Pairing4Away2.Location = New System.Drawing.Point(300, 118)
         Me.TextBox_Pairing4Away2.Name = "TextBox_Pairing4Away2"
         Me.TextBox_Pairing4Away2.Size = New System.Drawing.Size(280, 25)
+        Me.TextBox_Pairing4Away2.TabIndex = 10
         '
         'Btn_save
         '
@@ -557,6 +605,7 @@ Partial Class Tennis26_Main2
         Me.Btn_save.Location = New System.Drawing.Point(510, 626)
         Me.Btn_save.Name = "Btn_save"
         Me.Btn_save.Size = New System.Drawing.Size(295, 35)
+        Me.Btn_save.TabIndex = 1
         Me.Btn_save.Text = "Save pairings"
         Me.Btn_save.UseVisualStyleBackColor = False
         '
@@ -568,6 +617,7 @@ Partial Class Tennis26_Main2
         Me.Btn_exit.Location = New System.Drawing.Point(825, 626)
         Me.Btn_exit.Name = "Btn_exit"
         Me.Btn_exit.Size = New System.Drawing.Size(295, 35)
+        Me.Btn_exit.TabIndex = 0
         Me.Btn_exit.Text = "Exit to main"
         Me.Btn_exit.UseVisualStyleBackColor = False
         '
@@ -575,6 +625,7 @@ Partial Class Tennis26_Main2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(1132, 700)
+        Me.ControlBox = False
         Me.Controls.Add(Me.Btn_exit)
         Me.Controls.Add(Me.Btn_save)
         Me.Controls.Add(Me.DataGridView_Players2)
@@ -582,6 +633,9 @@ Partial Class Tennis26_Main2
         Me.Controls.Add(Me.GroupBox_Pairing2)
         Me.Controls.Add(Me.GroupBox_Pairing3)
         Me.Controls.Add(Me.GroupBox_Pairing4)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.MaximumSize = New System.Drawing.Size(1148, 739)
+        Me.MinimumSize = New System.Drawing.Size(1148, 739)
         Me.Name = "Tennis26_Main2"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tennis26 - Prepare Pairings (Prototype)"

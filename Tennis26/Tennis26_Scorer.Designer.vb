@@ -960,6 +960,7 @@ Partial Class Tennis26_Scorer
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1535, 606)
+        Me.ControlBox = False
         Me.Controls.Add(Me.Btn_recover)
         Me.Controls.Add(Me.Btn_load_match)
         Me.Controls.Add(Me.Btn_save_match)
@@ -1040,7 +1041,10 @@ Partial Class Tennis26_Scorer
         Me.Controls.Add(Me.PictureBox11)
         Me.Controls.Add(Me.PictureBox7)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximumSize = New System.Drawing.Size(1551, 645)
+        Me.MinimumSize = New System.Drawing.Size(1551, 645)
         Me.Name = "Tennis26_Scorer"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tennis26_Scorer"

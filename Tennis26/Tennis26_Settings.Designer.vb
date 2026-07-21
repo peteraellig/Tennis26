@@ -68,14 +68,14 @@ Partial Class Tennis26_Settings
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.Label34 = New System.Windows.Forms.Label()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Btn_gamewon_colour = New System.Windows.Forms.Button()
         Me.TextBox50 = New System.Windows.Forms.TextBox()
-        Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
@@ -623,6 +623,28 @@ Partial Class Tennis26_Settings
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "type of play"
         '
+        'Label34
+        '
+        Me.Label34.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(13, 137)
+        Me.Label34.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(197, 38)
+        Me.Label34.TabIndex = 211
+        Me.Label34.Text = "keeps scorebug set-NR freezed until scorebug is offline"
+        '
+        'NumericUpDown1
+        '
+        Me.NumericUpDown1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown1.Location = New System.Drawing.Point(24, 79)
+        Me.NumericUpDown1.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.NumericUpDown1.Minimum = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.NumericUpDown1.Name = "NumericUpDown1"
+        Me.NumericUpDown1.Size = New System.Drawing.Size(44, 23)
+        Me.NumericUpDown1.TabIndex = 206
+        Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown1.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
@@ -645,16 +667,6 @@ Partial Class Tennis26_Settings
         Me.CheckBox2.Text = "Freeze Set "
         Me.ToolTip1.SetToolTip(Me.CheckBox2, "keeps scorebug set-NR freezed until scorebug is offline")
         Me.CheckBox2.UseVisualStyleBackColor = True
-        '
-        'Label34
-        '
-        Me.Label34.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label34.Location = New System.Drawing.Point(13, 137)
-        Me.Label34.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(197, 38)
-        Me.Label34.TabIndex = 211
-        Me.Label34.Text = "keeps scorebug set-NR freezed until scorebug is offline"
         '
         'Label26
         '
@@ -684,7 +696,7 @@ Partial Class Tennis26_Settings
         Me.Btn_gamewon_colour.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn_gamewon_colour.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_gamewon_colour.Location = New System.Drawing.Point(118, 190)
-        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2)
+        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Btn_gamewon_colour.Name = "Btn_gamewon_colour"
         Me.Btn_gamewon_colour.Size = New System.Drawing.Size(44, 20)
         Me.Btn_gamewon_colour.TabIndex = 210
@@ -700,18 +712,6 @@ Partial Class Tennis26_Settings
         Me.TextBox50.Size = New System.Drawing.Size(23, 23)
         Me.TextBox50.TabIndex = 204
         Me.TextBox50.Text = "3"
-        '
-        'NumericUpDown1
-        '
-        Me.NumericUpDown1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumericUpDown1.Location = New System.Drawing.Point(24, 79)
-        Me.NumericUpDown1.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
-        Me.NumericUpDown1.Minimum = New Decimal(New Integer() {4, 0, 0, 0})
-        Me.NumericUpDown1.Name = "NumericUpDown1"
-        Me.NumericUpDown1.Size = New System.Drawing.Size(44, 23)
-        Me.NumericUpDown1.TabIndex = 206
-        Me.NumericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown1.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'RadioButton2
         '
@@ -1124,7 +1124,7 @@ Partial Class Tennis26_Settings
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox3.Location = New System.Drawing.Point(105, 288)
-        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2)
+        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(81, 19)
         Me.CheckBox3.TabIndex = 235
@@ -1149,7 +1149,7 @@ Partial Class Tennis26_Settings
         Me.Label30.Location = New System.Drawing.Point(624, 387)
         Me.Label30.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(45, 13)
+        Me.Label30.Size = New System.Drawing.Size(46, 13)
         Me.Label30.TabIndex = 239
         Me.Label30.Text = "Label30"
         '
@@ -1203,7 +1203,7 @@ Partial Class Tennis26_Settings
         Me.RadioButton4.Checked = True
         Me.RadioButton4.Location = New System.Drawing.Point(108, 17)
         Me.RadioButton4.Name = "RadioButton4"
-        Me.RadioButton4.Size = New System.Drawing.Size(46, 17)
+        Me.RadioButton4.Size = New System.Drawing.Size(42, 17)
         Me.RadioButton4.TabIndex = 1
         Me.RadioButton4.TabStop = True
         Me.RadioButton4.Text = "TCP"
@@ -1214,7 +1214,7 @@ Partial Class Tennis26_Settings
         Me.RadioButton3.AutoSize = True
         Me.RadioButton3.Location = New System.Drawing.Point(15, 17)
         Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(54, 17)
+        Me.RadioButton3.Size = New System.Drawing.Size(49, 17)
         Me.RadioButton3.TabIndex = 0
         Me.RadioButton3.Text = "HTTP"
         Me.RadioButton3.UseVisualStyleBackColor = True
@@ -1224,6 +1224,7 @@ Partial Class Tennis26_Settings
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1435, 421)
+        Me.ControlBox = False
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.Label35)
@@ -1312,6 +1313,10 @@ Partial Class Tennis26_Settings
         Me.Controls.Add(Me.PictureBox3)
         Me.Controls.Add(Me.PictureBox4)
         Me.Controls.Add(Me.PictureBox5)
+        Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.MaximumSize = New System.Drawing.Size(1451, 460)
+        Me.MinimumSize = New System.Drawing.Size(1451, 460)
         Me.Name = "Tennis26_Settings"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Tenis24_Settings"
