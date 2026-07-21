@@ -27,6 +27,16 @@ Public Class Tennis26_Scorer
     ' nicht verbunden.
     Private isVmixConnected As Boolean = False
 
+    ' Erreichbarkeit von Peters externem Python-JSON-Feed-Server (Settings-Textbox
+    ' TextBox_jsasonfeed) - komplett unabhängig von vMix, rein informativ in Label15. Prüft
+    ' seltener als der vMix-Check (alle JSON_FEED_CHECK_INTERVAL_SECONDS statt jede Sekunde):
+    ' anders als vMix wird hier nichts blockiert, wenn der Feed nicht erreichbar ist (Tennis26
+    ' schreibt die JSON-Datei ohnehin nur lokal, der Python-Server liest sie unabhängig davon),
+    ' ein häufigerer Check über ein evtl. echtes Netzwerk wäre also nur unnötige Last.
+    Private isJsonFeedReachable As Boolean = False
+    Private lastJsonFeedCheckAt As DateTime = DateTime.MinValue
+    Private Const JSON_FEED_CHECK_INTERVAL_SECONDS As Integer = 5
+
     ' Toggle-Status für Scorebug- und Sponsor-Buttons (eigene vMix-Layer, daher nicht Teil der
     ' gemeinsam ausschliessenden Overlay-Registry weiter unten)
     Private scorebugtoggleStatus As Boolean = False
@@ -328,6 +338,8 @@ Public Class Tennis26_Scorer
         ' Einmaliger Check vor dem ersten ResetMatch()-Aufruf (der schon beim Laden Dutzende
         ' SendHTMLtovMix-Aufrufe ausloest) - siehe CheckVmixConnection() fuer die Begruendung.
         CheckVmixConnection()
+        lastJsonFeedCheckAt = DateTime.UtcNow
+        CheckJsonFeedConnection()
 
         Tennis26_Settings.SetVariables()
 
@@ -701,12 +713,49 @@ Public Class Tennis26_Scorer
 
         If jsonExporter.WriteToFile(LIVE_JSON_FILE_PATH, BuildLiveStateJson()) Then
             lastLiveJsonWriteAt = DateTime.UtcNow
+            UpdateJsonStatusLabel()
         ElseIf showErrorOnFailure Then
             MessageBox.Show(
                 $"Live-JSON-Datei konnte nicht geschrieben werden ({LIVE_JSON_FILE_PATH}):" & vbNewLine & vbNewLine &
                 jsonExporter.LastError,
                 "Live-JSON-Datei", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+    End Sub
+
+    ' Label15 zeigt beides kombiniert: dass die lokale JSON-Datei aktiv geschrieben wird (rein
+    ' lokal, kein Netzwerk - siehe WriteLiveJsonFile) UND ob Peters externer Python-Feed-Server
+    ' gerade erreichbar ist (isJsonFeedReachable, siehe CheckJsonFeedConnection). Beides ist
+    ' unabhängig voneinander - das Schreiben klappt immer lokal, auch wenn der Feed gerade down ist.
+    Private Sub UpdateJsonStatusLabel()
+        Dim feedStatus As String = If(isJsonFeedReachable, "feed reachable", "feed NOT reachable")
+        Label15.Text = $"JSON written - {feedStatus}"
+        Label15.ForeColor = If(isJsonFeedReachable, Color.Green, Color.Red)
+    End Sub
+
+    ' Prüft, ob Peters externer Python-JSON-Feed-Server (Settings-Textbox TextBox_jsasonfeed)
+    ' erreichbar ist - rein informativ (Label15), blockiert nichts. Kurzer Timeout, damit ein
+    ' nicht erreichbarer Server die UI nicht lange blockiert; läuft ohnehin nur alle
+    ' JSON_FEED_CHECK_INTERVAL_SECONDS über Timer1_Tick, nicht bei jedem Schreibvorgang.
+    Private Sub CheckJsonFeedConnection()
+        Dim url As String = Tennis26_Settings.TextBox_jsasonfeed.Text.Trim()
+        If String.IsNullOrEmpty(url) Then
+            isJsonFeedReachable = False
+            UpdateJsonStatusLabel()
+            Return
+        End If
+
+        Try
+            Dim request As HttpWebRequest = CType(WebRequest.Create(url), HttpWebRequest)
+            request.Method = "GET"
+            request.Timeout = 800
+            Using response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                isJsonFeedReachable = (response.StatusCode = HttpStatusCode.OK)
+            End Using
+        Catch ex As Exception
+            isJsonFeedReachable = False
+        End Try
+
+        UpdateJsonStatusLabel()
     End Sub
 
     Private Function ParseLabelInt(text As String) As Integer
@@ -738,6 +787,14 @@ Public Class Tennis26_Scorer
         ' vMix-Verbindung 1x/Sekunde neu prüfen (siehe isVmixConnected) - dieselbe Sekunden-
         ' Kadenz, die Timer1 hier ohnehin schon fürs Spielzeit-Label nutzt, kein separater Timer nötig.
         CheckVmixConnection()
+
+        ' Python-JSON-Feed-Server seltener prüfen als vMix (alle JSON_FEED_CHECK_INTERVAL_SECONDS
+        ' statt jede Sekunde) - rein informativ, kein Grund für eine häufigere Kadenz über ein
+        ' evtl. echtes Netzwerk.
+        If DateTime.UtcNow.Subtract(lastJsonFeedCheckAt).TotalSeconds >= JSON_FEED_CHECK_INTERVAL_SECONDS Then
+            lastJsonFeedCheckAt = DateTime.UtcNow
+            CheckJsonFeedConnection()
+        End If
 
         If isMatchFinished Then Timer1.Stop()
     End Sub

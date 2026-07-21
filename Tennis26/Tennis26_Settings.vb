@@ -348,6 +348,14 @@ Public Class Tennis26_Settings
                 comboBoxNode.AppendChild(element)
             Next
 
+            ' Python-JSON-Feed-Adresse speichern - eigener, benannter Node statt Teil des
+            ' generischen TextBox1-50-Arrays, da TextBox_jsasonfeed bewusst einen sprechenden
+            ' Namen statt "TextBoxNN" trägt und daher nicht über die Reflection-Schleife
+            ' oben gefunden würde.
+            Dim jsonFeedNode As XmlNode = xmlDoc.CreateElement("JsonFeedUrl")
+            jsonFeedNode.InnerText = TextBox_jsasonfeed.Text
+            root.AppendChild(jsonFeedNode)
+
             ' XML-Datei speichern
             Dim dataPath As String = SETTINGS_DATA_PATH
             If Not Directory.Exists(dataPath) Then
@@ -439,6 +447,14 @@ Public Class Tennis26_Settings
                         End If
                     End If
                 Next
+            End If
+
+            ' Python-JSON-Feed-Adresse laden - nur überschreiben, wenn tatsächlich gespeichert
+            ' (fehlt der Node, z.B. bei einer älteren Settings-Datei, bleibt der im Designer
+            ' gesetzte Default-Text stehen statt auf leer zurückzufallen).
+            Dim jsonFeedNode As XmlNode = xmlDoc.SelectSingleNode("//JsonFeedUrl")
+            If jsonFeedNode IsNot Nothing AndAlso Not String.IsNullOrEmpty(jsonFeedNode.InnerText) Then
+                TextBox_jsasonfeed.Text = jsonFeedNode.InnerText
             End If
 
             'MessageBox.Show("Einstellungen erfolgreich geladen.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
