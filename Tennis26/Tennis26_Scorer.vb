@@ -11,6 +11,12 @@ Public Class Tennis26_Scorer
     Private hideDataPoints As Boolean = False
     Private hideAssociation As Boolean = False
 
+    ' Persistiert die 6 Textzeilen (TextBlock1.Text - TextBlock6.Text) von Title/Info1-4 -
+    ' alle vier Info-Tafeln und Title teilen sich dasselbe 6-Zeilen-Layout im .gtzip, deshalb
+    ' eine gemeinsame XML mit einem Eintrag pro Tafel (Key "title"/"info1".."info4") statt
+    ' 5 separater Dateien. Siehe Tennis26_TitleEdit.vb für den Bearbeitungs-Dialog.
+    Private Const TITLE_BOARDS_FILE_PATH As String = "c:\vmix\tennis\data\titleboards.xml"
+
     ' Toggle-Status für Scorebug- und Sponsor-Buttons (eigene vMix-Layer, daher nicht Teil der
     ' gemeinsam ausschliessenden Overlay-Registry weiter unten)
     Private scorebugtoggleStatus As Boolean = False
@@ -2166,6 +2172,113 @@ Public Class Tennis26_Scorer
         Btn_Name_Away2.Text = Playername
     End Sub
 
+    ' Liest die 6 Textzeilen einer Title/Info-Tafel aus titleboards.xml - leere Zeilen, falls
+    ' die Datei oder der Eintrag noch nicht existiert (z.B. beim allerersten Verwenden).
+    Private Function LoadTitleBoardLines(boardKey As String) As String()
+        Dim lines(5) As String
+        For i = 0 To 5
+            lines(i) = ""
+        Next
+
+        Try
+            If Not IO.File.Exists(TITLE_BOARDS_FILE_PATH) Then Return lines
+
+            Dim xmlDoc As New Xml.XmlDocument()
+            xmlDoc.Load(TITLE_BOARDS_FILE_PATH)
+            Dim boardNode = xmlDoc.SelectSingleNode($"//Board[@key='{boardKey}']")
+            If boardNode Is Nothing Then Return lines
+
+            For i = 1 To 6
+                Dim lineNode = boardNode.SelectSingleNode($"Line{i}")
+                If lineNode IsNot Nothing Then lines(i - 1) = lineNode.InnerText
+            Next
+        Catch
+            ' Bei Lesefehlern (z.B. beschädigte Datei) einfach leere Zeilen zurückgeben statt abzustürzen
+        End Try
+
+        Return lines
+    End Function
+
+    ' Speichert die 6 Textzeilen einer Title/Info-Tafel in titleboards.xml - legt Datei/Ordner
+    ' bzw. den Board-Eintrag bei Bedarf neu an, überschreibt einen bestehenden Eintrag komplett.
+    Private Sub SaveTitleBoardLines(boardKey As String, lines As String())
+        Dim xmlDoc As New Xml.XmlDocument()
+        Dim rootNode As Xml.XmlElement
+
+        If IO.File.Exists(TITLE_BOARDS_FILE_PATH) Then
+            xmlDoc.Load(TITLE_BOARDS_FILE_PATH)
+            rootNode = xmlDoc.DocumentElement
+        Else
+            Dim directoryPath = IO.Path.GetDirectoryName(TITLE_BOARDS_FILE_PATH)
+            If Not IO.Directory.Exists(directoryPath) Then IO.Directory.CreateDirectory(directoryPath)
+
+            xmlDoc.AppendChild(xmlDoc.CreateXmlDeclaration("1.0", "utf-8", Nothing))
+            rootNode = xmlDoc.CreateElement("TitleBoards")
+            xmlDoc.AppendChild(rootNode)
+        End If
+
+        Dim boardNode = CType(rootNode.SelectSingleNode($"Board[@key='{boardKey}']"), Xml.XmlElement)
+        If boardNode Is Nothing Then
+            boardNode = xmlDoc.CreateElement("Board")
+            boardNode.SetAttribute("key", boardKey)
+            rootNode.AppendChild(boardNode)
+        Else
+            boardNode.RemoveAll()
+            boardNode.SetAttribute("key", boardKey)
+        End If
+
+        For i = 1 To 6
+            Dim lineNode = xmlDoc.CreateElement($"Line{i}")
+            lineNode.InnerText = If(lines(i - 1), "")
+            boardNode.AppendChild(lineNode)
+        Next
+
+        xmlDoc.Save(TITLE_BOARDS_FILE_PATH)
+    End Sub
+
+    ' Sendet alle 6 Zeilen einer Tafel als TextBlock1.Text - TextBlock6.Text an die angegebene
+    ' Vorlage - von Btn_Title_Click und Btn_info_Click beim Ein-/Ausblenden verwendet.
+    Private Sub SendTitleBoardText(template As String, boardKey As String)
+        Dim lines = LoadTitleBoardLines(boardKey)
+        For i = 1 To 6
+            SendHTMLtovMix(BuildVmixSetCommand("SetText", template, $"TextBlock{i}.Text", lines(i - 1)))
+        Next
+    End Sub
+
+    ' Öffnet den Bearbeiten-Dialog für eine Title/Info-Tafel - Änderungen wirken sich laut
+    ' Absprache erst beim nächsten Ein-/Ausblenden aus, kein Live-Refresh einer evtl. gerade
+    ' sichtbaren Tafel nötig.
+    Private Sub OpenTitleBoardEditor(boardKey As String, displayName As String)
+        Dim currentLines = LoadTitleBoardLines(boardKey)
+        Using editor As New Tennis26_TitleEdit()
+            editor.BoardDisplayName = displayName
+            editor.InitialLines = currentLines
+            If editor.ShowDialog(Me) = DialogResult.OK Then
+                SaveTitleBoardLines(boardKey, editor.ResultLines)
+            End If
+        End Using
+    End Sub
+
+    Private Sub Btn_Title_edit_Click(sender As Object, e As EventArgs) Handles Btn_Title_edit.Click
+        OpenTitleBoardEditor("title", "Title")
+    End Sub
+
+    Private Sub Btn_info1_edit_Click(sender As Object, e As EventArgs) Handles Btn_info1_edit.Click
+        OpenTitleBoardEditor("info1", "Info 1")
+    End Sub
+
+    Private Sub Btn_info2_edit_Click(sender As Object, e As EventArgs) Handles Btn_info2_edit.Click
+        OpenTitleBoardEditor("info2", "Info 2")
+    End Sub
+
+    Private Sub Btn_info3_edit_Click(sender As Object, e As EventArgs) Handles Btn_info3_edit.Click
+        OpenTitleBoardEditor("info3", "Info 3")
+    End Sub
+
+    Private Sub Btn_info4_edit_Click(sender As Object, e As EventArgs) Handles Btn_info4_edit.Click
+        OpenTitleBoardEditor("info4", "Info 4")
+    End Sub
+
     Private Sub Btn_Title_Click(sender As Object, e As EventArgs) Handles Btn_Title.Click
         'blendet Titel ein und aus
         Dim entry = GetToggle("title")
@@ -2173,8 +2286,7 @@ Public Class Tennis26_Scorer
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
 
-        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock1.Text", Tennis26_Settings.TextBoxValues(1)))
-        SendHTMLtovMix(BuildVmixSetCommand("SetText", entry.Template, "TextBlock2.Text", Tennis26_Settings.TextBoxValues(2)))
+        SendTitleBoardText(entry.Template, "title")
 
         Dim isOn = ToggleStatus(entry)
         SendOverlayCommand(entry, isOn)
@@ -2225,6 +2337,10 @@ Public Class Tennis26_Scorer
 
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
+
+        ' entry.Key ist bei diesen Toggles bereits "info1".."info4" - entspricht direkt dem
+        ' Board-Key in titleboards.xml.
+        SendTitleBoardText(entry.Template, entry.Key)
 
         Dim isOn = ToggleStatus(entry)
         SendOverlayCommand(entry, isOn)

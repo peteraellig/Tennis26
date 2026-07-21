@@ -115,6 +115,11 @@ Partial Class Tennis26_Scorer
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
+        Me.Btn_info1_edit = New System.Windows.Forms.Button()
+        Me.Btn_info2_edit = New System.Windows.Forms.Button()
+        Me.Btn_info3_edit = New System.Windows.Forms.Button()
+        Me.Btn_info4_edit = New System.Windows.Forms.Button()
+        Me.Btn_Title_edit = New System.Windows.Forms.Button()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -537,7 +542,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_Title.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_Title.Location = New System.Drawing.Point(1043, 32)
         Me.Btn_Title.Name = "Btn_Title"
-        Me.Btn_Title.Size = New System.Drawing.Size(150, 30)
+        Me.Btn_Title.Size = New System.Drawing.Size(120, 30)
         Me.Btn_Title.TabIndex = 41
         Me.Btn_Title.Text = "Title"
         Me.ToolTip1.SetToolTip(Me.Btn_Title, "Edit this title manually in GT Designer.")
@@ -548,7 +553,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_info1.Location = New System.Drawing.Point(1044, 253)
         Me.Btn_info1.Name = "Btn_info1"
-        Me.Btn_info1.Size = New System.Drawing.Size(150, 34)
+        Me.Btn_info1.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info1.TabIndex = 42
         Me.Btn_info1.Text = "Info1"
         Me.ToolTip1.SetToolTip(Me.Btn_info1, "info1.gtzip Edit this title manually in GT Designer.")
@@ -559,7 +564,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_info2.Location = New System.Drawing.Point(1044, 293)
         Me.Btn_info2.Name = "Btn_info2"
-        Me.Btn_info2.Size = New System.Drawing.Size(150, 34)
+        Me.Btn_info2.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info2.TabIndex = 43
         Me.Btn_info2.Text = "Info2"
         Me.ToolTip1.SetToolTip(Me.Btn_info2, "info2.gtzip Edit this title manually in GT Designer.")
@@ -782,7 +787,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info3.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_info3.Location = New System.Drawing.Point(1044, 333)
         Me.Btn_info3.Name = "Btn_info3"
-        Me.Btn_info3.Size = New System.Drawing.Size(150, 34)
+        Me.Btn_info3.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info3.TabIndex = 74
         Me.Btn_info3.Text = "Info3"
         Me.ToolTip1.SetToolTip(Me.Btn_info3, "info3.gtzip Edit this title manually in GT Designer.")
@@ -793,7 +798,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info4.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_info4.Location = New System.Drawing.Point(1044, 373)
         Me.Btn_info4.Name = "Btn_info4"
-        Me.Btn_info4.Size = New System.Drawing.Size(150, 34)
+        Me.Btn_info4.Size = New System.Drawing.Size(119, 34)
         Me.Btn_info4.TabIndex = 75
         Me.Btn_info4.Text = "Info4"
         Me.ToolTip1.SetToolTip(Me.Btn_info4, "info4.gtzip Edit this title manually in GT Designer.")
@@ -1102,6 +1107,61 @@ Partial Class Tennis26_Scorer
         Me.Label13.TabIndex = 260
         Me.Label13.Text = "SHOW Player details"
         '
+        'Btn_info1_edit
+        '
+        Me.Btn_info1_edit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_info1_edit.Location = New System.Drawing.Point(1169, 253)
+        Me.Btn_info1_edit.Name = "Btn_info1_edit"
+        Me.Btn_info1_edit.Size = New System.Drawing.Size(33, 34)
+        Me.Btn_info1_edit.TabIndex = 261
+        Me.Btn_info1_edit.Text = "e"
+        Me.ToolTip1.SetToolTip(Me.Btn_info1_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.Btn_info1_edit.UseVisualStyleBackColor = True
+        '
+        'Btn_info2_edit
+        '
+        Me.Btn_info2_edit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_info2_edit.Location = New System.Drawing.Point(1169, 293)
+        Me.Btn_info2_edit.Name = "Btn_info2_edit"
+        Me.Btn_info2_edit.Size = New System.Drawing.Size(33, 34)
+        Me.Btn_info2_edit.TabIndex = 262
+        Me.Btn_info2_edit.Text = "e"
+        Me.ToolTip1.SetToolTip(Me.Btn_info2_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.Btn_info2_edit.UseVisualStyleBackColor = True
+        '
+        'Btn_info3_edit
+        '
+        Me.Btn_info3_edit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_info3_edit.Location = New System.Drawing.Point(1169, 333)
+        Me.Btn_info3_edit.Name = "Btn_info3_edit"
+        Me.Btn_info3_edit.Size = New System.Drawing.Size(33, 34)
+        Me.Btn_info3_edit.TabIndex = 263
+        Me.Btn_info3_edit.Text = "e"
+        Me.ToolTip1.SetToolTip(Me.Btn_info3_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.Btn_info3_edit.UseVisualStyleBackColor = True
+        '
+        'Btn_info4_edit
+        '
+        Me.Btn_info4_edit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_info4_edit.Location = New System.Drawing.Point(1169, 373)
+        Me.Btn_info4_edit.Name = "Btn_info4_edit"
+        Me.Btn_info4_edit.Size = New System.Drawing.Size(33, 34)
+        Me.Btn_info4_edit.TabIndex = 264
+        Me.Btn_info4_edit.Text = "e"
+        Me.ToolTip1.SetToolTip(Me.Btn_info4_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.Btn_info4_edit.UseVisualStyleBackColor = True
+        '
+        'Btn_Title_edit
+        '
+        Me.Btn_Title_edit.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Title_edit.Location = New System.Drawing.Point(1169, 30)
+        Me.Btn_Title_edit.Name = "Btn_Title_edit"
+        Me.Btn_Title_edit.Size = New System.Drawing.Size(33, 34)
+        Me.Btn_Title_edit.TabIndex = 265
+        Me.Btn_Title_edit.Text = "e"
+        Me.ToolTip1.SetToolTip(Me.Btn_Title_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.Btn_Title_edit.UseVisualStyleBackColor = True
+        '
         'Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1109,6 +1169,11 @@ Partial Class Tennis26_Scorer
         Me.BackColor = System.Drawing.Color.Gray
         Me.ClientSize = New System.Drawing.Size(1535, 761)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Btn_Title_edit)
+        Me.Controls.Add(Me.Btn_info4_edit)
+        Me.Controls.Add(Me.Btn_info3_edit)
+        Me.Controls.Add(Me.Btn_info2_edit)
+        Me.Controls.Add(Me.Btn_info1_edit)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.CheckBox_hideassociation)
         Me.Controls.Add(Me.CheckBox_hidepoints)
@@ -1318,4 +1383,9 @@ Partial Class Tennis26_Scorer
     Friend WithEvents CheckBox_hidepoints As CheckBox
     Friend WithEvents CheckBox_hideassociation As CheckBox
     Friend WithEvents Label13 As Label
+    Friend WithEvents Btn_info1_edit As Button
+    Friend WithEvents Btn_info2_edit As Button
+    Friend WithEvents Btn_info3_edit As Button
+    Friend WithEvents Btn_info4_edit As Button
+    Friend WithEvents Btn_Title_edit As Button
 End Class

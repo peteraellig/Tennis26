@@ -167,6 +167,12 @@
     <Compile Include="Tennis26_Main2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Tennis26_TitleEdit.Designer.vb">
+      <DependentUpon>Tennis26_TitleEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tennis26_TitleEdit.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -192,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tennis26_Main2.resx">
       <DependentUpon>Tennis26_Main2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tennis26_TitleEdit.resx">
+      <DependentUpon>Tennis26_TitleEdit.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
