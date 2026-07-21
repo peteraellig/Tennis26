@@ -985,10 +985,10 @@ Public Class Tennis26_Scorer
 
         Dim name2 = player2(0)
         If name1.Length + name2.Length > 10 Then
-            name1 = name1.Substring(0, Math.Min(4, name1.Length))
-            name2 = name2.Substring(0, Math.Min(4, name2.Length))
+            name1 = name1.Substring(0, Math.Min(6, name1.Length))
+            name2 = name2.Substring(0, Math.Min(6, name2.Length))
         End If
-        Return name1 & "/" & name2
+        Return name1 & " / " & name2
     End Function
 
     Private Sub UpdateButtonNames()
@@ -1714,6 +1714,7 @@ Public Class Tennis26_Scorer
             Return If(String.IsNullOrWhiteSpace(colour), Tennis26_Settings.DEFAULT_GAMEWON_COLOUR, colour.Trim())
         End Get
     End Property
+
 
     Private Const NORMAL_SET_COLOUR As String = "#FFFFFF"   ' weiss (Standard-Textfarbe)
 

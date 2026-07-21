@@ -375,7 +375,7 @@ Partial Class Tennis26_Scorer
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(12, 473)
+        Me.Label12.Location = New System.Drawing.Point(19, 718)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(46, 13)
         Me.Label12.TabIndex = 27
@@ -384,7 +384,7 @@ Partial Class Tennis26_Scorer
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(12, 494)
+        Me.Label7.Location = New System.Drawing.Point(19, 739)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(40, 13)
         Me.Label7.TabIndex = 28
@@ -447,7 +447,7 @@ Partial Class Tennis26_Scorer
         '
         Me.PictureBox4.BackColor = System.Drawing.Color.OldLace
         Me.PictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox4.Location = New System.Drawing.Point(413, 272)
+        Me.PictureBox4.Location = New System.Drawing.Point(15, 471)
         Me.PictureBox4.Name = "PictureBox4"
         Me.PictureBox4.Size = New System.Drawing.Size(379, 194)
         Me.PictureBox4.TabIndex = 36
@@ -465,40 +465,40 @@ Partial Class Tennis26_Scorer
         '
         'Btn_Name_Home
         '
-        Me.Btn_Name_Home.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Home.Location = New System.Drawing.Point(435, 373)
+        Me.Btn_Name_Home.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Home.Location = New System.Drawing.Point(22, 479)
         Me.Btn_Name_Home.Name = "Btn_Name_Home"
-        Me.Btn_Name_Home.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Home.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Home.TabIndex = 38
         Me.Btn_Name_Home.Text = "Name Home"
         Me.Btn_Name_Home.UseVisualStyleBackColor = True
         '
         'Btn_Name_Away
         '
-        Me.Btn_Name_Away.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Away.Location = New System.Drawing.Point(617, 373)
+        Me.Btn_Name_Away.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Away.Location = New System.Drawing.Point(208, 479)
         Me.Btn_Name_Away.Name = "Btn_Name_Away"
-        Me.Btn_Name_Away.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Away.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Away.TabIndex = 39
         Me.Btn_Name_Away.Text = "Name Away"
         Me.Btn_Name_Away.UseVisualStyleBackColor = True
         '
         'Btn_Name_Home2
         '
-        Me.Btn_Name_Home2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Home2.Location = New System.Drawing.Point(413, 533)
+        Me.Btn_Name_Home2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Home2.Location = New System.Drawing.Point(22, 556)
         Me.Btn_Name_Home2.Name = "Btn_Name_Home2"
-        Me.Btn_Name_Home2.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Home2.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Home2.TabIndex = 250
         Me.Btn_Name_Home2.Text = "Name Home 2"
         Me.Btn_Name_Home2.UseVisualStyleBackColor = True
         '
         'Btn_Name_Away2
         '
-        Me.Btn_Name_Away2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Name_Away2.Location = New System.Drawing.Point(617, 541)
+        Me.Btn_Name_Away2.Font = New System.Drawing.Font("Segoe UI Semibold", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Away2.Location = New System.Drawing.Point(213, 555)
         Me.Btn_Name_Away2.Name = "Btn_Name_Away2"
-        Me.Btn_Name_Away2.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Away2.Size = New System.Drawing.Size(177, 70)
         Me.Btn_Name_Away2.TabIndex = 251
         Me.Btn_Name_Away2.Text = "Name Away 2"
         Me.Btn_Name_Away2.UseVisualStyleBackColor = True
@@ -637,7 +637,7 @@ Partial Class Tennis26_Scorer
         'CheckBox_hidedetails
         '
         Me.CheckBox_hidedetails.AutoSize = True
-        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(512, 448)
+        Me.CheckBox_hidedetails.Location = New System.Drawing.Point(107, 638)
         Me.CheckBox_hidedetails.Name = "CheckBox_hidedetails"
         Me.CheckBox_hidedetails.Size = New System.Drawing.Size(186, 17)
         Me.CheckBox_hidedetails.TabIndex = 58
@@ -935,7 +935,7 @@ Partial Class Tennis26_Scorer
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(12, 518)
+        Me.Label11.Location = New System.Drawing.Point(756, 728)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(46, 13)
         Me.Label11.TabIndex = 82
