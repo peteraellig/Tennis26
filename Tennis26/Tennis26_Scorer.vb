@@ -974,6 +974,16 @@ Public Class Tennis26_Scorer
         Return If(IsDoublesMatch(), "large_result_double.gtzip", "large_result.gtzip")
     End Function
 
+    ' "match_pairing.gtzip" (Einzel) bzw. "match_pairing_double.gtzip" (Doppel) - nur für den
+    ' Btn_matchpairing-Slot (nicht matchpairing1-4, für die es keine Doppel-Vorlage gibt).
+    ' Pairing() sendet die h2xxx/a2xxx-Felder (2. Doppelpartner) bereits unabhängig vom
+    ' Template, sobald IsDoublesMatch() true ist - ohne diesen Vorlagen-Wechsel liefen diese
+    ' Felder aber ins Leere, weil match_pairing.gtzip sie gar nicht kennt (gleicher Fehler wie
+    ' vorher bei Large Result).
+    Private Function GetMatchPairingTemplate() As String
+        Return If(IsDoublesMatch(), "match_pairing_double.gtzip", "match_pairing.gtzip")
+    End Function
+
     ' Team-Name für den Scorebug (hname/aname) bei Doppel: "Nachname1/Nachname2" - anders als
     ' bei Large Result bleibt die Scorebug-Vorlage dieselbe, das Feld ist also deutlich
     ' schmaler. Überschreitet die Summe beider Nachnamen 10 Zeichen, werden beide auf je 4
@@ -2001,7 +2011,7 @@ Public Class Tennis26_Scorer
 
         If String.IsNullOrEmpty(specificTemplate) Then
             ' Alle Templates aktualisieren
-            templates = {"match_pairing.gtzip", "match_pairing1.gtzip", "match_pairing2.gtzip", "match_pairing3.gtzip", "match_pairing4.gtzip"}
+            templates = {GetMatchPairingTemplate(), "match_pairing1.gtzip", "match_pairing2.gtzip", "match_pairing3.gtzip", "match_pairing4.gtzip"}
         Else
             ' Nur spezifisches Template aktualisieren
             templates = {specificTemplate}
@@ -2201,6 +2211,7 @@ Public Class Tennis26_Scorer
         Pairing()
 
         Dim entry = GetToggle("matchpairing")
+        entry.Template = GetMatchPairingTemplate() ' Einzel/Doppel-Vorlage, siehe Pairing()
 
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
@@ -2350,6 +2361,7 @@ Public Class Tennis26_Scorer
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=large_result_double.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=title.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing_double.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing1.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing2.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing3.gtzip&Mix=0",
