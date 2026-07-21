@@ -86,6 +86,10 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename5 = New System.Windows.Forms.Button()
         Me.Btn_info3 = New System.Windows.Forms.Button()
         Me.Btn_info4 = New System.Windows.Forms.Button()
+        Me.CheckBox_hidehight = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hiderank = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hidepoints = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_hideassociation = New System.Windows.Forms.CheckBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Btn_clearLayers = New System.Windows.Forms.Button()
@@ -110,10 +114,6 @@ Partial Class Tennis26_Scorer
         Me.PictureBox13 = New System.Windows.Forms.PictureBox()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.CheckBox_hidehight = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_hiderank = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_hidepoints = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_hideassociation = New System.Windows.Forms.CheckBox()
         Me.Label13 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -792,6 +792,54 @@ Partial Class Tennis26_Scorer
         Me.ToolTip1.SetToolTip(Me.Btn_info4, "info4.gtzip Edit this title manually in GT Designer.")
         Me.Btn_info4.UseVisualStyleBackColor = True
         '
+        'CheckBox_hidehight
+        '
+        Me.CheckBox_hidehight.AutoSize = True
+        Me.CheckBox_hidehight.Location = New System.Drawing.Point(642, 535)
+        Me.CheckBox_hidehight.Name = "CheckBox_hidehight"
+        Me.CheckBox_hidehight.Size = New System.Drawing.Size(54, 17)
+        Me.CheckBox_hidehight.TabIndex = 256
+        Me.CheckBox_hidehight.Text = "hight"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidehight, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hidehight.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hiderank
+        '
+        Me.CheckBox_hiderank.AutoSize = True
+        Me.CheckBox_hiderank.Location = New System.Drawing.Point(642, 558)
+        Me.CheckBox_hiderank.Name = "CheckBox_hiderank"
+        Me.CheckBox_hiderank.Size = New System.Drawing.Size(49, 17)
+        Me.CheckBox_hiderank.TabIndex = 257
+        Me.CheckBox_hiderank.Text = "rank"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hiderank, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hiderank.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hidepoints
+        '
+        Me.CheckBox_hidepoints.AutoSize = True
+        Me.CheckBox_hidepoints.Location = New System.Drawing.Point(642, 582)
+        Me.CheckBox_hidepoints.Name = "CheckBox_hidepoints"
+        Me.CheckBox_hidepoints.Size = New System.Drawing.Size(59, 17)
+        Me.CheckBox_hidepoints.TabIndex = 258
+        Me.CheckBox_hidepoints.Text = "points"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hidepoints, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hidepoints.UseVisualStyleBackColor = True
+        '
+        'CheckBox_hideassociation
+        '
+        Me.CheckBox_hideassociation.AutoSize = True
+        Me.CheckBox_hideassociation.Location = New System.Drawing.Point(642, 609)
+        Me.CheckBox_hideassociation.Name = "CheckBox_hideassociation"
+        Me.CheckBox_hideassociation.Size = New System.Drawing.Size(84, 17)
+        Me.CheckBox_hideassociation.TabIndex = 259
+        Me.CheckBox_hideassociation.Text = "association"
+        Me.ToolTip1.SetToolTip(Me.CheckBox_hideassociation, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
+        "ated od deactivated at any time during the game.")
+        Me.CheckBox_hideassociation.UseVisualStyleBackColor = True
+        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -1019,62 +1067,14 @@ Partial Class Tennis26_Scorer
         Me.Label8.TabIndex = 255
         Me.Label8.Text = "Label8"
         '
-        'CheckBox_hidehight
-        '
-        Me.CheckBox_hidehight.AutoSize = True
-        Me.CheckBox_hidehight.Location = New System.Drawing.Point(642, 535)
-        Me.CheckBox_hidehight.Name = "CheckBox_hidehight"
-        Me.CheckBox_hidehight.Size = New System.Drawing.Size(54, 17)
-        Me.CheckBox_hidehight.TabIndex = 256
-        Me.CheckBox_hidehight.Text = "hight"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hidehight, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
-        "ated od deactivated at any time during the game.")
-        Me.CheckBox_hidehight.UseVisualStyleBackColor = True
-        '
-        'CheckBox_hiderank
-        '
-        Me.CheckBox_hiderank.AutoSize = True
-        Me.CheckBox_hiderank.Location = New System.Drawing.Point(642, 558)
-        Me.CheckBox_hiderank.Name = "CheckBox_hiderank"
-        Me.CheckBox_hiderank.Size = New System.Drawing.Size(49, 17)
-        Me.CheckBox_hiderank.TabIndex = 257
-        Me.CheckBox_hiderank.Text = "rank"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hiderank, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
-        "ated od deactivated at any time during the game.")
-        Me.CheckBox_hiderank.UseVisualStyleBackColor = True
-        '
-        'CheckBox_hidepoints
-        '
-        Me.CheckBox_hidepoints.AutoSize = True
-        Me.CheckBox_hidepoints.Location = New System.Drawing.Point(642, 582)
-        Me.CheckBox_hidepoints.Name = "CheckBox_hidepoints"
-        Me.CheckBox_hidepoints.Size = New System.Drawing.Size(59, 17)
-        Me.CheckBox_hidepoints.TabIndex = 258
-        Me.CheckBox_hidepoints.Text = "points"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hidepoints, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
-        "ated od deactivated at any time during the game.")
-        Me.CheckBox_hidepoints.UseVisualStyleBackColor = True
-        '
-        'CheckBox_hideassociation
-        '
-        Me.CheckBox_hideassociation.AutoSize = True
-        Me.CheckBox_hideassociation.Location = New System.Drawing.Point(642, 609)
-        Me.CheckBox_hideassociation.Name = "CheckBox_hideassociation"
-        Me.CheckBox_hideassociation.Size = New System.Drawing.Size(84, 17)
-        Me.CheckBox_hideassociation.TabIndex = 259
-        Me.CheckBox_hideassociation.Text = "association"
-        Me.ToolTip1.SetToolTip(Me.CheckBox_hideassociation, "There are various tournaments where there are no tiebreaks.this mode can be activ" &
-        "ated od deactivated at any time during the game.")
-        Me.CheckBox_hideassociation.UseVisualStyleBackColor = True
-        '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(642, 488)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(100, 13)
+        Me.Label13.Size = New System.Drawing.Size(111, 13)
         Me.Label13.TabIndex = 260
-        Me.Label13.Text = "hide Player details"
+        Me.Label13.Text = "SHOW Player details"
         '
         'Tennis26_Scorer
         '
