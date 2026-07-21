@@ -944,16 +944,34 @@ Public Class Tennis26_Scorer
         Return If(String.IsNullOrEmpty(player(0)), fallback, player(1) & " " & player(0))
     End Function
 
-    ' Team-Anzeigename für die Punkte-Buttons (btn_homepoint/awaypoint) - bei Doppel beide
-    ' Nachnamen je auf einer eigenen Zeile statt nebeneinander mit "/", weil der 2. Name bei
-    ' langen Namen bzw. grosser Schrift sonst im Button abgeschnitten wird und nicht mehr
-    ' sichtbar ist. Bei Einzel unverändert nur der eine Nachname.
-    Private Function GetTeamDisplayName(player As String(), player2 As String(), fallback As String) As String
+    ' Team-Anzeigename bei Doppel: beide Nachnamen kombiniert, bei Einzel unverändert nur der
+    ' eine Nachname. Separator standardmässig ein Linefeed (für die Punkte-Buttons
+    ' btn_homepoint/awaypoint, wo der 2. Name bei langen Namen/grosser Schrift sonst neben dem
+    ' 1. abgeschnitten wird) - LargeResult() übergibt stattdessen " / ", da dort als grossflächige
+    ' Grafikeinblendung genug Platz für eine Zeile ist.
+    Private Function GetTeamDisplayName(player As String(), player2 As String(), fallback As String, Optional separator As String = vbNewLine) As String
         Dim name1 = If(String.IsNullOrEmpty(player(0)), fallback, player(0))
         If IsDoublesMatch() AndAlso Not String.IsNullOrEmpty(player2(0)) Then
-            Return name1 & vbNewLine & player2(0)
+            Return name1 & separator & player2(0)
         End If
         Return name1
+    End Function
+
+    ' Kombinierter Länder-Text für Doppel-Grafiken ohne Flaggenfeld (z.B. Large Result) -
+    ' "USA" wenn beide Partner aus demselben Land kommen, sonst "USA/CHE".
+    Private Function GetTeamCountryText(country1 As String, country2 As String) As String
+        If String.IsNullOrEmpty(country2) OrElse country1 = country2 Then
+            Return country1
+        End If
+        Return country1 & "/" & country2
+    End Function
+
+    ' "large_result.gtzip" (Einzel) bzw. "large_result_double.gtzip" (Doppel) - eigene Vorlage
+    ' für Doppel (2 Namen pro Seite + kombinierter Länder-Text statt Flagge, siehe LargeResult()).
+    ' Von LargeResult() (Datenversand) UND Btn_LargeResult_Click (Ein-/Ausblenden) verwendet,
+    ' damit beide immer dieselbe Vorlage ansprechen.
+    Private Function GetLargeResultTemplate() As String
+        Return If(IsDoublesMatch(), "large_result_double.gtzip", "large_result.gtzip")
     End Function
 
     Private Sub UpdateButtonNames()
@@ -1462,17 +1480,49 @@ Public Class Tennis26_Scorer
     End Sub
 
     Private Sub LargeResult()
-        ' Grosse Ergebnisanzeige aktualisieren
-        Dim scorebugtitle As String = "large_result.gtzip"
+        ' Grosse Ergebnisanzeige aktualisieren - bei Doppel eine eigene Vorlage
+        ' (large_result_double.gtzip statt large_result.gtzip, siehe GetLargeResultTemplate())
+        ' mit kombiniertem Team-Namen ("Nachname1 / Nachname2") und Länder-Text ("USA" bzw.
+        ' "USA/CHE") statt Einzelspieler-Vorname+Flagge - für 2 Namen pro Seite ist in der
+        ' Einzel-Vorlage kein Platz, und eine einzelne Flagge würde nur einen der beiden
+        ' Partner repräsentieren.
+        Dim scorebugtitle As String = GetLargeResultTemplate()
         Dim sendstring As String
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(1) & " " & Tennis26_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
-        Dim homecountry As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
-        Dim awaycountry As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(3))
-        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName) : SendHTMLtovMix(sendstring)
-        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName) : SendHTMLtovMix(sendstring)
-        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homecountry) : SendHTMLtovMix(sendstring)
-        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awaycountry) : SendHTMLtovMix(sendstring)
+
+        If IsDoublesMatch() Then
+            Dim homeTeamName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME", " / ")
+            Dim awayTeamName As String = GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY", " / ")
+            Dim homeCountryText As String = GetTeamCountryText(Tennis26_Main.HomePlayer(3), Tennis26_Main.HomePlayer2(3))
+            Dim awayCountryText As String = GetTeamCountryText(Tennis26_Main.AwayPlayer(3), Tennis26_Main.AwayPlayer2(3))
+
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homeTeamName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayTeamName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homeCountryText) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awayCountryText) : SendHTMLtovMix(sendstring)
+        Else
+            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(1) & " " & Tennis26_Main.HomePlayer(0))
+            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(1) & " " & Tennis26_Main.AwayPlayer(0))
+            Dim homecountry As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(3))
+            Dim awaycountry As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(3))
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "aname.Text", awayPlayerName) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "hcountry.Text", homecountry) : SendHTMLtovMix(sendstring)
+            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "acountry.Text", awaycountry) : SendHTMLtovMix(sendstring)
+
+            Dim flagInfo = GetFlagInfo(homecountry)
+            If flagInfo.Exists Then
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
+            Else
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+            End If
+
+            flagInfo = GetFlagInfo(awaycountry)
+            If flagInfo.Exists Then
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
+            Else
+                sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+            End If
+        End If
 
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h1.Text", lbl_home_s1.Text) : SendHTMLtovMix(sendstring)
         sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2.Text", lbl_home_s2.Text) : SendHTMLtovMix(sendstring)
@@ -1494,27 +1544,6 @@ Public Class Tennis26_Scorer
                 sendstring = "Function=SetImageVisibleOff&Input=" + scorebugtitle + "&SelectedName=hserve.Source" : SendHTMLtovMix(sendstring)
                 sendstring = "Function=SetImageVisibleOn&Input=" + scorebugtitle + "&SelectedName=aserve.Source" : SendHTMLtovMix(sendstring)
             End If
-        End If
-
-        Dim flagInfo = GetFlagInfo(homecountry)
-        If flagInfo.Exists Then
-            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
-        Else
-            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "hcountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
-        End If
-
-        flagInfo = GetFlagInfo(awaycountry)
-        If flagInfo.Exists Then
-            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
-        Else
-            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "acountry_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
-        End If
-
-        If IsDoublesMatch() Then
-            Dim h2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
-            Dim a2PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
-            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "h2name.Text", h2PlayerName) : SendHTMLtovMix(sendstring)
-            sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "a2name.Text", a2PlayerName) : SendHTMLtovMix(sendstring)
         End If
 
     End Sub
@@ -1643,6 +1672,7 @@ Public Class Tennis26_Scorer
     Private Sub Btn_LargeResult_Click(sender As Object, e As EventArgs) Handles Btn_LargeResult.Click
         'blendet grosses resultat ein und aus
         Dim entry = GetToggle("largeresult")
+        entry.Template = GetLargeResultTemplate() ' Einzel/Doppel-Vorlage, siehe LargeResult()
 
         ' Reset other toggles first
         ResetOtherOverlayToggles(entry.Key)
@@ -2299,6 +2329,7 @@ Public Class Tennis26_Scorer
         Dim overlayCommands() As String = {
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=lower_name.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=large_result.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=large_result_double.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=title.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing1.gtzip&Mix=0",
