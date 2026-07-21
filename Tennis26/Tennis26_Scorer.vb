@@ -2407,15 +2407,18 @@ Public Class Tennis26_Scorer
         RefreshPlayerDetailOverlays()
     End Sub
 
-    ' Aktualisiert alle Overlays, die BuildPlayerDetailsText() verwenden - unabhängig davon, ob
-    ' sie gerade sichtbar sind (Datenversand an eine unsichtbare Vorlage ist harmlos, siehe auch
-    ' Pairing()). So übernimmt z.B. eine bereits eingeblendete "Name Home"-Zeile eine per
-    ' Checkbox geänderte Detail-Auswahl sofort.
+    ' WICHTIG: Lower1/Lower2/LowerHome2/LowerAway2 schreiben alle auf dieselben Feldnamen
+    ' derselben einzigen Vorlage "lower_name.gtzip" (sie wird je nach Button wiederverwendet,
+    ' nicht 4 getrennte Titel) - ruft man alle 4 unconditional auf, gewinnt immer der letzte
+    ' Aufruf und überschreibt die Daten des eigentlich sichtbaren Spielers. Deshalb hier nur
+    ' die Funktion aufrufen, deren Toggle gerade aktiv ist (max. einer wegen gegenseitiger
+    ' Exklusivität über ResetOtherOverlayToggles). Pairing() bleibt unconditional, da sie
+    ' unabhängige Vorlagen bedient (siehe dort).
     Private Sub RefreshPlayerDetailOverlays()
-        Lower1()
-        Lower2()
-        LowerHome2()
-        LowerAway2()
+        If GetToggle("home").Status Then Lower1()
+        If GetToggle("away").Status Then Lower2()
+        If GetToggle("home2").Status Then LowerHome2()
+        If GetToggle("away2").Status Then LowerAway2()
         Pairing()
     End Sub
 
