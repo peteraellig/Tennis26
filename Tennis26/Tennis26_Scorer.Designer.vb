@@ -95,9 +95,13 @@ Partial Class Tennis26_Scorer
         Me.Btn_info3_edit = New System.Windows.Forms.Button()
         Me.Btn_info4_edit = New System.Windows.Forms.Button()
         Me.Btn_Title_edit = New System.Windows.Forms.Button()
+        Me.Btn_clearLayers = New System.Windows.Forms.Button()
+        Me.Btn_betweenentry = New System.Windows.Forms.Button()
+        Me.Btn_save_match = New System.Windows.Forms.Button()
+        Me.Btn_load_match = New System.Windows.Forms.Button()
+        Me.Btn_recover = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.Btn_clearLayers = New System.Windows.Forms.Button()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.PictureBox9 = New System.Windows.Forms.PictureBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -111,15 +115,12 @@ Partial Class Tennis26_Scorer
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.Btn_betweenentry = New System.Windows.Forms.Button()
-        Me.Btn_save_match = New System.Windows.Forms.Button()
-        Me.Btn_load_match = New System.Windows.Forms.Button()
-        Me.Btn_recover = New System.Windows.Forms.Button()
         Me.PictureBox12 = New System.Windows.Forms.PictureBox()
         Me.PictureBox13 = New System.Windows.Forms.PictureBox()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
         CType(Me.PBAway, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PBHome, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -928,6 +929,58 @@ Partial Class Tennis26_Scorer
         Me.ToolTip1.SetToolTip(Me.Btn_Title_edit, "title.gtzip Edit the title content here, the design in GT Designer." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.Btn_Title_edit.UseVisualStyleBackColor = True
         '
+        'Btn_clearLayers
+        '
+        Me.Btn_clearLayers.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_clearLayers.Location = New System.Drawing.Point(833, 304)
+        Me.Btn_clearLayers.Name = "Btn_clearLayers"
+        Me.Btn_clearLayers.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_clearLayers.TabIndex = 55
+        Me.Btn_clearLayers.Text = "clear all CG layers"
+        Me.ToolTip1.SetToolTip(Me.Btn_clearLayers, "switch off all vMix Overlays")
+        Me.Btn_clearLayers.UseVisualStyleBackColor = True
+        '
+        'Btn_betweenentry
+        '
+        Me.Btn_betweenentry.Location = New System.Drawing.Point(1044, 600)
+        Me.Btn_betweenentry.Name = "Btn_betweenentry"
+        Me.Btn_betweenentry.Size = New System.Drawing.Size(149, 56)
+        Me.Btn_betweenentry.TabIndex = 83
+        Me.Btn_betweenentry.Text = "Enter between running game"
+        Me.ToolTip1.SetToolTip(Me.Btn_betweenentry, "If you want to generate graphics but the game is already running")
+        Me.Btn_betweenentry.UseVisualStyleBackColor = True
+        '
+        'Btn_save_match
+        '
+        Me.Btn_save_match.Location = New System.Drawing.Point(833, 570)
+        Me.Btn_save_match.Name = "Btn_save_match"
+        Me.Btn_save_match.Size = New System.Drawing.Size(149, 36)
+        Me.Btn_save_match.TabIndex = 84
+        Me.Btn_save_match.Text = "SAVE Game"
+        Me.ToolTip1.SetToolTip(Me.Btn_save_match, "Save the game at any point, for example, if the game is interrupted due to poor l" &
+        "ighting on the field and will continue tomorrow")
+        Me.Btn_save_match.UseVisualStyleBackColor = True
+        '
+        'Btn_load_match
+        '
+        Me.Btn_load_match.Location = New System.Drawing.Point(833, 619)
+        Me.Btn_load_match.Name = "Btn_load_match"
+        Me.Btn_load_match.Size = New System.Drawing.Size(149, 36)
+        Me.Btn_load_match.TabIndex = 85
+        Me.Btn_load_match.Text = "Load saved game"
+        Me.ToolTip1.SetToolTip(Me.Btn_load_match, "Load a saved Game")
+        Me.Btn_load_match.UseVisualStyleBackColor = True
+        '
+        'Btn_recover
+        '
+        Me.Btn_recover.Location = New System.Drawing.Point(1044, 571)
+        Me.Btn_recover.Name = "Btn_recover"
+        Me.Btn_recover.Size = New System.Drawing.Size(149, 23)
+        Me.Btn_recover.TabIndex = 86
+        Me.Btn_recover.Text = "!! RECOVER !!"
+        Me.ToolTip1.SetToolTip(Me.Btn_recover, "only use after a power outage or computer crash")
+        Me.Btn_recover.UseVisualStyleBackColor = True
+        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -947,17 +1000,6 @@ Partial Class Tennis26_Scorer
         Me.Label3.Size = New System.Drawing.Size(14, 13)
         Me.Label3.TabIndex = 51
         Me.Label3.Text = "A"
-        '
-        'Btn_clearLayers
-        '
-        Me.Btn_clearLayers.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_clearLayers.Location = New System.Drawing.Point(833, 304)
-        Me.Btn_clearLayers.Name = "Btn_clearLayers"
-        Me.Btn_clearLayers.Size = New System.Drawing.Size(150, 70)
-        Me.Btn_clearLayers.TabIndex = 55
-        Me.Btn_clearLayers.Text = "clear all CG layers"
-        Me.ToolTip1.SetToolTip(Me.Btn_clearLayers, "switch off all vMix Overlays")
-        Me.Btn_clearLayers.UseVisualStyleBackColor = True
         '
         'PictureBox8
         '
@@ -1088,47 +1130,6 @@ Partial Class Tennis26_Scorer
         Me.Label11.TabIndex = 82
         Me.Label11.Text = "Label11"
         '
-        'Btn_betweenentry
-        '
-        Me.Btn_betweenentry.Location = New System.Drawing.Point(1044, 600)
-        Me.Btn_betweenentry.Name = "Btn_betweenentry"
-        Me.Btn_betweenentry.Size = New System.Drawing.Size(149, 56)
-        Me.Btn_betweenentry.TabIndex = 83
-        Me.Btn_betweenentry.Text = "Enter between running game"
-        Me.ToolTip1.SetToolTip(Me.Btn_betweenentry, "If you want to generate graphics but the game is already running")
-        Me.Btn_betweenentry.UseVisualStyleBackColor = True
-        '
-        'Btn_save_match
-        '
-        Me.Btn_save_match.Location = New System.Drawing.Point(833, 570)
-        Me.Btn_save_match.Name = "Btn_save_match"
-        Me.Btn_save_match.Size = New System.Drawing.Size(149, 36)
-        Me.Btn_save_match.TabIndex = 84
-        Me.Btn_save_match.Text = "SAVE Game"
-        Me.ToolTip1.SetToolTip(Me.Btn_save_match, "Save the game at any point, for example, if the game is interrupted due to poor l" &
-        "ighting on the field and will continue tomorrow")
-        Me.Btn_save_match.UseVisualStyleBackColor = True
-        '
-        'Btn_load_match
-        '
-        Me.Btn_load_match.Location = New System.Drawing.Point(833, 619)
-        Me.Btn_load_match.Name = "Btn_load_match"
-        Me.Btn_load_match.Size = New System.Drawing.Size(149, 36)
-        Me.Btn_load_match.TabIndex = 85
-        Me.Btn_load_match.Text = "Load saved game"
-        Me.ToolTip1.SetToolTip(Me.Btn_load_match, "Load a saved Game")
-        Me.Btn_load_match.UseVisualStyleBackColor = True
-        '
-        'Btn_recover
-        '
-        Me.Btn_recover.Location = New System.Drawing.Point(1044, 571)
-        Me.Btn_recover.Name = "Btn_recover"
-        Me.Btn_recover.Size = New System.Drawing.Size(149, 23)
-        Me.Btn_recover.TabIndex = 86
-        Me.Btn_recover.Text = "!! RECOVER !!"
-        Me.ToolTip1.SetToolTip(Me.Btn_recover, "only use after a power outage or computer crash")
-        Me.Btn_recover.UseVisualStyleBackColor = True
-        '
         'PictureBox12
         '
         Me.PictureBox12.BackColor = System.Drawing.Color.Silver
@@ -1181,6 +1182,16 @@ Partial Class Tennis26_Scorer
         Me.Label13.TabIndex = 260
         Me.Label13.Text = "SHOW Player details"
         '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.ForeColor = System.Drawing.Color.White
+        Me.Label14.Location = New System.Drawing.Point(19, 739)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(46, 13)
+        Me.Label14.TabIndex = 266
+        Me.Label14.Text = "Label14"
+        '
         'Tennis26_Scorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1188,6 +1199,7 @@ Partial Class Tennis26_Scorer
         Me.BackColor = System.Drawing.Color.Gray
         Me.ClientSize = New System.Drawing.Size(1535, 761)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.Btn_Title_edit)
         Me.Controls.Add(Me.Btn_info4_edit)
         Me.Controls.Add(Me.Btn_info3_edit)
@@ -1407,4 +1419,5 @@ Partial Class Tennis26_Scorer
     Friend WithEvents Btn_info3_edit As Button
     Friend WithEvents Btn_info4_edit As Button
     Friend WithEvents Btn_Title_edit As Button
+    Friend WithEvents Label14 As Label
 End Class
