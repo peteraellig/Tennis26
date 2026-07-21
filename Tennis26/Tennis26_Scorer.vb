@@ -974,6 +974,23 @@ Public Class Tennis26_Scorer
         Return If(IsDoublesMatch(), "large_result_double.gtzip", "large_result.gtzip")
     End Function
 
+    ' Team-Name für den Scorebug (hname/aname) bei Doppel: "Nachname1/Nachname2" - anders als
+    ' bei Large Result bleibt die Scorebug-Vorlage dieselbe, das Feld ist also deutlich
+    ' schmaler. Überschreitet die Summe beider Nachnamen 10 Zeichen, werden beide auf je 4
+    ' Zeichen gekürzt (z.B. "Federer/Nadal" -> "Fede/Nada"), damit die kompakte Grafik nicht
+    ' überläuft. Bei Einzel unverändert nur der eine Nachname.
+    Private Function GetScorebugTeamName(player As String(), player2 As String(), fallback As String) As String
+        Dim name1 = If(String.IsNullOrEmpty(player(0)), fallback, player(0))
+        If Not IsDoublesMatch() OrElse String.IsNullOrEmpty(player2(0)) Then Return name1
+
+        Dim name2 = player2(0)
+        If name1.Length + name2.Length > 10 Then
+            name1 = name1.Substring(0, Math.Min(4, name1.Length))
+            name2 = name2.Substring(0, Math.Min(4, name2.Length))
+        End If
+        Return name1 & "/" & name2
+    End Function
+
     Private Sub UpdateButtonNames()
         ' Spielernamen abrufen - bei Doppel als kombinierter Team-Name (siehe GetTeamDisplayName)
         Dim homePlayerName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
@@ -1408,8 +1425,8 @@ Public Class Tennis26_Scorer
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "apoint.Text", lbl_awaypoint.Text)
             index += 1
 
-            Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
-            Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
+            Dim homePlayerName As String = GetScorebugTeamName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
+            Dim awayPlayerName As String = GetScorebugTeamName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")
 
             sendstring(index) = BuildVmixSetCommand("SetText", scorebugtitle, "hname.Text", homePlayerName)
             index += 1
