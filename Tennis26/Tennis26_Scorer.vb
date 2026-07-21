@@ -342,16 +342,18 @@ Public Class Tennis26_Scorer
         ' CheckBox aus Settings laden
         CheckBox_keypress_Mode.Checked = My.Settings.keypress_mode
 
+        ' Checkboxen heissen jetzt "Show Player Details ..." (invertierte Logik gegenüber dem
+        ' ursprünglichen "Hide"): Checked = anzeigen, deshalb hideXxx = Not Checked.
         CheckBox_hidedetails.Checked = My.Settings.hidedetails
-        hideAge = CheckBox_hidedetails.Checked
+        hideAge = Not CheckBox_hidedetails.Checked
         CheckBox_hidehight.Checked = My.Settings.hidehight
-        hideHeight = CheckBox_hidehight.Checked
+        hideHeight = Not CheckBox_hidehight.Checked
         CheckBox_hiderank.Checked = My.Settings.hiderank
-        hideRank = CheckBox_hiderank.Checked
+        hideRank = Not CheckBox_hiderank.Checked
         CheckBox_hidepoints.Checked = My.Settings.hidepoints
-        hideDataPoints = CheckBox_hidepoints.Checked
+        hideDataPoints = Not CheckBox_hidepoints.Checked
         CheckBox_hideassociation.Checked = My.Settings.hideassociation
-        hideAssociation = CheckBox_hideassociation.Checked
+        hideAssociation = Not CheckBox_hideassociation.Checked
 
         ' CheckBox-Text entsprechend setzen
         If CheckBox_keypress_Mode.Checked Then
@@ -2364,43 +2366,56 @@ Public Class Tennis26_Scorer
 
     End Sub
 
-    ' Je eine Checkbox pro Spielerdetail (Age/Height/Ranking/Points/Association) - Lower1/2,
-    ' LowerHome2/Away2 und Pairing() berücksichtigen die jeweilige Variable bereits bei jedem
-    ' Aufruf. Der Pairing()-Refresh hier sorgt dafür, dass eine bereits auf Sendung sichtbare
-    ' "names match pairing"/matchpairing1-4-Grafik die Änderung sofort übernimmt, nicht erst
-    ' beim nächsten Ein-/Ausblenden.
+    ' Je eine Checkbox pro Spielerdetail (Age/Height/Ranking/Points/Association), Text jetzt
+    ' "Show Player Details ..." statt "Hide" - Checked = anzeigen, deshalb hideXxx = Not Checked.
+    ' Lower1/2, LowerHome2/Away2 und Pairing() berücksichtigen die jeweilige Variable bereits
+    ' bei jedem Aufruf; RefreshPlayerDetailOverlays() stösst hier zusätzlich einen sofortigen
+    ' Refresh an, damit eine bereits auf Sendung sichtbare Namens-/Pairing-Zeile die Änderung
+    ' sofort übernimmt statt erst beim nächsten Ein-/Ausblenden.
     Private Sub CheckBox_hidedetails_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidedetails.CheckedChanged
         My.Settings.hidedetails = CheckBox_hidedetails.Checked
         My.Settings.Save()
-        hideAge = CheckBox_hidedetails.Checked
-        Pairing()
+        hideAge = Not CheckBox_hidedetails.Checked
+        RefreshPlayerDetailOverlays()
     End Sub
 
     Private Sub CheckBox_hidehight_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidehight.CheckedChanged
         My.Settings.hidehight = CheckBox_hidehight.Checked
         My.Settings.Save()
-        hideHeight = CheckBox_hidehight.Checked
-        Pairing()
+        hideHeight = Not CheckBox_hidehight.Checked
+        RefreshPlayerDetailOverlays()
     End Sub
 
     Private Sub CheckBox_hiderank_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hiderank.CheckedChanged
         My.Settings.hiderank = CheckBox_hiderank.Checked
         My.Settings.Save()
-        hideRank = CheckBox_hiderank.Checked
-        Pairing()
+        hideRank = Not CheckBox_hiderank.Checked
+        RefreshPlayerDetailOverlays()
     End Sub
 
     Private Sub CheckBox_hidepoints_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hidepoints.CheckedChanged
         My.Settings.hidepoints = CheckBox_hidepoints.Checked
         My.Settings.Save()
-        hideDataPoints = CheckBox_hidepoints.Checked
-        Pairing()
+        hideDataPoints = Not CheckBox_hidepoints.Checked
+        RefreshPlayerDetailOverlays()
     End Sub
 
     Private Sub CheckBox_hideassociation_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_hideassociation.CheckedChanged
         My.Settings.hideassociation = CheckBox_hideassociation.Checked
         My.Settings.Save()
-        hideAssociation = CheckBox_hideassociation.Checked
+        hideAssociation = Not CheckBox_hideassociation.Checked
+        RefreshPlayerDetailOverlays()
+    End Sub
+
+    ' Aktualisiert alle Overlays, die BuildPlayerDetailsText() verwenden - unabhängig davon, ob
+    ' sie gerade sichtbar sind (Datenversand an eine unsichtbare Vorlage ist harmlos, siehe auch
+    ' Pairing()). So übernimmt z.B. eine bereits eingeblendete "Name Home"-Zeile eine per
+    ' Checkbox geänderte Detail-Auswahl sofort.
+    Private Sub RefreshPlayerDetailOverlays()
+        Lower1()
+        Lower2()
+        LowerHome2()
+        LowerAway2()
         Pairing()
     End Sub
 
