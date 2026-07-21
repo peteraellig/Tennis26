@@ -59,6 +59,8 @@ Partial Class Tennis26_Scorer
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.Btn_Name_Home = New System.Windows.Forms.Button()
         Me.Btn_Name_Away = New System.Windows.Forms.Button()
+        Me.Btn_Name_Home2 = New System.Windows.Forms.Button()
+        Me.Btn_Name_Away2 = New System.Windows.Forms.Button()
         Me.Btn_matchpairing = New System.Windows.Forms.Button()
         Me.Btn_Title = New System.Windows.Forms.Button()
         Me.Btn_info1 = New System.Windows.Forms.Button()
@@ -480,6 +482,26 @@ Partial Class Tennis26_Scorer
         Me.Btn_Name_Away.TabIndex = 39
         Me.Btn_Name_Away.Text = "Name Away"
         Me.Btn_Name_Away.UseVisualStyleBackColor = True
+        '
+        'Btn_Name_Home2
+        '
+        Me.Btn_Name_Home2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Home2.Location = New System.Drawing.Point(900, 520)
+        Me.Btn_Name_Home2.Name = "Btn_Name_Home2"
+        Me.Btn_Name_Home2.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Home2.TabIndex = 250
+        Me.Btn_Name_Home2.Text = "Name Home 2"
+        Me.Btn_Name_Home2.UseVisualStyleBackColor = True
+        '
+        'Btn_Name_Away2
+        '
+        Me.Btn_Name_Away2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Name_Away2.Location = New System.Drawing.Point(1082, 520)
+        Me.Btn_Name_Away2.Name = "Btn_Name_Away2"
+        Me.Btn_Name_Away2.Size = New System.Drawing.Size(150, 70)
+        Me.Btn_Name_Away2.TabIndex = 251
+        Me.Btn_Name_Away2.Text = "Name Away 2"
+        Me.Btn_Name_Away2.UseVisualStyleBackColor = True
         '
         'Btn_matchpairing
         '
@@ -1002,6 +1024,8 @@ Partial Class Tennis26_Scorer
         Me.Controls.Add(Me.Btn_matchpairing)
         Me.Controls.Add(Me.Btn_Name_Away)
         Me.Controls.Add(Me.Btn_Name_Home)
+        Me.Controls.Add(Me.Btn_Name_Away2)
+        Me.Controls.Add(Me.Btn_Name_Home2)
         Me.Controls.Add(Me.Btn_LargeResult)
         Me.Controls.Add(Me.Btn_exit)
         Me.Controls.Add(Me.Btn_Scorebug)
@@ -1101,6 +1125,8 @@ Partial Class Tennis26_Scorer
     Friend WithEvents PictureBox5 As PictureBox
     Friend WithEvents Btn_Name_Home As Button
     Friend WithEvents Btn_Name_Away As Button
+    Friend WithEvents Btn_Name_Home2 As Button
+    Friend WithEvents Btn_Name_Away2 As Button
     Friend WithEvents Btn_matchpairing As Button
     Friend WithEvents Btn_Title As Button
     Friend WithEvents Btn_info1 As Button

@@ -361,9 +361,13 @@ Public Class Tennis26_Scorer
     Private Sub InitOverlayToggles()
         overlayToggles = New List(Of OverlayToggle) From {
             New OverlayToggle With {.Key = "home", .Button = Btn_Name_Home, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))},
+                .ResetText = Function() "lower" & vbNewLine & GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")},
             New OverlayToggle With {.Key = "away", .Button = Btn_Name_Away, .Template = "lower_name.gtzip", .ComboIndex = 1,
-                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))},
+                .ResetText = Function() "lower" & vbNewLine & GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")},
+            New OverlayToggle With {.Key = "home2", .Button = Btn_Name_Home2, .Template = "lower_name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))},
+            New OverlayToggle With {.Key = "away2", .Button = Btn_Name_Away2, .Template = "lower_name.gtzip", .ComboIndex = 1,
+                .ResetText = Function() "lower" & vbNewLine & If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))},
             New OverlayToggle With {.Key = "largeresult", .Button = Btn_LargeResult, .Template = "large_result.gtzip", .ComboIndex = 1,
                 .ResetText = Function() "Large Result OFF"},
             New OverlayToggle With {.Key = "title", .Button = Btn_Title, .Template = "title.gtzip", .ComboIndex = 1,
@@ -933,10 +937,23 @@ Public Class Tennis26_Scorer
         End If
     End Sub
 
+    ' Team-Anzeigename für Stellen mit Platz für nur eine Textzeile (Punkte-Buttons, Name-
+    ' Einblender Home/Away) - bei Doppel beide Nachnamen kombiniert ("Nachname1 / Nachname2"),
+    ' bei Einzel unverändert nur der eine Nachname. Die vollständige Doppel-Bio (Vorname,
+    ' Land, Alter etc. pro Spieler) läuft weiterhin separat über Lower1/Lower2/LowerHome2/
+    ' LowerAway2 bzw. Pairing() - hier geht es nur um die kurze Team-Bezeichnung.
+    Private Function GetTeamDisplayName(player As String(), player2 As String(), fallback As String) As String
+        Dim name1 = If(String.IsNullOrEmpty(player(0)), fallback, player(0))
+        If IsDoublesMatch() AndAlso Not String.IsNullOrEmpty(player2(0)) Then
+            Return name1 & " / " & player2(0)
+        End If
+        Return name1
+    End Function
+
     Private Sub UpdateButtonNames()
-        ' Spielernamen abrufen
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
+        ' Spielernamen abrufen - bei Doppel als kombinierter Team-Name (siehe GetTeamDisplayName)
+        Dim homePlayerName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
+        Dim awayPlayerName As String = GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")
 
         ' Die Spaltenüberschriften der Statistik setzt Tennis26_Statistics selbst
         ' (UpdatePlayerNameHeaders bei jedem RefreshStatistics).
@@ -963,6 +980,13 @@ Public Class Tennis26_Scorer
         'schreibt spielernamen_lower an
         Btn_Name_Home.Text = "lower" & vbNewLine & homePlayerName
         Btn_Name_Away.Text = "lower" & vbNewLine & awayPlayerName
+
+        ' Name-Einblender für den 2. Doppelpartner - immer der individuelle Name (kein
+        ' Team-Zusammenzug wie bei Btn_Name_Home/Away), analog zu Btn_Name_Home/Away für Spieler 1.
+        Dim homePlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))
+        Dim awayPlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))
+        Btn_Name_Home2.Text = "lower" & vbNewLine & homePlayer2Name
+        Btn_Name_Away2.Text = "lower" & vbNewLine & awayPlayer2Name
     End Sub
 
     Private Sub UpdatePoints(player As String)
@@ -1860,6 +1884,66 @@ Public Class Tennis26_Scorer
         End If
     End Sub
 
+    ' Wie Lower1()/Lower2(), aber für den 2. Doppelpartner (HomePlayer2/AwayPlayer2) - bewusst
+    ' als eigene Methode statt Lower1/Lower2 zu parametrisieren, um den bestehenden, bereits
+    ' live erprobten Code für Spieler 1 nicht anzufassen (siehe [[feedback_tennis24_workflow]]
+    ' zur Vorsicht bei Änderungen an broadcast-kritischem Code).
+    Private Sub LowerHome2()
+        Dim scorebugtitle As String = "lower_name.gtzip"
+        Dim sendstring As String
+        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(1) & " " & Tennis26_Main.HomePlayer2(0))
+        Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(3))
+
+        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(4)), " ", "Age: " & Tennis26_Main.HomePlayer2(4))
+        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(5)), " ", "Height: " & Tennis26_Main.HomePlayer2(5))
+        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(6)), " ", Tennis26_Main.HomePlayer2(6))
+        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(7)), " ", Tennis26_Main.HomePlayer2(7))
+        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(8)), " ", Tennis26_Main.HomePlayer2(8))
+
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "age.Text", age) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "height.Text", height) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info1.Text", info1) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info2.Text", info2) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info3.Text", info3) : SendHTMLtovMix(sendstring)
+
+        Dim flagInfo = GetFlagInfo(country)
+        If flagInfo.Exists Then
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
+        Else
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+        End If
+    End Sub
+
+    Private Sub LowerAway2()
+        Dim scorebugtitle As String = "lower_name.gtzip"
+        Dim sendstring As String
+        Dim PlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(1) & " " & Tennis26_Main.AwayPlayer2(0))
+        Dim country As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(3))
+
+        Dim age As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(4)), " ", "Age: " & Tennis26_Main.AwayPlayer2(4))
+        Dim height As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(5)), " ", "Height: " & Tennis26_Main.AwayPlayer2(5))
+        Dim info1 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(6)), " ", Tennis26_Main.AwayPlayer2(6))
+        Dim info2 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(7)), " ", Tennis26_Main.AwayPlayer2(7))
+        Dim info3 As String = If(hidedetails OrElse String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(8)), " ", Tennis26_Main.AwayPlayer2(8))
+
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "name.Text", PlayerName) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "country.Text", country) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "age.Text", age) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "height.Text", height) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info1.Text", info1) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info2.Text", info2) : SendHTMLtovMix(sendstring)
+        sendstring = BuildVmixSetCommand("SetText", scorebugtitle, "info3.Text", info3) : SendHTMLtovMix(sendstring)
+
+        Dim flagInfo = GetFlagInfo(country)
+        If flagInfo.Exists Then
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", flagInfo.Path) : SendHTMLtovMix(sendstring)
+        Else
+            sendstring = BuildVmixSetCommand("SetImage", scorebugtitle, "country_flag.Source", "C:\VMIX\tennis\flags\transparent.png") : SendHTMLtovMix(sendstring)
+        End If
+    End Sub
+
     Private Sub Pairing(Optional specificTemplate As String = "")
         ' Liste aller match_pairing Templates
         Dim templates() As String
@@ -1981,7 +2065,7 @@ Public Class Tennis26_Scorer
     Private Sub Btn_Name_Home_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home.Click
         'blendet spielername1 ein und aus
         Dim entry = GetToggle("home")
-        Dim homePlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer(0)), "HOME", Tennis26_Main.HomePlayer(0))
+        Dim homePlayerName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
         Dim Playername = "lower" & vbNewLine & homePlayerName
 
         ' Reset other toggles first
@@ -1998,7 +2082,7 @@ Public Class Tennis26_Scorer
     Private Sub Btn_Name_Away_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away.Click
         'blendet spielername2 ein und aus
         Dim entry = GetToggle("away")
-        Dim awayPlayerName As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer(0)), "AWAY", Tennis26_Main.AwayPlayer(0))
+        Dim awayPlayerName As String = GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")
         Dim Playername = "lower" & vbNewLine & awayPlayerName
 
         ' Reset other toggles first
@@ -2010,6 +2094,38 @@ Public Class Tennis26_Scorer
 
         Btn_Name_Away.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
         Btn_Name_Away.Text = Playername
+    End Sub
+
+    ' Namenseinblender für den 2. Doppelpartner - genau gleich wie Btn_Name_Home/Away,
+    ' zeigt aber immer den individuellen Namen des 2. Spielers (kein Team-Zusammenzug).
+    Private Sub Btn_Name_Home2_Click(sender As Object, e As EventArgs) Handles Btn_Name_Home2.Click
+        Dim entry = GetToggle("home2")
+        Dim homePlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.HomePlayer2(0)), "HOME2", Tennis26_Main.HomePlayer2(0))
+        Dim Playername = "lower" & vbNewLine & homePlayer2Name
+
+        ResetOtherOverlayToggles(entry.Key)
+        Dim isOn = ToggleStatus(entry)
+
+        If isOn Then LowerHome2()
+        SendOverlayCommand(entry, isOn)
+
+        Btn_Name_Home2.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_Name_Home2.Text = Playername
+    End Sub
+
+    Private Sub Btn_Name_Away2_Click(sender As Object, e As EventArgs) Handles Btn_Name_Away2.Click
+        Dim entry = GetToggle("away2")
+        Dim awayPlayer2Name As String = If(String.IsNullOrEmpty(Tennis26_Main.AwayPlayer2(0)), "AWAY2", Tennis26_Main.AwayPlayer2(0))
+        Dim Playername = "lower" & vbNewLine & awayPlayer2Name
+
+        ResetOtherOverlayToggles(entry.Key)
+        Dim isOn = ToggleStatus(entry)
+
+        If isOn Then LowerAway2()
+        SendOverlayCommand(entry, isOn)
+
+        Btn_Name_Away2.BackColor = If(isOn, Color.Red, SystemColors.ButtonHighlight)
+        Btn_Name_Away2.Text = Playername
     End Sub
 
     Private Sub Btn_Title_Click(sender As Object, e As EventArgs) Handles Btn_Title.Click
