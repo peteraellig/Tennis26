@@ -2461,6 +2461,8 @@ Public Class Tennis26_Scorer
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=match_pairing4.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info1.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info2.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info3.gtzip&Mix=0",
+        "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(1) + "Off&Input=info4.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Off&Input=sponsor1.gtzip&Mix=0",
         "Function=OverlayInput" + Tennis26_Settings.ComboBoxValues(3) + "Off&Input=sponsor2.gtzip&Mix=0",
         "Function=OverlayInput1Out"  ' Für Name-Overlays

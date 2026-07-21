@@ -624,7 +624,7 @@ Partial Class Tennis26_Main2
         'Tennis26_Main2
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(1132, 700)
+        Me.ClientSize = New System.Drawing.Size(1148, 739)
         Me.ControlBox = False
         Me.Controls.Add(Me.Btn_exit)
         Me.Controls.Add(Me.Btn_save)
@@ -633,7 +633,7 @@ Partial Class Tennis26_Main2
         Me.Controls.Add(Me.GroupBox_Pairing2)
         Me.Controls.Add(Me.GroupBox_Pairing3)
         Me.Controls.Add(Me.GroupBox_Pairing4)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximumSize = New System.Drawing.Size(1148, 739)
         Me.MinimumSize = New System.Drawing.Size(1148, 739)
         Me.Name = "Tennis26_Main2"

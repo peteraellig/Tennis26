@@ -1126,7 +1126,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info2_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info2_edit.TabIndex = 262
         Me.Btn_info2_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info2_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info2_edit, "info2.gtzip Edit this title manually in GT Designer.")
         Me.Btn_info2_edit.UseVisualStyleBackColor = True
         '
         'Btn_info3_edit
@@ -1137,7 +1137,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info3_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info3_edit.TabIndex = 263
         Me.Btn_info3_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info3_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info3_edit, "info3.gtzip Edit this title manually in GT Designer.")
         Me.Btn_info3_edit.UseVisualStyleBackColor = True
         '
         'Btn_info4_edit
@@ -1148,7 +1148,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_info4_edit.Size = New System.Drawing.Size(33, 34)
         Me.Btn_info4_edit.TabIndex = 264
         Me.Btn_info4_edit.Text = "e"
-        Me.ToolTip1.SetToolTip(Me.Btn_info4_edit, "info1.gtzip Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_info4_edit, "info4.gtzip Edit this title manually in GT Designer.")
         Me.Btn_info4_edit.UseVisualStyleBackColor = True
         '
         'Btn_Title_edit

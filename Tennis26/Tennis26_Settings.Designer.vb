@@ -266,7 +266,6 @@ Partial Class Tennis26_Settings
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(86, 23)
         Me.Label3.TabIndex = 160
-        Me.Label3.Text = "round"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'TextBox23
@@ -696,7 +695,7 @@ Partial Class Tennis26_Settings
         Me.Btn_gamewon_colour.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn_gamewon_colour.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_gamewon_colour.Location = New System.Drawing.Point(118, 190)
-        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Btn_gamewon_colour.Margin = New System.Windows.Forms.Padding(2)
         Me.Btn_gamewon_colour.Name = "Btn_gamewon_colour"
         Me.Btn_gamewon_colour.Size = New System.Drawing.Size(44, 20)
         Me.Btn_gamewon_colour.TabIndex = 210
@@ -1124,7 +1123,7 @@ Partial Class Tennis26_Settings
         Me.CheckBox3.AutoSize = True
         Me.CheckBox3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CheckBox3.Location = New System.Drawing.Point(105, 288)
-        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CheckBox3.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox3.Name = "CheckBox3"
         Me.CheckBox3.Size = New System.Drawing.Size(81, 19)
         Me.CheckBox3.TabIndex = 235
@@ -1223,7 +1222,7 @@ Partial Class Tennis26_Settings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1435, 421)
+        Me.ClientSize = New System.Drawing.Size(1451, 460)
         Me.ControlBox = False
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.TextBox9)
@@ -1314,7 +1313,7 @@ Partial Class Tennis26_Settings
         Me.Controls.Add(Me.PictureBox4)
         Me.Controls.Add(Me.PictureBox5)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximumSize = New System.Drawing.Size(1451, 460)
         Me.MinimumSize = New System.Drawing.Size(1451, 460)
         Me.Name = "Tennis26_Settings"
