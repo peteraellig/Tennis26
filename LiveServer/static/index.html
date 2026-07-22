@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tennis 24 Live</title>
+  <style>
+    :root { color-scheme: dark; --bg:#061a3a; --card:#082653; --border:#8bd4ff; --muted:#a9c9e8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--bg); color:#fff; font-family:Arial,Helvetica,sans-serif; }
+    header { margin:18px 4vw 6px; padding:16px 20px; display:grid; grid-template-columns:minmax(150px,.65fr) minmax(420px,1.8fr) minmax(150px,.65fr); align-items:center; gap:20px; background:var(--card); border:1px solid var(--border); border-radius:10px; box-shadow:0 0 16px #0003; }
+    h1 { margin:0; font-size:clamp(1.3rem,3vw,2.2rem); letter-spacing:.08em; }
+    .title-block { min-width:0; }
+    #match-clock { margin-top:7px; color:#8bd4ff; font-size:clamp(1rem,2vw,1.35rem); font-weight:700; font-variant-numeric:tabular-nums; letter-spacing:.08em; }
+    #status { color:var(--muted); font-size:.9rem; text-align:right; }
+    main { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; padding:14px 4vw 4vw; }
+    .player { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; min-height:280px; box-shadow:0 0 16px #0003; }
+    .player-header { padding-bottom:18px; border-bottom:1px solid #8bd4ff55; }
+    .player h2 { margin:0; color:#fff; font-size:clamp(1.25rem,2.3vw,1.85rem); }
+    .team-member + .team-member { margin-top:18px; padding-top:18px; border-top:1px solid #8bd4ff33; }
+    .side { margin:7px 0 14px; color:var(--muted); font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+    .extra-data { display:grid; gap:5px; color:#d9f2ff; font-size:.83rem; }
+    .player-body { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:stretch; }
+    .data-group { margin-top:16px; padding:16px; border-radius:8px; background:#061d40; border:1px solid #8bd4ff2b; }
+    .data-group h3 { margin:0 0 13px; color:#8bd4ff; font-size:.88rem; letter-spacing:.08em; text-transform:uppercase; }
+    .data-group dl { grid-template-columns:minmax(0,1fr) auto; gap:7px 12px; }
+    .data-group dt { white-space:nowrap; }
+    .data-group dd { min-width:3ch; text-align:right; font-variant-numeric:tabular-nums; }
+    .no-statistics { margin:0; color:var(--muted); line-height:1.45; }
+    .score-group { background:#0b3267; }
+    .score-group dd { color:#fff; font-size:1.05rem; }
+    dl { margin:0; display:grid; grid-template-columns:minmax(110px, .8fr) 1.2fr; gap:10px 18px; }
+    dt { color:var(--muted); } dd { margin:0; overflow-wrap:anywhere; font-weight:600; }
+    .match { grid-column:1 / -1; background:var(--card); border:1px solid var(--border); border-radius:7px; padding:24px; }
+    .match h2 { margin:0 0 16px; color:#d9f2ff; }
+    .match dl { grid-template-columns:minmax(120px,.7fr) 1fr minmax(120px,.7fr) 1fr; column-gap:22px; }
+    .scoreboard { width:100%; overflow:hidden; border:2px solid #8bd4ffaa; border-radius:6px; box-shadow:0 8px 22px #0005; }
+    .score-row { display:grid; min-height:52px; background:linear-gradient(90deg,#385673,#183653); }
+    .score-row + .score-row { border-top:2px solid #061a3a; }
+    .score-name, .score-country, .score-value, .score-serve { display:flex; align-items:center; }
+    .score-name { padding:0 16px; font-size:1.25rem; font-weight:700; }
+    .score-country { justify-content:center; border-left:2px solid #061a3a; }
+    .score-country.doubles { flex-direction:column; gap:2px; }
+    .score-country.doubles .score-flag { width:27px; max-height:17px; }
+    .score-flag { display:block; width:34px; max-height:24px; object-fit:contain; }
+    .score-value { justify-content:center; border-left:2px solid #061a3a; font-size:1.4rem; font-weight:700; }
+    .score-winner { color:#ffeb00; font-size:1.9rem; font-weight:900; text-shadow:0 1px 2px #000, 0 0 8px #ffd90066; }
+    .score-serve { justify-content:center; border-left:2px solid #061a3a; background:#102d49; color:#ffe600; font-size:2rem; line-height:1; }
+    .score-points { background:#fff; color:#000; min-width:58px; }
+    .serve-ball { font-size:1em; }
+    .empty { grid-column:1 / -1; text-align:center; color:var(--muted); padding:50px; }
+    footer { margin:-16px 4vw 24px; color:var(--muted); font-size:.75rem; font-weight:700; letter-spacing:.1em; text-align:center; text-transform:uppercase; }
+    @media (max-width:1100px) { main { grid-template-columns:1fr; } header { grid-template-columns:1fr; gap:12px; } #status { text-align:left; } }
+    @media (max-width:700px) { .player-body { grid-template-columns:1fr; } .match dl { grid-template-columns:minmax(110px,.8fr) 1.2fr; } .score-name { font-size:.9rem; padding:0 10px; } .score-value { font-size:1rem; } }
+  </style>
+</head>
+<body>
+  <header><div class="title-block"><h1>TENNIS 24 LIVE</h1><div id="match-clock" hidden></div></div><div class="scoreboard" id="scoreboard"><div class="empty">Waiting for live data …</div></div><div id="status">Loading data …</div></header>
+  <main id="players"><div class="empty">Waiting for live data …</div></main>
+  <footer>Tennis24 &nbsp;|&nbsp; 0.1.0 &nbsp;|&nbsp; Peter Aellig</footer>
+  <script>
+    const output = document.querySelector('#players'), scoreboardOutput = document.querySelector('#scoreboard'), status = document.querySelector('#status'), matchClock = document.querySelector('#match-clock');
+    let matchClockStart = null, frozenMatchSeconds = null;
+    function formatDuration(totalSeconds) {
+      const seconds = Math.max(0, Math.floor(totalSeconds));
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      return [hours, minutes, seconds % 60].map(value => String(value).padStart(2, '0')).join(':');
+    }
+    function setMatchClock(data) {
+      const start = Date.parse(data.matchStartTime);
+      matchClockStart = Number.isFinite(start) && start > Date.parse('2000-01-01T00:00:00Z') ? start : null;
+      if (data.isMatchFinished) {
+        const suppliedSeconds = Number(data.matchDurationSeconds);
+        frozenMatchSeconds = Number.isFinite(suppliedSeconds) && suppliedSeconds >= 0
+          ? suppliedSeconds
+          : (matchClockStart ? (Date.now() - matchClockStart) / 1000 : null);
+      } else {
+        frozenMatchSeconds = null;
+      }
+      updateMatchClock();
+    }
+    function updateMatchClock() {
+      const hasClock = frozenMatchSeconds !== null || matchClockStart !== null;
+      matchClock.hidden = !hasClock;
+      if (frozenMatchSeconds !== null) matchClock.textContent = formatDuration(frozenMatchSeconds);
+      else if (matchClockStart !== null) matchClock.textContent = formatDuration((Date.now() - matchClockStart) / 1000);
+      else matchClock.textContent = '';
+    }
+    function clearLiveDisplay(message) {
+      matchClockStart = null;
+      frozenMatchSeconds = null;
+      updateMatchClock();
+      scoreboardOutput.innerHTML = '<div class="empty">Waiting for live data …</div>';
+      output.innerHTML = `<div class="empty">${escapeHtml(message)}</div>`;
+    }
+    const label = key => key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const scalar = value => value === null || ['string','number','boolean'].includes(typeof value);
+    const shown = value => Array.isArray(value) ? value.join(' · ') : typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value ?? '—');
+    function rows(object) {
+      return Object.entries(object).map(([key, value]) => {
+        if (scalar(value) || Array.isArray(value)) return `<dt>${escapeHtml(label(key))}</dt><dd>${escapeHtml(shown(value))}</dd>`;
+        if (value && typeof value === 'object') return rows(value);
+        return '';
+      }).join('');
+    }
+    function flagImage(iso3) {
+      const code = String(iso3 || '').toUpperCase();
+      return /^[A-Z]{3}$/.test(code) ? `<img class="score-flag" src="/static/flags/${code}.png" alt="${code}">` : '';
+    }
+    function playerName(person, fallback) {
+      return [person?.firstName, person?.name].filter(Boolean).join(' ') || fallback;
+    }
+    function scoreboardPlayerName(person, fallback) {
+      const name = playerName(person, fallback);
+      const countryCode = String(person?.countryISO3 || '').toUpperCase();
+      return countryCode ? `${name} (${countryCode})` : name;
+    }
+    function playerProfile(person, fallback) {
+      const name = playerName(person, fallback);
+      const country = person?.country ? `${person.country}${person.countryISO3 ? ` (${person.countryISO3})` : ''}` : '';
+      return `<div class="team-member">
+        <h2>${escapeHtml(name)}${country ? `, ${escapeHtml(country)}` : ''}</h2>
+        <div class="side">${person?.age ? `AGE ${escapeHtml(String(person.age))}` : ''}${person?.height ? ` &nbsp;|&nbsp; HEIGHT ${escapeHtml(String(person.height))}` : ''}</div>
+        <div class="extra-data">
+          <div>${escapeHtml(shown(person?.data1))}</div>
+          <div>${escapeHtml(shown(person?.data2))}</div>
+          <div>${escapeHtml(shown(person?.data3))}</div>
+        </div>
+      </div>`;
+    }
+    function scoreRow(entry, index, setCount, data) {
+      const personal = entry.player || {};
+      const partner = entry.player2 || {};
+      const primaryName = scoreboardPlayerName(personal, entry.name || `Player ${index + 1}`);
+      const name = data.isDoublesMatch ? `${primaryName} / ${scoreboardPlayerName(partner, `Player ${index + 3}`)}` : primaryName;
+      const setScores = Array.from({length:setCount}, (_, setIndex) => entry.setScores?.[setIndex] ?? 0);
+      const opponent = index === 0 ? data.away : data.home;
+      const currentSetIndex = Math.max(0, Number(data.currentSet || 1) - 1);
+      const columns = `48px minmax(150px,1fr) 38px repeat(${setCount},42px) 64px`;
+      return `<div class="score-row" style="grid-template-columns:${columns}">
+        <div class="score-country${data.isDoublesMatch ? ' doubles' : ''}">${flagImage(personal.countryISO3)}${data.isDoublesMatch ? flagImage(partner.countryISO3) : ''}</div>
+        <div class="score-name">${escapeHtml(name)}</div>
+        <div class="score-serve" title="Serving">${entry.serving ? '<span class="serve-ball">●</span>' : ''}</div>
+        ${setScores.map((score, setIndex) => {
+          const otherScore = opponent?.setScores?.[setIndex] ?? 0;
+          const completed = setIndex < currentSetIndex || (data.isMatchFinished && setIndex === currentSetIndex);
+          const winnerClass = completed && Number(score) > Number(otherScore) ? ' score-winner' : '';
+          return `<div class="score-value${winnerClass}">${escapeHtml(shown(score))}</div>`;
+        }).join('')}
+        <div class="score-value score-points" title="Points">${escapeHtml(shown(entry.points))}</div>
+      </div>`;
+    }
+    function render(data) {
+      if (!data || typeof data !== 'object') { clearLiveDisplay('No live data found.'); return; }
+      setMatchClock(data);
+      const playerKeys = ['home', 'away'].filter(key => data[key] && typeof data[key] === 'object');
+      const players = playerKeys.map((key, index) => {
+        const entry = data[key], personal = entry.player || {};
+        const partner = entry.player2 || {};
+        const profiles = playerProfile(personal, entry.name || `Player ${index + 1}`)
+          + (data.isDoublesMatch ? playerProfile(partner, `Player ${index + 3}`) : '');
+        const scoreKeys = ['points', 'games', 'sets', 'serving', 'setScores'];
+        const scoreData = Object.fromEntries(Object.entries(entry).filter(([field]) => scoreKeys.includes(field)));
+        const statsData = Object.fromEntries(Object.entries(entry).filter(([field]) => !['name', 'player', 'player2', ...scoreKeys].includes(field)));
+        return `<section class="player">
+          <div class="player-header">
+            <div class="side">${key.toUpperCase()}${data.isDoublesMatch ? ' TEAM' : ''}</div>
+            ${profiles}
+          </div>
+          <div class="player-body">
+            <div class="data-group score-group"><h3>MATCH</h3><dl>${rows(scoreData)}</dl></div>
+            <div class="data-group"><h3>STATISTICS</h3>${data.isMidMatchEntry
+              ? '<p class="no-statistics">No statistics data available.<br>Data collection started during the match.</p>'
+              : `<dl>${rows(statsData)}</dl>`}</div>
+          </div>
+        </section>`;
+      }).join('');
+      const match = Object.fromEntries(Object.entries(data).filter(([key]) => !playerKeys.includes(key)));
+      const setCount = /best\s+of\s+5/i.test(String(data.matchType || '')) ? 5 : 3;
+      scoreboardOutput.innerHTML = playerKeys.map((key, index) => scoreRow(data[key], index, setCount, data)).join('');
+      const matchBlock = Object.keys(match).length ? `<section class="match"><h2>MATCH INFORMATION</h2><dl>${rows(match)}</dl></section>` : '';
+      output.innerHTML = players + matchBlock;
+    }
+    function escapeHtml(s) { const e=document.createElement('span'); e.textContent=s; return e.innerHTML; }
+    async function update() {
+      try {
+        const response = await fetch('/api/live?ts=' + Date.now(), {cache:'no-store'});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || String(response.status));
+        render(data);
+        status.textContent = 'Live · updated ' + new Date().toLocaleTimeString('en-GB');
+      }
+      catch (error) {
+        const heartbeatFailed = String(error.message).includes('Tennis26');
+        status.textContent = heartbeatFailed ? 'Tennis26 is not responding · retrying' : 'Waiting for source file · retrying';
+        clearLiveDisplay(heartbeatFailed ? 'Tennis26 is not responding. Waiting for current live data.' : 'The live source file is not available yet.');
+      }
+    }
+    update(); setInterval(update, 1000); setInterval(updateMatchClock, 250);
+  </script>
+</body>
+</html>

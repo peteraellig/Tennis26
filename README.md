@@ -65,7 +65,7 @@ The scorer populates and switches these titles using `SetText` and overlay comma
 
 ## Live JSON feed
 
-Tennis26 writes the full match state to a local JSON file after every point (and on a heartbeat while nothing changes, so a consumer can tell a real pause apart from a frozen application). A companion Python/Flask application (separate project, not part of this repository) reads that file and serves it over the LAN:
+Tennis26 writes the full match state to a local JSON file after every point (and on a heartbeat while nothing changes, so a consumer can tell a real pause apart from a frozen application). A companion Python/Flask application ([`LiveServer/`](LiveServer)) reads that file and serves it over the LAN:
 
 ```
 Operator            Match-State              vMix
@@ -86,6 +86,20 @@ Tennis26 GUI  ──▶  Engine + State Store ──▶  HTTP or TCP
 ```
 
 A failure or restart of the web extension does not affect the core scoring and vMix functions — Tennis26 keeps working independently.
+
+## Repository contents
+
+| Path | Contents |
+|---|---|
+| [`Tennis26/`](Tennis26) | The WinForms application (VB.NET, .NET Framework 4.8) |
+| [`LiveServer/`](LiveServer) | Companion Python/Flask app: `tennis_live_server.py`, `start_tennis_live_server.bat`, HTML live view |
+| [`vMixAssets/titles/`](vMixAssets/titles) | GT Title templates (`.gtzip`) for vMix |
+| [`vMixAssets/graphical_templates/`](vMixAssets/graphical_templates) | Editable design sources (`.psd`) and exported graphics behind the titles |
+| [`vMixAssets/flags/`](vMixAssets/flags) | Country flag images used by the titles and the live view |
+| [`vMixAssets/vMix_project/`](vMixAssets/vMix_project) | The vMix project file (`tennis24.vmix`) |
+| [`Documentation/`](Documentation) | Presentation slides (see above) |
+
+`LiveServer/tennis_live_server.py` has two paths hardcoded near the top (`DATA_FILE`, `FLAGS_DIR`) that point at this machine's local vMix folder — adjust them to your own setup before running the server elsewhere.
 
 ## Reliability
 
