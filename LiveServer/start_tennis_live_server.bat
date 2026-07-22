@@ -1,4 +1,8 @@
 @echo off
 cd /d "%~dp0"
-python tennis_live_server.py
+if exist "%~dp0install\venv\Scripts\python.exe" (
+    "%~dp0install\venv\Scripts\python.exe" tennis_live_server.py
+) else (
+    python tennis_live_server.py
+)
 pause

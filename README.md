@@ -103,7 +103,7 @@ A failure or restart of the web extension does not affect the core scoring and v
 
 `LiveServer/tennis_live_server.py` has two paths hardcoded near the top (`DATA_FILE`, `FLAGS_DIR`) that point at this machine's local vMix folder — adjust them to your own setup before running the server elsewhere.
 
-To set up the LiveServer on a new machine, see [`LiveServer/install/README.md`](LiveServer/install/README.md) — it walks through the PowerShell installer that provisions Python and the required packages.
+To set up and run the LiveServer on a new machine, see [`LiveServer/README.md`](LiveServer/README.md) — it walks through the one-time PowerShell installer and starting the server via the batch file.
 
 ## Reliability
 
