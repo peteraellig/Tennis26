@@ -1203,6 +1203,20 @@ Public Class Tennis26_Scorer
         Btn_info2.Text = "Info 2"
         Btn_info3.Text = "Info 3"
         Btn_info4.Text = "Info 4"
+
+        ' Gleiches Problem wie bei Info1-4: der Designer-gesetzte Text kommt zur Laufzeit
+        ' zurück statt dem in Tennis26_Settings.SetLabels() aus TextBoxValues gesetzten - hier
+        ' deshalb ebenfalls in UpdateButtonNames() (läuft bei Load + nach jedem Punkt) erneut
+        ' zugewiesen. Anders als bei Info1-4 aber datengetrieben, nicht statisch, da hier
+        ' explizit der Name aus den Settings-Textboxen gewünscht ist.
+        Btn_freename1.Text = Tennis26_Settings.TextBoxValues(4).Split(","c)(0).Trim()
+        Btn_freename2.Text = Tennis26_Settings.TextBoxValues(5).Split(","c)(0).Trim()
+        Btn_freename3.Text = Tennis26_Settings.TextBoxValues(6).Split(","c)(0).Trim()
+        Btn_freename4.Text = Tennis26_Settings.TextBoxValues(7).Split(","c)(0).Trim()
+        Btn_freename5.Text = Tennis26_Settings.TextBoxValues(8).Split(","c)(0).Trim()
+
+        Btn_sponsor1.Text = Tennis26_Settings.TextBoxValues(24)
+        Btn_sponsor2.Text = Tennis26_Settings.TextBoxValues(25)
     End Sub
 
     Private Sub UpdatePoints(player As String)
