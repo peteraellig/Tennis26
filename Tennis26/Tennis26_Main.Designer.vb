@@ -49,6 +49,7 @@ Partial Class Tennis26_Main
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Btn_open_pairings = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
         CType(Me.DataGridView_Players, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -255,7 +256,7 @@ Partial Class Tennis26_Main
         'Btn_Load_File
         '
         Me.Btn_Load_File.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Load_File.Location = New System.Drawing.Point(543, 366)
+        Me.Btn_Load_File.Location = New System.Drawing.Point(505, 367)
         Me.Btn_Load_File.Name = "Btn_Load_File"
         Me.Btn_Load_File.Size = New System.Drawing.Size(100, 25)
         Me.Btn_Load_File.TabIndex = 35
@@ -265,7 +266,7 @@ Partial Class Tennis26_Main
         'Btn_SaveAs
         '
         Me.Btn_SaveAs.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_SaveAs.Location = New System.Drawing.Point(670, 366)
+        Me.Btn_SaveAs.Location = New System.Drawing.Point(611, 367)
         Me.Btn_SaveAs.Name = "Btn_SaveAs"
         Me.Btn_SaveAs.Size = New System.Drawing.Size(100, 25)
         Me.Btn_SaveAs.TabIndex = 36
@@ -323,12 +324,22 @@ Partial Class Tennis26_Main
         Me.Label3.TabIndex = 41
         Me.Label3.Text = "Label3"
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(729, 372)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(293, 13)
+        Me.Label4.TabIndex = 42
+        Me.Label4.Text = "Player names can also be changed during an ongoing match"
+        '
         'Tennis26_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1199, 694)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Btn_open_pairings)
         Me.Controls.Add(Me.CheckBox1)
@@ -392,4 +403,5 @@ Partial Class Tennis26_Main
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Btn_open_pairings As Button
     Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
 End Class
