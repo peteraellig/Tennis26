@@ -5,7 +5,7 @@ Everything Tennis26 and vMix need at runtime: GT Title templates, graphics, flag
 ## Structure
 
 ```
-vMixAssets/
+c:\vmix\tennis\
 ├── data/                 Runtime data: player database, pairings, settings, title board texts, save games
 ├── flags/                Country flag images (used by the titles and the live view)
 ├── graphical_templates/  Exported graphics behind the titles
