@@ -1164,7 +1164,11 @@ Public Class Tennis26_Scorer
         Return name1 & " / " & name2
     End Function
 
-    Private Sub UpdateButtonNames()
+    ' Public, damit Tennis26_Main die Namen-Buttons/Punkte-Buttons sofort neu beschriften kann,
+    ' wenn ein aktiver Spieler in der Datenbank korrigiert wird (siehe
+    ' Main.RefreshAndSavePlayerSelection) - sonst zeigten diese Buttons die alten Daten bis
+    ' zum nächsten Punkt (der einzige andere Aufrufer dieser Methode).
+    Public Sub UpdateButtonNames()
         ' Spielernamen abrufen - bei Doppel als kombinierter Team-Name (siehe GetTeamDisplayName)
         Dim homePlayerName As String = GetTeamDisplayName(Tennis26_Main.HomePlayer, Tennis26_Main.HomePlayer2, "HOME")
         Dim awayPlayerName As String = GetTeamDisplayName(Tennis26_Main.AwayPlayer, Tennis26_Main.AwayPlayer2, "AWAY")

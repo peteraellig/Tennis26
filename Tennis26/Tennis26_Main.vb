@@ -455,6 +455,11 @@
     Public Sub RefreshAndSavePlayerSelection()
         UpdatePlayerDisplay()
         SaveDataToXML()
+
+        ' Scorer läuft im Hintergrund ggf. schon (Hide() statt Close() beim Verlassen, siehe
+        ' Btn_exit_Click in Scorer) - dessen Namen-/Punkte-Buttons sonst erst beim nächsten
+        ' Punkt aktualisiert würden (UpdateButtonNames() wird sonst nur dort aufgerufen).
+        If Not Tennis26_Scorer.IsDisposed Then Tennis26_Scorer.UpdateButtonNames()
     End Sub
 
     ' Reine Anzeige der aktuell aktiven Paarung - kein Platzhaltertext mehr (die Auswahl
