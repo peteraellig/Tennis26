@@ -1857,8 +1857,13 @@ Public Class Tennis26_Scorer
     End Sub
 
     Private Sub Btn_exit_Click(sender As Object, e As EventArgs) Handles Btn_exit.Click
-        'beendet das programm und öffnet das hauptfenster
-        Me.Close()
+        ' Hide() statt Close(): Close() zerstört die Formular-Instanz, sodass VB.NET beim
+        ' nächsten Zugriff auf "Tennis26_Scorer" (z.B. via Btn_live_Click) automatisch eine
+        ' NEUE Instanz erzeugt - deren Load-Event ResetMatch() erneut auslöst und damit den
+        ' laufenden Spielstand komplett zurücksetzt. Das verhinderte bisher, während eines
+        ' laufenden Matches kurz nach Main/Settings zu wechseln (z.B. um einen falsch
+        ' geschriebenen Namen zu korrigieren), ohne das Match zu verlieren.
+        Me.Hide()
         Tennis26_Main.Show()
     End Sub
 
