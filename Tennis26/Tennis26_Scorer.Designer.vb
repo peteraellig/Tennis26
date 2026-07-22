@@ -658,7 +658,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_sponsor1.Size = New System.Drawing.Size(150, 34)
         Me.Btn_sponsor1.TabIndex = 53
         Me.Btn_sponsor1.Text = "Sponsor1"
-        Me.ToolTip1.SetToolTip(Me.Btn_sponsor1, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_sponsor1, "Edit this title manually in GT Designer. the Label in settings")
         Me.Btn_sponsor1.UseVisualStyleBackColor = True
         '
         'Btn_sponsor2
@@ -669,7 +669,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_sponsor2.Size = New System.Drawing.Size(150, 34)
         Me.Btn_sponsor2.TabIndex = 54
         Me.Btn_sponsor2.Text = "Sponsor2"
-        Me.ToolTip1.SetToolTip(Me.Btn_sponsor2, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_sponsor2, "Edit this title manually in GT Designer. the Label in settings")
         Me.Btn_sponsor2.UseVisualStyleBackColor = True
         '
         'CheckBox_hidedetails
@@ -695,7 +695,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_ref1.TabIndex = 60
         Me.Btn_ref1.Text = "Referee"
         Me.Btn_ref1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_ref1, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_ref1, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_ref1.UseVisualStyleBackColor = True
         '
         'Btn_ref2
@@ -707,7 +707,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_ref2.TabIndex = 61
         Me.Btn_ref2.Text = "Referee 2"
         Me.Btn_ref2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_ref2, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_ref2, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_ref2.UseVisualStyleBackColor = True
         '
         'Btn_com1
@@ -720,7 +720,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_com1.TabIndex = 62
         Me.Btn_com1.Text = "Commentator"
         Me.Btn_com1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_com1, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_com1, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_com1.UseVisualStyleBackColor = True
         '
         'Btn_com2
@@ -732,7 +732,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_com2.TabIndex = 63
         Me.Btn_com2.Text = "Commentator2, expert"
         Me.Btn_com2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_com2, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_com2, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_com2.UseVisualStyleBackColor = True
         '
         'Btn_freename1
@@ -744,7 +744,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename1.TabIndex = 64
         Me.Btn_freename1.Text = "Name 1"
         Me.Btn_freename1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_freename1, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_freename1, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_freename1.UseVisualStyleBackColor = True
         '
         'Btn_freename2
@@ -756,7 +756,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename2.TabIndex = 65
         Me.Btn_freename2.Text = "Name 2"
         Me.Btn_freename2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_freename2, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_freename2, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_freename2.UseVisualStyleBackColor = True
         '
         'Btn_freename3
@@ -768,7 +768,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename3.TabIndex = 66
         Me.Btn_freename3.Text = "Name 3"
         Me.Btn_freename3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_freename3, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_freename3, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_freename3.UseVisualStyleBackColor = True
         '
         'Btn_freename4
@@ -780,7 +780,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename4.TabIndex = 67
         Me.Btn_freename4.Text = "Name 4"
         Me.Btn_freename4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_freename4, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_freename4, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_freename4.UseVisualStyleBackColor = True
         '
         'Btn_freename5
@@ -792,7 +792,7 @@ Partial Class Tennis26_Scorer
         Me.Btn_freename5.TabIndex = 68
         Me.Btn_freename5.Text = "Name 5"
         Me.Btn_freename5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip1.SetToolTip(Me.Btn_freename5, "Edit this title manually in GT Designer.")
+        Me.ToolTip1.SetToolTip(Me.Btn_freename5, "Edit the content with in settings, the design in GT Designer.")
         Me.Btn_freename5.UseVisualStyleBackColor = True
         '
         'Btn_info3
