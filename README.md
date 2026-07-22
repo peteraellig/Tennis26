@@ -94,9 +94,11 @@ A failure or restart of the web extension does not affect the core scoring and v
 | [`Tennis26/`](Tennis26) | The WinForms application (VB.NET, .NET Framework 4.8) |
 | [`LiveServer/`](LiveServer) | Companion Python/Flask app: `tennis_live_server.py`, `start_tennis_live_server.bat`, HTML live view |
 | [`vMixAssets/titles/`](vMixAssets/titles) | GT Title templates (`.gtzip`) for vMix |
-| [`vMixAssets/graphical_templates/`](vMixAssets/graphical_templates) | Editable design sources (`.psd`) and exported graphics behind the titles |
+| [`vMixAssets/graphical_templates/`](vMixAssets/graphical_templates) | Exported graphics behind the titles |
 | [`vMixAssets/flags/`](vMixAssets/flags) | Country flag images used by the titles and the live view |
 | [`vMixAssets/vMix_project/`](vMixAssets/vMix_project) | The vMix project file (`tennis24.vmix`) |
+| [`vMixAssets/data/`](vMixAssets/data) | Runtime data: player database, pairings, settings, title board texts, save games |
+| [`vMixAssets/setup/`](vMixAssets/setup) | ClickOnce installer output |
 | [`Documentation/`](Documentation) | Presentation slides (see above) |
 
 `LiveServer/tennis_live_server.py` has two paths hardcoded near the top (`DATA_FILE`, `FLAGS_DIR`) that point at this machine's local vMix folder — adjust them to your own setup before running the server elsewhere.

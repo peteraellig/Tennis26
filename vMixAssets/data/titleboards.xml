@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TitleBoards>
+  <Board key="title">
+    <Line1>Bausch &amp; Lomb Championships 2025</Line1>
+    <Line2>Amelis Islands</Line2>
+    <Line3>Upcoming Games</Line3>
+    <Line4>Mixed Semifinals</Line4>
+    <Line5>Women's Quarterfinals</Line5>
+    <Line6>
+    </Line6>
+  </Board>
+  <Board key="info1">
+    <Line1>Info 1</Line1>
+    <Line2>Info 1 Zeile 2</Line2>
+    <Line3>Info 1 Zeile 3</Line3>
+    <Line4>Info 1 Zeile 4</Line4>
+    <Line5>Info 1 Zeile 5</Line5>
+    <Line6>Info 1 Zeile 6</Line6>
+  </Board>
+  <Board key="info4">
+    <Line1>Info 4</Line1>
+    <Line2>2</Line2>
+    <Line3>3</Line3>
+    <Line4>4</Line4>
+    <Line5>5</Line5>
+    <Line6>6</Line6>
+  </Board>
+  <Board key="info2">
+    <Line1>Info 2</Line1>
+    <Line2>Info 22</Line2>
+    <Line3>Info 222</Line3>
+    <Line4>Info 2222</Line4>
+    <Line5>Info 22222</Line5>
+    <Line6>Info 222222</Line6>
+  </Board>
+  <Board key="info3">
+    <Line1>Info 3</Line1>
+    <Line2>31</Line2>
+    <Line3>32</Line3>
+    <Line4>33</Line4>
+    <Line5>34</Line5>
+    <Line6>35</Line6>
+  </Board>
+</TitleBoards>

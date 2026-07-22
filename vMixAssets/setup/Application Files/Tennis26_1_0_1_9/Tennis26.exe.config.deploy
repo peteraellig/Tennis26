@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="Tennis26.My.MySettings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
+    </startup>
+    <userSettings>
+        <Tennis26.My.MySettings>
+            <setting name="IP" serializeAs="String">
+                <value>localhost</value>
+            </setting>
+            <setting name="gametype" serializeAs="String">
+                <value>3</value>
+            </setting>
+            <setting name="port" serializeAs="String">
+                <value>8088</value>
+            </setting>
+            <setting name="keypress_mode" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="scorebugOVL" serializeAs="String">
+                <value>2</value>
+            </setting>
+            <setting name="standardOVL" serializeAs="String">
+                <value>1</value>
+            </setting>
+            <setting name="sponsorOVL" serializeAs="String">
+                <value>3</value>
+            </setting>
+            <setting name="hidedetails" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="hidehight" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="hiderank" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="hidepoints" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="hideassociation" serializeAs="String">
+                <value>False</value>
+            </setting>
+        </Tennis26.My.MySettings>
+    </userSettings>
+</configuration>
