@@ -210,9 +210,6 @@ Public Class Tennis26_Settings
             Tennis26_Scorer.Label8.Text = com1Name & vbNewLine & com2Name
         End If
 
-        'Tennis26_Scorer.Btn_com1.Text = TextBoxValues(22).Split(","c)(0).Trim()
-        'Tennis26_Scorer.Btn_com2.Text = TextBoxValues(23).Split(","c)(0).Trim()
-
         Tennis26_Scorer.Btn_freename1.Text = TextBoxValues(4).Split(","c)(0).Trim()
         Tennis26_Scorer.Btn_freename2.Text = TextBoxValues(5).Split(","c)(0).Trim()
         Tennis26_Scorer.Btn_freename3.Text = TextBoxValues(6).Split(","c)(0).Trim()
@@ -375,8 +372,6 @@ Public Class Tennis26_Settings
             Dim xmlFilePath As String = Path.Combine(dataPath, "Tennis26_Settings.xml")
             xmlDoc.Save(xmlFilePath)
 
-            'MessageBox.Show($"Einstellungen erfolgreich gespeichert unter: {xmlFilePath}", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
         Catch ex As Exception
             MessageBox.Show($"Fehler beim Speichern der Einstellungen: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -466,8 +461,6 @@ Public Class Tennis26_Settings
             If jsonFeedNode IsNot Nothing AndAlso Not String.IsNullOrEmpty(jsonFeedNode.InnerText) Then
                 TextBox_jsasonfeed.Text = jsonFeedNode.InnerText
             End If
-
-            'MessageBox.Show("Einstellungen erfolgreich geladen.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
             MessageBox.Show($"Fehler beim Laden der Einstellungen: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error)

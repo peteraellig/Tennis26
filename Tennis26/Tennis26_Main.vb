@@ -263,10 +263,6 @@
             Dim row As Integer = DataGridView_Players.CurrentCell.RowIndex + 1
             Dim col As String = DataGridView_Players.CurrentCell.OwningColumn.HeaderText
 
-            ' Optional: Label oder Statusleiste aktualisieren
-            ' Me.Text = $"Tennis26 - Aktuelle Zelle: {col} (Zeile {row})"
-
-            ' Alternative: ToolTip anzeigen
             Dim tooltip As New ToolTip()
             tooltip.SetToolTip(DataGridView_Players, $"Aktuelle Zelle: {col} - Zeile {row}")
         End If
