@@ -12,6 +12,8 @@ One control point. Rules-compliant scoring. Two live output channels.
 
 Tennis26 is a Windows Forms (.NET Framework 4.8) live tennis-scoring application built for broadcast production with vMix. A single operator interface manages players, prepares upcoming matches, enters points live, and drives vMix graphics (GT Titles) — while a live JSON feed makes the same match state available to a companion web display and any other system that can read HTTP JSON.
 
+![Scorer screen](Documentation/screenshots/scorer.png)
+
 ## Documentation
 
 - [Full presentation (English)](https://github.com/peteraellig/Tennis26/blob/master/Documentation/Tennis26_vMix_Scorer_Presentation_EN.pdf)
