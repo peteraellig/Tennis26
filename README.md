@@ -108,6 +108,11 @@ The operator focuses on the match while the technical distribution runs in the b
 
 **1** operator · **2** live output channels (HTTP/TCP to vMix) · **24** GT title variants
 
+## Documentation
+
+- [Full presentation (English)](Documentation/Tennis26_vMix_Scorer_Presentation_EN.pdf)
+- [Vollständige Präsentation (Deutsch)](Documentation/Tennis26_vMix_Scorer_Praesentation_v1.0.1.6.pdf)
+
 ---
 
 *Peter Aellig*
