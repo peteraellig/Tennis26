@@ -113,6 +113,12 @@ The operator focuses on the match while the technical distribution runs in the b
 
 **1** operator · **2** live output channels (HTTP/TCP to vMix) · **24** GT title variants
 
+## License
+
+Copyright (C) 2026 Peter Aellig
+
+This program is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License, version 3](LICENSE) as published by the Free Software Foundation. Anyone can use, study, share, and build on this project — as long as derivative works stay licensed under GPLv3 too.
+
 ---
 
 *Peter Aellig*
