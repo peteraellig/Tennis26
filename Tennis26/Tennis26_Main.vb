@@ -23,6 +23,15 @@
     Private _dragStartPoint As Point
     Private _dragRowIndex As Integer = -1
 
+    ' Identitäts-Schnappschuss (Name+FirstName VOR der Bearbeitung) der Zeile, die gerade
+    ' bearbeitet wird - siehe DataGridView_Players_CellBeginEdit/RefreshActivePairingAfterEdit.
+    ' Damit lässt sich beim Speichern erkennen, ob der bearbeitete Spieler einer der aktiven
+    ' (Home/Away/Home2/Away2) ist, OHNE die schon geänderten (neuen) Feldwerte zur Erkennung
+    ' heranzuziehen - genau die geht ja beim Korrigieren eines Tippfehlers im Namen verloren.
+    Private editingRowIndex As Integer = -1
+    Private editingRowOriginalName As String = ""
+    Private editingRowOriginalFirstName As String = ""
+
     Private Sub Tennis26_Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             ' macht kopie der spielerdaten
@@ -268,6 +277,17 @@
         ' Zelle beim Bearbeiten zusätzlich hervorheben
         DataGridView_Players.CurrentCell.Style.BackColor = Color.Yellow
         DataGridView_Players.CurrentCell.Style.ForeColor = Color.Black
+
+        ' Identitäts-Schnappschuss NUR beim ersten Zellen-Edit dieser Zeile nehmen (nicht bei
+        ' jeder einzelnen Zelle) - sonst würde z.B. beim Korrigieren von Name UND FirstName in
+        ' derselben Sitzung der Name-Schnappschuss schon die (falsche, weil bereits korrigierte)
+        ' Name-Zelle zeigen, sobald man danach die FirstName-Zelle bearbeitet.
+        Dim rowIndex = DataGridView_Players.CurrentCell.RowIndex
+        If rowIndex <> editingRowIndex Then
+            editingRowIndex = rowIndex
+            editingRowOriginalName = DataGridView_Players.Rows(rowIndex).Cells("Name").Value?.ToString()
+            editingRowOriginalFirstName = DataGridView_Players.Rows(rowIndex).Cells("FirstName").Value?.ToString()
+        End If
     End Sub
 
     Private Sub DataGridView_Players_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView_Players.CellEndEdit
@@ -609,8 +629,6 @@
     End Sub
 
     Private Sub Btn_save_Click(sender As Object, e As EventArgs) Handles btn_save.Click
-        ClearCurrentPairingSelection()
-
         Try
             ' Validate current row data
             If DataGridView_Players.CurrentRow IsNot Nothing Then
@@ -625,7 +643,8 @@
 
                 ' Save all data to XML
                 SaveDataToXML()
-                MessageBox.Show("Player data saved successfully. Please re-enter the player combination.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                RefreshActivePairingAfterEdit(currentRow)
+                MessageBox.Show("Player data saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Catch ex As Exception
             MessageBox.Show("Error saving data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -633,8 +652,6 @@
     End Sub
 
     Private Sub Btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
-        ClearCurrentPairingSelection()
-
         Try
             If DataGridView_Players.CurrentRow IsNot Nothing Then
                 ' Validate current row data
@@ -648,7 +665,8 @@
 
                 ' Save all data to XML
                 SaveDataToXML()
-                MessageBox.Show("Player data updated successfully. Please re-enter the player combination", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                RefreshActivePairingAfterEdit(currentRow)
+                MessageBox.Show("Player data updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 MessageBox.Show("Please select a row to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -709,20 +727,51 @@
         End If
     End Sub
 
-    ' Ersetzt das frühere btn_clear_players.PerformClick() (Button existiert nicht mehr,
-    ' siehe Btn_save_Click/Btn_update_Click) - wird dort ausgelöst, weil eine Änderung an der
-    ' Spielerdatenbank die aktuell aktive Paarung ungültig machen könnte (z.B. wenn genau der
-    ' ausgewählte Spieler bearbeitet wird). Ohne Rückfrage, da nur ein Nebeneffekt von
-    ' Save/Update - keine bewusste "Paarung löschen"-Aktion des Operators.
-    Private Sub ClearCurrentPairingSelection()
-        Array.Clear(HomePlayer, 0, HomePlayer.Length)
-        Array.Clear(AwayPlayer, 0, AwayPlayer.Length)
-        Array.Clear(HomePlayer2, 0, HomePlayer2.Length)
-        Array.Clear(AwayPlayer2, 0, AwayPlayer2.Length)
-        CheckBox1.Checked = False
-        UpdatePlayerDisplay()
-        SaveDataToXML()
+    ' Läuft nach jedem Save/Update in der Spielerdatenbank (siehe Btn_save_Click/
+    ' Btn_update_Click). Früher wurde hier pauschal die ganze aktive Paarung gelöscht (auch
+    ' wenn der bearbeitete Spieler gar nichts mit ihr zu tun hatte) - der Operator musste dann
+    ' mitten im laufenden Match in Main2, den korrigierten Namen erneut in die Paarung ziehen,
+    ' speichern und wieder aktivieren, nur um z.B. einen Tippfehler zu beheben.
+    '
+    ' Jetzt wird stattdessen geprüft, ob die bearbeitete Zeile einer der 4 aktiven Spieler
+    ' (Home/Away/Home2/Away2) IST - per Identitäts-Schnappschuss von VOR der Bearbeitung
+    ' (editingRowOriginalName/FirstName, siehe DataGridView_Players_CellBeginEdit), da der
+    ' Name selbst ja gerade die korrigierten Felder sein können. Trifft das zu, werden die
+    ' Felder dieses einen Spielers live aktualisiert (RefreshAndSavePlayerSelection schickt das
+    ' sofort an Scorer/JSON weiter) - trifft es auf keinen der 4 zu, bleibt die Paarung
+    ' komplett unangetastet.
+    Private Sub RefreshActivePairingAfterEdit(editedRow As DataGridViewRow)
+        Try
+            If editedRow.Index <> editingRowIndex OrElse String.IsNullOrEmpty(editingRowOriginalName) Then
+                Return ' keine Bearbeitung dieser Zeile in dieser Sitzung (z.B. neue Zeile ohne vorherigen Edit)
+            End If
+
+            Dim refreshed As Boolean = False
+            refreshed = TryRefreshPlayerSlot(HomePlayer, editedRow) Or refreshed
+            refreshed = TryRefreshPlayerSlot(AwayPlayer, editedRow) Or refreshed
+            refreshed = TryRefreshPlayerSlot(HomePlayer2, editedRow) Or refreshed
+            refreshed = TryRefreshPlayerSlot(AwayPlayer2, editedRow) Or refreshed
+
+            If refreshed Then RefreshAndSavePlayerSelection()
+        Finally
+            ' Schnappschuss zurücksetzen, damit die nächste Bearbeitungssitzung frisch beginnt.
+            editingRowIndex = -1
+            editingRowOriginalName = ""
+            editingRowOriginalFirstName = ""
+        End Try
     End Sub
+
+    ' Vergleicht "target" (Home/Away/Home2/Away2) gegen den VOR der Bearbeitung gültigen Namen
+    ' - stimmt er überein, ist "target" der gerade bearbeitete Spieler, und wird mit den neuen
+    ' (bereits korrigierten) Feldwerten aus der Zeile überschrieben.
+    Private Function TryRefreshPlayerSlot(target As String(), editedRow As DataGridViewRow) As Boolean
+        If target(0) <> editingRowOriginalName OrElse target(1) <> editingRowOriginalFirstName Then Return False
+
+        For i As Integer = 0 To FIELD_NAMES.Length - 1
+            target(i) = editedRow.Cells(FIELD_NAMES(i)).Value?.ToString()
+        Next
+        Return True
+    End Function
 
     ' Liest pairings.xml (siehe Tennis26_Main2, "Save pairings") und beschriftet die 4
     ' "Select Pairing"-Buttons mit "Nachname vs Nachname" - oder "Pairing N (empty)", falls
