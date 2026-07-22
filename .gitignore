@@ -5,3 +5,5 @@ obj/
 *.pfx
 __pycache__/
 *.pyc
+vMixAssets/data/backup/
+vMixAssets/data/Tennis24_Settings.xml
