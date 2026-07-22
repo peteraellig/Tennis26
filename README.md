@@ -14,6 +14,29 @@ Tennis26 is a Windows Forms (.NET Framework 4.8) live tennis-scoring application
 
 ![Scorer screen](Documentation/screenshots/scorer.png)
 
+<table>
+<tr>
+<td width="33%"><img src="Documentation/screenshots/scorebug.png" alt="Scorebug"></td>
+<td width="33%"><img src="Documentation/screenshots/pairing.png" alt="Match Pairing"></td>
+<td width="33%"><img src="Documentation/screenshots/largeresult.png" alt="Large Result"></td>
+</tr>
+<tr>
+<td align="center">Scorebug</td>
+<td align="center">Match Pairing</td>
+<td align="center">Large Result</td>
+</tr>
+<tr>
+<td width="33%"><img src="Documentation/screenshots/singlename.png" alt="Name Insert"></td>
+<td width="33%"><img src="Documentation/screenshots/sponsor.png" alt="Sponsor"></td>
+<td width="33%"><img src="Documentation/screenshots/titel.png" alt="Title"></td>
+</tr>
+<tr>
+<td align="center">Name Insert</td>
+<td align="center">Sponsor</td>
+<td align="center">Title</td>
+</tr>
+</table>
+
 ## Documentation
 
 - [Full presentation (English)](https://github.com/peteraellig/Tennis26/blob/master/Documentation/Tennis26_vMix_Scorer_Presentation_EN.pdf)
