@@ -265,7 +265,17 @@ Public Class Tennis26_Settings
         TextBoxValues(29) = "Info1 Table4"
 
 
-        For i As Integer = 30 To 39
+        ' Prefixe für die Spielerdetails (Age/Height/Rank/Points/Association) - werden von
+        ' BuildPlayerDetailsText() in Tennis26_Scorer.vb verwendet, damit Peter Sprache/Inhalt
+        ' ohne Codeänderung anpassen kann. Nicht als "Dummy Value" überschreiben, sonst geht
+        ' das bei einer frischen Installation (keine Settings-XML vorhanden) sofort verloren.
+        TextBoxValues(30) = "Age:"
+        TextBoxValues(31) = "Body height:"
+        TextBoxValues(32) = "Rank:"
+        TextBoxValues(33) = "Points:"
+        TextBoxValues(34) = "Assoc."
+
+        For i As Integer = 35 To 39
             TextBoxValues(i) = "Dummy Value " + Str(i)
         Next
 

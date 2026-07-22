@@ -1116,19 +1116,33 @@ Public Class Tennis26_Scorer
     ' Spielerdetails statt je eines pro Detail - der Inhalt wird hier zusammengesetzt, nur aus
     ' den per Checkbox aktivierten Details, mit 4 Leerzeichen getrennt. Kein Kürzen nötig: das
     ' vMix-Textfeld verkleinert die Schrift selbst automatisch, wenn der Inhalt zu lang wird.
+    ' Fügt "prefix" (aus Settings-TextBox30-34, z.B. "Age:") und "value" mit einem Leerzeichen
+    ' zusammen - ist der Prefix leer (Peter kann ihn in den Settings löschen), steht nur der
+    ' rohe Wert da, ohne führendes Leerzeichen.
+    Private Function WithPrefix(prefix As String, value As String) As String
+        Dim trimmedPrefix = If(prefix, "").Trim()
+        If String.IsNullOrEmpty(trimmedPrefix) Then Return value
+        Return trimmedPrefix & " " & value
+    End Function
+
     Private Function BuildPlayerDetailsText(player As String()) As String
         ' .Trim() pro Feld: unsichtbare führende/nachfolgende Leerzeichen aus der Spieler-
         ' datenbank (z.B. bei frei eingetippten Feldern wie "Points") blähen den kombinierten
         ' String sonst auf, ohne dass es im Text sichtbar wäre - vMix schrumpft die Schrift dann
         ' viel stärker, als der sichtbare Inhalt eigentlich verlangen würde. IsNullOrWhiteSpace
         ' statt IsNullOrEmpty überspringt ausserdem Felder, die nur aus Leerzeichen bestehen.
+        '
+        ' Die Prefixe (früher fest "Age: "/"Height: ", Rank/Points/Association ganz ohne
+        ' Prefix) kommen jetzt aus Settings-TextBox30-34, damit Peter Sprache/Inhalt ohne
+        ' Codeänderung anpassen kann (siehe Tennis26_Settings.LoadDefaultSettings für die
+        ' Default-Werte).
         Dim parts As New List(Of String)
 
-        If Not hideAge AndAlso Not String.IsNullOrWhiteSpace(player(4)) Then parts.Add("Age: " & player(4).Trim())
-        If Not hideHeight AndAlso Not String.IsNullOrWhiteSpace(player(5)) Then parts.Add("Height: " & player(5).Trim())
-        If Not hideRank AndAlso Not String.IsNullOrWhiteSpace(player(6)) Then parts.Add(player(6).Trim())
-        If Not hideDataPoints AndAlso Not String.IsNullOrWhiteSpace(player(7)) Then parts.Add(player(7).Trim())
-        If Not hideAssociation AndAlso Not String.IsNullOrWhiteSpace(player(8)) Then parts.Add(player(8).Trim())
+        If Not hideAge AndAlso Not String.IsNullOrWhiteSpace(player(4)) Then parts.Add(WithPrefix(Tennis26_Settings.TextBoxValues(30), player(4).Trim()))
+        If Not hideHeight AndAlso Not String.IsNullOrWhiteSpace(player(5)) Then parts.Add(WithPrefix(Tennis26_Settings.TextBoxValues(31), player(5).Trim()))
+        If Not hideRank AndAlso Not String.IsNullOrWhiteSpace(player(6)) Then parts.Add(WithPrefix(Tennis26_Settings.TextBoxValues(32), player(6).Trim()))
+        If Not hideDataPoints AndAlso Not String.IsNullOrWhiteSpace(player(7)) Then parts.Add(WithPrefix(Tennis26_Settings.TextBoxValues(33), player(7).Trim()))
+        If Not hideAssociation AndAlso Not String.IsNullOrWhiteSpace(player(8)) Then parts.Add(WithPrefix(Tennis26_Settings.TextBoxValues(34), player(8).Trim()))
 
         Return String.Join("    ", parts)
     End Function

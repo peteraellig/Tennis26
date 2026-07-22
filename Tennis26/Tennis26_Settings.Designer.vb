@@ -439,9 +439,9 @@ Partial Class Tennis26_Settings
         '
         Me.Label39.BackColor = System.Drawing.Color.LightYellow
         Me.Label39.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.Location = New System.Drawing.Point(1039, 382)
+        Me.Label39.Location = New System.Drawing.Point(1022, 382)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(121, 23)
+        Me.Label39.Size = New System.Drawing.Size(141, 23)
         Me.Label39.TabIndex = 180
         Me.Label39.Text = "Label39"
         Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -451,9 +451,9 @@ Partial Class Tennis26_Settings
         Me.Label33.BackColor = System.Drawing.Color.LightBlue
         Me.Label33.Enabled = False
         Me.Label33.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.Location = New System.Drawing.Point(1039, 357)
+        Me.Label33.Location = New System.Drawing.Point(1022, 357)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(121, 23)
+        Me.Label33.Size = New System.Drawing.Size(141, 23)
         Me.Label33.TabIndex = 178
         Me.Label33.Text = "Label38"
         Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -463,9 +463,9 @@ Partial Class Tennis26_Settings
         Me.Labtel32.BackColor = System.Drawing.Color.LightYellow
         Me.Labtel32.Enabled = False
         Me.Labtel32.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Labtel32.Location = New System.Drawing.Point(1039, 332)
+        Me.Labtel32.Location = New System.Drawing.Point(1022, 332)
         Me.Labtel32.Name = "Labtel32"
-        Me.Labtel32.Size = New System.Drawing.Size(121, 23)
+        Me.Labtel32.Size = New System.Drawing.Size(141, 23)
         Me.Labtel32.TabIndex = 176
         Me.Labtel32.Text = "Label37"
         Me.Labtel32.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -475,9 +475,9 @@ Partial Class Tennis26_Settings
         Me.Label31.BackColor = System.Drawing.Color.LightBlue
         Me.Label31.Enabled = False
         Me.Label31.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(1039, 307)
+        Me.Label31.Location = New System.Drawing.Point(1022, 307)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(121, 23)
+        Me.Label31.Size = New System.Drawing.Size(141, 23)
         Me.Label31.TabIndex = 174
         Me.Label31.Text = "Label36"
         Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -826,9 +826,9 @@ Partial Class Tennis26_Settings
         '
         Me.Label9.BackColor = System.Drawing.Color.LightYellow
         Me.Label9.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(1039, 82)
+        Me.Label9.Location = New System.Drawing.Point(1022, 82)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(121, 23)
+        Me.Label9.Size = New System.Drawing.Size(141, 23)
         Me.Label9.TabIndex = 210
         Me.Label9.Text = "info2.gtzip - Buttonname"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -838,9 +838,9 @@ Partial Class Tennis26_Settings
         Me.Label10.BackColor = System.Drawing.Color.LightBlue
         Me.Label10.Enabled = False
         Me.Label10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(1039, 57)
+        Me.Label10.Location = New System.Drawing.Point(1022, 57)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(121, 23)
+        Me.Label10.Size = New System.Drawing.Size(141, 23)
         Me.Label10.TabIndex = 208
         Me.Label10.Text = "info1.gtzip - Buttonname"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -850,9 +850,9 @@ Partial Class Tennis26_Settings
         Me.Label11.BackColor = System.Drawing.Color.LightYellow
         Me.Label11.Enabled = False
         Me.Label11.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(1039, 32)
+        Me.Label11.Location = New System.Drawing.Point(1022, 32)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(121, 23)
+        Me.Label11.Size = New System.Drawing.Size(141, 23)
         Me.Label11.TabIndex = 206
         Me.Label11.Text = "sponsor2.gtzip - Buttonname"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -862,9 +862,9 @@ Partial Class Tennis26_Settings
         Me.Label12.BackColor = System.Drawing.Color.LightBlue
         Me.Label12.Enabled = False
         Me.Label12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(1039, 7)
+        Me.Label12.Location = New System.Drawing.Point(1022, 7)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(121, 23)
+        Me.Label12.Size = New System.Drawing.Size(141, 23)
         Me.Label12.TabIndex = 204
         Me.Label12.Text = "sponsor1.gtzip - Buttonname"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -877,15 +877,17 @@ Partial Class Tennis26_Settings
         Me.TextBox31.Name = "TextBox31"
         Me.TextBox31.Size = New System.Drawing.Size(252, 22)
         Me.TextBox31.TabIndex = 219
+        Me.TextBox31.Text = "Body height:"
         '
         'TextBox30
         '
         Me.TextBox30.BackColor = System.Drawing.Color.LightBlue
-        Me.TextBox30.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox30.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.TextBox30.Location = New System.Drawing.Point(1166, 159)
         Me.TextBox30.Name = "TextBox30"
-        Me.TextBox30.Size = New System.Drawing.Size(252, 22)
+        Me.TextBox30.Size = New System.Drawing.Size(252, 20)
         Me.TextBox30.TabIndex = 217
+        Me.TextBox30.Text = "Age:"
         '
         'TextBox29
         '
@@ -908,34 +910,34 @@ Partial Class Tennis26_Settings
         'Label13
         '
         Me.Label13.BackColor = System.Drawing.Color.LightYellow
-        Me.Label13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(1039, 182)
+        Me.Label13.Font = New System.Drawing.Font("Arial Narrow", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(1022, 182)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(121, 23)
+        Me.Label13.Size = New System.Drawing.Size(141, 23)
         Me.Label13.TabIndex = 218
-        Me.Label13.Text = "Label31"
-        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label13.Text = "Text to be displayed before ““Hight””"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label14
         '
         Me.Label14.BackColor = System.Drawing.Color.LightBlue
         Me.Label14.Enabled = False
-        Me.Label14.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(1039, 157)
+        Me.Label14.Font = New System.Drawing.Font("Arial Narrow", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(1022, 157)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(121, 23)
+        Me.Label14.Size = New System.Drawing.Size(141, 23)
         Me.Label14.TabIndex = 216
-        Me.Label14.Text = "Label30"
-        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label14.Text = "Text to be displayed before ““Age””"
+        Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label15
         '
         Me.Label15.BackColor = System.Drawing.Color.LightYellow
         Me.Label15.Enabled = False
         Me.Label15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(1039, 132)
+        Me.Label15.Location = New System.Drawing.Point(1022, 132)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(121, 23)
+        Me.Label15.Size = New System.Drawing.Size(141, 23)
         Me.Label15.TabIndex = 214
         Me.Label15.Text = "info4.gtzip - Buttonname"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -945,9 +947,9 @@ Partial Class Tennis26_Settings
         Me.Label16.BackColor = System.Drawing.Color.LightBlue
         Me.Label16.Enabled = False
         Me.Label16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(1039, 107)
+        Me.Label16.Location = New System.Drawing.Point(1022, 107)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(121, 23)
+        Me.Label16.Size = New System.Drawing.Size(141, 23)
         Me.Label16.TabIndex = 212
         Me.Label16.Text = "info3.gtzip - Buttonname"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -969,6 +971,7 @@ Partial Class Tennis26_Settings
         Me.TextBox34.Name = "TextBox34"
         Me.TextBox34.Size = New System.Drawing.Size(252, 22)
         Me.TextBox34.TabIndex = 225
+        Me.TextBox34.Text = "Assoc."
         '
         'TextBox33
         '
@@ -978,6 +981,7 @@ Partial Class Tennis26_Settings
         Me.TextBox33.Name = "TextBox33"
         Me.TextBox33.Size = New System.Drawing.Size(252, 22)
         Me.TextBox33.TabIndex = 223
+        Me.TextBox33.Text = "Points:"
         '
         'TextBox32
         '
@@ -987,14 +991,15 @@ Partial Class Tennis26_Settings
         Me.TextBox32.Name = "TextBox32"
         Me.TextBox32.Size = New System.Drawing.Size(252, 22)
         Me.TextBox32.TabIndex = 221
+        Me.TextBox32.Text = "Rank:"
         '
         'Label17
         '
         Me.Label17.BackColor = System.Drawing.Color.LightYellow
         Me.Label17.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(1039, 282)
+        Me.Label17.Location = New System.Drawing.Point(1022, 282)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(121, 23)
+        Me.Label17.Size = New System.Drawing.Size(141, 23)
         Me.Label17.TabIndex = 226
         Me.Label17.Text = "Label35"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -1003,37 +1008,37 @@ Partial Class Tennis26_Settings
         '
         Me.Label18.BackColor = System.Drawing.Color.LightBlue
         Me.Label18.Enabled = False
-        Me.Label18.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(1039, 257)
+        Me.Label18.Font = New System.Drawing.Font("Arial Narrow", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Location = New System.Drawing.Point(1022, 257)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(121, 23)
+        Me.Label18.Size = New System.Drawing.Size(141, 23)
         Me.Label18.TabIndex = 224
-        Me.Label18.Text = "Label34"
-        Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label18.Text = "Text to be displayed before ““Assoc.””"
+        Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label19
         '
         Me.Label19.BackColor = System.Drawing.Color.LightYellow
         Me.Label19.Enabled = False
-        Me.Label19.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(1039, 232)
+        Me.Label19.Font = New System.Drawing.Font("Arial Narrow", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.Location = New System.Drawing.Point(1022, 232)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(121, 23)
+        Me.Label19.Size = New System.Drawing.Size(141, 23)
         Me.Label19.TabIndex = 222
-        Me.Label19.Text = "Label33"
-        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label19.Text = "Text to be displayed before ““Points””"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label24
         '
         Me.Label24.BackColor = System.Drawing.Color.LightBlue
         Me.Label24.Enabled = False
-        Me.Label24.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(1039, 207)
+        Me.Label24.Font = New System.Drawing.Font("Arial Narrow", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label24.Location = New System.Drawing.Point(1022, 207)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(121, 23)
+        Me.Label24.Size = New System.Drawing.Size(141, 23)
         Me.Label24.TabIndex = 220
-        Me.Label24.Text = "Label32"
-        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label24.Text = "Text to be displayed before ““Rank””"
+        Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label25
         '
@@ -1106,9 +1111,9 @@ Partial Class Tennis26_Settings
         '
         Me.PictureBox5.BackColor = System.Drawing.Color.Silver
         Me.PictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox5.Location = New System.Drawing.Point(1030, 3)
+        Me.PictureBox5.Location = New System.Drawing.Point(1019, 3)
         Me.PictureBox5.Name = "PictureBox5"
-        Me.PictureBox5.Size = New System.Drawing.Size(393, 411)
+        Me.PictureBox5.Size = New System.Drawing.Size(404, 411)
         Me.PictureBox5.TabIndex = 232
         Me.PictureBox5.TabStop = False
         '
